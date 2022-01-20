@@ -6,7 +6,7 @@
 * Igor Melnyk
 * Louis Hattiger
 
-## Nom de l'équipe: Méthode AGIL
+## Nom de l'équipe: Méthode AJIL
 
 ## Nom du navire: Ic&O
 
