@@ -1,6 +1,6 @@
-package fr.unice.polytech.si3.qgl.teamid.tooling;
+package fr.unice.polytech.si3.qgl.ajil.tooling;
 
-import fr.unice.polytech.si3.qgl.teamid.Cockpit;
+import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 
 public class Application {
 	
