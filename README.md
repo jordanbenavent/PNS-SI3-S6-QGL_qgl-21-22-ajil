@@ -10,6 +10,6 @@
 
 ## Nom du navire : Ic&O
 
-## Drapeau:
+## Drapeau :
 ![alt tag](https://cdn.discordapp.com/attachments/932919798113902623/933666136866848778/fond.png)
 
