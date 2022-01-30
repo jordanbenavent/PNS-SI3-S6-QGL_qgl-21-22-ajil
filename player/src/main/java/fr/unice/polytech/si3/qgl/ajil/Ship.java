@@ -9,22 +9,18 @@ public class Ship {
     private String name;
     private Deck deck;
     private ArrayList<Entity> entities;
-    private ArrayList<Sailor> sailors;
     private ShipShape shape;
-    private int shipCount;
 
     public Ship(){}
 
-    public Ship(String type, int life, Position position, String name, Deck deck, ArrayList<Entity> entities, ArrayList<Sailor> sailors, ShipShape shape, int shipCount) {
+    public Ship(String type, int life, Position position, String name, Deck deck, ArrayList<Entity> entities, ShipShape shape) {
         this.type = type;
         this.life = life;
         this.position = position;
         this.name = name;
         this.deck = deck;
         this.entities = entities;
-        this.sailors = sailors;
         this.shape = shape;
-        this.shipCount = shipCount;
     }
 
     public String getType() {
@@ -75,27 +71,11 @@ public class Ship {
         this.entities = entities;
     }
 
-    public ArrayList<Sailor> getSailors() {
-        return sailors;
-    }
-
-    public void setSailors(ArrayList<Sailor> sailors) {
-        this.sailors = sailors;
-    }
-
     public ShipShape getShape() {
         return shape;
     }
 
     public void setShape(ShipShape shape) {
         this.shape = shape;
-    }
-
-    public int getShipCount() {
-        return shipCount;
-    }
-
-    public void setShipCount(int shipCount) {
-        this.shipCount = shipCount;
     }
 }

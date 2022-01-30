@@ -1,30 +1,33 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Goal {
-    private String goal;
+    private String mode;
     private ArrayList<Checkpoint> checkpoints;
 
     public Goal(){}
-    public Goal(String goal, ArrayList<Checkpoint> checkpoints){
+    public Goal(String mode, ArrayList<Checkpoint> checkpoints){
         this.checkpoints = checkpoints;
-        this.goal = goal;
+        this.mode = mode;
     }
 
     public ArrayList<Checkpoint> getCheckpoints() {
         return checkpoints;
     }
 
-    public String getGoal() {
-        return goal;
+    public String getMode() {
+        return mode;
     }
 
     void setCheckpoints(ArrayList<Checkpoint> checkpoints) {
         this.checkpoints = checkpoints;
     }
 
-    void setGoal(String goal) {
-        this.goal = goal;
+    void setMode(String mode) {
+        this.mode = mode;
     }
 }
