@@ -34,4 +34,10 @@ public class Cockpit implements ICockpit {
 	public List<String> getLogs() {
 		return new ArrayList<>();
 	}
+
+	public static void main(String[] args) {
+		Cockpit cockpit = new Cockpit();
+		cockpit.initGame("");
+		cockpit.nextRound("");
+	}
 }
