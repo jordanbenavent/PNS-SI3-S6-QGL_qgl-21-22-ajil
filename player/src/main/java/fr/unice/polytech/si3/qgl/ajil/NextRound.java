@@ -8,7 +8,7 @@ public class NextRound {
 
     private Ship ship;
     private Wind wind;
-    public ArrayList<VisibleEntitie> visibleEntities;
+    private ArrayList<VisibleEntitie> visibleEntities;
 
     public NextRound(){}
 

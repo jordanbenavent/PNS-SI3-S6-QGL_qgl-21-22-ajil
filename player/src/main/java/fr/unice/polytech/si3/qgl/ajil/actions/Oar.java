@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.actions;
 
 public class Oar extends Action{
-    Oar(int sailorId) {
+    public Oar(int sailorId) {
         super(sailorId, Actions.OAR);
     }
 }

@@ -4,6 +4,8 @@ public class Wind {
     private double orientation;
     private double strength;
 
+    public Wind(){}
+
     public Wind(double orientation, double strength){
         this.orientation=orientation;
         this.strength=strength;

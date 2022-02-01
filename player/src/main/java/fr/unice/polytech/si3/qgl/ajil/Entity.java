@@ -6,7 +6,7 @@ public class Entity {
     private String type;
 
     public Entity(){}
-    public Entity(int x, int y, String type){
+    public Entity(int x, int y, String type, boolean openned){
         this.type = type;
         this.x = x;
         this.y = y;

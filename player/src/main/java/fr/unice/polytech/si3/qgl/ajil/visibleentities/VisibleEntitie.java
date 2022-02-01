@@ -4,19 +4,21 @@ import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.Shape;
 import fr.unice.polytech.si3.qgl.ajil.Ship;
 
-public abstract class VisibleEntitie {
-    private VisibleEntities visibleEntitie;
+public class VisibleEntitie {
+    private String type;
     private Position position;
     private Shape shape;
 
-    VisibleEntitie(VisibleEntities visibleEntitie, Position position, Shape shape){
-        this.visibleEntitie=visibleEntitie;
+    public VisibleEntitie(){}
+
+    public VisibleEntitie(String type, Position position, Shape shape){
+        this.type=type;
         this.position=position;
         this.shape=shape;
     }
 
-    public VisibleEntities getVisibleEntitie() {
-        return visibleEntitie;
+    public String getType() {
+        return type;
     }
 
     public Position getPosition() {
@@ -31,8 +33,8 @@ public abstract class VisibleEntitie {
         this.position = position;
     }
 
-    public void setVisibleEntitie(VisibleEntities visibleEntitie) {
-        this.visibleEntitie = visibleEntitie;
+    public void setType (String type) {
+        this.type=type;
     }
 
     public void setShape(Shape shape) {
