@@ -10,6 +10,7 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 
 public class Cockpit implements ICockpit {
 	private Game jeu;
+	private Strategie strategie;
 
 	public Game getJeu() {
 		return jeu;
@@ -23,9 +24,14 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 		System.out.println("Init game input: " + game);
+
+		this.strategie=strategie;
 	}
 
 	public String nextRound(String round) {
+
+
+
 		System.out.println("Next round input: " + round);
 		return "[]";
 	}
