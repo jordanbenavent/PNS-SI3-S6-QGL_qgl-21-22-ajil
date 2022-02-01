@@ -41,4 +41,8 @@ public class NextRound {
     public void setWind(Wind wind) {
         this.wind = wind;
     }
+
+    public void updateGame(Game game){
+        game.setShip(this.ship);
+    }
 }
