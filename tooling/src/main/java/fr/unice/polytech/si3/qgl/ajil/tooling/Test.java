@@ -3,6 +3,9 @@ package fr.unice.polytech.si3.qgl.ajil.tooling;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
 
 import java.util.ArrayList;
 
@@ -107,5 +110,10 @@ public class Test {
                 "    \"strength\": 110\n" +
                 "  }\n" +
                 "}";
+        //NextRound nextRound = om.readValue(json, NextRound.class);
+        ArrayList<VisibleEntitie> entities1 = new ArrayList<VisibleEntitie>();
+        entities1.add(new Reef(VisibleEntities.REEF, new Position(1,1,1), new Shape()));
+        NextRound nextRound = new NextRound(ship,new Wind(1,10), entities1);
+        System.out.println(om.writeValueAsString(nextRound));
     }
 }
