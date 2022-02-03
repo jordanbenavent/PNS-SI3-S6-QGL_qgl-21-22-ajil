@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
+import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
+
 public class Checkpoint {
     private Position position;
     private Shape shape;

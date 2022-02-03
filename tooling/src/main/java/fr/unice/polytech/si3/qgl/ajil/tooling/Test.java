@@ -7,6 +7,8 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
 import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
+import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
+import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
@@ -19,7 +21,7 @@ public class Test {
         ObjectMapper om = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         ArrayList<Entity> entities = new ArrayList<>();
         entities.add(new Entity());
-        Ship ship = new Ship("Pirate", 100, new Position(1,2,3.1415),"Ic&o", new Deck(1,2), entities, new ShipShape("carre",1,1,1 ));
+        Ship ship = new Ship("Pirate", 100, new Position(1,2,3.1415),"Ic&o", new Deck(1,2), entities, new Shape("carre"));
         String test = om.writeValueAsString(ship);
         //System.out.println(test);
         Moving moving = new Moving(1,1,1);
@@ -28,7 +30,7 @@ public class Test {
         Turn turn = new Turn(1, 5);
         ArrayList<Action> actions = new ArrayList<>();
         actions.add(moving); actions.add(moving1); actions.add(oar); actions.add(turn);
-        System.out.println(om.writeValueAsString(actions));
+        //System.out.println(om.writeValueAsString(actions));
         ArrayList<Moving> list = new ArrayList<>();
         list.add(moving); list.add(moving1);
         test = om.writeValueAsString(list);
@@ -36,8 +38,17 @@ public class Test {
         String json = "{\n  \"ship\": {\n    \"type\": \"ship\",\n    \"life\": 100,\n    \"position\": {\n      \"x\": 0,\n      \"y\": 0,\n      \"orientation\": 0\n    },\n    \"name\": \"Les copaings d'abord!\",\n    \"deck\": {\n      \"width\": 3,\n      \"length\": 6\n    },\n    \"entities\": [\n      {\n        \"x\": 1,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 1,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 3,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 3,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 4,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 4,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 2,\n        \"y\": 1,\n        \"type\": \"sail\",\n        \"openned\": false\n      },\n      {\n        \"x\": 5,\n        \"y\": 0,\n        \"type\": \"rudder\"\n      }\n    ],\n    \"shape\": {\n      \"type\": \"rectangle\",\n      \"width\": 3,\n      \"height\": 6,\n      \"orientation\": 0\n    }\n  },\n  \"visibleEntities\": [\n    {\n      \"type\": \"stream\",\n      \"position\": {\n        \"x\": 500,\n        \"y\": 0,\n        \"orientation\": 0\n      },\n      \"shape\": {\n        \"type\": \"rectangle\",\n        \"width\": 50,\n        \"height\": 500,\n        \"orientation\": 0\n      },\n      \"strength\": 40\n    }\n  ],\n  \"wind\": {\n    \"orientation\": 0,\n    \"strength\": 110\n  }\n}";
         NextRound nextRound = om.readValue(json, NextRound.class);
         ArrayList<VisibleEntitie> entities1 = new ArrayList<VisibleEntitie>();
-        entities1.add(new Reef(VisibleEntities.REEF.toString(), new Position(1,1,1), new Shape()));
+        entities1.add(new Reef(VisibleEntities.REEF.toString(), new Position(1,1,1), new Circle()));
         //NextRound nextRound = new NextRound(ship,new Wind(1,10), entities1);
-        //System.out.println(om.writeValueAsString(nextRound));
+        System.out.println(nextRound.getShip().getShape().toString());
+        System.out.println(om.writeValueAsString(nextRound));
+        String jsonInit = "{\n  \"goal\": {\n    \"mode\": \"REGATTA\",\n    \"checkpoints\": [\n      {\n        \"position\": {\n          \"x\": 1000,\n          \"y\": 0,\n          \"orientation\": 0\n        },\n        \"shape\": {\n          \"type\": \"circle\",\n          \"radius\": 50\n        }\n      },\n      {\n        \"position\": {\n          \"x\": 0,\n          \"y\": 0,\n          \"orientation\": 0\n        },\n        \"shape\": {\n          \"type\": \"circle\",\n          \"radius\": 50\n        }\n      }\n    ]\n  },\n  \"ship\": {\n    \"type\": \"ship\",\n    \"life\": 100,\n    \"position\": {\n      \"x\": 0,\n      \"y\": 0,\n      \"orientation\": 0\n    },\n    \"name\": \"Les copaings d'abord!\",\n    \"deck\": {\n      \"width\": 3,\n      \"length\": 6\n    },\n    \"entities\": [\n      {\n        \"x\": 1,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 1,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 3,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 3,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 4,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 4,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 2,\n        \"y\": 1,\n        \"type\": \"sail\",\n        \"openned\": false\n      },\n      {\n        \"x\": 5,\n        \"y\": 0,\n        \"type\": \"rudder\"\n      }\n    ],\n    \"shape\": {\n      \"type\": \"rectangle\",\n      \"width\": 3,\n      \"height\": 6,\n      \"orientation\": 0\n    }\n  },\n  \"sailors\": [\n    {\n      \"x\": 0,\n      \"y\": 0,\n      \"id\": 0,\n      \"name\": \"Edward Teach\"\n    },\n    {\n      \"x\": 0,\n      \"y\": 1,\n      \"id\": 1,\n      \"name\": \"Edward Pouce\"\n    },\n    {\n      \"x\": 0,\n      \"y\": 2,\n      \"id\": 2,\n      \"name\": \"Tom Pouce\"\n    },\n    {\n      \"x\": 1,\n      \"y\": 0,\n      \"id\": 3,\n      \"name\": \"Jack Teach\"\n    },\n    {\n      \"x\": 1,\n      \"y\": 1,\n      \"id\": 4,\n      \"name\": \"Jack Teach\"\n    },\n    {\n      \"x\": 1,\n      \"y\": 2,\n      \"id\": 5,\n      \"name\": \"Tom Pouce\"\n    }\n  ],\n  \"shipCount\": 1\n}";
+        //Game game = om.readValue(jsonInit, Game.class);
+        //System.out.println(om.writeValueAsString(game));
+
+        String shape = om.writeValueAsString(new Circle("circle", 1));
+        //System.out.println(shape);
+        //Circle la = om.readValue(shape, Circle.class);
     }
+
 }

@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
+import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
+
 import java.util.ArrayList;
 
 public class Ship {
@@ -9,11 +11,11 @@ public class Ship {
     private String name;
     private Deck deck;
     private ArrayList<Entity> entities;
-    private ShipShape shape;
+    private Shape shape;
 
     public Ship(){}
 
-    public Ship(String type, int life, Position position, String name, Deck deck, ArrayList<Entity> entities, ShipShape shape) {
+    public Ship(String type, int life, Position position, String name, Deck deck, ArrayList<Entity> entities, Shape shape) {
         this.type = type;
         this.life = life;
         this.position = position;
@@ -71,11 +73,11 @@ public class Ship {
         this.entities = entities;
     }
 
-    public ShipShape getShape() {
+    public Shape getShape() {
         return shape;
     }
 
-    public void setShape(ShipShape shape) {
+    public void setShape(Shape shape) {
         this.shape = shape;
     }
 }

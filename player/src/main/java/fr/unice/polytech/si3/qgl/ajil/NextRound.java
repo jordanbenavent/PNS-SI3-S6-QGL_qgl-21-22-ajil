@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class NextRound {
 
     private Ship ship;
-    private Wind wind;
     private ArrayList<VisibleEntitie> visibleEntities;
+    private Wind wind;
 
     public NextRound(){}
 

@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.visibleentities;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
-import fr.unice.polytech.si3.qgl.ajil.Shape;
+import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 
 public class OtherShip extends VisibleEntitie{
     private int life;
