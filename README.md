@@ -5,6 +5,7 @@
 * Alexis Roche
 * Igor Melnyk
 * Louis Hattiger
+* Tobias Bonifay
 
 ## Nom de l'équipe : Méthodes AJIL
 
