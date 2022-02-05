@@ -28,6 +28,10 @@ public class Strategie {
         this.jeu = jeu;
     }
 
+    public ArrayList<Action> getListActions(){
+        return actions;
+    }
+
     public String getActions(){
         actions.clear();
         effectuerActions();
@@ -39,14 +43,14 @@ public class Strategie {
         return "";
     }
 
-    private void effectuerActions() {
+    void effectuerActions() {
         if (!placementInit){
             placerSurRames();
         }
     }
 
     // Placement initial
-    private void placerSurRames() {
+    void placerSurRames() {
         ArrayList<Entity> oars = jeu.getShip().getOars();
         ArrayList<Sailor> sailors = jeu.getSailors();
         int distMin;

@@ -25,4 +25,14 @@ public abstract class Action {
     public void setType(Actions type) {
         this.type = type;
     }
+
+    public int getXdistance() // Pour action de type Moving
+    {
+        return 0;
+    }
+
+    public int getYdistance() // Pour action de type Moving
+    {
+        return 0;
+    }
 }
