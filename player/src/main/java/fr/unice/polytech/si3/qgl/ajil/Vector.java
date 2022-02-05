@@ -16,6 +16,10 @@ public class Vector {
         return Math.sqrt(x*x+y*y);
     }
 
+    public boolean isNull(){
+        return this.magnitude()==0;
+    }
+
     public void addVector(Vector other){
         this.x+= other.getX();
         this.y+=other.getY();
@@ -33,18 +37,27 @@ public class Vector {
 
     //Produit scalaire
     public double dotProduct(Vector other){
-        return this.x * other.getY() + this.y * other.getX();
+        return this.x * other.getX() + this.y * other.getY();
     }
 
+
+    //Il faudra gérer l'orientation car l'angle retourné n'est que entre -Pi et Pi (à cause d'arcos)
+
+
     public double angleBetweenVectors(Vector other){
+        //cas ou une des coordonnée est nulle, Exception ou renvoyer 0 ?
+        if(other.isNull()||this.isNull()){
+            return 0;
+        }
         double cos = this.dotProduct(other)/(this.magnitude()*other.magnitude());
-        return Math.acos(cos);
+        double ans =Math.acos(cos);
+        double repARounded = (double) Math.round(ans * 1000) / 1000;
+        return repARounded;
+
     }
 
     public boolean isCollinear(Vector other){
-        double propX = this.x/other.getX();
-        double propY = this.y/other.getY();
-        return propX==propY;
+        return this.x*other.y- this.y*other.x == 0;
     }
 
     public boolean isPerpendicular(Vector other){
