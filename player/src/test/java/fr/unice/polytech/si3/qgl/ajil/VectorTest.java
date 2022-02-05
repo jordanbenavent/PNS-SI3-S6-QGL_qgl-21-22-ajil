@@ -151,8 +151,8 @@ class VectorTest {
         assertFalse(v1.isPerpendicular(v2));
         assertTrue(v1.isPerpendicular(v5));
 
-        Vector v6 = new Vector(2,4);
-        Vector v7 = new Vector(1,-2);
+        Vector v6 = new Vector(2,2);
+        Vector v7 = new Vector(-2,2);
 
         assertEquals(v6.dotProduct(v7),0);
         assertTrue(v6.isPerpendicular(v7));
