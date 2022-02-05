@@ -25,6 +25,7 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+		strategie = new Strategie(jeu);
 
 	}
 
@@ -35,7 +36,7 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 		nextRound.updateGame(jeu);
-		strategie = new Strategie(jeu);
+		strategie.setJeu(jeu);
 
 		return strategie.getActions();
 	}
