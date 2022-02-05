@@ -80,4 +80,14 @@ public class Ship {
     public void setShape(Shape shape) {
         this.shape = shape;
     }
+
+    public ArrayList<Entity> getOars(){
+        ArrayList<Entity> res = new ArrayList<>();
+        for (Entity e : entities){
+            if (e.getType().equals("oar")){
+                res.add(e);
+            }
+        }
+        return res;
+    }
 }

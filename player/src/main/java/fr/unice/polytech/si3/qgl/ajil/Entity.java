@@ -37,9 +37,9 @@ public class Entity {
     }
 
     // Donne la distance entre entité e
-    public int getDist(Entity e){
-        int deplacementX = e.getX() - this.x;
-        int deplacementY = e.getY() - this.y;
+    public int getDist(Sailor sailor){
+        int deplacementX = sailor.getX() - this.x;
+        int deplacementY = sailor.getY() - this.y;
         int res = deplacementX + deplacementY;
         return (res > 0) ? res : res * (-1) ;
     }
