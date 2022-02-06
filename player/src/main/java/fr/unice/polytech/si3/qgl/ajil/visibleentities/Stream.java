@@ -6,7 +6,9 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 public class Stream extends VisibleEntitie {
     private double strength;
 
-    public Stream(){}
+    public Stream(){
+        setType("stream");
+    }
     public Stream(String type, Position position, Shape shape, double strength) {
         super(type, position, shape);
         this.strength=strength;
@@ -18,5 +20,12 @@ public class Stream extends VisibleEntitie {
 
     public void setStrength(double strength) {
         this.strength = strength;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Stream{" +
+                "strength=" + strength +
+                '}';
     }
 }

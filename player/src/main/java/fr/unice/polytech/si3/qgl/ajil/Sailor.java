@@ -45,4 +45,14 @@ public class Sailor {
     void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Sailor{" +
+                "x=" + x +
+                ", y=" + y +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
