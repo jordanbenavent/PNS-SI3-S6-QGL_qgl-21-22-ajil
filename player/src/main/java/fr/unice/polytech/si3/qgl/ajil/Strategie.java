@@ -76,4 +76,28 @@ public class Strategie {
         actions.add(new Oar(0));
         actions.add(new Oar(1));
     }
+
+    void analyseCheminASuivre(Goal g, Ship ship){
+        ArrayList<Checkpoint> checkpoints = g.getCheckpoints();
+
+    }
+
+    Checkpoint checkpointPlusProche(ArrayList<Checkpoint> checkpoints, Ship ship){
+        double distMin = -1;
+        Checkpoint proche = checkpoints.get(0);
+        for (Checkpoint c: checkpoints){
+            double dst = distance(c, ship);
+            if(distMin == -1 || distMin > dst){
+                distMin = dst;
+                proche = c;
+            }
+        }
+        return proche;
+    }
+
+    double distance(Checkpoint c, Ship s){
+        double distance_horizontale = Math.pow((c.getPosition().getX() - s.getPosition().getX()), 2);
+        double distance_verticale = Math.pow((c.getPosition().getY() - s.getPosition().getY()), 2);
+        return Math.sqrt(distance_horizontale + distance_verticale);
+    }
 }
