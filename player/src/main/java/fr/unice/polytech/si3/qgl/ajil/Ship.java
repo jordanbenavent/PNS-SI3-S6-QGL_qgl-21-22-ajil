@@ -15,6 +15,9 @@ public class Ship {
     private ArrayList<Entity> entities;
     private Shape shape;
 
+    ArrayList<Entity> leftOars = new ArrayList<>();
+    ArrayList<Entity> rightOars = new ArrayList<>();
+
     public Ship() {
     }
 
@@ -94,12 +97,8 @@ public class Ship {
         return res;
     }
 
-    public Set<Double> getTurnRange() {
+    public void placeOars() {
         ArrayList<Entity> oars = getOars();
-        ArrayList<Entity> leftOars = new ArrayList<>();
-        ArrayList<Entity> rightOars = new ArrayList<>();
-
-        Set<Double> range = new HashSet<>();
         for (Entity oar : oars) {
             if (oar.getType().equals("oar")) {
                 if (oar.getY() == 0) {
@@ -109,15 +108,17 @@ public class Ship {
                 }
             }
         }
+    }
 
+    public Set<Double> getTurnRange() {
+        Set<Double> range = new HashSet<>();
+        int size = getOars().size();
         range.add(0.0);
-        final double angleL = (Math.PI / leftOars.size());
-        for (int i = 0; i < leftOars.size(); i++) {
-            range.add(-Math.PI / 2 + angleL / 2 * i);
+        for (int i = 0; i <= size / 2; i++) {
+            range.add(-Math.PI * i / size);
         }
-        final double angleR = (Math.PI / rightOars.size());
-        for (int i = 0; i < rightOars.size(); i++) {
-            range.add(Math.PI / 2 - angleR / 2 * i);
+        for (int i = 0; i <= size / 2; i++) {
+            range.add(Math.PI * i / size);
         }
         range.remove(-0.0);
         return range;
