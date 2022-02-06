@@ -4,6 +4,8 @@ import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Ship {
     private String type;
@@ -14,7 +16,11 @@ public class Ship {
     private ArrayList<Entity> entities;
     private Shape shape;
 
-    public Ship(){}
+    ArrayList<Entity> leftOars = new ArrayList<>();
+    ArrayList<Entity> rightOars = new ArrayList<>();
+
+    public Ship() {
+    }
 
     public Ship(String type, int life, Position position, String name, Deck deck, ArrayList<Entity> entities, Shape shape) {
         this.type = type;
@@ -82,13 +88,40 @@ public class Ship {
         this.shape = shape;
     }
 
-    public ArrayList<Entity> getOars(){
+    public ArrayList<Entity> getOars() {
         ArrayList<Entity> res = new ArrayList<>();
-        for (Entity e : entities){
-            if (e.getType().equals("oar")){
+        for (Entity e : entities) {
+            if (e.getType().equals("oar")) {
                 res.add(e);
             }
         }
         return res;
+    }
+
+    public void placeOars() {
+        ArrayList<Entity> oars = getOars();
+        for (Entity oar : oars) {
+            if (oar.getType().equals("oar")) {
+                if (oar.getY() == 0) {
+                    leftOars.add(oar);
+                } else {
+                    rightOars.add(oar);
+                }
+            }
+        }
+    }
+
+    public Set<Double> getTurnRange() {
+        Set<Double> range = new HashSet<>();
+        int size = getOars().size();
+        range.add(0.0);
+        for (int i = 0; i <= size / 2; i++) {
+            range.add(-Math.PI * i / size);
+        }
+        for (int i = 0; i <= size / 2; i++) {
+            range.add(Math.PI * i / size);
+        }
+        range.remove(-0.0);
+        return range;
     }
 }

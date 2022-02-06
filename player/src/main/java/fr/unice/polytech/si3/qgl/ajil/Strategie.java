@@ -11,13 +11,17 @@ import java.util.ArrayList;
 
 public class Strategie {
     private Game jeu;
-    private ArrayList<Action> actions;
-    private ObjectMapper objectMapper;
+    private final ArrayList<Action> actions;
+    private final ObjectMapper objectMapper;
     private boolean placementInit = false; // Placement des marins sur les rames au debut de partie
+
+    // marins
+    private final ArrayList<Sailor> leftSailors = new ArrayList<>();
+    private final ArrayList<Sailor> rightSailors = new ArrayList<>();
 
     public Strategie(Game jeu) {
         this.jeu = jeu;
-        actions = new ArrayList<Action>();
+        actions = new ArrayList<>();
         objectMapper = new ObjectMapper();
     }
 
@@ -48,6 +52,7 @@ public class Strategie {
         if (!placementInit){
             placerSurRames();
         }
+        whereAreSailors();
     }
 
     // Placement initial
@@ -76,5 +81,24 @@ public class Strategie {
     void avancer(){
         actions.add(new Oar(0));
         actions.add(new Oar(1));
+    }
+
+    public ArrayList<Sailor> getLeftSailors() {
+        return leftSailors;
+    }
+
+    public ArrayList<Sailor> getRightSailors() {
+        return rightSailors;
+    }
+
+    public void whereAreSailors() {
+        ArrayList<Sailor> sailors = jeu.getSailors();
+        for (Sailor sailor : sailors){
+            if (sailor.getY() < (jeu.getShip().getDeck().getWidth()/2)) {
+                leftSailors.add(sailor);
+            } else {
+                rightSailors.add(sailor);
+            }
+        }
     }
 }
