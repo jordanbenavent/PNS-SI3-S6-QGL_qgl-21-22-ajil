@@ -1,13 +1,12 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StrategieTest {
     Strategie strategie;
@@ -28,8 +27,8 @@ class StrategieTest {
         sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
         jeu.setSailors(sailors);
         ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new Entity(0,3,"oar",false)); // ( 0 , 3 )
-        entities.add(new Entity(0,1,"oar",false)); // ( 0 , 1 )
+        entities.add(new OarEntity(0,3,"oar")); // ( 0 , 3 )
+        entities.add(new OarEntity(0,1,"oar")); // ( 0 , 1 )
         ship.setEntities(entities);
         jeu.setShip(ship);
         strategie.getActions();

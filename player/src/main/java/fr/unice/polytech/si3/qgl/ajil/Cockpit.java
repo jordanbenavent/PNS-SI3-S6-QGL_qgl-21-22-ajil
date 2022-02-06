@@ -135,5 +135,6 @@ public class Cockpit implements ICockpit {
 				"    \"strength\": 110\n" +
 				"  }\n" +
 				"}");
+
 	}
 }
