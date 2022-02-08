@@ -63,6 +63,7 @@ public class Test {
         String actionsW2 = cockpitW2.nextRound(nextRound2);
         //System.out.println(actionsW2);
         NextRound nr = om.readValue(nextRound2, NextRound.class);
+
         System.out.println(om.writeValueAsString(nr));
 
         Vector vector = new Vector(0,3);
