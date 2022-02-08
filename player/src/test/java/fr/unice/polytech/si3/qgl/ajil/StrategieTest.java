@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
+import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -22,18 +23,27 @@ class StrategieTest {
     @BeforeEach
     void setUp() {
         ship = new Ship("ship", 100,
-                new Position(0.0,0.0,0.0), "name",
-                new Deck(2,5),
+                new Position(0.0, 0.0, 0.0), "name",
+                new Deck(2, 5),
                 new ArrayList<>(),
-                new Rectangle("rectangle", 5,5,5));
-        jeu = new Game();
-        checkpoint = new Checkpoint();
-        checkpoint2 = new Checkpoint();
-        checkpoint3 = new Checkpoint();
-        strategie = new Strategie(jeu);
+                new Rectangle("rectangle", 5, 5, 5));
         ArrayList<Checkpoint> checkpoints = new ArrayList<>();
-        checkpoints.add(new Checkpoint());
-        jeu.setGoal(new Goal("regate", checkpoints));
+        ArrayList<Sailor> sailors = new ArrayList<>();
+        jeu = new Game(
+                new Goal("regatte",checkpoints),
+                ship,
+                sailors,
+                4
+        );
+        strategie = new Strategie(jeu);
+        checkpoint = new Checkpoint(new Position(0,0,0), new Circle("circle", 1));
+        checkpoints.add(checkpoint);
+        Sailor sailor = new Sailor(1,1,0,"sailor1");
+        Sailor sailor2 = new Sailor(1,1,0,"sailor2");
+        sailors.add(sailor); sailors.add(sailor2);
+        checkpoint2 = new Checkpoint(new Position(1,7,0), new Circle("circle", 4));
+        checkpoint3 = new Checkpoint(new Position(-1,0,1), new Circle("circle", 1));
+        strategie = new Strategie(jeu);
     }
 
     @Test
