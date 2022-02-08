@@ -16,6 +16,7 @@ import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
 
+import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 
 public class Test {
@@ -33,7 +34,7 @@ public class Test {
         Turn turn = new Turn(1, 5);
         ArrayList<Action> actions = new ArrayList<>();
         actions.add(moving); actions.add(moving1); actions.add(oar); actions.add(turn);
-        //System.out.println(om.writeValueAsString(actions));
+        System.out.println(om.writeValueAsString(actions));
         ArrayList<Moving> list = new ArrayList<>();
         list.add(moving); list.add(moving1);
         test = om.writeValueAsString(list);
@@ -60,7 +61,13 @@ public class Test {
         cockpitW2.initGame(initialiser2);
         String nextRound2 = "{\n  \"ship\": {\n    \"type\": \"ship\",\n    \"life\": 100,\n    \"position\": {\n      \"x\": 0,\n      \"y\": 0,\n      \"orientation\": 0\n    },\n    \"name\": \"Les copaings d'abord!\",\n    \"deck\": {\n      \"width\": 3,\n      \"length\": 6\n    },\n    \"entities\": [\n      {\n        \"x\": 1,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 1,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 3,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 3,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 4,\n        \"y\": 0,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 4,\n        \"y\": 2,\n        \"type\": \"oar\"\n      },\n      {\n        \"x\": 2,\n        \"y\": 1,\n        \"type\": \"sail\",\n        \"openned\": false\n      },\n      {\n        \"x\": 5,\n        \"y\": 0,\n        \"type\": \"rudder\"\n      }\n    ],\n    \"shape\": {\n      \"type\": \"rectangle\",\n      \"width\": 3,\n      \"height\": 6,\n      \"orientation\": 0\n    }\n  },\n  \"visibleEntities\": [\n    {\n      \"type\": \"stream\",\n      \"position\": {\n        \"x\": 500,\n        \"y\": 0,\n        \"orientation\": 0\n      },\n      \"shape\": {\n        \"type\": \"rectangle\",\n        \"width\": 50,\n        \"height\": 500,\n        \"orientation\": 0\n      },\n      \"strength\": 40\n    }\n  ],\n  \"wind\": {\n    \"orientation\": 0,\n    \"strength\": 110\n  }\n}";
         String actionsW2 = cockpitW2.nextRound(nextRound2);
-        System.out.println(actionsW2);
+        //System.out.println(actionsW2);
+
+        Vector vector = new Vector(0,3);
+        Vector vector1 = new Vector(2,-1);
+        Vector vector2 = new Vector(-2,-1);
+        //System.out.println(vector.angleBetweenVectors(vector1));
+        ///System.out.println(vector.angleBetweenVectors(vector2));
 
     }
 

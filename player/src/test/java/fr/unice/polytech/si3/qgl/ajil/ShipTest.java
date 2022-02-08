@@ -1,6 +1,8 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,8 +36,8 @@ public class ShipTest {
         jeu.setSailors(sailors);
 
         ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new Entity(0, 0, "oar", false)); // ( 0 , 3 )
-        entities.add(new Entity(1, 1, "oar", false)); // ( 0 , 1 )
+        entities.add(new OarEntity(0, 0, "oar")); // ( 0 , 3 )
+        entities.add(new OarEntity(1, 1, "oar")); // ( 0 , 1 )
         ship.setEntities(entities);
         jeu.setShip(ship);
         strategie.getActions();
@@ -57,10 +59,10 @@ public class ShipTest {
         jeu.setSailors(sailors);
 
         ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new Entity(1, 0, "oar", false)); // ( 0 , 3 )
-        entities.add(new Entity(1, 0, "oar", false)); // ( 0 , 1 )
-        entities.add(new Entity(1, 1, "oar", false)); // ( 0 , 3 )
-        entities.add(new Entity(1, 1, "oar", false)); // ( 0 , 3 )
+        entities.add(new OarEntity(1, 0, "oar")); // ( 0 , 3 )
+        entities.add(new OarEntity(1, 0, "oar")); // ( 0 , 1 )
+        entities.add(new OarEntity(1, 1, "oar")); // ( 0 , 3 )
+        entities.add(new OarEntity(1, 1, "oar")); // ( 0 , 3 )
         ship.setEntities(entities);
         jeu.setShip(ship);
         strategie.getActions();
@@ -88,14 +90,14 @@ public class ShipTest {
         jeu.setSailors(sailors);
 
         ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new Entity(0, 0, "oar", false)); // ( 0 , 3 )
-        entities.add(new Entity(1, 0, "oar", false)); // ( 0 , 1 )
-        entities.add(new Entity(2, 1, "oar", false)); // ( 0 , 3 )
-        entities.add(new Entity(3, 1, "oar", false)); // ( 0 , 1
-        entities.add(new Entity(4, 0, "oar", false)); // ( 0 , 3 )
-        entities.add(new Entity(5, 0, "oar", false)); // ( 0 , 1 )
-        entities.add(new Entity(6, 1, "oar", false)); // ( 0 , 3 )
-        entities.add(new Entity(7, 1, "oar", false)); // ( 0 , 1
+        entities.add(new OarEntity(0, 0, "oar")); // ( 0 , 3 )
+        entities.add(new OarEntity(1, 0, "oar")); // ( 0 , 1 )
+        entities.add(new OarEntity(2, 1, "oar")); // ( 0 , 3 )
+        entities.add(new OarEntity(3, 1, "oar")); // ( 0 , 1
+        entities.add(new OarEntity(4, 0, "oar")); // ( 0 , 3 )
+        entities.add(new OarEntity(5, 0, "oar")); // ( 0 , 1 )
+        entities.add(new OarEntity(6, 1, "oar")); // ( 0 , 3 )
+        entities.add(new OarEntity(7, 1, "oar")); // ( 0 , 1
         ship.setEntities(entities);
         jeu.setShip(ship);
         strategie.getActions();

@@ -37,8 +37,8 @@ public class Cockpit implements ICockpit {
 		}
 		nextRound.updateGame(jeu);
 		strategie.setJeu(jeu);
-		System.out.println(nextRound.getShip().getEntities());
-		System.out.println(jeu.getSailors());
+		//System.out.println(nextRound.getShip().getEntities());
+		//System.out.println(jeu.getSailors());
 
 		return strategie.getActions();
 	}
