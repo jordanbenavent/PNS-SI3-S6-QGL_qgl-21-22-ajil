@@ -56,8 +56,54 @@ public class Strategie {
         }
         whereAreSailors();
         Checkpoint c = jeu.getGoal().getCheckpoints().get(0);
-        //Deplacement deplacement =  deplacementPourLeTour(c);
+        Deplacement deplacement =  deplacementPourLeTour(c);
 
+    }
+
+    void ramer(Deplacement deplacement) {
+        if (deplacement.getAngle() < 0) {
+            if (deplacement.getAngle() == -Math.PI / 2) {
+                for (Sailor sailor : leftSailors) {
+                    actions.add(new Oar(sailor.getId()));
+                }
+                return;
+            }
+            if (deplacement.getAngle() == -Math.PI / 4) {
+                for (int i = 0; i < leftSailors.size() / 2; i++) {
+                    actions.add(new Oar(leftSailors.get(i).getId()));
+                }
+                return;
+            }
+        }
+        if (deplacement.getAngle() > 0) {
+            if (deplacement.getAngle() == Math.PI / 2) {
+                for (Sailor sailor : rightSailors) {
+                    actions.add(new Oar(sailor.getId()));
+                }
+                return;
+            }
+            if (deplacement.getAngle() == Math.PI / 4) {
+                for (int i = 0; i < rightSailors.size() / 2; i++) {
+                    actions.add(new Oar(rightSailors.get(i).getId()));
+                }
+                return;
+            }
+        }
+        if (deplacement.getVitesse() == 165) {
+            for (Sailor sailor : jeu.getSailors()) {
+                actions.add(new Oar(sailor.getId()));
+            }
+        } else {
+            for (int i = 0; i < rightSailors.size() / 2; i++) {
+                actions.add(new Oar(rightSailors.get(i).getId()));
+            }
+            for (int i = 0; i < leftSailors.size() / 2; i++) {
+                actions.add(new Oar(leftSailors.get(i).getId()));
+            }
+        }
+    }
+
+    void ramerSelonVitesse(Deplacement deplacement){
 
     }
 
