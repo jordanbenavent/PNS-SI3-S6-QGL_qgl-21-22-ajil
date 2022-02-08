@@ -88,7 +88,7 @@ public class Strategie {
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
         if(angle >= Math.PI/2){
             // Faire une rotation de PI/2
-            deplacement.setVitesse(41.25);
+            deplacement.setVitesse(82.5);
             if(g_or_d){
                 deplacement.setAngle(-Math.PI/2);
             }
