@@ -54,10 +54,10 @@ public class Strategie {
             placerSurRames();
         }
         whereAreSailors();
-        for(Checkpoint c : jeu.getGoal().getCheckpoints()){
-            //Deplacement deplacement =  deplacementPourLeTour(c);
+        Checkpoint c = jeu.getGoal().getCheckpoints().get(0);
+        //Deplacement deplacement =  deplacementPourLeTour(c);
 
-        }
+
     }
 
     // Placement initial

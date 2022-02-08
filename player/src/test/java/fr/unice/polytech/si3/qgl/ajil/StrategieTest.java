@@ -25,6 +25,9 @@ class StrategieTest {
                 new Rectangle("rectangle", 5,5,5));
         jeu = new Game();
         strategie = new Strategie(jeu);
+        ArrayList<Checkpoint> checkpoints = new ArrayList<>();
+        checkpoints.add(new Checkpoint());
+        jeu.setGoal(new Goal("regate", checkpoints));
     }
 
     @Test
