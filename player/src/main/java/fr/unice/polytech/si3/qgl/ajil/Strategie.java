@@ -14,6 +14,7 @@ public class Strategie {
     private final ArrayList<Action> actions;
     private final ObjectMapper objectMapper;
     private boolean placementInit = false; // Placement des marins sur les rames au debut de partie
+    private static final int t = 770;
 
     // marins
     private final ArrayList<Sailor> leftSailors = new ArrayList<>();
@@ -53,6 +54,10 @@ public class Strategie {
             placerSurRames();
         }
         whereAreSailors();
+        for(Checkpoint c : jeu.getGoal().getCheckpoints()){
+            //Deplacement deplacement =  deplacementPourLeTour(c);
+
+        }
     }
 
     // Placement initial
