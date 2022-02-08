@@ -34,7 +34,7 @@ public class Test {
         Turn turn = new Turn(1, 5);
         ArrayList<Action> actions = new ArrayList<>();
         actions.add(moving); actions.add(moving1); actions.add(oar); actions.add(turn);
-        System.out.println(om.writeValueAsString(actions));
+        //System.out.println(om.writeValueAsString(actions));
         ArrayList<Moving> list = new ArrayList<>();
         list.add(moving); list.add(moving1);
         test = om.writeValueAsString(list);
