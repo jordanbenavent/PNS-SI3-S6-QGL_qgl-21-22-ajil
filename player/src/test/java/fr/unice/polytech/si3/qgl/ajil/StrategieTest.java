@@ -76,6 +76,26 @@ class StrategieTest {
         Assertions.assertEquals(checkpoint3, strategie.checkpointPlusProche(checkpoints, ship));
     }
 
+    @Test
+    void positionCheckpointTest(){
+        /*
+        Position checkpoint_position1 = new Position(60, 90, 0);
+        Position checkpoint_position2 = new Position(20, 100, 0);
+        Position ship_position = new Position(40, 50, 0);
+        checkpoint.setPosition(checkpoint_position1);
+        checkpoint2.setPosition(checkpoint_position2);
+        ship.setPosition(ship_position);
+        jeu.setShip(ship);
+        Assertions.assertEquals(false, strategie.positionCheckpoint(checkpoint));
+        Assertions.assertEquals(true, strategie.positionCheckpoint(checkpoint2));
+
+         */
+    }
+
+    @Test
+    void predictionAngleTourSuivantTest(){
+
+    }
 
 
 
