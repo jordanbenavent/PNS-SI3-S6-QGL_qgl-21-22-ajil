@@ -6,18 +6,24 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
 
 public class Strategie {
     private Game jeu;
-    private ArrayList<Action> actions;
-    private ObjectMapper objectMapper;
+    private final ArrayList<Action> actions;
+    private final ObjectMapper objectMapper;
     private boolean placementInit = false; // Placement des marins sur les rames au debut de partie
+    private static final int t = 770;
+
+    // marins
+    private final ArrayList<Sailor> leftSailors = new ArrayList<>();
+    private final ArrayList<Sailor> rightSailors = new ArrayList<>();
 
     public Strategie(Game jeu) {
         this.jeu = jeu;
-        actions = new ArrayList<Action>();
+        actions = new ArrayList<>();
         objectMapper = new ObjectMapper();
     }
 
@@ -48,6 +54,11 @@ public class Strategie {
         if (!placementInit){
             placerSurRames();
         }
+        whereAreSailors();
+        Checkpoint c = jeu.getGoal().getCheckpoints().get(0);
+        //Deplacement deplacement =  deplacementPourLeTour(c);
+
+
     }
 
     // Placement initial
@@ -195,5 +206,24 @@ public class Strategie {
         double distance_horizontale = Math.pow((c.getPosition().getX() - s.getPosition().getX()), 2);
         double distance_verticale = Math.pow((c.getPosition().getY() - s.getPosition().getY()), 2);
         return Math.sqrt(distance_horizontale + distance_verticale);
+    }
+
+    public ArrayList<Sailor> getLeftSailors() {
+        return leftSailors;
+    }
+
+    public ArrayList<Sailor> getRightSailors() {
+        return rightSailors;
+    }
+
+    public void whereAreSailors() {
+        ArrayList<Sailor> sailors = jeu.getSailors();
+        for (Sailor sailor : sailors){
+            if (sailor.getY() < (jeu.getShip().getDeck().getWidth()/2)) {
+                leftSailors.add(sailor);
+            } else {
+                rightSailors.add(sailor);
+            }
+        }
     }
 }

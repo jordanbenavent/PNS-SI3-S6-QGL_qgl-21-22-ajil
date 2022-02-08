@@ -6,7 +6,9 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 public class OtherShip extends VisibleEntitie{
     private int life;
 
-    OtherShip(){}
+    OtherShip(){
+        setType("ship");
+    }
     OtherShip(String type, Position position, Shape shape, int life) {
         super(type, position, shape);
         this.life=life;

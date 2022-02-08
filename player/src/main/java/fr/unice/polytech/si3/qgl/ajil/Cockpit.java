@@ -37,6 +37,8 @@ public class Cockpit implements ICockpit {
 		}
 		nextRound.updateGame(jeu);
 		strategie.setJeu(jeu);
+		//System.out.println(nextRound.getShip().getEntities());
+		//System.out.println(jeu.getSailors());
 
 		return strategie.getActions();
 	}
@@ -44,6 +46,14 @@ public class Cockpit implements ICockpit {
 	@Override
 	public List<String> getLogs() {
 		return new ArrayList<>();
+	}
+
+	public NextRound getNextRound() {
+		return nextRound;
+	}
+
+	public void setNextRound(NextRound nextRound) {
+		this.nextRound = nextRound;
 	}
 
 	public static void main(String[] args) {
@@ -135,5 +145,6 @@ public class Cockpit implements ICockpit {
 				"    \"strength\": 110\n" +
 				"  }\n" +
 				"}");
+
 	}
 }
