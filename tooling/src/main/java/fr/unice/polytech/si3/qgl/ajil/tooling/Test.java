@@ -34,7 +34,7 @@ public class Test {
         Turn turn = new Turn(1, 5);
         ArrayList<Action> actions = new ArrayList<>();
         actions.add(moving); actions.add(moving1); actions.add(oar); actions.add(turn);
-        //System.out.println(om.writeValueAsString(actions));
+        System.out.println(om.writeValueAsString(actions));
         ArrayList<Moving> list = new ArrayList<>();
         list.add(moving); list.add(moving1);
         test = om.writeValueAsString(list);
@@ -63,14 +63,15 @@ public class Test {
         String actionsW2 = cockpitW2.nextRound(nextRound2);
         //System.out.println(actionsW2);
         NextRound nr = om.readValue(nextRound2, NextRound.class);
-
-        System.out.println(om.writeValueAsString(nr));
+        //System.out.println();
+        //System.out.println(om.writeValueAsString(nr));
 
         Vector vector = new Vector(0,3);
         Vector vector1 = new Vector(2,-1);
         Vector vector2 = new Vector(-2,-1);
         //System.out.println(vector.angleBetweenVectors(vector1));
         ///System.out.println(vector.angleBetweenVectors(vector2));
+
 
     }
 

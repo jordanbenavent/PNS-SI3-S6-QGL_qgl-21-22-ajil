@@ -11,12 +11,10 @@ public class Moving extends Action {
         this.ydistance = ydistance;
     }
 
-    @Override
     public int getXdistance() {
         return xdistance;
     }
 
-    @Override
     public int getYdistance() {
         return ydistance;
     }

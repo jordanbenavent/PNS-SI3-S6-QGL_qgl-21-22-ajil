@@ -1,5 +1,15 @@
 package fr.unice.polytech.si3.qgl.ajil.actions;
 
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
+import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
+import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
+
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
+
 public abstract class Action {
 
     private int sailorId;
@@ -26,13 +36,4 @@ public abstract class Action {
         this.type = type;
     }
 
-    public int getXdistance() // Pour action de type Moving
-    {
-        return 0;
-    }
-
-    public int getYdistance() // Pour action de type Moving
-    {
-        return 0;
-    }
 }

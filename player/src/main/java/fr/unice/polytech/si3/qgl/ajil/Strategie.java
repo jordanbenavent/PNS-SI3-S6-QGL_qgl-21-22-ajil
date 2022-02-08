@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Strategie {
     private Game jeu;
     private final ArrayList<Action> actions;
+    private ArrayList<Oar> oars = new ArrayList<>();
     private final ObjectMapper objectMapper;
     private boolean placementInit = false; // Placement des marins sur les rames au debut de partie
     private static final int t = 770;
@@ -65,13 +66,13 @@ public class Strategie {
         if (deplacement.getAngle() < 0) {
             if (deplacement.getAngle() == -Math.PI / 2) {
                 for (Sailor sailor : leftSailors) {
-                    actions.add(new Oar(sailor.getId()));
+                    oars.add(new Oar(sailor.getId()));
                 }
                 return;
             }
             if (deplacement.getAngle() == -Math.PI / 4) {
                 for (int i = 0; i < leftSailors.size() / 2; i++) {
-                    actions.add(new Oar(leftSailors.get(i).getId()));
+                    oars.add(new Oar(leftSailors.get(i).getId()));
                 }
                 return;
             }
@@ -79,27 +80,27 @@ public class Strategie {
         if (deplacement.getAngle() > 0) {
             if (deplacement.getAngle() == Math.PI / 2) {
                 for (Sailor sailor : rightSailors) {
-                    actions.add(new Oar(sailor.getId()));
+                    oars.add(new Oar(sailor.getId()));
                 }
                 return;
             }
             if (deplacement.getAngle() == Math.PI / 4) {
                 for (int i = 0; i < rightSailors.size() / 2; i++) {
-                    actions.add(new Oar(rightSailors.get(i).getId()));
+                    oars.add(new Oar(rightSailors.get(i).getId()));
                 }
                 return;
             }
         }
         if (deplacement.getVitesse() == 165) {
             for (Sailor sailor : jeu.getSailors()) {
-                actions.add(new Oar(sailor.getId()));
+                oars.add(new Oar(sailor.getId()));
             }
         } else {
             for (int i = 0; i < rightSailors.size() / 2; i++) {
-                actions.add(new Oar(rightSailors.get(i).getId()));
+                oars.add(new Oar(rightSailors.get(i).getId()));
             }
             for (int i = 0; i < leftSailors.size() / 2; i++) {
-                actions.add(new Oar(leftSailors.get(i).getId()));
+                oars.add(new Oar(leftSailors.get(i).getId()));
             }
         }
     }
