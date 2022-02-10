@@ -45,15 +45,12 @@ public class Vector {
 
 
     public double angleBetweenVectors(Vector other){
-        //cas ou une des coordonnée est nulle, Exception ou renvoyer 0 ?
-        if(other.isNull()||this.isNull()){
-            return 0;
-        }
-        double cos = this.dotProduct(other)/(this.magnitude()*other.magnitude());
-        double ans =Math.acos(cos);
+        double a = this.x*other.y - this.y*other.x;
+        double b = this.x*other.x + this.y*other.y;
+
+        double ans=Math.atan2(a,b);
         double repARounded = (double) Math.round(ans * 1000) / 1000;
         return repARounded;
-
     }
 
     public boolean isCollinear(Vector other){

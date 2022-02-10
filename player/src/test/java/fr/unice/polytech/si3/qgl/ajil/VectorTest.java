@@ -180,11 +180,14 @@ class VectorTest {
         Vector v7 = new Vector(0, 1);
         assertEquals(v6.angleBetweenVectors(v7), 0);
 
+
         v6 = new Vector(0, 1);
         v7 = new Vector(1, 0);
 
-        double repRounded = (double) Math.round(Math.PI / 2 * 1000) / 1000;
+        double repRounded = -(double) Math.round(Math.PI / 2 * 1000) / 1000;
         assertEquals(v6.angleBetweenVectors(v7), repRounded);
+        assertEquals(v6.angleBetweenVectors(v7), -v7.angleBetweenVectors(v6));
+
     }
 
     @Test
@@ -196,8 +199,9 @@ class VectorTest {
         double repRounded = (double) Math.round(answer * 1000) / 1000;
         assertEquals(v1.angleBetweenVectors(v2), repRounded);
 
-        answer =2.69402553;
+        answer =-2.69402553;
         repRounded = (double) Math.round(answer * 1000) / 1000;
+
         assertEquals(v3.angleBetweenVectors(v4), repRounded);
 
 
