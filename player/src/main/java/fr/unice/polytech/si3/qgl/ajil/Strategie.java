@@ -50,7 +50,7 @@ public class Strategie {
         return "";
     }
 
-    void effectuerActions() {
+    public void effectuerActions() {
         if (!placementInit){
             placerSurRames();
         }
@@ -61,7 +61,7 @@ public class Strategie {
 
     }
 
-    void ramer(Deplacement deplacement) {
+    public void ramer(Deplacement deplacement) {
         if (deplacement.getAngle() < 0) {
             if (deplacement.getAngle() == -Math.PI / 2) {
                 for (Sailor sailor : leftSailors) {
@@ -109,7 +109,7 @@ public class Strategie {
     }
 
     // Placement initial
-    void placerSurRames() {
+    public void placerSurRames() {
         ArrayList<Entity> oars = jeu.getShip().getOars();
         ArrayList<Sailor> sailors = jeu.getSailors();
         int distMin;
@@ -136,7 +136,7 @@ public class Strategie {
         actions.add(new Oar(1));
     }
 
-    Deplacement deplacementPourLeTour(Checkpoint c){
+    public Deplacement deplacementPourLeTour(Checkpoint c){
         Ship s = jeu.getShip();
         Vector v_ship = new Vector(Math.cos(s.getPosition().getOrientation()), Math.sin(s.getPosition().getOrientation()));
         Vector v_check = new Vector(c.getPosition().getX() - s.getPosition().getX(),c.getPosition().getY()-s.getPosition().getY());
@@ -144,6 +144,7 @@ public class Strategie {
         boolean g_or_d = checkpointEstAGauche(c, angle);
         ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
+        System.out.println(g_or_d);
         if(angle >= Math.PI/2){
             // Faire une rotation de PI/2
             deplacement.setVitesse(82.5);
@@ -196,7 +197,7 @@ public class Strategie {
      * @param angle
      * @return true si le checkpoint est à gauche du bateau, false sinon
      */
-    boolean checkpointEstAGauche(Checkpoint c, double angle){
+    public boolean checkpointEstAGauche(Checkpoint c, double angle){
         Ship s = jeu.getShip();
         double x = s.getPosition().getX();
         double y = s.getPosition().getY();
@@ -214,7 +215,7 @@ public class Strategie {
      * @param checkpoint
      * @return une liste de liste de double où chaque sous-liste contient une vitesse associée à un angle
      */
-    ArrayList<Deplacement> predictionAngleTourSuivant(Vector ship, Vector checkpoint){
+    public ArrayList<Deplacement> predictionAngleTourSuivant(Vector ship, Vector checkpoint){
         int nbr_oars = jeu.getShip().getOars().size();
         ArrayList<Deplacement> prediction = new ArrayList<>();
         double vitesse = 165;
@@ -236,7 +237,7 @@ public class Strategie {
         ArrayList<Checkpoint> checkpoints = g.getCheckpoints();
     }
 
-    Checkpoint checkpointPlusProche(ArrayList<Checkpoint> checkpoints, Ship ship){
+    public Checkpoint checkpointPlusProche(ArrayList<Checkpoint> checkpoints, Ship ship){
         double distMin = -1;
         Checkpoint proche = checkpoints.get(0);
         for (Checkpoint c: checkpoints){
@@ -249,7 +250,7 @@ public class Strategie {
         return proche;
     }
 
-    double distance(Checkpoint c, Ship s){
+    public double distance(Checkpoint c, Ship s){
         double distance_horizontale = Math.pow((c.getPosition().getX() - s.getPosition().getX()), 2);
         double distance_verticale = Math.pow((c.getPosition().getY() - s.getPosition().getY()), 2);
         return Math.sqrt(distance_horizontale + distance_verticale);

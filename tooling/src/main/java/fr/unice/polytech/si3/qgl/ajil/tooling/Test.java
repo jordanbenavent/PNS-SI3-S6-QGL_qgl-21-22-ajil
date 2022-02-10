@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
 import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.Deck;
+import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
@@ -23,6 +24,7 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         ObjectMapper om = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        /*
         ArrayList<Entity> entities = new ArrayList<>();
         entities.add(new OarEntity(1,1,"oar"));
         Ship ship = new Ship("Pirate", 100, new Position(1,2,3.1415),"Ic&o", new Deck(1,2), entities, new Shape("carre"));
@@ -70,7 +72,43 @@ public class Test {
         Vector vector1 = new Vector(2,-1);
         Vector vector2 = new Vector(-2,-1);
         //System.out.println(vector.angleBetweenVectors(vector1));
-        ///System.out.println(vector.angleBetweenVectors(vector2));
+        //System.out.println(vector.angleBetweenVectors(vector2));
+
+         */
+        Ship ship = new Ship("ship", 100,
+                new Position(0.0, 0.0, 0.0), "name",
+                new Deck(2, 5),
+                new ArrayList<>(),
+                new Rectangle("rectangle", 5, 5, 5));
+        ArrayList<Checkpoint> checkpoints = new ArrayList<>();
+        ArrayList<Sailor> sailors = new ArrayList<>();
+        Game jeu = new Game(
+                new Goal("regatte",checkpoints),
+                ship,
+                sailors,
+                4
+        );
+        Checkpoint checkpoint = new Checkpoint(new Position(-2,2,0), new Circle("circle", 1));
+        checkpoints.add(checkpoint);
+        Sailor sailor = new Sailor(1,1,0,"sailor1");
+        Sailor sailor2 = new Sailor(1,1,0,"sailor2");
+        sailors.add(sailor); sailors.add(sailor2);
+        Strategie strategie = new Strategie(jeu);
+
+        Vector vector_ship= new Vector(1,1);
+        Vector vector_chechpoint = new Vector(2,-2);
+        double angle = vector_ship.angleBetweenVectors(vector_chechpoint);
+        System.out.println(strategie.checkpointEstAGauche(checkpoint, angle));
+        Vector vector_ship2= new Vector(1,1);
+        Vector vector_chechpoint2 = new Vector(2,-2);
+        double angle2 = Math.atan(vector_chechpoint2.getY()/vector_chechpoint2.getX()) - Math.atan(vector_ship2.getY()/vector_ship2.getX());
+        checkpoint = new Checkpoint(new Position(2,-2,0), new Circle("circle", 1));
+        System.out.println(Math.atan(vector_chechpoint2.getY()/vector_chechpoint2.getX()) - Math.atan(vector_ship2.getY()/vector_ship2.getX()));
+        System.out.println(strategie.checkpointEstAGauche(checkpoint, angle2));
+        Vector vector_ship3= new Vector(1,0);
+        Vector vector_chechpoint3 = new Vector(-1,-1);
+        System.out.println(Math.atan(vector_chechpoint3.getY()/vector_chechpoint3.getX()) - Math.atan(vector_ship3.getY()/vector_ship3.getX()));
+        System.out.println(vector_chechpoint3.angleBetweenVectors(vector_ship3));
 
 
     }

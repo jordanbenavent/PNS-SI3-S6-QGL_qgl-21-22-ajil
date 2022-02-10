@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
+import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
@@ -60,8 +61,8 @@ class StrategieTest {
         jeu.setShip(ship);
         strategie.getActions();
         Assertions.assertEquals(0, strategie.getListActions().get(0).getSailorId());
-        //Assertions.assertEquals(1, strategie.getListActions().get(0).getYdistance());
-        //Assertions.assertEquals(-1, strategie.getListActions().get(1).getXdistance());
+        Assertions.assertEquals(1, ((Moving) strategie.getListActions().get(0)).getYdistance());
+        Assertions.assertEquals(-1,((Moving)strategie.getListActions().get(1)).getXdistance());
     }
 
     @Test
