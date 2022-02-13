@@ -54,7 +54,7 @@ public class Strategie {
         if (!placementInit){
             placerSurRames();
         }
-        whereAreSailors();
+        whereAreSailors();//tester la création de branch
         Checkpoint c = jeu.getGoal().getCheckpoints().get(0);
         Deplacement deplacement =  deplacementPourLeTour(c);
         ramer(deplacement);
