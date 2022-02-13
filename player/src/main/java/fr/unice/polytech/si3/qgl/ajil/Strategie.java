@@ -6,6 +6,8 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
+import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
+import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
@@ -55,10 +57,85 @@ public class Strategie {
             placerSurRames();
         }
         whereAreSailors();//tester la création de branch
-        Checkpoint c = jeu.getGoal().getCheckpoints().get(0);
+        Checkpoint c = checkpointTarget(jeu.getGoal().getCheckpoints());
         Deplacement deplacement =  deplacementPourLeTour(c);
         ramer(deplacement);
 
+    }
+
+    /**
+     * Retourne le checkpoint à viser
+     * @param checkpoints
+     * @return
+     */
+    public Checkpoint checkpointTarget(ArrayList<Checkpoint> checkpoints) {
+        boolean estDedans = false;
+        if(checkpoints.isEmpty()) {
+            return null;
+        }
+        Checkpoint checkpointCurrent = checkpoints.get(0);
+        Ship ship = jeu.getShip();
+        Vector vectorShip = new Vector(ship.getPosition().getOrientation(), ship.getPosition().getOrientation());
+        ArrayList<Point> pointsDuBateau = calculPointShip(ship);
+        if(checkpointCurrent.getShape() instanceof Circle) {
+            estDedans = dansLeCercle(pointsDuBateau, checkpointCurrent);
+            if(estDedans){
+                checkpoints.remove(checkpointCurrent);
+                if(checkpoints.isEmpty()) {
+                    checkpointCurrent = null;
+                } else {
+                    checkpointCurrent = checkpoints.get(0);
+                }
+            }
+        }
+        return checkpointCurrent;
+    }
+
+    /**
+     * Calcule les quatres points des quatres coin du bateau.
+     * @param ship
+     * @return
+     */
+    public ArrayList<Point> calculPointShip(Ship ship){
+        Point centre = new Point(ship.getPosition().getX(), ship.getPosition().getY());
+        double largeur = ship.getDeck().getWidth();
+        double longueur = ship.getDeck().getLength();
+        double sinus = Math.sin(ship.getPosition().getOrientation());
+        double cosinus = Math.cos(ship.getPosition().getOrientation());
+        ArrayList<Point> pointShip = new ArrayList<>();
+
+        //Matrice changement de référentiel
+        ArrayList<ArrayList<Double>> matrice = new ArrayList<>();
+        ArrayList<Double> firstColumn = new ArrayList<>();
+        firstColumn.add(Math.cos(ship.getPosition().getOrientation()));
+        firstColumn.add(Math.sin(ship.getPosition().getOrientation()));
+        ArrayList<Double> secondColumn = new ArrayList<>();
+        secondColumn.add(-1 * Math.sin(ship.getPosition().getOrientation()));
+        secondColumn.add(Math.cos(ship.getPosition().getOrientation()));
+        matrice.add(firstColumn);
+        matrice.add(secondColumn);
+
+        pointShip.add( new Point(largeur/2*cosinus+longueur/2*sinus, -largeur/2*sinus+longueur/2*cosinus).addPoint(centre));
+        pointShip.add( new Point(-largeur/2*cosinus+longueur/2*sinus, largeur/2*sinus+longueur/2*cosinus).addPoint(centre));
+        pointShip.add( new Point(largeur/2*cosinus-longueur/2*sinus, -largeur/2*sinus-longueur/2*cosinus).addPoint(centre));
+        pointShip.add( new Point(-largeur/2*cosinus-longueur/2*sinus, largeur/2*sinus-longueur/2*cosinus).addPoint(centre));
+        return pointShip;
+    }
+
+    /**
+     * Dit si l'un des points du bateau est dans le checkpoint
+     * @param pointsDuBateau
+     * @param checkpoint
+     * @return true si l'un est dedans, false sinon
+     */
+    boolean dansLeCercle(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint){
+        Point centreCheckpoint = new Point(checkpoint.getPosition().getX(), checkpoint.getPosition().getY());
+        for(Point point : pointsDuBateau){
+            if(point.distance(centreCheckpoint) <= ((Circle)(checkpoint.getShape())).getRadius()){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void ramer(Deplacement deplacement) {
