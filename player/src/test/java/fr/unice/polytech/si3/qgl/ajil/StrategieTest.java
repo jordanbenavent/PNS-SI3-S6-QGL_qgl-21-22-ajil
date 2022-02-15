@@ -38,7 +38,7 @@ class StrategieTest {
                 4
         );
         strategie = new Strategie(jeu);
-        checkpoint = new Checkpoint(new Position(0,0,0), new Circle("circle", 1));
+        checkpoint = new Checkpoint(new Position(5,5,0), new Circle("circle", 1));
         checkpoints.add(checkpoint);
         Sailor sailor = new Sailor(1,1,0,"sailor1");
         Sailor sailor2 = new Sailor(1,1,0,"sailor2");
@@ -164,14 +164,11 @@ class StrategieTest {
                 new Rectangle("rectangle", 5, 5, 5));
 
         ArrayList<Point> point = strategie.calculPointShip(ship);
-        System.out.println(point.get(0));
-        System.out.println(point.get(1));
-        System.out.println(point.get(2));
-        System.out.println(point.get(3));
         Assertions.assertEquals(new Point(3,3), point.get(0));
         Assertions.assertEquals(new Point(1,3), point.get(1));
         Assertions.assertEquals(new Point(3,1), point.get(2));
         Assertions.assertEquals(new Point(1,1), point.get(3));
+
 
     }
 
@@ -221,7 +218,34 @@ class StrategieTest {
         Assertions.assertEquals(null, strategie.checkpointTarget(checkpoints));
     }
 
+    @Test
+    void intersectionCircleShipTest(){
+        ArrayList<Point> pointsShip = new ArrayList<>();
+        pointsShip.add(new Point(4,1));
+        pointsShip.add(new Point(6,1));
+        pointsShip.add(new Point(4,5));
+        pointsShip.add(new Point(6,5));
+        Checkpoint checkpointPasValide = new Checkpoint(new Position(1,4,0), new Circle("circle", 1));
+        Assertions.assertFalse(strategie.intersectionCircleShip(pointsShip, checkpointPasValide));
+        Checkpoint checkpointValide = new Checkpoint(new Position(3.5,3,0), new Circle("circle", 1));
+        Assertions.assertTrue(strategie.intersectionCircleShip(pointsShip, checkpointValide));
+        Checkpoint checkpointValideDunPoint = new Checkpoint(new Position(5,6,0), new Circle("circle", 1));
+        Assertions.assertTrue(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));
+        Checkpoint checkpointValideDeuxPointMaisCotesDifferents = new Checkpoint(new Position(7,6,0), new Circle("circle", 2));
+        Assertions.assertTrue(strategie.intersectionCircleShip(pointsShip, checkpointValideDeuxPointMaisCotesDifferents));
+    }
 
+    @Test
+    void intersectionDroiteVerticaleCircleTest(){
+        Point point1 = new Point(1,5);
+        Point point2 = new Point(1,1);
+        Checkpoint checkpointPasValide = new Checkpoint(new Position(-1,3,0), new Circle("circle", 1));
+        Assertions.assertFalse(strategie.intersectionDroiteVerticaleCircle(point1,point2, checkpointPasValide));
+        Checkpoint checkpointValide = new Checkpoint(new Position(0,3,0), new Circle("circle", 1.5));
+        Assertions.assertTrue(strategie.intersectionDroiteVerticaleCircle(point1,point2, checkpointValide));
+        Checkpoint checkpointValideUnPoint = new Checkpoint(new Position(2,3,0), new Circle("circle", 1));
+        Assertions.assertTrue(strategie.intersectionDroiteVerticaleCircle(point1,point2, checkpointValideUnPoint));
+    }
 
 
 

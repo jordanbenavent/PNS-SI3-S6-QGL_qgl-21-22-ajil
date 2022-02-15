@@ -68,6 +68,7 @@ public class Strategie {
      * @param checkpoints
      * @return
      */
+    static int test = 1;
     public Checkpoint checkpointTarget(ArrayList<Checkpoint> checkpoints) {
         boolean estDedans = false;
         if(checkpoints.isEmpty()) {
@@ -75,10 +76,9 @@ public class Strategie {
         }
         Checkpoint checkpointCurrent = checkpoints.get(0);
         Ship ship = jeu.getShip();
-        Vector vectorShip = new Vector(ship.getPosition().getOrientation(), ship.getPosition().getOrientation());
         ArrayList<Point> pointsDuBateau = calculPointShip(ship);
         if(checkpointCurrent.getShape() instanceof Circle) {
-            estDedans = dansLeCercle(pointsDuBateau, checkpointCurrent);
+            estDedans = checkpointValide(pointsDuBateau, checkpointCurrent);
             if(estDedans){
                 checkpoints.remove(checkpointCurrent);
                 if(checkpoints.isEmpty()) {
@@ -128,7 +128,7 @@ public class Strategie {
      * @param checkpoint
      * @return true si l'un est dedans, false sinon
      */
-    boolean dansLeCercle(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint){
+    public boolean dansLeCercle(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint){
         Point centreCheckpoint = new Point(checkpoint.getPosition().getX(), checkpoint.getPosition().getY());
         for(Point point : pointsDuBateau){
             if(point.distance(centreCheckpoint) <= ((Circle)(checkpoint.getShape())).getRadius()){
@@ -136,6 +136,117 @@ public class Strategie {
             }
         }
         return false;
+    }
+
+    /**
+     * Dit si le bateau a un point d'intection
+     * @param pointDuBateau
+     * @param checkpoint
+     * @return
+     */
+    public boolean intersectionCircleShip( ArrayList<Point> pointDuBateau, Checkpoint checkpoint){
+        for(int i=0; i<pointDuBateau.size()-1; i++ ){
+            for(int j=i+1; j< pointDuBateau.size(); j++){
+                //equation cercle (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
+                // équation de la droite du bateau = y = ax+b
+                double r = ((Circle) checkpoint.getShape()).getRadius();
+                double xc = checkpoint.getPosition().getX();
+                double yc = checkpoint.getPosition().getY();
+                double xb1 = pointDuBateau.get(i).getX();
+                double yb1 = pointDuBateau.get(i).getY();
+                double xb2 = pointDuBateau.get(j).getX();
+                double yb2 = pointDuBateau.get(j).getY();
+                if(xb1==xb2) {
+                    if(intersectionDroiteVerticaleCircle(new Point(xb1, yb1), new Point(xb2, yb2), checkpoint)){
+                        return true;
+                    }
+                    continue;
+                }
+                double a = (yb2 - yb1)/(xb2-xb1);
+                double b = (yb1 - a*xb1);
+                //Les points pour les résultats
+                double x1;
+                double y1;
+                double x2;
+                double y2;
+
+                //Après simplification on obtient une équation du deuxième degré et on obtient donc un delta.
+                //Equation : alpha x^2 + beta x + c = 0
+                double beta = -2 * xc - 2 * a * b + 2 * a * yc;
+                double alpha = (a*a +1);
+                double delta = beta * beta - 4*alpha *(xc*xc + (b-yc)*(b-yc) -r*r);
+                if(delta<0){
+                    continue;
+                } else {
+                    x1 = (-beta - Math.sqrt(delta)) / (2*alpha);
+                    y1 = a*x1 + b;
+                    x2 = (-beta + Math.sqrt(delta)) / (2*alpha);
+                    y2 = a*x2+b;
+                    // x1 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y1 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
+                    if( ((xb1<=x1 && x1<=xb2) || (xb1>=x1 && x1>=xb2)) && ((yb1<=y1 && y1<=yb2) || (yb1>=y1 && y1>=yb2))){
+                        return true;
+                    }
+                    // x2 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y2 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
+                    if(((xb1<=x2 && x2<=xb2) || (xb1>=x2 && x2>=xb2)) && ((yb1<=y2 && y2<=yb2) || (yb1>=y2 && y2>=yb2)) ){
+                        System.out.println(alpha+"x^2 + " + beta+"x + " + (xc*xc + (b-yc)*(b-yc) -r*r) );
+                        System.out.println(delta);
+                        System.out.println(x1 +" "+ y1+ " "+ x2 + " " + y2);
+                        System.out.println(checkpoint);
+                        System.out.println(pointDuBateau.get(i));
+                        System.out.println(pointDuBateau.get(j));
+                        System.out.println(2);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Lors d'une droite verticale, l'équation de droite change
+     * @param point1
+     * @param point2
+     * @param checkpoint
+     * @return true si le côté du bateau coupe le checkpoint
+     */
+    boolean intersectionDroiteVerticaleCircle(Point point1, Point point2, Checkpoint checkpoint){
+        //Dans ce cas la droite du bateau est de la forme x=a;
+        double a = point1.getX();
+        double xb1 = point1.getX();
+        double yb1 = point1.getY();
+        double xb2 = point2.getX();
+        double yb2 = point2.getY();
+        double xc = checkpoint.getPosition().getX();
+        double yc = checkpoint.getPosition().getY();
+        double r = ((Circle) checkpoint.getShape()).getRadius();
+        double b = -2*yc;
+        //On obtient une équation du deuxième degré et on obtient ce delta
+        double delta = b*b - 4*(a*a + xc*xc -2*a*xc + yc*yc -r*r);
+        double y1;
+        double y2;
+        if( delta < 0){
+            return false;
+        }
+        y1 = (-b - Math.sqrt(delta)) / 2;
+        y2 = (-b + Math.sqrt(delta)) / 2;
+        if( (yb1<=y1 && y1<=yb2) || (yb2<=y1 && y1<=yb1)){
+            return true;
+        }
+        if( (yb1<=y2 && y2<=yb2) || (yb2<=y2 && y2<=yb1)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Nous dit si le checkpoint est validé.
+     * @param pointsDuBateau
+     * @param checkpoint
+     * @return true si validé, false sinon
+     */
+    boolean checkpointValide(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint){
+        return dansLeCercle(pointsDuBateau, checkpoint) || intersectionCircleShip(pointsDuBateau, checkpoint);
     }
 
     public void ramer(Deplacement deplacement) {
@@ -221,7 +332,7 @@ public class Strategie {
         boolean g_or_d = checkpointEstAGauche(c, angle);
         ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
-        System.out.println(g_or_d);
+        //System.out.println(g_or_d);
         if(angle >= Math.PI/2){
             // Faire une rotation de PI/2
             deplacement.setVitesse(82.5);

@@ -34,7 +34,7 @@ public class ShipTest {
                 4
         );
         strategie = new Strategie(jeu);
-        Checkpoint checkpoint = new Checkpoint(new Position(0,0,0), new Circle("circle", 1));
+        Checkpoint checkpoint = new Checkpoint(new Position(5,5,0), new Circle("circle", 1));
         checkpoints.add(checkpoint);
         Sailor sailor = new Sailor(1,1,0,"sailor1");
         Sailor sailor2 = new Sailor(1,1,0,"sailor2");
