@@ -68,7 +68,6 @@ public class Strategie {
      * @param checkpoints
      * @return
      */
-    static int test = 1;
     public Checkpoint checkpointTarget(ArrayList<Checkpoint> checkpoints) {
         boolean estDedans = false;
         if(checkpoints.isEmpty()) {
@@ -188,13 +187,6 @@ public class Strategie {
                     }
                     // x2 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y2 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
                     if(((xb1<=x2 && x2<=xb2) || (xb1>=x2 && x2>=xb2)) && ((yb1<=y2 && y2<=yb2) || (yb1>=y2 && y2>=yb2)) ){
-                        System.out.println(alpha+"x^2 + " + beta+"x + " + (xc*xc + (b-yc)*(b-yc) -r*r) );
-                        System.out.println(delta);
-                        System.out.println(x1 +" "+ y1+ " "+ x2 + " " + y2);
-                        System.out.println(checkpoint);
-                        System.out.println(pointDuBateau.get(i));
-                        System.out.println(pointDuBateau.get(j));
-                        System.out.println(2);
                         return true;
                     }
                 }
