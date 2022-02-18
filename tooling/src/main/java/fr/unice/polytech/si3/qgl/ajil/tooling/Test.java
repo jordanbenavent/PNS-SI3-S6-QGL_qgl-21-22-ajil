@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
 import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.Deck;
+import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
@@ -98,17 +99,27 @@ public class Test {
         Vector vector_ship= new Vector(1,1);
         Vector vector_chechpoint = new Vector(2,-2);
         double angle = vector_ship.angleBetweenVectors(vector_chechpoint);
-        System.out.println(strategie.checkpointEstAGauche(checkpoint, angle));
+        //System.out.println(strategie.checkpointEstAGauche(checkpoint, angle));
         Vector vector_ship2= new Vector(1,1);
         Vector vector_chechpoint2 = new Vector(2,-2);
         double angle2 = Math.atan(vector_chechpoint2.getY()/vector_chechpoint2.getX()) - Math.atan(vector_ship2.getY()/vector_ship2.getX());
         checkpoint = new Checkpoint(new Position(2,-2,0), new Circle("circle", 1));
-        System.out.println(Math.atan(vector_chechpoint2.getY()/vector_chechpoint2.getX()) - Math.atan(vector_ship2.getY()/vector_ship2.getX()));
-        System.out.println(strategie.checkpointEstAGauche(checkpoint, angle2));
+        //System.out.println(Math.atan(vector_chechpoint2.getY()/vector_chechpoint2.getX()) - Math.atan(vector_ship2.getY()/vector_ship2.getX()));
+        //System.out.println(strategie.checkpointEstAGauche(checkpoint, angle2));
         Vector vector_ship3= new Vector(1,0);
         Vector vector_chechpoint3 = new Vector(-1,-1);
-        System.out.println(Math.atan(vector_chechpoint3.getY()/vector_chechpoint3.getX()) - Math.atan(vector_ship3.getY()/vector_ship3.getX()));
-        System.out.println(vector_chechpoint3.angleBetweenVectors(vector_ship3));
+        //System.out.println(Math.atan(vector_chechpoint3.getY()/vector_chechpoint3.getX()) - Math.atan(vector_ship3.getY()/vector_ship3.getX()));
+        //System.out.println(vector_chechpoint3.angleBetweenVectors(vector_ship3));
+
+        ArrayList<Point> pointsShip = new ArrayList<>();
+        pointsShip.add(new Point(4,1));
+        pointsShip.add(new Point(6,1));
+        pointsShip.add(new Point(4,5));
+        pointsShip.add(new Point(6,5));
+
+        Checkpoint checkpointValide = new Checkpoint(new Position(3.5,3,0), new Circle("circle", 1));
+        Checkpoint checkpointValideDunPoint = new Checkpoint(new Position(5,6,0), new Circle("circle", 1));
+        System.out.println(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));
 
 
     }
