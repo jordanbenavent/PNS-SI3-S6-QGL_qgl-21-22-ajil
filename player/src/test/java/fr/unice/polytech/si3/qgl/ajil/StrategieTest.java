@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
+import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
@@ -112,44 +113,16 @@ class StrategieTest {
     }
 
     @Test
-    void checkpointPlusProcheTest(){
-        // Cas 1: le premier checkpoint de la liste est le plus proche
-        Position checkpoint_position1 = new Position(60, 90, 0);
-        Position checkpoint_position2 = new Position(60, 100, 0);
-        Position ship_position = new Position(60, 50, 0);
-        ArrayList<Checkpoint> checkpoints = new ArrayList<>();
-        checkpoints.add(checkpoint);
-        checkpoints.add(checkpoint2);
-        checkpoint.setPosition(checkpoint_position1);
-        checkpoint2.setPosition(checkpoint_position2);
-        ship.setPosition(ship_position);
-        Assertions.assertEquals(checkpoint, strategie.checkpointPlusProche(checkpoints, ship));
-
-        // Cas 2: le dernier checkpoint de la liste est le plus proche
-        Position checkpoint_position3 = new Position(60, 60, 0);
-        checkpoint3.setPosition(checkpoint_position3);
-        checkpoints.add(checkpoint3);
-        Assertions.assertEquals(checkpoint3, strategie.checkpointPlusProche(checkpoints, ship));
-    }
-
-    @Test
-    void positionCheckpointTest(){
-        /*
-        Position checkpoint_position1 = new Position(60, 90, 0);
-        Position checkpoint_position2 = new Position(20, 100, 0);
-        Position ship_position = new Position(40, 50, 0);
-        checkpoint.setPosition(checkpoint_position1);
-        checkpoint2.setPosition(checkpoint_position2);
-        ship.setPosition(ship_position);
-        jeu.setShip(ship);
-        Assertions.assertEquals(false, strategie.positionCheckpoint(checkpoint));
-        Assertions.assertEquals(true, strategie.positionCheckpoint(checkpoint2));
-
-         */
-    }
-
-    @Test
     void predictionAngleTourSuivantTest(){
+        // Cas bateau à 4 rames
+        jeu.getShip().getEntities().add(new OarEntity(0, 1, "oar"));
+        jeu.getShip().getEntities().add(new OarEntity(0, 2, "oar"));
+        jeu.getShip().getEntities().add(new OarEntity(1, 1, "oar"));
+        jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
+        Vector v_ship = new Vector(10, 0);
+        Vector v_check = new Vector(60,45);
+        System.out.println(strategie.predictionAngleTourSuivant(v_ship, v_check));
+
 
     }
 

@@ -28,4 +28,8 @@ public class Deplacement {
     public void setAngle(double angle) {
         this.angle = angle;
     }
+
+    public String toString(){
+        return "" + this.vitesse + ", " + this.angle;
+    }
 }
