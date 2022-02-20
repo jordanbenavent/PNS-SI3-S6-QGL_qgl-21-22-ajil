@@ -12,7 +12,19 @@ import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
 
+/**
+ * Classe Stratégie regroupant des méthodes visant à établir une stratégie pour atteindre le checkpoint et finir la course
+ *
+ * @author Alexis Roche
+ * @author Louis Hattiger
+ * @author Jordan Benavent
+ * @author Igor Melnyk
+ * @author Tobias Bonifay
+ *
+ */
+
 public class Strategie {
+
     private Game jeu;
     private final ArrayList<Action> actions;
     private final ObjectMapper objectMapper;
@@ -29,14 +41,24 @@ public class Strategie {
         objectMapper = new ObjectMapper();
     }
 
+    /**
+     * @return la partie en cours
+     */
     public Game getJeu() {
         return jeu;
     }
 
+    /**
+     * Modifie la partie en cours
+     * @param jeu
+     */
     public void setJeu(Game jeu) {
         this.jeu = jeu;
     }
 
+    /**
+     * @return une liste d'actions à effectuer
+     */
     public ArrayList<Action> getListActions(){
         return actions;
     }

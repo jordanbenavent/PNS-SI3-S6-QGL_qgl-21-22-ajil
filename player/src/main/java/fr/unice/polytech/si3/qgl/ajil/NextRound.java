@@ -4,6 +4,17 @@ import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.ArrayList;
 
+/**
+ * Classe NextRound
+ *
+ * @author Alexis Roche
+ * @author Louis Hattiger
+ * @author Jordan Benavent
+ * @author Igor Melnyk
+ * @author Tobias Bonifay
+ *
+ */
+
 public class NextRound {
 
     private Ship ship;

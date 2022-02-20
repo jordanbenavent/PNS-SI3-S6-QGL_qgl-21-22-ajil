@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
 public class ShipShape {
+
     private String type;
     private double width;
     private double height;

@@ -8,17 +8,36 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 
+/**
+ * Classe Cockpit
+ * C'est notre classe main qui lance le jeu
+ *
+ * @author Alexis Roche
+ * @author Louis Hattiger
+ * @author Jordan Benavent
+ * @author Igor Melnyk
+ * @author Tobias Bonifay
+ *
+ */
+
 public class Cockpit implements ICockpit {
+
 	private Game jeu;
 	private Strategie strategie;
 	private NextRound nextRound;
 	ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-
+	/**
+	 * @return la partie en cours
+	 */
 	public Game getJeu() {
 		return jeu;
 	}
 
+	/**
+	 * Initialise la partie
+	 * @param game
+	 */
 	public void initGame(String game) {
 		try {
 			this.jeu = objectMapper.readValue(game, Game.class);
@@ -26,7 +45,6 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 		strategie = new Strategie(jeu);
-
 	}
 
 	public String nextRound(String round) {
