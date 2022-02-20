@@ -12,8 +12,7 @@ public class Polygone extends Shape{
         setType("polygone");
     }
 
-    @JsonCreator
-    public Polygone(@JsonProperty("name")String type, double orientation, Point[] vertices){
+    public Polygone(String type, double orientation, Point[] vertices){
         super(type);
         this.orientation=orientation;
         this.vertices=vertices;

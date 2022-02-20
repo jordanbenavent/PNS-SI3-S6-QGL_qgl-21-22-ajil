@@ -36,4 +36,13 @@ public class Position {
     void setY(double y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                ", orientation=" + orientation +
+                '}';
+    }
 }
