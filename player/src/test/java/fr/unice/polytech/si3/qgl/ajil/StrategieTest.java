@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 class StrategieTest {
+
     Strategie strategie;
     Game jeu;
     Ship ship;
@@ -124,8 +125,6 @@ class StrategieTest {
         Vector v_ship = new Vector(10, 0);
         Vector v_check = new Vector(60,45);
         System.out.println(strategie.predictionAngleTourSuivant(v_ship, v_check));
-
-
     }
 
     @Test
@@ -141,8 +140,6 @@ class StrategieTest {
         Assertions.assertEquals(new Point(1,3), point.get(1));
         Assertions.assertEquals(new Point(3,1), point.get(2));
         Assertions.assertEquals(new Point(1,1), point.get(3));
-
-
     }
 
     @Test
@@ -219,7 +216,4 @@ class StrategieTest {
         Checkpoint checkpointValideUnPoint = new Checkpoint(new Position(2,3,0), new Circle("circle", 1));
         Assertions.assertTrue(strategie.intersectionDroiteVerticaleCircle(point1,point2, checkpointValideUnPoint));
     }
-
-
-
 }

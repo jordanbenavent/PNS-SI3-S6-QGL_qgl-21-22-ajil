@@ -36,7 +36,6 @@ class VectorTest {
         ancienneValeurV3 = v3.clone();
         ancienneValeurV4 = v4.clone();
         ancienneValeurV5 = v5.clone();
-
     }
 
     @Test
@@ -137,7 +136,6 @@ class VectorTest {
         double p = -4.567;
         Vector v7 = new Vector(p * v3.getX(), p * v3.getY());
         assertTrue(v3.isCollinear(v7));
-
     }
 
     @Test
@@ -180,14 +178,12 @@ class VectorTest {
         Vector v7 = new Vector(0, 1);
         assertEquals(v6.angleBetweenVectors(v7), 0);
 
-
         v6 = new Vector(0, 1);
         v7 = new Vector(1, 0);
 
         double repRounded = -(double) Math.round(Math.PI / 2 * 1000) / 1000;
         assertEquals(v6.angleBetweenVectors(v7), repRounded);
         assertEquals(v6.angleBetweenVectors(v7), -v7.angleBetweenVectors(v6));
-
     }
 
     @Test
@@ -203,8 +199,6 @@ class VectorTest {
         repRounded = (double) Math.round(answer * 1000) / 1000;
 
         assertEquals(v3.angleBetweenVectors(v4), repRounded);
-
-
     }
 
     @Test
@@ -229,5 +223,4 @@ class VectorTest {
         // limited to 90° for the boat
         assertEquals(v1.angleBetweenVectors(v2), Math.round(Math.PI / 2), 3);
     }
-
 }

@@ -10,7 +10,7 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 
 /**
  * Classe Cockpit
- * C'est notre classe main qui lance le jeu
+ * C'est notre interface pour communiquer avec le referee grâce aux méthodes initGame et nextRound
  *
  * @author Alexis Roche
  * @author Louis Hattiger
@@ -47,6 +47,11 @@ public class Cockpit implements ICockpit {
 		strategie = new Strategie(jeu);
 	}
 
+	/**
+	 * Après application de la stratégie de jeu une liste d'actions est crée, on renvoie un JSON qui est cette liste d'actions
+	 * @param round
+	 * @return un string composé de la liste des actions
+	 */
 	public String nextRound(String round) {
 		try {
 			this.nextRound = objectMapper.readValue(round, NextRound.class);
@@ -61,15 +66,25 @@ public class Cockpit implements ICockpit {
 		return strategie.getActions();
 	}
 
+	/**
+	 * @return un logger
+	 */
 	@Override
 	public List<String> getLogs() {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * @return les informations du tour en cours
+	 */
 	public NextRound getNextRound() {
 		return nextRound;
 	}
 
+	/**
+	 * Modifie les informations du tour en cours
+	 * @param nextRound
+	 */
 	public void setNextRound(NextRound nextRound) {
 		this.nextRound = nextRound;
 	}
@@ -163,6 +178,5 @@ public class Cockpit implements ICockpit {
 				"    \"strength\": 110\n" +
 				"  }\n" +
 				"}");
-
 	}
 }

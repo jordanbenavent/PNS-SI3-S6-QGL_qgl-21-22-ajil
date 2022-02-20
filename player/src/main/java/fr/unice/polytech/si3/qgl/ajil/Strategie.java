@@ -63,6 +63,9 @@ public class Strategie {
         return actions;
     }
 
+    /**
+     * @return la liste des actions sous la forme d'un string
+     */
     public String getActions(){
         actions.clear();
         effectuerActions();
@@ -74,6 +77,9 @@ public class Strategie {
         return "";
     }
 
+    /**
+     * Effectue les actions dans l'ordre qu'il faut
+     */
     public void effectuerActions() {
         if (!placementInit){
             placerSurRames();
@@ -82,7 +88,6 @@ public class Strategie {
         Checkpoint c = checkpointTarget(jeu.getGoal().getCheckpoints());
         Deplacement deplacement =  deplacementPourLeTour(c);
         ramer(deplacement);
-
     }
 
     /**
@@ -263,6 +268,10 @@ public class Strategie {
         return dansLeCercle(pointsDuBateau, checkpoint) || intersectionCircleShip(pointsDuBateau, checkpoint);
     }
 
+    /**
+     * Ajoute à la liste d'actions une ou plusieurs ramer en fonction de la vitesse et de l'angle voulu.
+     * @param deplacement
+     */
     public void ramer(Deplacement deplacement) {
         if (deplacement.getAngle() < 0) {
             if (deplacement.getAngle() == -Math.PI / 2) {
@@ -310,7 +319,9 @@ public class Strategie {
 
     }
 
-    // Placement initial
+    /**
+     * Ajoute à la liste d'actions les déplacement que doivent effectuer les marins pour se placer sur les rames
+     */
     public void placerSurRames() {
         ArrayList<Entity> oars = jeu.getShip().getOars();
         ArrayList<Sailor> sailors = jeu.getSailors();
@@ -333,11 +344,11 @@ public class Strategie {
         this.placementInit = true;
     }
 
-    void avancer(){
-        actions.add(new Oar(0));
-        actions.add(new Oar(1));
-    }
-
+    /**
+     * Analyse quel déplacement le bateau devra faire pour le tour
+     * @param c
+     * @return le déplacement que le bateau devra faire pour ce tour
+     */
     public Deplacement deplacementPourLeTour(Checkpoint c){
         Ship s = jeu.getShip();
         Vector v_ship = new Vector(Math.cos(s.getPosition().getOrientation()), Math.sin(s.getPosition().getOrientation()));
@@ -435,37 +446,34 @@ public class Strategie {
         return prediction;
     }
 
-    void analyseCheminASuivre(Goal g, Ship ship){
-        ArrayList<Checkpoint> checkpoints = g.getCheckpoints();
-    }
-
-    public Checkpoint checkpointPlusProche(ArrayList<Checkpoint> checkpoints, Ship ship){
-        double distMin = -1;
-        Checkpoint proche = checkpoints.get(0);
-        for (Checkpoint c: checkpoints){
-            double dst = distance(c, ship);
-            if(distMin == -1 || distMin > dst){
-                distMin = dst;
-                proche = c;
-            }
-        }
-        return proche;
-    }
-
+    /**
+     * @param c
+     * @param s
+     * @return la distance entre un checkpoint et le bateau
+     */
     public double distance(Checkpoint c, Ship s){
         double distance_horizontale = Math.pow((c.getPosition().getX() - s.getPosition().getX()), 2);
         double distance_verticale = Math.pow((c.getPosition().getY() - s.getPosition().getY()), 2);
         return Math.sqrt(distance_horizontale + distance_verticale);
     }
 
+    /**
+     * @return la liste des marins à gauche du bateau
+     */
     public ArrayList<Sailor> getLeftSailors() {
         return leftSailors;
     }
 
+    /**
+     * @return la liste des marins à droite du bateau
+     */
     public ArrayList<Sailor> getRightSailors() {
         return rightSailors;
     }
 
+    /**
+     * Ajoute les marins dans la liste de marins à gauche ou à droite du bateau en fonction de leur position sur ce dernier
+     */
     public void whereAreSailors() {
         ArrayList<Sailor> sailors = jeu.getSailors();
         for (Sailor sailor : sailors){

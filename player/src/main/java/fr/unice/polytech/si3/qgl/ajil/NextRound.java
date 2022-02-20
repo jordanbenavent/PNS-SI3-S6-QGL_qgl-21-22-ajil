@@ -24,35 +24,60 @@ public class NextRound {
     public NextRound(){}
 
     public NextRound(Ship ship, Wind wind, ArrayList<VisibleEntitie> visibleEntities){
-        this.ship=ship;
-        this.wind=wind;
-        this.visibleEntities=visibleEntities;
+        this.ship = ship;
+        this.wind = wind;
+        this.visibleEntities = visibleEntities;
     }
 
+    /**
+     * @return la liste des entités visibles durant le tour de jeu
+     */
     public ArrayList<VisibleEntitie> getVisibleEntities() {
         return visibleEntities;
     }
 
+    /**
+     * @return le bateau durant le tour jeu
+     */
     public Ship getShip() {
         return ship;
     }
 
+    /**
+     * @return le vent durant le tour de jeu
+     */
     public Wind getWind() {
         return wind;
     }
 
+    /**
+     * Modifie le bateau durant le tour de jeu
+     * @param ship
+     */
     public void setShip(Ship ship) {
         this.ship = ship;
     }
 
+    /**
+     * Modifie les entités visibles durant le tour de jeu
+     * @param visibleEntities
+     */
     public void setVisibleEntities(ArrayList<VisibleEntitie> visibleEntities) {
         this.visibleEntities = visibleEntities;
     }
 
+    /**
+     * Modifie le vent durant le tour de jeu
+     * @param wind
+     */
     public void setWind(Wind wind) {
         this.wind = wind;
     }
 
+    /**
+     * Modifie la partie durant le tour de jeu
+     * @param game
+     */
     public void updateGame(Game game){
         game.setShip(this.ship);
     }
