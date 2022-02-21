@@ -59,7 +59,7 @@ public class Position {
      * Modifie la coordonnée x de la position de l'objet
      * @param x
      */
-    void setX(double x) {
+    public void setX(double x) {
         this.x = x;
     }
 
@@ -67,7 +67,7 @@ public class Position {
      * Modifie la coordonnée y de la position de l'objet
      * @param y
      */
-    void setY(double y) {
+    public void setY(double y) {
         this.y = y;
     }
 

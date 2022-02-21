@@ -55,7 +55,7 @@ public class Game {
      * Modifie le bateau participant
      * @param ship
      */
-    void setShip(Ship ship) {
+    public void setShip(Ship ship) {
         this.ship = ship;
     }
 
@@ -70,7 +70,7 @@ public class Game {
      * Modifie la liste des marins
      * @param sailors
      */
-    void setSailors(ArrayList<Sailor> sailors) {
+    public void setSailors(ArrayList<Sailor> sailors) {
         this.sailors = sailors;
     }
 
@@ -85,7 +85,7 @@ public class Game {
      * Modifie le nombre de bateaux participants
      * @param shipCount
      */
-    void setShipCount(int shipCount) {
+    public void setShipCount(int shipCount) {
         this.shipCount = shipCount;
     }
 }
