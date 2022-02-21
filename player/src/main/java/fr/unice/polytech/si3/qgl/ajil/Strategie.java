@@ -356,7 +356,7 @@ public class Strategie {
         double angle = v_ship.angleBetweenVectors(v_check);
         ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
-        if(angle >= Math.PI/2){
+        if(Math.abs(angle) >= Math.PI/2){
             // Faire une rotation de PI/2
             deplacement.setVitesse(82.5);
             if(angle < 0){
