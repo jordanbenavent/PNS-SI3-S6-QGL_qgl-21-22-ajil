@@ -476,6 +476,7 @@ public class Strategie {
      */
     public void whereAreSailors() {
         ArrayList<Sailor> sailors = jeu.getSailors();
+        leftSailors.clear(); rightSailors.clear();
         for (Sailor sailor : sailors){
             if (sailor.getY() < (jeu.getShip().getDeck().getWidth()/2)) {
                 leftSailors.add(sailor);
