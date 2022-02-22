@@ -346,7 +346,7 @@ public class Strategie {
                 int movX = oars.get(index).getX() - s.getX();
                 int movY = oars.get(index).getY() - s.getY();
                 oars.remove(index);
-                actions.add(new Moving(s.getId(), movX % 2, movY % 2));
+                actions.add(new Moving(s.getId(), Math.min(movX, 2), Math.min(movY, 2)));
                 continue;
             }
             int movX = oars.get(index).getX() - s.getX();
@@ -375,7 +375,7 @@ public class Strategie {
                 int movX = oars.get(index).getX() - s.getX();
                 int movY = oars.get(index).getY() - s.getY();
                 oars.remove(index);
-                actions.add(new Moving(s.getId(), movX % 2, movY % 2));
+                actions.add(new Moving(s.getId(), Math.min(movX, 2), Math.min(movY, 2)));
                 continue;
             }
             int movX = oars.get(index).getX() - s.getX();
