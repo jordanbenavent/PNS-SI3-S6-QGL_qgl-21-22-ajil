@@ -81,10 +81,10 @@ public class Strategie {
      * Effectue les actions dans l'ordre qu'il faut
      */
     public void effectuerActions() {
+        repartirLesMarins();
         if (!placementInit){
             placerSurRames();
         }
-        //whereAreSailors();//tester la création de branch
         Checkpoint c = checkpointTarget(jeu.getGoal().getCheckpoints());
         Deplacement deplacement =  deplacementPourLeTour(c);
         ramer(deplacement);
@@ -324,20 +324,7 @@ public class Strategie {
      */
     public void placerSurRames() {
         ArrayList<Entity> oars = jeu.getShip().getOars();
-        ArrayList<Sailor> sailors = jeu.getSailors();
         boolean allInRange = true;
-        // On definit directement ceux qui vont ramer à droite et ceux qui vont ramer à gauche
-        for (Sailor s : sailors){
-            if (leftSailors.size() < sailors.size()/2){
-                leftSailors.add(s);
-                continue;
-            }
-            if (rightSailors.size() < sailors.size()/2){
-                rightSailors.add(s);
-                continue;
-            }
-            break;
-        }
         for (Sailor s : leftSailors){
             int distMin = 0;
             int index = -1;
@@ -533,14 +520,18 @@ public class Strategie {
     /**
      * Ajoute les marins dans la liste de marins à gauche ou à droite du bateau en fonction de leur position sur ce dernier
      */
-    public void whereAreSailors() {
+    public void repartirLesMarins() {
         ArrayList<Sailor> sailors = jeu.getSailors();
-        for (Sailor sailor : sailors){
-            if (sailor.getY() < (jeu.getShip().getDeck().getWidth()/2)) {
-                leftSailors.add(sailor);
-            } else {
-                rightSailors.add(sailor);
+        for (Sailor s : sailors){
+            if (leftSailors.size() < sailors.size()/2){
+                leftSailors.add(s);
+                continue;
             }
+            if (rightSailors.size() < sailors.size()/2){
+                rightSailors.add(s);
+                continue;
+            }
+            break;
         }
     }
 }

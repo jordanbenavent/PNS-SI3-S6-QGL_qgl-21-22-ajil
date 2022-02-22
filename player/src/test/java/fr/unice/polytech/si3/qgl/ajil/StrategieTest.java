@@ -69,39 +69,16 @@ class StrategieTest {
     }
 
     @Test
-    void whereAreSailors() {
+    void repartirLesMarins() {
         ship.setDeck(new Deck(2, 5));
         ArrayList<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(0, 0, 0, "Sailor 0")); // ( 0 , 0 )
         sailors.add(new Sailor(1, 1, 1, "Sailor 1")); // ( 1 , 2 )
         jeu.setSailors(sailors);
-        ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new OarEntity(0,0,"oar")); // ( 0 , 3 )
-        entities.add(new OarEntity(0,1,"oar")); // ( 0 , 1 )
-        ship.setEntities(entities);
         jeu.setShip(ship);
-        strategie.getActions();
+        strategie.repartirLesMarins();
         Assertions.assertEquals(1, strategie.getLeftSailors().size());
         Assertions.assertEquals(1, strategie.getRightSailors().size());
-    }
-
-    @Test
-    void whereAreSailors2() {
-        ship.setDeck(new Deck(2, 5));
-        ArrayList<Sailor> sailors = new ArrayList<>();
-        sailors.add(new Sailor(0, 1, 0, "Sailor 0")); // ( 0 , 0 )
-        sailors.add(new Sailor(1, 1, 1, "Sailor 1")); // ( 1 , 2 )
-        sailors.add(new Sailor(1, 1, 1, "Sailor 1")); // ( 1 , 2 )
-        jeu.setSailors(sailors);
-        ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new OarEntity(0,1,"oar")); // ( 0 , 3 )
-        entities.add(new OarEntity(0,1,"oar")); // ( 0 , 1 )
-        entities.add(new OarEntity(0,1,"oar")); // ( 0 , 1 )
-        ship.setEntities(entities);
-        jeu.setShip(ship);
-        strategie.getActions();
-        Assertions.assertEquals(0, strategie.getLeftSailors().size());
-        Assertions.assertEquals(3, strategie.getRightSailors().size());
     }
 
     @Test
