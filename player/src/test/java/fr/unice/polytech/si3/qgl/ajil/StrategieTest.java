@@ -52,19 +52,19 @@ class StrategieTest {
 
     @Test
     void placerSurRamesTest() {
-        ship.setDeck(new Deck(2, 5));
+        ship.setDeck(new Deck(3, 4));
         ArrayList<Sailor> sailors = new ArrayList<>();
-        sailors.add(new Sailor(0, 0, 0, "Sailor 0")); // ( 0 , 0 )
-        sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
+        sailors.add(new Sailor(0, 1, 0, "Sailor 0")); // ( 0 , 0 ) LEFT SAILOR
+        sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 ) RIGHT SAILOR
         jeu.setSailors(sailors);
         ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new OarEntity(0,3,"oar")); // ( 0 , 3 )
-        entities.add(new OarEntity(0,1,"oar")); // ( 0 , 1 )
+        entities.add(new OarEntity(3,0,"oar")); // ( 3 , 0 ) LEFT OAR
+        entities.add(new OarEntity(0,2,"oar")); // ( 0 , 2 ) RIGHT OAR
         ship.setEntities(entities);
         jeu.setShip(ship);
         strategie.getActions();
         Assertions.assertEquals(0, strategie.getListActions().get(0).getSailorId());
-        Assertions.assertEquals(1, ((Moving) strategie.getListActions().get(0)).getYdistance());
+        Assertions.assertEquals(-1, ((Moving) strategie.getListActions().get(0)).getYdistance());
         Assertions.assertEquals(-1,((Moving)strategie.getListActions().get(1)).getXdistance());
     }
 

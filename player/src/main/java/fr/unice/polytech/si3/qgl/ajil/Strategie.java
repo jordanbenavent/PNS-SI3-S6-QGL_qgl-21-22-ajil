@@ -84,7 +84,7 @@ public class Strategie {
         if (!placementInit){
             placerSurRames();
         }
-        whereAreSailors();//tester la création de branch
+        //whereAreSailors();//tester la création de branch
         Checkpoint c = checkpointTarget(jeu.getGoal().getCheckpoints());
         Deplacement deplacement =  deplacementPourLeTour(c);
         ramer(deplacement);
@@ -325,21 +325,80 @@ public class Strategie {
     public void placerSurRames() {
         ArrayList<Entity> oars = jeu.getShip().getOars();
         ArrayList<Sailor> sailors = jeu.getSailors();
-        int distMin;
+        boolean allInRange = true;
+        // On definit directement ceux qui vont ramer à droite et ceux qui vont ramer à gauche
         for (Sailor s : sailors){
-            distMin = 6;
-            int indexMin = 0;
+            if (leftSailors.size() < sailors.size()/2){
+                leftSailors.add(s);
+                continue;
+            }
+            if (rightSailors.size() < sailors.size()/2){
+                rightSailors.add(s);
+                continue;
+            }
+            break;
+        }
+        for (Sailor s : leftSailors){
+            int distMin = 0;
+            int index = -1;
             for (int i =0 ; i< oars.size(); i++){
-                int dist = oars.get(i).getDist(s);
-                if (dist < distMin){
-                    distMin = dist;
-                    indexMin = i;
+                if ( oars.get(i).getY() == 0 ){
+                    int dist = oars.get(i).getDist(s);
+                    if (dist >= distMin){
+                        distMin = dist;
+                        index = i;
+                    }
                 }
             }
-            int movX = oars.get(indexMin).getX() - s.getX();
-            int movY = oars.get(indexMin).getY() - s.getY();
-            oars.remove(indexMin);
+            if ( distMin == 0 ){
+                oars.remove(index);
+                continue;
+            }
+            if ( oars.get(index).getDist(s) > 5 ){
+                allInRange = false;
+                int movX = oars.get(index).getX() - s.getX();
+                int movY = oars.get(index).getY() - s.getY();
+                oars.remove(index);
+                actions.add(new Moving(s.getId(), movX % 2, movY % 2));
+                continue;
+            }
+            int movX = oars.get(index).getX() - s.getX();
+            int movY = oars.get(index).getY() - s.getY();
+            oars.remove(index);
             actions.add(new Moving(s.getId(), movX, movY));
+        }
+        for (Sailor s : rightSailors){
+            int distMin = 0;
+            int index = -1;
+            for (int i =0 ; i< oars.size(); i++){
+                if ( oars.get(i).getY() > 0 ){
+                    int dist = oars.get(i).getDist(s);
+                    if (dist >= distMin){
+                        distMin = dist;
+                        index = i;
+                    }
+                }
+            }
+            if ( distMin == 0 ){
+                oars.remove(index);
+                continue;
+            }
+            if ( oars.get(index).getDist(s) > 5 ){
+                allInRange = false;
+                int movX = oars.get(index).getX() - s.getX();
+                int movY = oars.get(index).getY() - s.getY();
+                oars.remove(index);
+                actions.add(new Moving(s.getId(), movX % 2, movY % 2));
+                continue;
+            }
+            int movX = oars.get(index).getX() - s.getX();
+            int movY = oars.get(index).getY() - s.getY();
+            oars.remove(index);
+            actions.add(new Moving(s.getId(), movX, movY));
+        }
+        if (!allInRange){
+            this.placementInit = false;
+            return;
         }
         this.placementInit = true;
     }
