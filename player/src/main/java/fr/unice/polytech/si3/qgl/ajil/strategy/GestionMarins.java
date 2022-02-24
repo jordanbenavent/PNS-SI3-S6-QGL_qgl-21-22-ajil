@@ -1,8 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
-import fr.unice.polytech.si3.qgl.ajil.Game;
 import fr.unice.polytech.si3.qgl.ajil.Sailor;
-import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
@@ -10,10 +8,11 @@ import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
 
-public class GestionMarins  {
+public class GestionMarins {
 
     private boolean placementInit = false;
     protected StratData stratData;
+
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
     }
@@ -42,12 +41,12 @@ public class GestionMarins  {
      */
     public void repartirLesMarins() {
         ArrayList<Sailor> sailors = stratData.jeu.getSailors();
-        for (Sailor s : sailors){
-            if (leftSailors.size() < sailors.size()/2){
+        for (Sailor s : sailors) {
+            if (leftSailors.size() < sailors.size() / 2) {
                 leftSailors.add(s);
                 continue;
             }
-            if (rightSailors.size() < sailors.size()/2){
+            if (rightSailors.size() < sailors.size() / 2) {
                 rightSailors.add(s);
                 continue;
             }
@@ -61,7 +60,8 @@ public class GestionMarins  {
 
     /**
      * Ajoute à la liste d'actions une ou plusieurs ramer en fonction de la vitesse et de l'angle voulu.
-     * @param deplacement
+     *
+     * @param deplacement Deplacement object
      */
     public void ramer(Deplacement deplacement) {
         if (deplacement.getAngle() < 0) {
@@ -106,7 +106,7 @@ public class GestionMarins  {
         }
     }
 
-    void ramerSelonVitesse(Deplacement deplacement){
+    void ramerSelonVitesse(Deplacement deplacement) {
 
     }
 
@@ -116,23 +116,23 @@ public class GestionMarins  {
     public void placerSurRames() {
         ArrayList<Entity> oars = stratData.jeu.getShip().getOars();
         boolean allInRange = true;
-        for (Sailor s : leftSailors){
+        for (Sailor s : leftSailors) {
             int distMin = 0;
             int index = -1;
-            for (int i =0 ; i< oars.size(); i++){
-                if ( oars.get(i).getY() == 0 ){
+            for (int i = 0; i < oars.size(); i++) {
+                if (oars.get(i).getY() == 0) {
                     int dist = oars.get(i).getDist(s);
-                    if (dist >= distMin){
+                    if (dist >= distMin) {
                         distMin = dist;
                         index = i;
                     }
                 }
             }
-            if ( distMin == 0 ){
+            if (distMin == 0) {
                 oars.remove(index);
                 continue;
             }
-            if ( oars.get(index).getDist(s) > 5 ){
+            if (oars.get(index).getDist(s) > 5) {
                 allInRange = false;
                 int movX = oars.get(index).getX() - s.getX();
                 int movY = oars.get(index).getY() - s.getY();
@@ -145,23 +145,23 @@ public class GestionMarins  {
             oars.remove(index);
             stratData.actions.add(new Moving(s.getId(), movX, movY));
         }
-        for (Sailor s : rightSailors){
+        for (Sailor s : rightSailors) {
             int distMin = 0;
             int index = -1;
-            for (int i =0 ; i< oars.size(); i++){
-                if ( oars.get(i).getY() > 0 ){
+            for (int i = 0; i < oars.size(); i++) {
+                if (oars.get(i).getY() > 0) {
                     int dist = oars.get(i).getDist(s);
-                    if (dist >= distMin){
+                    if (dist >= distMin) {
                         distMin = dist;
                         index = i;
                     }
                 }
             }
-            if ( distMin == 0 ){
+            if (distMin == 0) {
                 oars.remove(index);
                 continue;
             }
-            if ( oars.get(index).getDist(s) > 5 ){
+            if (oars.get(index).getDist(s) > 5) {
                 allInRange = false;
                 int movX = oars.get(index).getX() - s.getX();
                 int movY = oars.get(index).getY() - s.getY();
@@ -174,7 +174,7 @@ public class GestionMarins  {
             oars.remove(index);
             stratData.actions.add(new Moving(s.getId(), movX, movY));
         }
-        if (!allInRange){
+        if (!allInRange) {
             this.placementInit = false;
             return;
         }

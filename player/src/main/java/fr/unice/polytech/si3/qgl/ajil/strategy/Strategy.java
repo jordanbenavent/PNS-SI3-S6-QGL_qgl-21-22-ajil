@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
 import fr.unice.polytech.si3.qgl.ajil.Game;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
+
 import java.util.ArrayList;
 
 /**
@@ -17,10 +18,9 @@ import java.util.ArrayList;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Strategie {
+public class Strategy {
 
 
     private final ObjectMapper objectMapper;
@@ -45,7 +45,7 @@ public class Strategie {
         return gestionMarins;
     }
 
-    public Strategie(Game jeu) {
+    public Strategy(Game jeu) {
         this.stratData = new StratData(jeu);
 
         objectMapper = new ObjectMapper();
@@ -66,7 +66,7 @@ public class Strategie {
     /**
      * Modifie la partie en cours
      *
-     * @param jeu
+     * @param jeu Game object
      */
     public void setJeu(Game jeu) {
         stratData.jeu = jeu;

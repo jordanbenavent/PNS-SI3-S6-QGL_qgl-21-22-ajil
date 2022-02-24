@@ -3,8 +3,6 @@ package fr.unice.polytech.si3.qgl.ajil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.management.GarbageCollectorMXBean;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class VectorTest {
