@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
+import fr.unice.polytech.si3.qgl.ajil.strategy.Strategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ShipTest {
     Ship ship;
     Game jeu;
-    Strategie strategie;
+    Strategy strategy;
 
     @BeforeEach
     void setUp() {
@@ -28,17 +29,18 @@ public class ShipTest {
         ArrayList<Checkpoint> checkpoints = new ArrayList<>();
         ArrayList<Sailor> sailors = new ArrayList<>();
         jeu = new Game(
-                new Goal("regatte",checkpoints),
+                new Goal("regatte", checkpoints),
                 ship,
                 sailors,
                 4
         );
-        strategie = new Strategie(jeu);
-        Checkpoint checkpoint = new Checkpoint(new Position(5,5,0), new Circle("circle", 1));
+        strategy = new Strategy(jeu);
+        Checkpoint checkpoint = new Checkpoint(new Position(5, 5, 0), new Circle("circle", 1));
         checkpoints.add(checkpoint);
-        Sailor sailor = new Sailor(1,1,0,"sailor1");
-        Sailor sailor2 = new Sailor(1,1,0,"sailor2");
-        sailors.add(sailor); sailors.add(sailor2);
+        Sailor sailor = new Sailor(1, 1, 0, "sailor1");
+        Sailor sailor2 = new Sailor(1, 1, 0, "sailor2");
+        sailors.add(sailor);
+        sailors.add(sailor2);
     }
 
     @Test
@@ -53,7 +55,7 @@ public class ShipTest {
         entities.add(new OarEntity(1, 1, "oar")); // ( 0 , 1 )
         ship.setEntities(entities);
         jeu.setShip(ship);
-        strategie.getActions();
+        strategy.getActions();
 
         Set<Double> expectedAnswers = new HashSet<>();
         expectedAnswers.add(0.0);
@@ -78,7 +80,7 @@ public class ShipTest {
         entities.add(new OarEntity(1, 1, "oar")); // ( 0 , 3 )
         ship.setEntities(entities);
         jeu.setShip(ship);
-        strategie.getActions();
+        strategy.getActions();
 
         Set<Double> expectedAnswers = new HashSet<>();
         expectedAnswers.add(0.0);
@@ -113,12 +115,12 @@ public class ShipTest {
         entities.add(new OarEntity(7, 1, "oar")); // ( 0 , 1
         ship.setEntities(entities);
         jeu.setShip(ship);
-        strategie.getActions();
+        strategy.getActions();
 
         Set<Double> expectedAnswers = new HashSet<>();
         expectedAnswers.add(0.0);
-        expectedAnswers.add(3*Math.PI / 8);
-        expectedAnswers.add(-3*Math.PI / 8);
+        expectedAnswers.add(3 * Math.PI / 8);
+        expectedAnswers.add(-3 * Math.PI / 8);
         expectedAnswers.add(Math.PI / 8);
         expectedAnswers.add(-Math.PI / 8);
         expectedAnswers.add(-Math.PI / 4);

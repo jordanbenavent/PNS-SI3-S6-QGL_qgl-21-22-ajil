@@ -6,15 +6,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PositionTest {
 
     @BeforeEach
-    void setUp() {}
+    void setUp() {
+    }
 
     @Test
-    void PositionTest(){
+    void positionTest1() {
         Position pos = new Position();
         String json = " {\n          \"x\": 1000,\n          \"y\": 0,\n          \"orientation\": 0\n}";
         ObjectMapper objectMapper = new ObjectMapper();
