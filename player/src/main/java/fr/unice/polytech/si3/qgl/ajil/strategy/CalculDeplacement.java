@@ -28,7 +28,7 @@ public class CalculDeplacement {
         double angle = v_ship.angleBetweenVectors(v_check);
         ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
-        if(angle >= Math.PI/2){
+        if(Math.abs(angle) >= Math.PI/2){
             // Faire une rotation de PI/2
             deplacement.setVitesse(82.5);
             if(angle < 0){
@@ -73,7 +73,6 @@ public class CalculDeplacement {
             return deplacement;
         }
     }
-
 
     /**
      * Le bateau avance droit, on calcule les différents angles qu'on obtiendra en fonction de la vitesse du bateau qu'on peut appliquer

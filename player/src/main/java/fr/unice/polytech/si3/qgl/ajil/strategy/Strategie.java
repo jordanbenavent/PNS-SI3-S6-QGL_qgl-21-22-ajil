@@ -65,6 +65,7 @@ public class Strategie {
 
     /**
      * Modifie la partie en cours
+     *
      * @param jeu
      */
     public void setJeu(Game jeu) {
@@ -74,14 +75,14 @@ public class Strategie {
     /**
      * @return une liste d'actions à effectuer
      */
-    public ArrayList<Action> getListActions(){
+    public ArrayList<Action> getListActions() {
         return stratData.actions;
     }
 
     /**
      * @return la liste des actions sous la forme d'un string
      */
-    public String getActions(){
+    public String getActions() {
         stratData.actions.clear();
         effectuerActions();
         try {
@@ -96,21 +97,12 @@ public class Strategie {
      * Effectue les actions dans l'ordre qu'il faut
      */
     public void effectuerActions() {
-        if (!gestionMarins.isPlacementInit()){
+        gestionMarins.repartirLesMarins();
+        if (!gestionMarins.isPlacementInit()) {
             gestionMarins.placerSurRames();
         }
-        gestionMarins.whereAreSailors();//tester la création de branch
         Checkpoint c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
-        Deplacement deplacement =  calculDeplacement.deplacementPourLeTour(c);
+        Deplacement deplacement = calculDeplacement.deplacementPourLeTour(c);
         gestionMarins.ramer(deplacement);
     }
-
-
-
-
-
-
-
-
-
 }

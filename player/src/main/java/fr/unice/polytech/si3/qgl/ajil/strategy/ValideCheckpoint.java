@@ -46,6 +46,11 @@ public class ValideCheckpoint  {
 
 
 
+    /**
+     * Calcule les quatres points des quatres coin du bateau.
+     * @param ship
+     * @return
+     */
     public ArrayList<Point> calculPointShip(Ship ship){
         Point centre = new Point(ship.getPosition().getX(), ship.getPosition().getY());
         double largeur = ship.getDeck().getWidth();
