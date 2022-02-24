@@ -5,8 +5,11 @@ import fr.unice.polytech.si3.qgl.ajil.Game;
 import fr.unice.polytech.si3.qgl.ajil.Ship;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
+import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
+import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ValideCheckpoint {
 
@@ -29,7 +32,11 @@ public class ValideCheckpoint {
         Ship ship = jeu.getShip();
         ArrayList<Point> pointsDuBateau = calculPointShip(ship);
         if (checkpointCurrent.getShape() instanceof Circle) {
-            estDedans = checkpointValide(pointsDuBateau, checkpointCurrent);
+            if ((ship.getShape() instanceof Circle)) {
+                estDedans = checkpointValideShipCircle(ship, checkpointCurrent);
+            } else {
+                estDedans = checkpointValide(pointsDuBateau, checkpointCurrent);
+            }
             if (estDedans) {
                 checkpoints.remove(checkpointCurrent);
                 if (checkpoints.isEmpty()) {
@@ -40,6 +47,14 @@ public class ValideCheckpoint {
             }
         }
         return checkpointCurrent;
+    }
+
+    private boolean checkpointValideShipCircle(Ship ship, Checkpoint checkpointCurrent) {
+        double rs = ((Circle) ship.getShape()).getRadius();
+        double rc = ((Circle) checkpointCurrent.getShape()).getRadius();
+        Point pointShip = new Point(ship.getPosition().getX(), ship.getPosition().getY());
+        Point pointCheckpoint = new Point(checkpointCurrent.getPosition().getX(), checkpointCurrent.getPosition().getY());
+        return pointCheckpoint.distance(pointShip) <= (rs + rc);
     }
 
     /**
@@ -55,6 +70,14 @@ public class ValideCheckpoint {
         double sinus = Math.sin(ship.getPosition().getOrientation());
         double cosinus = Math.cos(ship.getPosition().getOrientation());
         ArrayList<Point> pointShip = new ArrayList<>();
+        if (ship.getShape() instanceof Polygone) {
+            pointShip.addAll(Arrays.asList(((Polygone) ship.getShape()).getVertices()));
+            return pointShip;
+        }
+        if (ship.getShape() instanceof Rectangle) {
+            largeur = ((Rectangle) ship.getShape()).getWidth();
+            longueur = ((Rectangle) ship.getShape()).getHeight();
+        }
 
         //Matrice changement de référentiel
         ArrayList<ArrayList<Double>> matrice = new ArrayList<>();
@@ -79,7 +102,7 @@ public class ValideCheckpoint {
      * Dit si l'un des points du bateau est dans le checkpoint
      *
      * @param pointsDuBateau Points
-     * @param checkpoint Checkpoints
+     * @param checkpoint     Checkpoints
      * @return true si l'un est dedans, false sinon
      */
     public boolean dansLeCercle(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint) {
@@ -93,10 +116,10 @@ public class ValideCheckpoint {
     }
 
     /**
-     * Dit si le bateau a un point d'intection
+     * Dit si le bateau a un point d'intersection
      *
      * @param pointDuBateau ArrayList des points du bateau
-     * @param checkpoint Checkpoint
+     * @param checkpoint    Checkpoint
      * @return If ship intersects
      */
     public boolean intersectionCircleShip(ArrayList<Point> pointDuBateau, Checkpoint checkpoint) {
@@ -152,8 +175,8 @@ public class ValideCheckpoint {
     /**
      * Lors d'une droite verticale, l'équation de droite change
      *
-     * @param point1 Point 1
-     * @param point2 Point 2
+     * @param point1     Point 1
+     * @param point2     Point 2
      * @param checkpoint Checkpoint
      * @return true si le côté du bateau coupe le checkpoint
      */
@@ -187,7 +210,7 @@ public class ValideCheckpoint {
      * Nous dit si le checkpoint est validé.
      *
      * @param pointsDuBateau Point du bateau
-     * @param checkpoint Checkpoint
+     * @param checkpoint     Checkpoint
      * @return true si validé, false sinon
      */
     boolean checkpointValide(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint) {
