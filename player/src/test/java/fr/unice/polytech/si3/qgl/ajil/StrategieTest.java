@@ -2,13 +2,10 @@ package fr.unice.polytech.si3.qgl.ajil;
 
 
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
-import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
-import fr.unice.polytech.si3.qgl.ajil.shape.Point;
+import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
-import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -127,13 +124,24 @@ class StrategieTest {
                 new Position(2, 2, 0), "BateauCarre",
                 new Deck(2, 2),
                 new ArrayList<>(),
-                new Rectangle("rectangle", 5, 5, 5));
+                new Rectangle("rectangle", 2, 2, 0));
 
         ArrayList<Point> point = strategie.calculPointShip(ship);
         Assertions.assertEquals(new Point(3,3), point.get(0));
         Assertions.assertEquals(new Point(1,3), point.get(1));
         Assertions.assertEquals(new Point(3,1), point.get(2));
         Assertions.assertEquals(new Point(1,1), point.get(3));
+
+        Point[] pointpolygone = {new Point(2,2), new Point(-2,2), new Point(-2,-2)};
+
+        ship = new Ship("ship", 100,
+                new Position(2, 2, 0), "BateauCarre",
+                new Deck(2, 2),
+                new ArrayList<>(),
+                new Polygone("polygone",0, pointpolygone));
+        point = strategie.calculPointShip(ship);
+        Assertions.assertEquals(new Point(2,2), point.get(0));
+
     }
 
     @Test
@@ -143,7 +151,7 @@ class StrategieTest {
                 new Position(2.5, 2.5, 3*Math.PI/4), "BateauCarre",
                 new Deck(2, 3),
                 new ArrayList<>(),
-                new Rectangle("rectangle", 5, 5, 5));
+                new Rectangle("rectangle", 2.5, 2.5, 3*Math.PI/4));
         ArrayList<Point> point2 = strategie.calculPointShip(ship);
         //Le bateau est loin du checkpoint
         Assertions.assertEquals(false, strategie.dansLeCercle(point2, checkpoint));
@@ -158,7 +166,7 @@ class StrategieTest {
                 new Position(2.5, 2.5, 3*Math.PI/4), "BateauCarre",
                 new Deck(2, 3),
                 new ArrayList<>(),
-                new Rectangle("rectangle", 5, 5, 5));
+                new Rectangle("rectangle", 2, 3, 3*Math.PI/4));
         ArrayList<Checkpoint> checkpoints = new ArrayList<>();
         ArrayList<Sailor> sailors = new ArrayList<>();
         jeu = new Game(

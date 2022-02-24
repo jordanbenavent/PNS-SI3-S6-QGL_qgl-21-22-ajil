@@ -119,7 +119,12 @@ public class Test {
 
         Checkpoint checkpointValide = new Checkpoint(new Position(3.5,3,0), new Circle("circle", 1));
         Checkpoint checkpointValideDunPoint = new Checkpoint(new Position(5,6,0), new Circle("circle", 1));
-        System.out.println(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));
+        //System.out.println(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));
+
+        boolean test = 1 < 2;
+        System.out.println(test);
+        test = false || test;
+        System.out.println( test);
 
 
     }

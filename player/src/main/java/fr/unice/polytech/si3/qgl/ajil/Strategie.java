@@ -8,9 +8,13 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
+import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
+import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Classe Stratégie regroupant des méthodes visant à établir une stratégie pour atteindre le checkpoint et finir la course
@@ -104,7 +108,11 @@ public class Strategie {
         Ship ship = jeu.getShip();
         ArrayList<Point> pointsDuBateau = calculPointShip(ship);
         if(checkpointCurrent.getShape() instanceof Circle) {
-            estDedans = checkpointValide(pointsDuBateau, checkpointCurrent);
+            if((ship.getShape() instanceof Circle)) {
+                estDedans = checkpointValideShipCircle(ship, checkpointCurrent);
+            } else {
+                estDedans = checkpointValide(pointsDuBateau, checkpointCurrent);
+            }
             if(estDedans){
                 checkpoints.remove(checkpointCurrent);
                 if(checkpoints.isEmpty()) {
@@ -115,6 +123,14 @@ public class Strategie {
             }
         }
         return checkpointCurrent;
+    }
+
+    private boolean checkpointValideShipCircle(Ship ship, Checkpoint checkpointCurrent) {
+        double rs = ((Circle) ship.getShape()).getRadius();
+        double rc = ((Circle) checkpointCurrent.getShape()).getRadius();
+        Point pointShip = new Point(ship.getPosition().getX(), ship.getPosition().getY());
+        Point pointCheckpoint = new Point(checkpointCurrent.getPosition().getX(), checkpointCurrent.getPosition().getY());
+        return pointCheckpoint.distance(pointShip) <= (rs+rc);
     }
 
     /**
@@ -129,6 +145,14 @@ public class Strategie {
         double sinus = Math.sin(ship.getPosition().getOrientation());
         double cosinus = Math.cos(ship.getPosition().getOrientation());
         ArrayList<Point> pointShip = new ArrayList<>();
+        if(ship.getShape() instanceof Polygone){
+            pointShip.addAll(Arrays.asList(((Polygone)ship.getShape()).getVertices()));
+            return pointShip;
+        }
+        if(ship.getShape() instanceof Rectangle){
+            largeur = ((Rectangle) ship.getShape()).getWidth();
+            longueur = ((Rectangle) ship.getShape()).getHeight();
+        }
 
         //Matrice changement de référentiel
         ArrayList<ArrayList<Double>> matrice = new ArrayList<>();
@@ -484,8 +508,8 @@ public class Strategie {
         System.out.println("Boucle:");
         for(int i = 0; i < jeu.getShip().getOars().size()/2; i++){
             vitesse = (vitesse * (nbr_oars-2*i))/nbr_oars;
-            ship.setX(positionX_init + (vitesse * Math.cos(angle_init))); //On modifie la coordonée en X du bateau en fonction de son orientation
-            ship.setY(positionY_init + (vitesse * Math.sin(angle_init))); //On modifie la coordonée en Y du bateau en fonction de son orientation
+            ship.setX(positionX_init + (vitesse * Math.cos(angle_init))); //On modifie la coordonnée en X du bateau en fonction de son orientation
+            ship.setY(positionY_init + (vitesse * Math.sin(angle_init))); //On modifie la coordonnée en Y du bateau en fonction de son orientation
             angle_apres_deplacement = ship.angleBetweenVectors(checkpoint);
             prediction.add(new Deplacement(vitesse, angle_apres_deplacement));
         }
