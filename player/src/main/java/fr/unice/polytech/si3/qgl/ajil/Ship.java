@@ -163,6 +163,18 @@ public class Ship {
     }
 
     /**
+     * @return le gouvernail présent sur le bateau
+     */
+    public Entity getRudder() {
+        for (Entity e : entities) {
+            if (e.getType().equals("rudder")) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Ajoute les rames dans les listes leftOars et rightOars en fonction de leur position dans le bateau
      */
     public void placeOars() {
