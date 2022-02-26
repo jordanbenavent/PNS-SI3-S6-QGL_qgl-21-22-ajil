@@ -50,6 +50,10 @@ public class GestionMarins {
     public void attribuerBarreur() {
         ArrayList<Sailor> sailors = stratData.jeu.getSailors();
         Entity rudder = stratData.jeu.getShip().getRudder();
+        if (rudder == null){
+            placementBarreur = true;
+            return;
+        }
         int distMin = 15;
         int index = -1;
         for (int i = 0; i < sailors.size(); i++) {
