@@ -2,6 +2,8 @@ package fr.unice.polytech.si3.qgl.ajil;
 
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.Rudder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -155,11 +157,23 @@ public class Ship {
     public ArrayList<Entity> getOars() {
         ArrayList<Entity> res = new ArrayList<>();
         for (Entity e : entities) {
-            if (e.getType().equals("oar")) {
+            if (e instanceof OarEntity) {
                 res.add(e);
             }
         }
         return res;
+    }
+
+    /**
+     * @return le gouvernail présent sur le bateau
+     */
+    public Entity getRudder() {
+        for (Entity e : entities) {
+            if (e instanceof Rudder) {
+                return e;
+            }
+        }
+        return null;
     }
 
     /**

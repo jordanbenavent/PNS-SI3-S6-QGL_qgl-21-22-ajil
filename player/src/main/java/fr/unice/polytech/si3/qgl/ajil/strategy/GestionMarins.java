@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class GestionMarins {
 
     private boolean placementInit = false;
+    private boolean placementBarreur = false;
     protected StratData stratData;
 
     public GestionMarins(StratData stratData) {
@@ -18,9 +19,16 @@ public class GestionMarins {
     }
 
     // marins
+    private Sailor barreur; // celui qui gère le gouvernail
     private final ArrayList<Sailor> leftSailors = new ArrayList<>();
     private final ArrayList<Sailor> rightSailors = new ArrayList<>();
 
+    /**
+    * @return le marin attribué au gouvernail
+    * */
+    public Sailor getBarreur() {
+        return barreur;
+    }
 
     /**
      * @return la liste des marins à gauche du bateau
@@ -34,6 +42,50 @@ public class GestionMarins {
      */
     public ArrayList<Sailor> getRightSailors() {
         return rightSailors;
+    }
+
+    /*
+    * Trouve le marin le plus proche du gouvernail et le déplace vers celui-ci
+    */
+    public void attribuerBarreur() {
+        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        Entity rudder = stratData.jeu.getShip().getRudder();
+        if (rudder == null){
+            placementBarreur = true;
+            return;
+        }
+        int distMin = 15;
+        int index = -1;
+        for (int i = 0; i < sailors.size(); i++) {
+            if ( barreur != null ) {
+                break;
+            }
+            int dist = rudder.getDist(sailors.get(i));
+            if (dist < distMin){
+                distMin = dist;
+                index = i;
+            }
+            if (  dist == 0 ) {
+                barreur = sailors.get(i);
+                sailors.remove(i);
+                placementBarreur = true;
+                return;
+            }
+        }
+        if ( barreur == null ){
+            barreur = sailors.get(index);
+            sailors.remove(index);
+        }
+        if ( distMin > 5 ) {
+            int movX = rudder.getX() - barreur.getX();
+            int movY = rudder.getY() - barreur.getY();
+            stratData.actions.add(new Moving(barreur.getId(), Math.min(movX, 2), Math.min(movY, 2)));
+            return;
+        }
+        placementBarreur = true;
+        int movX = rudder.getX() - barreur.getX();
+        int movY = rudder.getY() - barreur.getY();
+        stratData.actions.add(new Moving(barreur.getId(), movX, movY));
     }
 
     /**
@@ -56,6 +108,10 @@ public class GestionMarins {
 
     public boolean isPlacementInit() {
         return placementInit;
+    }
+
+    public boolean isPlacementBarreur() {
+        return placementBarreur;
     }
 
     /**
@@ -104,10 +160,6 @@ public class GestionMarins {
                 stratData.actions.add(new Oar(leftSailors.get(i).getId()));
             }
         }
-    }
-
-    void ramerSelonVitesse(Deplacement deplacement) {
-
     }
 
     /**
