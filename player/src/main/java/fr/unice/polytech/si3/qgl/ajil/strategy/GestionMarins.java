@@ -23,6 +23,12 @@ public class GestionMarins {
     private final ArrayList<Sailor> leftSailors = new ArrayList<>();
     private final ArrayList<Sailor> rightSailors = new ArrayList<>();
 
+    /**
+    * @return le marin attribué au gouvernail
+    * */
+    public Sailor getBarreur() {
+        return barreur;
+    }
 
     /**
      * @return la liste des marins à gauche du bateau
@@ -47,6 +53,9 @@ public class GestionMarins {
         int distMin = 15;
         int index = -1;
         for (int i = 0; i < sailors.size(); i++) {
+            if ( barreur != null ) {
+                break;
+            }
             int dist = rudder.getDist(sailors.get(i));
             if (dist < distMin){
                 distMin = dist;
@@ -55,20 +64,23 @@ public class GestionMarins {
             if (  dist == 0 ) {
                 barreur = sailors.get(i);
                 sailors.remove(i);
+                placementBarreur = true;
                 return;
             }
         }
-        barreur = sailors.get(index);
-        sailors.remove(index);
+        if ( barreur == null ){
+            barreur = sailors.get(index);
+            sailors.remove(index);
+        }
         if ( distMin > 5 ) {
-            int movX = rudder.getX() - sailors.get(index).getX();
-            int movY = rudder.getY() - sailors.get(index).getY();
+            int movX = rudder.getX() - barreur.getX();
+            int movY = rudder.getY() - barreur.getY();
             stratData.actions.add(new Moving(barreur.getId(), Math.min(movX, 2), Math.min(movY, 2)));
             return;
         }
         placementBarreur = true;
-        int movX = rudder.getX() - sailors.get(index).getX();
-        int movY = rudder.getY() - sailors.get(index).getY();
+        int movX = rudder.getX() - barreur.getX();
+        int movY = rudder.getY() - barreur.getY();
         stratData.actions.add(new Moving(barreur.getId(), movX, movY));
     }
 
@@ -92,6 +104,10 @@ public class GestionMarins {
 
     public boolean isPlacementInit() {
         return placementInit;
+    }
+
+    public boolean isPlacementBarreur() {
+        return placementBarreur;
     }
 
     /**

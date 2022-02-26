@@ -97,6 +97,9 @@ public class Strategy {
      * Effectue les actions dans l'ordre qu'il faut
      */
     public void effectuerActions() {
+        if (!gestionMarins.isPlacementBarreur()){
+            gestionMarins.attribuerBarreur();
+        }
         gestionMarins.repartirLesMarins();
         if (!gestionMarins.isPlacementInit()) {
             gestionMarins.placerSurRames();

@@ -6,8 +6,10 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.Rudder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -95,5 +97,38 @@ class GestionMarinsTest {
         gestionMarins.repartirLesMarins();
         Assertions.assertEquals(1, gestionMarins.getLeftSailors().size());
         Assertions.assertEquals(1, gestionMarins.getRightSailors().size());
+    }
+
+    @DisplayName("Attribuer Marin qui est dans range de 5")
+    @Test
+    void attribuerBarreurTest1() {
+        ArrayList<Sailor> sailors = new ArrayList<>();
+        sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
+        sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
+        jeu.setSailors(sailors);
+        ArrayList<Entity> entities = new ArrayList<>();
+        entities.add(new Rudder(3,4,"rudder"));
+        ship.setEntities(entities);
+        gestionMarins.attribuerBarreur();
+        Assertions.assertEquals(0,gestionMarins.getBarreur().getId());
+        Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
+        Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
+        Assertions.assertTrue(gestionMarins.isPlacementBarreur());
+    }
+
+    @DisplayName("Attribuer Marin qui est hors son range de 5")
+    @Test
+    void attribuerBarreurTest2(){
+        ArrayList<Sailor> sailors = new ArrayList<>();
+        sailors.add(new Sailor(0, 4, 0, "Sailor 0")); // ( 0 , 4 )
+        jeu.setSailors(sailors);
+        ArrayList<Entity> entities = new ArrayList<>();
+        entities.add(new Rudder(6,4,"rudder"));
+        ship.setEntities(entities);
+        gestionMarins.attribuerBarreur();
+        Assertions.assertEquals(0,gestionMarins.getBarreur().getId());
+        Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
+        Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(0)).getXdistance());
+        Assertions.assertFalse(gestionMarins.isPlacementBarreur());
     }
 }
