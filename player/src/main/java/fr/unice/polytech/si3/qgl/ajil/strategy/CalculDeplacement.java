@@ -29,6 +29,8 @@ public class CalculDeplacement {
         double angle = v_ship.angleBetweenVectors(v_check);
         ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
+
+        // angle > 180°
         if (Math.abs(angle) >= Math.PI / 2) {
             // Faire une rotation de PI/2
             deplacement.setVitesse(82.5);
@@ -38,7 +40,10 @@ public class CalculDeplacement {
                 deplacement.setAngle(Math.PI / 2);
             }
             return deplacement;
-        } else if (Math.abs(angle) < Math.PI / 2 && Math.abs(angle) > Math.PI / 4) {
+        }
+
+        // 45° < angle < 180°
+        if (Math.abs(angle) < Math.PI / 2 && Math.abs(angle) > Math.PI / 4) {
             // Faire une rotation de PI/4
             deplacement.setVitesse(41.25);
             if (angle < 0) {
@@ -47,27 +52,12 @@ public class CalculDeplacement {
                 deplacement.setAngle(Math.PI / 4);
             }
             return deplacement;
-        } else if (Math.abs(angle) < Math.PI / 4 && Math.abs(angle) > 0) {
-            double vitesse_opti = 0;
-            double diffMin = -1;
-            for (Deplacement d : futur_angle) {
-                double diff = Math.abs(Math.PI / 4 - d.getAngle());
-                if (diffMin == -1 || diffMin > diff) {
-                    diffMin = diff;
-                    vitesse_opti = d.getVitesse();
-                }
-            }
-            deplacement.setVitesse(vitesse_opti);
-            deplacement.setAngle(0);
-            return deplacement;
-            // Regarder toutes les sous-listes de futur_angle, aller tout droit à la vitesse rapprochant au plus de l'angle PI/4
-            // à savoir la plus petite différence entre l'angle futur et PI/4
-        } else {
-            // Avancer tout droit à la vitesse maximale
-            deplacement.setVitesse(165);
-            deplacement.setAngle(0);
-            return deplacement;
         }
+
+        // Avancer tout droit à la vitesse maximale
+        deplacement.setVitesse(165);
+        deplacement.setAngle(futur_angle.get(0).getAngle()); // gouvernaille full speed
+        return deplacement;
     }
 
     /**
