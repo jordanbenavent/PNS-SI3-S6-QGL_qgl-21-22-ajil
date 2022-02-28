@@ -10,22 +10,43 @@ public class GestionRotation {
         this.gouvernailDisponible=gouvernailDisponible;
     }
 
+
     //Si l'angle a une valeur absolue supérieure a pi/4, il faudra aussi utiliser les marins pour ramer
-    boolean doitTournerAvecRame(){
+    boolean valeurAngleSuperieurePiSur4(){
         return Math.abs(angle) > Math.PI / 4;
     }
 
-    boolean PeutUtiliserGouvernail(){
-        return gouvernailDisponible;
+    void typeRotation(){
+        if(gouvernailDisponible){
+            tournerAvecGouvernail();
+        }
+        else{
+            tournerSansGouvernail();
+        }
     }
 
-    void rotation(){
-        if(PeutUtiliserGouvernail() && doitTournerAvecRame()){
-            
 
+    void tournerAvecGouvernail(){
+
+
+        if(valeurAngleSuperieurePiSur4()){
+            //Retrancher parmi les valeurs d'angles de rotation possibles et ajuster avec le gouvernail
 
         }
 
+
+        else{ //On utilise que le gouvernail
+
+        }
+
+
+    }
+
+    
+
+
+    void tournerSansGouvernail(){
+        //Ce qu'on faisait avant
 
     }
 
