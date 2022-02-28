@@ -149,5 +149,21 @@ class ValideCheckpointTest {
         Checkpoint checkpointValideUnPoint = new Checkpoint(new Position(2, 3, 0), new Circle("circle", 1));
         Assertions.assertTrue(valideCheckpoint.intersectionDroiteVerticaleCircle(point1, point2, checkpointValideUnPoint));
     }
+
+    @Test
+    void pointShipPolygoneTest(){
+        Point point[] = new Point[3];
+        Point point1 = new Point(1,2);
+        Point point2 = new Point(0,3);
+        Point point3 = new Point(0,1);
+        point[0] = point1; point[1] = point2; point[2]= point3;
+        ship = new Ship("ship", 100,
+                new Position(4, 4, Math.PI/4), "BateauCarre",
+                new Deck(2, 2),
+                new ArrayList<>(),
+                new Polygone("polygone", Math.PI/4,point));
+        System.out.println(valideCheckpoint.pointShipPolygone(ship));
+
+    }
 }
 

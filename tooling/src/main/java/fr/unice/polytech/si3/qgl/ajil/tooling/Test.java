@@ -1,4 +1,4 @@
-/*package fr.unice.polytech.si3.qgl.ajil.tooling;
+package fr.unice.polytech.si3.qgl.ajil.tooling;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -108,8 +108,6 @@ public class Test {
         // pointsShip.add(new Point(6, 1));
         // pointsShip.add(new Point(4, 5));
         // pointsShip.add(new Point(6, 5));
-
-<<<<<<< HEAD
         Checkpoint checkpointValide = new Checkpoint(new Position(3.5,3,0), new Circle("circle", 1));
         Checkpoint checkpointValideDunPoint = new Checkpoint(new Position(5,6,0), new Circle("circle", 1));
         //System.out.println(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));
@@ -118,14 +116,9 @@ public class Test {
         System.out.println(test);
         test = false || test;
         System.out.println( test);
-=======
-        Checkpoint checkpointValide = new Checkpoint(new Position(3.5, 3, 0), new Circle("circle", 1));
-        Checkpoint checkpointValideDunPoint = new Checkpoint(new Position(5, 6, 0), new Circle("circle", 1));
-        // System.out.println(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));
->>>>>>> feature/RefactorStrategie
 
-
+    */
     }
 
-}*/
+}
 

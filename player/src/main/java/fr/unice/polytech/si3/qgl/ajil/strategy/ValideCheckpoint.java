@@ -10,6 +10,7 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ValideCheckpoint {
 
@@ -67,18 +68,18 @@ public class ValideCheckpoint {
         Point centre = new Point(ship.getPosition().getX(), ship.getPosition().getY());
         double largeur = ship.getDeck().getWidth();
         double longueur = ship.getDeck().getLength();
-        double sinus = Math.sin(ship.getPosition().getOrientation());
-        double cosinus = Math.cos(ship.getPosition().getOrientation());
+        double angle = calculAngleTotal(ship);
+        double sinus = Math.sin(angle);
+        double cosinus = Math.cos(angle);
         ArrayList<Point> pointShip = new ArrayList<>();
         if (ship.getShape() instanceof Polygone) {
             pointShip.addAll(Arrays.asList(((Polygone) ship.getShape()).getVertices()));
-            return pointShip;
+            return pointShipPolygone(ship);
         }
         if (ship.getShape() instanceof Rectangle) {
             largeur = ((Rectangle) ship.getShape()).getWidth();
             longueur = ((Rectangle) ship.getShape()).getHeight();
         }
-
         //Matrice changement de référentiel
         ArrayList<ArrayList<Double>> matrice = new ArrayList<>();
         ArrayList<Double> firstColumn = new ArrayList<>();
@@ -96,6 +97,35 @@ public class ValideCheckpoint {
         pointShip.add(new Point(largeur / 2 * cosinus - longueur / 2 * sinus, -largeur / 2 * sinus - longueur / 2 * cosinus).addPoint(centre));
         pointShip.add(new Point(-largeur / 2 * cosinus - longueur / 2 * sinus, largeur / 2 * sinus - longueur / 2 * cosinus).addPoint(centre));
         return pointShip;
+    }
+
+    public ArrayList<Point> pointShipPolygone(Ship ship) {
+        ArrayList<Point> pointsShip = new ArrayList<>();
+        double anglePosition = ship.getPosition().getOrientation();
+        double angleShape = ((Polygone)ship.getShape()).getOrientation();
+        List<Point> pointPolygone = Arrays.asList(((Polygone)ship.getShape()).getVertices());
+        for(Point point : pointPolygone) {
+            double xPremierProj = point.getX() * Math.cos(angleShape) + point.getY() * Math.sin(angleShape) + ship.getPosition().getX();
+            double yPremierProj = (-1 * point.getX() * Math.sin(angleShape)) + point.getY() * Math.cos(angleShape)  + ship.getPosition().getY();
+            Point pointProjette = new Point(xPremierProj * Math.cos(anglePosition) + yPremierProj * Math.sin(anglePosition),
+                    (-1 * xPremierProj * Math.sin(anglePosition)) + yPremierProj * Math.cos(anglePosition));
+            pointsShip.add(pointProjette);
+        }
+        return pointsShip;
+    }
+
+
+    private double calculAngleTotal(Ship ship) {
+        if(ship.getShape() instanceof Circle){
+            return ship.getPosition().getOrientation();
+        }
+        if(ship.getShape() instanceof Rectangle){
+            return ship.getPosition().getOrientation() + ((Rectangle)ship.getShape()).getOrientation();
+        }
+        if(ship.getShape() instanceof Polygone){
+            return ship.getPosition().getOrientation() + ((Polygone)ship.getShape()).getOrientation();
+        }
+        return 0;
     }
 
     /**
