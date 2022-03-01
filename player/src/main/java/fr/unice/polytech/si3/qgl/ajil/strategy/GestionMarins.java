@@ -133,9 +133,6 @@ public class GestionMarins {
                 }
                 return;
         }
-        {
-
-        }
 
 
         if (deplacement.getAngle() < 0) {
