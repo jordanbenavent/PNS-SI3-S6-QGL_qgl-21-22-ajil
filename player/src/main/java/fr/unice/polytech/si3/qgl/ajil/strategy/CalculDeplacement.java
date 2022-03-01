@@ -1,9 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
-import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
-import fr.unice.polytech.si3.qgl.ajil.Game;
-import fr.unice.polytech.si3.qgl.ajil.Ship;
-import fr.unice.polytech.si3.qgl.ajil.Vector;
+import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 
 import java.util.ArrayList;
@@ -11,6 +8,7 @@ import java.util.ArrayList;
 public class CalculDeplacement {
 
     protected Game jeu;
+    public ArrayList<String> LOGGER = Cockpit.LOGGER;
 
     public CalculDeplacement(Game jeu) {
         this.jeu = jeu;
@@ -66,6 +64,7 @@ public class CalculDeplacement {
             // Avancer tout droit à la vitesse maximale
             deplacement.setVitesse(165);
             deplacement.setAngle(0);
+            LOGGER.add(deplacement.toString());
             return deplacement;
         }
     }

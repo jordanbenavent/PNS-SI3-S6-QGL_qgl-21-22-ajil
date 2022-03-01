@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.ajil.strategy;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
+import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 import fr.unice.polytech.si3.qgl.ajil.Game;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
@@ -25,6 +26,7 @@ public class Strategy {
 
     private final ObjectMapper objectMapper;
     protected StratData stratData;
+    public ArrayList<String> LOGGER = Cockpit.LOGGER;
 
     public ValideCheckpoint getValideCheckpoint() {
         return valideCheckpoint;
@@ -85,6 +87,7 @@ public class Strategy {
     public String getActions() {
         stratData.actions.clear();
         effectuerActions();
+        LOGGER.add(stratData.actions.toString());
         try {
             return objectMapper.writeValueAsString(stratData.actions);
         } catch (JsonProcessingException e) {

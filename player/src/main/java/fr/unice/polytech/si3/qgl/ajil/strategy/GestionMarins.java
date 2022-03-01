@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
+import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 import fr.unice.polytech.si3.qgl.ajil.Sailor;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
@@ -13,6 +14,7 @@ public class GestionMarins {
     private boolean placementInit = false;
     private boolean placementBarreur = false;
     protected StratData stratData;
+    public ArrayList<String> LOGGER = Cockpit.LOGGER;
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;

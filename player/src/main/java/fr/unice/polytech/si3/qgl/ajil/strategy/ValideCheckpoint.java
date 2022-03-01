@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
+import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 import fr.unice.polytech.si3.qgl.ajil.Game;
 import fr.unice.polytech.si3.qgl.ajil.Ship;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 public class ValideCheckpoint {
 
     protected Game jeu;
+    public ArrayList<String> LOGGER = Cockpit.LOGGER;
 
     public ValideCheckpoint(Game jeu) {
         this.jeu = jeu;
@@ -46,6 +48,7 @@ public class ValideCheckpoint {
                 }
             }
         }
+        LOGGER.add(checkpointCurrent.toString());
         return checkpointCurrent;
     }
 
