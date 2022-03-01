@@ -116,8 +116,7 @@ public class GestionMarins {
 
     /**
      * Ajoute à la liste d'actions une ou plusieurs ramer en fonction de la vitesse et de l'angle voulu.
-     *
-     * @param deplacement Deplacement object
+     * @param deplacement
      */
     public void ramer(Deplacement deplacement) {
         if (deplacement.getAngle() < 0) {
@@ -232,5 +231,52 @@ public class GestionMarins {
         }
         this.placementInit = true;
     }
+
+
+    public void ramerSelonVitesse(Deplacement deplacement){
+        // Si le bateau doit avancer tout droit, l'angle vaut 0
+        if (deplacement.getVitesse() == 165) {
+            for (Sailor sailor : stratData.jeu.getSailors()) {
+                stratData.actions.add(new Oar(sailor.getId()));
+            }
+            return;
+        }
+        double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
+        int sailor_qui_rame = 0;
+        if (deplacement.getAngle() < 0) {
+            for (Sailor sailor : rightSailors) {
+                if(sailor_qui_rame == nbr_sailors){
+                    break;
+                }
+                stratData.actions.add(new Oar(sailor.getId()));
+                sailor_qui_rame++;
+            }
+        }
+        else {
+            for (Sailor sailor : leftSailors) {
+                if(sailor_qui_rame == nbr_sailors){
+                    break;
+                }
+                stratData.actions.add(new Oar(sailor.getId()));
+                sailor_qui_rame++;
+            }
+        }
+        return;
+    }
+
+    /**
+     * Calcul le nombre de marins nécessaire pour adopté la vitesse en paramètre
+     * @param nbr_rames
+     * @param vitesse
+     * @return le nombre de marins
+     */
+    public double nbrSailorsNecessaires(double nbr_rames, double vitesse){
+        double vitesse_une_rame = 165/nbr_rames;
+        double marin_necessaire = vitesse/vitesse_une_rame;
+        return marin_necessaire;
+    }
+
+
+
 
 }
