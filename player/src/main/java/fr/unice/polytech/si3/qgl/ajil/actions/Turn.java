@@ -19,4 +19,12 @@ public class Turn extends Action{
         super(sailorId, Actions.TURN);
         this.rotation=rotation;
     }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+    }
 }
