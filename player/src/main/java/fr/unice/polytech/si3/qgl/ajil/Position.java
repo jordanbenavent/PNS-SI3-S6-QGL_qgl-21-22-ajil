@@ -51,7 +51,7 @@ public class Position {
      * Modifie l'orientation de la position de l'objet
      * @param orientation
      */
-    void setOrientation(double orientation) {
+    public void setOrientation(double orientation) {
         this.orientation = orientation;
     }
 

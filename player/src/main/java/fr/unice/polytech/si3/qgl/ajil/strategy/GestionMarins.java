@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.ajil.Sailor;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
+import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class GestionMarins {
     private boolean placementInit = false;
     private boolean placementBarreur = false;
     protected StratData stratData;
+    private int idMarinGouvernail = 0;
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -67,6 +69,7 @@ public class GestionMarins {
             }
             if (  dist == 0 ) {
                 barreur = sailors.get(i);
+                idMarinGouvernail = sailors.get(i).getId();
                 sailors.remove(i);
                 placementBarreur = true;
                 return;
@@ -116,10 +119,23 @@ public class GestionMarins {
 
     /**
      * Ajoute à la liste d'actions une ou plusieurs ramer en fonction de la vitesse et de l'angle voulu.
-     *
-     * @param deplacement Deplacement object
+     * @param deplacement
      */
     public void ramer(Deplacement deplacement) {
+
+        double angle = deplacement.getAngle();
+
+        if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
+
+            Turn tournerGouvernail = new Turn(barreur.getId(),angle);
+            stratData.actions.add(tournerGouvernail);
+                for (Sailor sailor : stratData.jeu.getSailors()) {
+                    stratData.actions.add(new Oar(sailor.getId()));
+                }
+                return;
+        }
+
+
         if (deplacement.getAngle() < 0) {
             if (deplacement.getAngle() == -Math.PI / 2) {
                 for (Sailor sailor : leftSailors) {
@@ -232,5 +248,52 @@ public class GestionMarins {
         }
         this.placementInit = true;
     }
+
+
+    public void ramerSelonVitesse(Deplacement deplacement){
+        // Si le bateau doit avancer tout droit, l'angle vaut 0
+        if (deplacement.getVitesse() == 165) {
+            for (Sailor sailor : stratData.jeu.getSailors()) {
+                stratData.actions.add(new Oar(sailor.getId()));
+            }
+            return;
+        }
+        double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
+        int sailor_qui_rame = 0;
+        if (deplacement.getAngle() < 0) {
+            for (Sailor sailor : rightSailors) {
+                if(sailor_qui_rame == nbr_sailors){
+                    break;
+                }
+                stratData.actions.add(new Oar(sailor.getId()));
+                sailor_qui_rame++;
+            }
+        }
+        else {
+            for (Sailor sailor : leftSailors) {
+                if(sailor_qui_rame == nbr_sailors){
+                    break;
+                }
+                stratData.actions.add(new Oar(sailor.getId()));
+                sailor_qui_rame++;
+            }
+        }
+        return;
+    }
+
+    /**
+     * Calcul le nombre de marins nécessaire pour adopté la vitesse en paramètre
+     * @param nbr_rames
+     * @param vitesse
+     * @return le nombre de marins
+     */
+    public double nbrSailorsNecessaires(double nbr_rames, double vitesse){
+        double vitesse_une_rame = 165/nbr_rames;
+        double marin_necessaire = vitesse/vitesse_une_rame;
+        return marin_necessaire;
+    }
+
+
+
 
 }
