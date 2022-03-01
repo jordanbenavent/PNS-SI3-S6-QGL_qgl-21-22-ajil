@@ -125,8 +125,9 @@ public class GestionMarins {
 
         double angle = deplacement.getAngle();
 
-        if(Math.abs(angle)< Math.PI / 4){
-            Turn tournerGouvernail = new Turn(idMarinGouvernail,angle);
+        if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
+
+            Turn tournerGouvernail = new Turn(barreur.getId(),angle);
             stratData.actions.add(tournerGouvernail);
                 for (Sailor sailor : stratData.jeu.getSailors()) {
                     stratData.actions.add(new Oar(sailor.getId()));
