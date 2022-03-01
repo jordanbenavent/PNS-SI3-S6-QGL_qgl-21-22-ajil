@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.ajil.Sailor;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
+import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class GestionMarins {
     private boolean placementInit = false;
     private boolean placementBarreur = false;
     protected StratData stratData;
+    private int idMarinGouvernail = 0;
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -67,6 +69,7 @@ public class GestionMarins {
             }
             if (  dist == 0 ) {
                 barreur = sailors.get(i);
+                idMarinGouvernail = sailors.get(i).getId();
                 sailors.remove(i);
                 placementBarreur = true;
                 return;
@@ -119,6 +122,22 @@ public class GestionMarins {
      * @param deplacement
      */
     public void ramer(Deplacement deplacement) {
+
+        double angle = deplacement.getAngle();
+
+        if(Math.abs(angle)< Math.PI / 4){
+            Turn tournerGouvernail = new Turn(idMarinGouvernail,angle);
+            stratData.actions.add(tournerGouvernail);
+                for (Sailor sailor : stratData.jeu.getSailors()) {
+                    stratData.actions.add(new Oar(sailor.getId()));
+                }
+                return;
+        }
+        {
+
+        }
+
+
         if (deplacement.getAngle() < 0) {
             if (deplacement.getAngle() == -Math.PI / 2) {
                 for (Sailor sailor : leftSailors) {

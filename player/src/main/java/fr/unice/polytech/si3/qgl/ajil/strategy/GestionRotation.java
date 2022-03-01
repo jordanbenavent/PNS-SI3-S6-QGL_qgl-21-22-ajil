@@ -39,11 +39,9 @@ public class GestionRotation {
 
     void tournerAvecGouvernail(){
 
-
         if(valeurAngleSuperieurePiSur4()){
 
             //Retrancher parmi les valeurs d'angles de rotation possibles et ajuster avec le gouvernail
-
         }
 
 
