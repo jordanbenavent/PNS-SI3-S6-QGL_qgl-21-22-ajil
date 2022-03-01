@@ -33,6 +33,7 @@ public class CalculDeplacement {
         angles_possibles.remove(0.0);
         Double angle_maximum =  quelEstLangleMaximum(angles_possibles);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
+        deplacement.setAngle(0);
         if(Math.abs(angle) >= Math.PI/2){
             deplacement.setVitesse(82.5);
             if(angle < 0){
