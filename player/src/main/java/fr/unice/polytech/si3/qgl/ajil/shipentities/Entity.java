@@ -99,7 +99,7 @@ public abstract class Entity {
         int deplacementX = sailor.getX() - this.x;
         int deplacementY = sailor.getY() - this.y;
         int res = Math.abs(deplacementX) + Math.abs(deplacementY);
-        return (res > 0) ? res : res * (-1) ;
+        return res ;
     }
 
     /**
