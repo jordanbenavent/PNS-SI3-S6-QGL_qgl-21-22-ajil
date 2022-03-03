@@ -109,7 +109,6 @@ public class Test {
         // pointsShip.add(new Point(4, 5));
         // pointsShip.add(new Point(6, 5));
 
-
         Checkpoint checkpointValide = new Checkpoint(new Position(3.5,3,0), new Circle("circle", 1));
         Checkpoint checkpointValideDunPoint = new Checkpoint(new Position(5,6,0), new Circle("circle", 1));
         //System.out.println(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));
@@ -118,6 +117,8 @@ public class Test {
         System.out.println(test);
         test = false || test;
         System.out.println( test);
+        */
+
 
         Checkpoint checkpointValide = new Checkpoint(new Position(3.5, 3, 0), new Circle("circle", 1));
         Checkpoint checkpointValideDunPoint = new Checkpoint(new Position(5, 6, 0), new Circle("circle", 1));
@@ -125,7 +126,7 @@ public class Test {
         Checkpoint test = null;
         System.out.println(test);
 
-
+    
 
     }
 
