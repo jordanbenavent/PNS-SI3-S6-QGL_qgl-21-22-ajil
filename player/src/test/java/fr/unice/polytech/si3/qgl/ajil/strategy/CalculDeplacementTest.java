@@ -67,7 +67,7 @@ class CalculDeplacementTest {
         jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
         Vector v_ship = new Vector(10, 0);
         Vector v_check = new Vector(60, 45);
-        System.out.println(calculDeplacement.predictionAngleTourSuivant(v_ship, v_check));
+        //System.out.println(calculDeplacement.predictionAngleTourSuivant(v_ship, v_check));
     }
 
 }

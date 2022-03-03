@@ -40,6 +40,7 @@ public class Cockpit implements ICockpit {
 	 * @param game Json string
 	 */
 	public void initGame(String game) {
+		System.out.println("Début de la partie");
 		try {
 			this.jeu = objectMapper.readValue(game, Game.class);
 		} catch (JsonProcessingException e) {

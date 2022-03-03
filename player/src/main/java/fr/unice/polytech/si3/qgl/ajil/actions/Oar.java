@@ -15,4 +15,9 @@ public class Oar extends Action{
     public Oar(int sailorId) {
         super(sailorId, Actions.OAR);
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

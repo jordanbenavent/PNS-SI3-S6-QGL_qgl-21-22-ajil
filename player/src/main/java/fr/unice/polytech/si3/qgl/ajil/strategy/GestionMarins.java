@@ -92,6 +92,8 @@ public class GestionMarins {
      * Ajoute les marins dans la liste de marins à gauche ou à droite du bateau en fonction de leur position sur ce dernier
      */
     public void repartirLesMarins() {
+        leftSailors.clear();
+        rightSailors.clear();
         ArrayList<Sailor> sailors = stratData.jeu.getSailors();
         for (Sailor s : sailors) {
             if (leftSailors.size() < sailors.size() / 2) {
@@ -160,6 +162,71 @@ public class GestionMarins {
                 stratData.actions.add(new Oar(leftSailors.get(i).getId()));
             }
         }
+    }
+
+    /**
+     * Rame selon la vitesse indiquée dans le déplacement
+     * @param deplacement
+     */
+    void ramerSelonVitesse(Deplacement deplacement){
+        int sailor_qui_rame = 0;
+        System.out.println(stratData.jeu.getShip().getOars().size());
+        double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
+        System.out.println(leftSailors);
+        System.out.println(rightSailors);
+        System.out.println(nbr_sailors);
+        // Si le bateau doit avancer tout droit, l'angle vaut 0
+        if (deplacement.getAngle() == 0.0) {
+            System.out.println("yo");
+            for(Sailor sailor : leftSailors){
+                if(sailor_qui_rame >= nbr_sailors/2){
+                    break;
+                }
+                stratData.actions.add(new Oar(sailor.getId()));
+                sailor_qui_rame++;
+            }
+            sailor_qui_rame = 0;
+            for(Sailor sailor : rightSailors){
+                if(sailor_qui_rame >= nbr_sailors/2){
+                    break;
+                }
+                stratData.actions.add(new Oar(sailor.getId()));
+                sailor_qui_rame++;
+            }
+            return;
+        }
+        if (deplacement.getAngle() < 0) {
+            for (Sailor sailor : leftSailors) {
+                if(sailor_qui_rame == nbr_sailors){
+                    break;
+                }
+                stratData.actions.add(new Oar(sailor.getId()));
+                sailor_qui_rame++;
+            }
+        }
+        else {
+            for (Sailor sailor : rightSailors) {
+                if(sailor_qui_rame == nbr_sailors){
+                    break;
+                }
+                stratData.actions.add(new Oar(sailor.getId()));
+                sailor_qui_rame++;
+            }
+        }
+        System.out.println(stratData.actions);
+        return;
+    }
+
+    /**
+     * Calcul le nombre de marins nécessaire pour adopté la vitesse en paramètre
+     * @param nbr_rames
+     * @param vitesse
+     * @return le nombre de marins
+     */
+    double nbrSailorsNecessaires(double nbr_rames, double vitesse){
+        double vitesse_une_rame = 165/nbr_rames;
+        double marin_necessaire = vitesse/vitesse_une_rame;
+        return marin_necessaire;
     }
 
     /**

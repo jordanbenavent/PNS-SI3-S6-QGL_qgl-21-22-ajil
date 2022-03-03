@@ -61,4 +61,11 @@ public abstract class Action {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "Action{" +
+                "sailorId=" + sailorId +
+                ", type=" + type +
+                '}';
+    }
 }
