@@ -64,7 +64,7 @@ public class CalculDeplacement {
             // Avancer tout droit à la vitesse maximale
             deplacement.setVitesse(165);
             deplacement.setAngle(0);
-            LOGGER.add(deplacement.toString());
+            LOGGER.add("Déplacement calculé :" + deplacement.toString());
             return deplacement;
         }
     }
@@ -94,6 +94,7 @@ public class CalculDeplacement {
             angle_apres_deplacement = ship.angleBetweenVectors(checkpoint);
             prediction.add(new Deplacement(vitesse, angle_apres_deplacement));
         }
+        LOGGER.add("Prédiction :" + prediction);
         return prediction;
     }
 

@@ -53,6 +53,7 @@ public class GestionMarins {
         ArrayList<Sailor> sailors = stratData.jeu.getSailors();
         Entity rudder = stratData.jeu.getShip().getRudder();
         if (rudder == null){
+            LOGGER.add("Il n'y a pas de Gouvernail.");
             placementBarreur = true;
             return;
         }
@@ -69,6 +70,7 @@ public class GestionMarins {
             }
             if (  dist == 0 ) {
                 barreur = sailors.get(i);
+                LOGGER.add("Barreur est : " + sailors.get(i));
                 sailors.remove(i);
                 placementBarreur = true;
                 return;
@@ -76,11 +78,13 @@ public class GestionMarins {
         }
         if ( barreur == null ){
             barreur = sailors.get(index);
+            LOGGER.add("Barreur est : " + sailors.get(index));
             sailors.remove(index);
         }
         if ( distMin > 5 ) {
             int movX = rudder.getX() - barreur.getX();
             int movY = rudder.getY() - barreur.getY();
+            LOGGER.add("Barreur mouvement :  X:" + movX +"  Y:" + movY);
             stratData.actions.add(new Moving(barreur.getId(), Math.min(movX, 2), Math.min(movY, 2)));
             return;
         }

@@ -48,7 +48,7 @@ public class ValideCheckpoint {
                 }
             }
         }
-        LOGGER.add(checkpointCurrent.toString());
+        LOGGER.add("Checkpoint visé : " +checkpointCurrent);
         return checkpointCurrent;
     }
 
@@ -92,7 +92,6 @@ public class ValideCheckpoint {
         secondColumn.add(Math.cos(ship.getPosition().getOrientation()));
         matrice.add(firstColumn);
         matrice.add(secondColumn);
-        System.out.println(matrice.size());
 
         pointShip.add(new Point(largeur / 2 * cosinus + longueur / 2 * sinus, -largeur / 2 * sinus + longueur / 2 * cosinus).addPoint(centre));
         pointShip.add(new Point(-largeur / 2 * cosinus + longueur / 2 * sinus, largeur / 2 * sinus + longueur / 2 * cosinus).addPoint(centre));
