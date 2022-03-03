@@ -192,14 +192,9 @@ public class GestionMarins {
      */
     void ramerSelonVitesse(Deplacement deplacement){
         int sailor_qui_rame = 0;
-        System.out.println(stratData.jeu.getShip().getOars().size());
         double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
-        System.out.println(leftSailors);
-        System.out.println(rightSailors);
-        System.out.println(nbr_sailors);
         // Si le bateau doit avancer tout droit, l'angle vaut 0
         if (deplacement.getAngle() == 0.0) {
-            System.out.println("yo");
             for(Sailor sailor : leftSailors){
                 if(sailor_qui_rame >= nbr_sailors/2){
                     break;
@@ -235,7 +230,6 @@ public class GestionMarins {
                 sailor_qui_rame++;
             }
         }
-        System.out.println(stratData.actions);
         return;
     }
 

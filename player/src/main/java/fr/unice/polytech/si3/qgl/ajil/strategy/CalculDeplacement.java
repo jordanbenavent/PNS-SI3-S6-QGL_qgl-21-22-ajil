@@ -26,9 +26,6 @@ public class CalculDeplacement {
         Vector v_ship = new Vector(Math.cos(s.getPosition().getOrientation()), Math.sin(s.getPosition().getOrientation()));
         Vector v_check = new Vector(c.getPosition().getX() - s.getPosition().getX(),c.getPosition().getY()-s.getPosition().getY());
         double angle = v_ship.angleBetweenVectors(v_check);
-        double angle2 = v_check.angleBetweenVectors(v_ship);
-        System.out.println(angle);
-        System.out.println(angle2);
         ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check, c);
         Set<Double> angles_possibles = s.getTurnRange();
         angles_possibles.remove(0.0);
@@ -98,8 +95,6 @@ public class CalculDeplacement {
     }
 
     /**
-=======
->>>>>>> dfe395aee5e9e72c4ca08f62dae9cf09895902e7
      * Calcul de la vitesse minimum pour tourner d'un angle précis avec n'importe quel nombre de rames,
      * on souhaite tourner à une vitesse minimale pour tourner "sec"
      * @param angle_rotation
