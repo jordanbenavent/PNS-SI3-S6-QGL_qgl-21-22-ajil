@@ -1,9 +1,11 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
+import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 import fr.unice.polytech.si3.qgl.ajil.Sailor;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
+import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
@@ -13,6 +15,8 @@ public class GestionMarins {
     private boolean placementInit = false;
     private boolean placementBarreur = false;
     protected StratData stratData;
+    public ArrayList<String> LOGGER = Cockpit.LOGGER;
+    private int idMarinGouvernail = 0;
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -51,6 +55,7 @@ public class GestionMarins {
         ArrayList<Sailor> sailors = stratData.jeu.getSailors();
         Entity rudder = stratData.jeu.getShip().getRudder();
         if (rudder == null){
+            LOGGER.add("Il n'y a pas de Gouvernail.");
             placementBarreur = true;
             return;
         }
@@ -67,6 +72,8 @@ public class GestionMarins {
             }
             if (  dist == 0 ) {
                 barreur = sailors.get(i);
+                LOGGER.add("Barreur est : " + sailors.get(i));
+                idMarinGouvernail = sailors.get(i).getId();
                 sailors.remove(i);
                 placementBarreur = true;
                 return;
@@ -74,11 +81,13 @@ public class GestionMarins {
         }
         if ( barreur == null ){
             barreur = sailors.get(index);
+            LOGGER.add("Barreur est : " + sailors.get(index));
             sailors.remove(index);
         }
         if ( distMin > 5 ) {
             int movX = rudder.getX() - barreur.getX();
             int movY = rudder.getY() - barreur.getY();
+            LOGGER.add("Barreur mouvement :  X:" + movX +"  Y:" + movY);
             stratData.actions.add(new Moving(barreur.getId(), Math.min(movX, 2), Math.min(movY, 2)));
             return;
         }
@@ -118,10 +127,23 @@ public class GestionMarins {
 
     /**
      * Ajoute à la liste d'actions une ou plusieurs ramer en fonction de la vitesse et de l'angle voulu.
-     *
-     * @param deplacement Deplacement object
+     * @param deplacement
      */
     public void ramer(Deplacement deplacement) {
+
+        double angle = deplacement.getAngle();
+
+        if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
+
+            Turn tournerGouvernail = new Turn(barreur.getId(),angle);
+            stratData.actions.add(tournerGouvernail);
+                for (Sailor sailor : stratData.jeu.getSailors()) {
+                    stratData.actions.add(new Oar(sailor.getId()));
+                }
+                return;
+        }
+
+
         if (deplacement.getAngle() < 0) {
             if (deplacement.getAngle() == -Math.PI / 2) {
                 for (Sailor sailor : leftSailors) {
@@ -223,7 +245,7 @@ public class GestionMarins {
      * @param vitesse
      * @return le nombre de marins
      */
-    double nbrSailorsNecessaires(double nbr_rames, double vitesse){
+    public double nbrSailorsNecessaires(double nbr_rames, double vitesse){
         double vitesse_une_rame = 165/nbr_rames;
         double marin_necessaire = vitesse/vitesse_une_rame;
         return marin_necessaire;
@@ -299,5 +321,4 @@ public class GestionMarins {
         }
         this.placementInit = true;
     }
-
 }
