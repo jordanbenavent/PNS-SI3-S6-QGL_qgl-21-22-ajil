@@ -88,7 +88,7 @@ public class GestionMarins {
             int movX = rudder.getX() - barreur.getX();
             int movY = rudder.getY() - barreur.getY();
             LOGGER.add("Barreur mouvement :  X:" + movX +"  Y:" + movY);
-            stratData.actions.add(new Moving(barreur.getId(), Math.min(movX, 2), Math.min(movY, 2)));
+            stratData.actions.add(new Moving(barreur.getId(), (movX<-2) ? -2 : Math.min(movX, 2), (movY<-2) ? -2 : Math.min(movY, 2)));
             return;
         }
         placementBarreur = true;
@@ -278,7 +278,7 @@ public class GestionMarins {
                 int movX = oars.get(index).getX() - s.getX();
                 int movY = oars.get(index).getY() - s.getY();
                 oars.remove(index);
-                stratData.actions.add(new Moving(s.getId(), Math.min(movX, 2), Math.min(movY, 2)));
+                stratData.actions.add(new Moving(s.getId(), (movX<-2) ? -2 : Math.min(movX, 2), (movY<-2) ? -2 : Math.min(movY, 2)));
                 continue;
             }
             int movX = oars.get(index).getX() - s.getX();
@@ -307,7 +307,7 @@ public class GestionMarins {
                 int movX = oars.get(index).getX() - s.getX();
                 int movY = oars.get(index).getY() - s.getY();
                 oars.remove(index);
-                stratData.actions.add(new Moving(s.getId(), Math.min(movX, 2), Math.min(movY, 2)));
+                stratData.actions.add(new Moving(s.getId(), (movX<-2) ? -2 : Math.min(movX, 2), (movY<-2) ? -2 : Math.min(movY, 2)));
                 continue;
             }
             int movX = oars.get(index).getX() - s.getX();
