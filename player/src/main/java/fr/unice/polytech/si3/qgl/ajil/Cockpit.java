@@ -27,6 +27,7 @@ public class Cockpit implements ICockpit {
 	private Strategy strategy;
 	private NextRound nextRound;
 	ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	public static ArrayList<String> LOGGER = new ArrayList<>();
 
 	/**
 	 * @return la partie en cours
@@ -46,6 +47,7 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 		strategy = new Strategy(jeu);
+		LOGGER.add("INIT GAME");
 	}
 
 	/**
@@ -63,7 +65,7 @@ public class Cockpit implements ICockpit {
 		strategy.setJeu(jeu);
 		//System.out.println(nextRound.getShip().getEntities());
 		//System.out.println(jeu.getSailors());
-
+		LOGGER.add("NextRound");
 		return strategy.getActions();
 	}
 
@@ -72,7 +74,7 @@ public class Cockpit implements ICockpit {
 	 */
 	@Override
 	public List<String> getLogs() {
-		return new ArrayList<>();
+		return LOGGER;
 	}
 
 	/**

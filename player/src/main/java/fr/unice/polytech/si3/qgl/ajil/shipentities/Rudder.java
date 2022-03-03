@@ -20,4 +20,5 @@ public class Rudder extends Entity{
     public Rudder( int x, int y, String type){
         super(x, y,type);
     }
+
 }

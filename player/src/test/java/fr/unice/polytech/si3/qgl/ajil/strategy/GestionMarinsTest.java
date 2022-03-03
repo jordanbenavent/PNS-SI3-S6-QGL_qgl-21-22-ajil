@@ -105,14 +105,28 @@ class GestionMarinsTest {
         ArrayList<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
         sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
+        sailors.add(new Sailor(0, 1, 2, "Sailor 2"));
+        sailors.add(new Sailor(0, 2, 3, "Sailor 3"));
+        sailors.add(new Sailor(1, 1, 4, "Sailor 4"));
+        sailors.add(new Sailor(1, 3, 5, "Sailor 5"));
+        sailors.add(new Sailor(2, 1, 6, "Sailor 6"));
         jeu.setSailors(sailors);
         ArrayList<Entity> entities = new ArrayList<>();
         entities.add(new Rudder(3,4,"rudder"));
+        entities.add(new OarEntity(0,0,"oar"));
+        entities.add(new OarEntity(1,0,"oar"));
+        entities.add(new OarEntity(2,0,"oar"));
+        entities.add(new OarEntity(0,4,"oar"));
+        entities.add(new OarEntity(1,4,"oar"));
+        entities.add(new OarEntity(2,4,"oar"));
         ship.setEntities(entities);
         gestionMarins.attribuerBarreur();
+        gestionMarins.repartirLesMarins();
         Assertions.assertEquals(0,gestionMarins.getBarreur().getId());
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
+        Assertions.assertEquals(3, gestionMarins.getLeftSailors().size());
+        Assertions.assertEquals(3, gestionMarins.getRightSailors().size());
         Assertions.assertTrue(gestionMarins.isPlacementBarreur());
     }
 
