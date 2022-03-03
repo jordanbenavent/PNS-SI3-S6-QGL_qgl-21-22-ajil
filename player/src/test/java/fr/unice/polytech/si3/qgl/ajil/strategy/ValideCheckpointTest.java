@@ -162,7 +162,10 @@ class ValideCheckpointTest {
                 new Deck(2, 2),
                 new ArrayList<>(),
                 new Polygone("polygone", Math.PI/4,point));
-        System.out.println(valideCheckpoint.pointShipPolygone(ship));
+
+        Assertions.assertEquals(new Point(2,5), valideCheckpoint.pointShipPolygone(ship).get(0));
+        Assertions.assertEquals(new Point(1,4), valideCheckpoint.pointShipPolygone(ship).get(1));
+        Assertions.assertEquals(new Point(3,4), valideCheckpoint.pointShipPolygone(ship).get(2));
 
     }
 }
