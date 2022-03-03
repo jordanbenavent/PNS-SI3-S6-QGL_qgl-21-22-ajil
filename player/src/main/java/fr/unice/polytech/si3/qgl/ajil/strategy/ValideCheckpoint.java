@@ -73,7 +73,6 @@ public class ValideCheckpoint {
         double cosinus = Math.cos(angle);
         ArrayList<Point> pointShip = new ArrayList<>();
         if (ship.getShape() instanceof Polygone) {
-            pointShip.addAll(Arrays.asList(((Polygone) ship.getShape()).getVertices()));
             return pointShipPolygone(ship);
         }
         if (ship.getShape() instanceof Rectangle) {
@@ -90,8 +89,6 @@ public class ValideCheckpoint {
         secondColumn.add(Math.cos(ship.getPosition().getOrientation()));
         matrice.add(firstColumn);
         matrice.add(secondColumn);
-        System.out.println(matrice.size());
-
         pointShip.add(new Point(largeur / 2 * cosinus + longueur / 2 * sinus, -largeur / 2 * sinus + longueur / 2 * cosinus).addPoint(centre));
         pointShip.add(new Point(-largeur / 2 * cosinus + longueur / 2 * sinus, largeur / 2 * sinus + longueur / 2 * cosinus).addPoint(centre));
         pointShip.add(new Point(largeur / 2 * cosinus - longueur / 2 * sinus, -largeur / 2 * sinus - longueur / 2 * cosinus).addPoint(centre));
@@ -103,12 +100,12 @@ public class ValideCheckpoint {
         ArrayList<Point> pointsShip = new ArrayList<>();
         double anglePosition = ship.getPosition().getOrientation();
         double angleShape = ((Polygone)ship.getShape()).getOrientation();
+        double angleRotation = - calculAngleTotal(ship);
         List<Point> pointPolygone = Arrays.asList(((Polygone)ship.getShape()).getVertices());
         for(Point point : pointPolygone) {
-            double xPremierProj = point.getX() * Math.cos(angleShape) + point.getY() * Math.sin(angleShape) + ship.getPosition().getX();
-            double yPremierProj = (-1 * point.getX() * Math.sin(angleShape)) + point.getY() * Math.cos(angleShape)  + ship.getPosition().getY();
-            Point pointProjette = new Point(xPremierProj * Math.cos(anglePosition) + yPremierProj * Math.sin(anglePosition),
-                    (-1 * xPremierProj * Math.sin(anglePosition)) + yPremierProj * Math.cos(anglePosition));
+            double xPremierProj = point.getX() * Math.cos(angleRotation) + point.getY() * Math.sin(angleRotation) + ship.getPosition().getX();
+            double yPremierProj = (-1 * point.getX() * Math.sin(angleRotation)) + point.getY() * Math.cos(angleRotation)  + ship.getPosition().getY();
+            Point pointProjette = new Point(xPremierProj, yPremierProj);
             pointsShip.add(pointProjette);
         }
         return pointsShip;

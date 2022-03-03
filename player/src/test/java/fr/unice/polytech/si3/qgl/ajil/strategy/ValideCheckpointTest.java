@@ -63,14 +63,14 @@ class ValideCheckpointTest {
         Assertions.assertEquals(new Point(3, 1), point.get(2));
         Assertions.assertEquals(new Point(1, 1), point.get(3));
 
-        Point[] pointpolygone = {new Point(2,2), new Point(-2,2), new Point(-2,-2)};
+        Point[] pointpolygone = {new Point(1,2), new Point(0,1), new Point(0,3)};
         ship = new Ship("ship", 100,
-                new Position(2, 2, 0), "BateauCarre",
+                new Position(4, 4, Math.PI/4), "BateauTriangle",
                 new Deck(2, 2),
                 new ArrayList<>(),
-                new Polygone("polygone",0, pointpolygone));
+                new Polygone("polygone",Math.PI/4, pointpolygone));
         point = valideCheckpoint.calculPointShip(ship);
-        Assertions.assertEquals(new Point(2,2), point.get(0));
+        Assertions.assertEquals(new Point(2,5), point.get(0));
     }
 
     @Test
@@ -92,10 +92,10 @@ class ValideCheckpointTest {
     @Test
     void checkpointTargetTest() {
         ship = new Ship("ship", 100,
-                new Position(2.5, 2.5, 3 * Math.PI / 4), "BateauCarre",
+                new Position(2.5, 2.5, 2 * Math.PI / 4), "BateauCarre",
                 new Deck(2, 3),
                 new ArrayList<>(),
-                new Rectangle("rectangle", 2, 3, 3 * Math.PI / 4));
+                new Rectangle("rectangle", 2, 3, Math.PI / 4));
         ArrayList<Checkpoint> checkpoints = new ArrayList<>();
         ArrayList<Sailor> sailors = new ArrayList<>();
         jeu = new Game(
@@ -114,7 +114,7 @@ class ValideCheckpointTest {
         // Le bateau est loin donc le checkpoint reste le même
         Assertions.assertEquals(checkpoint, valideCheckpoint.checkpointTarget(checkpoints));
         //Le bateau a avancé
-        ship.setPosition(new Position(0.5, 4.8, 3 * Math.PI / 4));
+        ship.setPosition(new Position(0.5, 4.8, 2 * Math.PI / 4));
         //Le bateau est assez proche du checkpoint, cela le valide est donc le deuxième checkpoint est visé.
         Assertions.assertEquals(checkpoint2, valideCheckpoint.checkpointTarget(checkpoints));
         //Le bateau est assez proche du deuxième checkpoint, or la liste du checlpoint est finie. Cela retourne donc null.
