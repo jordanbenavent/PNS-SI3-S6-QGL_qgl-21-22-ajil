@@ -108,7 +108,7 @@ public class Strategy {
             gestionMarins.placerSurRames();
         }
         Checkpoint c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
-        Deplacement deplacement = calculDeplacement.deplacementPourLeTour(c);
+        Deplacement deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
         gestionMarins.ramer(deplacement);
     }
 }
