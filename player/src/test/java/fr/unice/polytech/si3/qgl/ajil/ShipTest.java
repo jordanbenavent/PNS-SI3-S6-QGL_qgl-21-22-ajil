@@ -58,7 +58,6 @@ public class ShipTest {
         strategy.getActions();
 
         Set<Double> expectedAnswers = new HashSet<>();
-        expectedAnswers.add(0.0);
         expectedAnswers.add(Math.PI / 2);
         expectedAnswers.add(-Math.PI / 2);
         assertEquals(expectedAnswers, ship.getTurnRange());
@@ -83,7 +82,6 @@ public class ShipTest {
         strategy.getActions();
 
         Set<Double> expectedAnswers = new HashSet<>();
-        expectedAnswers.add(0.0);
         expectedAnswers.add(Math.PI / 4);
         expectedAnswers.add(Math.PI / 2);
         expectedAnswers.add(-Math.PI / 2);
@@ -118,7 +116,6 @@ public class ShipTest {
         strategy.getActions();
 
         Set<Double> expectedAnswers = new HashSet<>();
-        expectedAnswers.add(0.0);
         expectedAnswers.add(3 * Math.PI / 8);
         expectedAnswers.add(-3 * Math.PI / 8);
         expectedAnswers.add(Math.PI / 8);

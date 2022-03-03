@@ -55,7 +55,7 @@ public class Ship {
 
     /**
      * Modifie le type du bateau
-     * @param type
+     * @param type setter, to set a type
      */
     public void setType(String type) {
         this.type = type;
@@ -70,7 +70,7 @@ public class Ship {
 
     /**
      * Modifie les points de vie du bateau
-     * @param life
+     * @param life set Life to a ship
      */
     public void setLife(int life) {
         this.life = life;
@@ -85,7 +85,7 @@ public class Ship {
 
     /**
      * Modifie la position du bateau
-     * @param position
+     * @param position set ship position
      */
     public void setPosition(Position position) {
         this.position = position;
@@ -100,7 +100,7 @@ public class Ship {
 
     /**
      * Modifie le nom du bateau
-     * @param name
+     * @param name set ship name
      */
     public void setName(String name) {
         this.name = name;
@@ -115,7 +115,7 @@ public class Ship {
 
     /**
      * Modifie le deck du bateau
-     * @param deck
+     * @param deck set ship deck
      */
     public void setDeck(Deck deck) {
         this.deck = deck;
@@ -130,7 +130,7 @@ public class Ship {
 
     /**
      * Modifie la liste des entités
-     * @param entities
+     * @param entities set ship entities
      */
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
@@ -145,7 +145,7 @@ public class Ship {
 
     /**
      * Modifie la forme du bateau
-     * @param shape
+     * @param shape set ship shape
      */
     public void setShape(Shape shape) {
         this.shape = shape;
@@ -207,6 +207,7 @@ public class Ship {
             range.add(Math.PI * i / size);
         }
         range.remove(-0.0);
+        range.remove(0.0);
         return range;
     }
 }
