@@ -14,10 +14,9 @@ public class GestionMarins {
 
     private boolean placementInit = false;
     private boolean placementBarreur = false;
-    private boolean placementSailManager1 = false;
+    private boolean placementSailManagers = false;
     protected StratData stratData;
     public ArrayList<String> LOGGER = Cockpit.LOGGER;
-    private int idMarinGouvernail = 0;
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -25,7 +24,7 @@ public class GestionMarins {
 
     // marins
     private Sailor barreur; // celui qui gère le gouvernail
-    private Sailor SailManager1; // celui qui gère la voile
+    private Sailor sailManager; // celui qui gère la voile
     private final ArrayList<Sailor> leftSailors = new ArrayList<>();
     private final ArrayList<Sailor> rightSailors = new ArrayList<>();
 
@@ -66,6 +65,46 @@ public class GestionMarins {
         s.updatePos(movX, movY);
         stratData.actions.add(new Moving(s.getId(), movX, movY));
         return true;
+    }
+
+    /*
+     * Trouve le marin le plus proche de la voile et le déplace vers celle-ci
+     */
+    public void attribuerSailManager(){
+        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        Entity sail = stratData.jeu.getShip().getSail();
+        if (sail == null){
+            LOGGER.add("Il n'y a pas de Voile.");
+            placementSailManagers = true;
+            return;
+        }
+        int distMin = 15;
+        int index = -1;
+        for (int i = 0; i < sailors.size(); i++) {
+            if ( sailManager != null ) {
+                break;
+            }
+            int dist = sail.getDist(sailors.get(i));
+            if (dist < distMin){
+                distMin = dist;
+                index = i;
+            }
+            if (  dist == 0 ) {
+                sailManager = sailors.get(i);
+                LOGGER.add("Sail Manager est : " + sailors.get(i));
+                sailors.remove(i);
+                placementSailManagers = true;
+                return;
+            }
+        }
+        if ( sailManager == null ){
+            sailManager = sailors.get(index);
+            LOGGER.add("Sail Manager est : " + sailors.get(index));
+            sailors.remove(index);
+        }
+        int movX = sail.getX() - sailManager.getX();
+        int movY = sail.getY() - sailManager.getY();
+        placementSailManagers = deplacerMarin(sailManager, distMin, movX, movY);
     }
 
     /*
