@@ -19,7 +19,6 @@ public class Sailor {
     private String name;
 
     public Sailor(){}
-
     public Sailor(int x, int y, int id, String name){
         this.id = id;
         this.name = name;

@@ -53,7 +53,7 @@ public class GestionMarins {
     * Trouve le marin le plus proche du gouvernail et le déplace vers celui-ci
     */
     public void attribuerBarreur() {
-        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        List<Sailor> sailors = stratData.jeu.getSailors();
         Entity rudder = stratData.jeu.getShip().getRudder();
         if (rudder == null){
             LOGGER.add("Il n'y a pas de Gouvernail.");
@@ -104,7 +104,7 @@ public class GestionMarins {
     public void repartirLesMarins() {
         leftSailors.clear();
         rightSailors.clear();
-        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        List<Sailor> sailors = stratData.jeu.getSailors();
         for (Sailor s : sailors) {
             if (leftSailors.size() < sailors.size() / 2) {
                 leftSailors.add(s);

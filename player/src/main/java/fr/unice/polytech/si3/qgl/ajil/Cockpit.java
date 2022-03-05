@@ -41,7 +41,7 @@ public class Cockpit implements ICockpit {
 	 * @param game Json string
 	 */
 	public void initGame(String game) {
-		System.out.println("Début de la partie");
+		LOGGER.add("Début de la partie");
 		try {
 			this.jeu = objectMapper.readValue(game, Game.class);
 		} catch (JsonProcessingException e) {
@@ -64,8 +64,6 @@ public class Cockpit implements ICockpit {
 		}
 		nextRound.updateGame(jeu);
 		strategy.setJeu(jeu);
-		//System.out.println(nextRound.getShip().getEntities());
-		//System.out.println(jeu.getSailors());
 		LOGGER.add("NextRound");
 		return strategy.getActions();
 	}

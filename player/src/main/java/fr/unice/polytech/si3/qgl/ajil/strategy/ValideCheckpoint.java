@@ -4,10 +4,7 @@ import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
 import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 import fr.unice.polytech.si3.qgl.ajil.Game;
 import fr.unice.polytech.si3.qgl.ajil.Ship;
-import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
-import fr.unice.polytech.si3.qgl.ajil.shape.Point;
-import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
-import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +23,7 @@ public class ValideCheckpoint {
     /**
      * Retourne le checkpoint à viser
      */
-    public Checkpoint checkpointTarget(ArrayList<Checkpoint> checkpoints) {
+    public Checkpoint checkpointTarget(List<Checkpoint> checkpoints) {
         boolean estDedans;
         if (checkpoints.isEmpty()) {
             return null;

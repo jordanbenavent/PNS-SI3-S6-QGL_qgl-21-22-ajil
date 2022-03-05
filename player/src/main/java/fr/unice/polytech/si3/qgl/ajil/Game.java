@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe Game représentant une partie
@@ -17,7 +18,7 @@ public class Game {
 
     private Goal goal;
     private Ship ship;
-    private ArrayList<Sailor> sailors;
+    private List<Sailor> sailors;
     private int shipCount;
 
     public Game(){}
@@ -62,7 +63,7 @@ public class Game {
     /**
      * @return la liste des marins
      */
-    public ArrayList<Sailor> getSailors() {
+    public List<Sailor> getSailors() {
         return sailors;
     }
 
@@ -70,7 +71,7 @@ public class Game {
      * Modifie la liste des marins
      * @param sailors
      */
-    public void setSailors(ArrayList<Sailor> sailors) {
+    public void setSailors(List<Sailor> sailors) {
         this.sailors = sailors;
     }
 

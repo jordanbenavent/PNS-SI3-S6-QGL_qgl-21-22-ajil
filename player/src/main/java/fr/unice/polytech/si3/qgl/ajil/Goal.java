@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.ajil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe Goal représentant "l'objectif" de la partie, incluant le mode de jeu et la liste de checkpoints à atteindre
@@ -19,11 +20,11 @@ import java.util.ArrayList;
 public class Goal {
 
     private String mode;
-    private ArrayList<Checkpoint> checkpoints;
+    private List<Checkpoint> checkpoints;
 
     public Goal(){}
 
-    public Goal(String mode, ArrayList<Checkpoint> checkpoints){
+    public Goal(String mode, List<Checkpoint> checkpoints){
         this.checkpoints = checkpoints;
         this.mode = mode;
     }
@@ -31,7 +32,7 @@ public class Goal {
     /**
      * @return la liste des checkpoints
      */
-    public ArrayList<Checkpoint> getCheckpoints() {
+    public List<Checkpoint> getCheckpoints() {
         return checkpoints;
     }
 
@@ -46,7 +47,7 @@ public class Goal {
      * Modifie la liste des checkpoints
      * @param checkpoints
      */
-    void setCheckpoints(ArrayList<Checkpoint> checkpoints) {
+    void setCheckpoints(List<Checkpoint> checkpoints) {
         this.checkpoints = checkpoints;
     }
 
