@@ -7,6 +7,10 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.strategy.Strategy;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si3.qgl.ajil.*;
+
 
 import java.util.ArrayList;
 
@@ -126,7 +130,7 @@ public class Test {
         Checkpoint test = null;
         System.out.println(test);
 
-    
+
 
     }
 
