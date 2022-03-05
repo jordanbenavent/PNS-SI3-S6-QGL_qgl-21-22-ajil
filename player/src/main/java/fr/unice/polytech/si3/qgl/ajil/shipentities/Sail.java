@@ -8,34 +8,34 @@ package fr.unice.polytech.si3.qgl.ajil.shipentities;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Sail extends Entity{
+public class Sail extends Entity {
 
-    private boolean openned;
+    private boolean opened;
 
-    public Sail(){
+    public Sail() {
         setType("sail");
     }
 
-    public Sail(int x, int y, String type, boolean openned){
+    public Sail(int x, int y, String type, boolean opened) {
         super(x, y, type);
-        this.openned = openned;
+        this.opened = opened;
     }
 
     /**
      * @return true si la voile est ouverte, false sinon
      */
-    public boolean getOpenned(){
-        return openned;
+    public boolean isSailOpened() {
+        return opened;
     }
 
     /**
      * Modifie l'ouverture de la voile (la ferme ou l'ouvre)
-     * @param openned
+     *
+     * @param opened if sails is opened return true
      */
-    public void setOpenned(boolean openned) {
-        this.openned = openned;
+    public void setSail(boolean opened) {
+        this.opened = opened;
     }
 }
