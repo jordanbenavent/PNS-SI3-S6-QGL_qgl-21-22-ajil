@@ -9,13 +9,14 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GestionMarins {
 
     private boolean placementInit = false;
     private boolean placementBarreur = false;
     protected StratData stratData;
-    public ArrayList<String> LOGGER = Cockpit.LOGGER;
+    public List<String> LOGGER = Cockpit.LOGGER;
     private int idMarinGouvernail = 0;
 
     public GestionMarins(StratData stratData) {

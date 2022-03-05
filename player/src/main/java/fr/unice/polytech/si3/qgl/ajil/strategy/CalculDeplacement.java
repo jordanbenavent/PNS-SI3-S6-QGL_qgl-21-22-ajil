@@ -4,12 +4,13 @@ import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class CalculDeplacement {
 
     protected Game jeu;
-    public ArrayList<String> LOGGER = Cockpit.LOGGER;
+    public List<String> LOGGER = Cockpit.LOGGER;
 
     public CalculDeplacement(Game jeu) {
         this.jeu = jeu;

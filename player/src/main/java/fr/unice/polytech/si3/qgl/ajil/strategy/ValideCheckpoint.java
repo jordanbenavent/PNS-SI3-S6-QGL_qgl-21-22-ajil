@@ -16,7 +16,7 @@ import java.util.List;
 public class ValideCheckpoint {
 
     protected Game jeu;
-    public ArrayList<String> LOGGER = Cockpit.LOGGER;
+    public List<String> LOGGER = Cockpit.LOGGER;
 
     public ValideCheckpoint(Game jeu) {
         this.jeu = jeu;

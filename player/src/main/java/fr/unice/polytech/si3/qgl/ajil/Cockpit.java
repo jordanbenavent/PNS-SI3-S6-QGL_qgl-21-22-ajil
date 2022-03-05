@@ -27,7 +27,7 @@ public class Cockpit implements ICockpit {
 	private Strategy strategy;
 	private NextRound nextRound;
 	ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	public static ArrayList<String> LOGGER = new ArrayList<>();
+	public static final List<String> LOGGER = new ArrayList<>();
 
 	/**
 	 * @return la partie en cours
