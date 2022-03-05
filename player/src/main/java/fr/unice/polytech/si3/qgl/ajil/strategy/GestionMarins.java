@@ -14,6 +14,7 @@ public class GestionMarins {
 
     private boolean placementInit = false;
     private boolean placementBarreur = false;
+    private boolean placementSailManager1 = false;
     protected StratData stratData;
     public ArrayList<String> LOGGER = Cockpit.LOGGER;
     private int idMarinGouvernail = 0;
@@ -24,6 +25,7 @@ public class GestionMarins {
 
     // marins
     private Sailor barreur; // celui qui gère le gouvernail
+    private Sailor SailManager1; // celui qui gère la voile
     private final ArrayList<Sailor> leftSailors = new ArrayList<>();
     private final ArrayList<Sailor> rightSailors = new ArrayList<>();
 
@@ -46,6 +48,24 @@ public class GestionMarins {
      */
     public ArrayList<Sailor> getRightSailors() {
         return rightSailors;
+    }
+
+    /**
+     * @return boolean qui dit si oui ou non le marin a atteint la position fixée
+     */
+    public boolean deplacerMarin(Sailor s, int dist, int movX, int movY){
+        if ( dist > 5 ) {
+            LOGGER.add("Marin mouvement :  X:" + movX +"  Y:" + movY);
+            int depX = (movX < -2) ? -2 : Math.min(movX, 2);
+            int depY = (movY < -2) ? -2 : Math.min(movY, 2);
+            s.updatePos(depX, depY); // met à jour les (x , y) de ce sailor
+            stratData.actions.add(new Moving(s.getId(), depX, depY));
+            return false;
+        }
+        LOGGER.add("Marin mouvement :  X:" + movX +"  Y:" + movY);
+        s.updatePos(movX, movY);
+        stratData.actions.add(new Moving(s.getId(), movX, movY));
+        return true;
     }
 
     /*
@@ -73,7 +93,6 @@ public class GestionMarins {
             if (  dist == 0 ) {
                 barreur = sailors.get(i);
                 LOGGER.add("Barreur est : " + sailors.get(i));
-                idMarinGouvernail = sailors.get(i).getId();
                 sailors.remove(i);
                 placementBarreur = true;
                 return;
@@ -84,21 +103,9 @@ public class GestionMarins {
             LOGGER.add("Barreur est : " + sailors.get(index));
             sailors.remove(index);
         }
-        if ( distMin > 5 ) {
-            int movX = rudder.getX() - barreur.getX();
-            int movY = rudder.getY() - barreur.getY();
-            LOGGER.add("Barreur mouvement :  X:" + movX +"  Y:" + movY);
-            int depX = (movX < -2) ? -2 : Math.min(movX, 2);
-            int depY = (movY < -2) ? -2 : Math.min(movY, 2);
-            barreur.updatePos(depX, depY); // met à jour les (x , y) de ce sailor
-            stratData.actions.add(new Moving(barreur.getId(), depX, depY));
-            return;
-        }
-        placementBarreur = true;
         int movX = rudder.getX() - barreur.getX();
         int movY = rudder.getY() - barreur.getY();
-        barreur.updatePos(movX, movY);
-        stratData.actions.add(new Moving(barreur.getId(), movX, movY));
+        placementBarreur = deplacerMarin(barreur, distMin, movX, movY);
     }
 
     /**
@@ -260,7 +267,7 @@ public class GestionMarins {
     }
 
     /**
-     * Ajoute à la liste d'actions les déplacement que doivent effectuer les marins pour se placer sur les rames
+     * Ajoute à la liste d'actions les déplacements que doivent effectuer les marins pour se placer sur les rames
      */
     public void placerSurRames() {
         ArrayList<Entity> oars = stratData.jeu.getShip().getOars();
@@ -281,22 +288,10 @@ public class GestionMarins {
                 oars.remove(index);
                 continue;
             }
-            if (oars.get(index).getDist(s) > 5) {
-                allInRange = false;
-                int movX = oars.get(index).getX() - s.getX();
-                int movY = oars.get(index).getY() - s.getY();
-                oars.remove(index);
-                int depX = (movX < -2) ? -2 : Math.min(movX, 2);
-                int depY = (movY < -2) ? -2 : Math.min(movY, 2);
-                findSailorById(s.getId(), leftSailors).updatePos(depX, depY); // met à jour les (x , y) de ce sailor
-                stratData.actions.add(new Moving(s.getId(), depX, depY));
-                continue;
-            }
             int movX = oars.get(index).getX() - s.getX();
             int movY = oars.get(index).getY() - s.getY();
+            allInRange = deplacerMarin(findSailorById(s.getId(), leftSailors), oars.get(index).getDist(s), movX,movY);
             oars.remove(index);
-            findSailorById(s.getId(), leftSailors).updatePos(movX, movY);
-            stratData.actions.add(new Moving(s.getId(), movX, movY));
         }
         for (Sailor s : rightSailors) {
             int distMin = 0;
@@ -314,22 +309,10 @@ public class GestionMarins {
                 oars.remove(index);
                 continue;
             }
-            if (oars.get(index).getDist(s) > 5) {
-                allInRange = false;
-                int movX = oars.get(index).getX() - s.getX();
-                int movY = oars.get(index).getY() - s.getY();
-                oars.remove(index);
-                int depX = (movX < -2) ? -2 : Math.min(movX, 2);
-                int depY = (movY < -2) ? -2 : Math.min(movY, 2);
-                findSailorById(s.getId(), rightSailors).updatePos(depX, depY); // met à jour les (x , y) de ce sailor
-                stratData.actions.add(new Moving(s.getId(), depX, depY));
-                continue;
-            }
             int movX = oars.get(index).getX() - s.getX();
             int movY = oars.get(index).getY() - s.getY();
+            allInRange = deplacerMarin(findSailorById(s.getId(), rightSailors), oars.get(index).getDist(s), movX,movY);
             oars.remove(index);
-            findSailorById(s.getId(), rightSailors).updatePos(movX, movY);
-            stratData.actions.add(new Moving(s.getId(), movX, movY));
         }
         if (!allInRange) {
             this.placementInit = false;
