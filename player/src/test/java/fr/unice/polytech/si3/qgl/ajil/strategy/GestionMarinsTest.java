@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
@@ -144,5 +145,16 @@ class GestionMarinsTest {
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(0)).getXdistance());
         Assertions.assertFalse(gestionMarins.isPlacementBarreur());
+    }
+
+    @Test
+    void findSailorByIdTest(){
+        ArrayList<Sailor> sailors = new ArrayList<>();
+        ArrayList<Sailor> sailorsVide = new ArrayList<>();
+        Sailor s = new Sailor(1, 4, 0, "Sailor 0"); // ( 1 , 4 )
+        sailors.add(s);
+        Assertions.assertEquals(s, gestionMarins.findSailorById(s.getId(),sailors));
+        Assertions.assertNull(gestionMarins.findSailorById(10, sailors));
+        Assertions.assertNull(gestionMarins.findSailorById(0, sailorsVide));
     }
 }
