@@ -88,12 +88,16 @@ public class GestionMarins {
             int movX = rudder.getX() - barreur.getX();
             int movY = rudder.getY() - barreur.getY();
             LOGGER.add("Barreur mouvement :  X:" + movX +"  Y:" + movY);
-            stratData.actions.add(new Moving(barreur.getId(), (movX<-2) ? -2 : Math.min(movX, 2), (movY<-2) ? -2 : Math.min(movY, 2)));
+            int depX = (movX < -2) ? -2 : Math.min(movX, 2);
+            int depY = (movY < -2) ? -2 : Math.min(movY, 2);
+            barreur.updatePos(depX, depY); // met à jour les (x , y) de ce sailor
+            stratData.actions.add(new Moving(barreur.getId(), depX, depY));
             return;
         }
         placementBarreur = true;
         int movX = rudder.getX() - barreur.getX();
         int movY = rudder.getY() - barreur.getY();
+        barreur.updatePos(movX, movY);
         stratData.actions.add(new Moving(barreur.getId(), movX, movY));
     }
 
@@ -115,6 +119,16 @@ public class GestionMarins {
             }
             break;
         }
+    }
+
+    public Sailor findSailorById(int id, ArrayList<Sailor> sailors){
+        for ( int i = 0; i < sailors.size(); i++ ){
+            if (sailors.get(i).getId() == id ){
+                return sailors.get(i);
+            }
+        }
+        LOGGER.add("Sailor n'a pas été trouvé");
+        return null;
     }
 
     public boolean isPlacementInit() {
@@ -272,12 +286,16 @@ public class GestionMarins {
                 int movX = oars.get(index).getX() - s.getX();
                 int movY = oars.get(index).getY() - s.getY();
                 oars.remove(index);
-                stratData.actions.add(new Moving(s.getId(), (movX<-2) ? -2 : Math.min(movX, 2), (movY<-2) ? -2 : Math.min(movY, 2)));
+                int depX = (movX < -2) ? -2 : Math.min(movX, 2);
+                int depY = (movY < -2) ? -2 : Math.min(movY, 2);
+                findSailorById(s.getId(), leftSailors).updatePos(depX, depY); // met à jour les (x , y) de ce sailor
+                stratData.actions.add(new Moving(s.getId(), depX, depY));
                 continue;
             }
             int movX = oars.get(index).getX() - s.getX();
             int movY = oars.get(index).getY() - s.getY();
             oars.remove(index);
+            findSailorById(s.getId(), leftSailors).updatePos(movX, movY);
             stratData.actions.add(new Moving(s.getId(), movX, movY));
         }
         for (Sailor s : rightSailors) {
@@ -301,12 +319,16 @@ public class GestionMarins {
                 int movX = oars.get(index).getX() - s.getX();
                 int movY = oars.get(index).getY() - s.getY();
                 oars.remove(index);
-                stratData.actions.add(new Moving(s.getId(), (movX<-2) ? -2 : Math.min(movX, 2), (movY<-2) ? -2 : Math.min(movY, 2)));
+                int depX = (movX < -2) ? -2 : Math.min(movX, 2);
+                int depY = (movY < -2) ? -2 : Math.min(movY, 2);
+                findSailorById(s.getId(), rightSailors).updatePos(depX, depY); // met à jour les (x , y) de ce sailor
+                stratData.actions.add(new Moving(s.getId(), depX, depY));
                 continue;
             }
             int movX = oars.get(index).getX() - s.getX();
             int movY = oars.get(index).getY() - s.getY();
             oars.remove(index);
+            findSailorById(s.getId(), rightSailors).updatePos(movX, movY);
             stratData.actions.add(new Moving(s.getId(), movX, movY));
         }
         if (!allInRange) {
