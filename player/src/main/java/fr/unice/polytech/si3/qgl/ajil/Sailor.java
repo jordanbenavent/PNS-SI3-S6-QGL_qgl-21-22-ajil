@@ -88,6 +88,16 @@ public class Sailor {
     }
 
     /**
+     * Met à jour les coordonnés du marin
+     * @param x
+     * @param y
+     */
+    public void updatePos(int x, int y){
+        this.x += x;
+        this.y += y;
+    }
+
+    /**
      * @return un string composé des coordonnées du marin ainsi que de son id et de son nom
      */
     @Override

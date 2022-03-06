@@ -100,10 +100,17 @@ public class Strategy {
      * Effectue les actions dans l'ordre qu'il faut
      */
     public void effectuerActions() {
+        // d'abord on place le Barreur
         if (!gestionMarins.isPlacementBarreur()){
             gestionMarins.attribuerBarreur();
         }
+        // ensuite on place le marin responsable de la voile
+        if (!gestionMarins.isPlacementSailManagers()){
+            gestionMarins.attribuerSailManager();
+        }
+
         gestionMarins.repartirLesMarins();
+
         if (!gestionMarins.isPlacementInit()) {
             gestionMarins.placerSurRames();
         }
