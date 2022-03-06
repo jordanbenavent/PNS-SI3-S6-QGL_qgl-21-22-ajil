@@ -189,4 +189,29 @@ class GestionMarinsTest {
         Sailor res = gestionMarins.marinLePlusProche(sail);
         Assertions.assertEquals(res,sailors.get(2));
     }
+
+    @Test
+    void deplacerMarinTest() {
+        ArrayList<Sailor> sailors = new ArrayList<>();
+        sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
+        sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
+        sailors.add(new Sailor(7, 2, 1, "Sailor 1")); // ( 7 , 2 )
+        jeu.setSailors(sailors);
+
+        ArrayList<Entity> entities = new ArrayList<>();
+        entities.add(new Rudder(4,4,"rudder"));
+        entities.add(new OarEntity(7,0,"oar"));
+        entities.add(new OarEntity(5,0,"oar"));
+        ship.setEntities(entities);
+
+        Assertions.assertTrue(gestionMarins.deplacerMarin(sailors.get(0), entities.get(0)));
+        Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getXdistance());
+        Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
+        Assertions.assertFalse(gestionMarins.deplacerMarin(sailors.get(1), entities.get(1)));
+        Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(1)).getXdistance());
+        Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(1)).getYdistance());
+        Assertions.assertTrue(gestionMarins.deplacerMarin(sailors.get(2), entities.get(2)));
+        Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(2)).getXdistance());
+        Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(2)).getYdistance());
+    }
 }

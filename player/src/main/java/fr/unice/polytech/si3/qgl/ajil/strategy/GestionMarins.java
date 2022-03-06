@@ -168,6 +168,10 @@ public class GestionMarins {
         return placementBarreur;
     }
 
+    public boolean isPlacementSailManagers() {
+        return placementSailManagers;
+    }
+
     /**
      * Ajoute à la liste d'actions une ou plusieurs ramer en fonction de la vitesse et de l'angle voulu.
      * @param deplacement
