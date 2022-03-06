@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Rudder;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.Sail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,10 +21,10 @@ class GestionMarinsTest {
     Game jeu;
     Ship ship;
     Strategy strategy;
-    Checkpoint checkpoint;
-    Checkpoint checkpoint2;
-    Checkpoint checkpoint3;
     GestionMarins gestionMarins;
+    ArrayList<Sailor> sailors;
+    Checkpoint checkpoint;
+
 
     @BeforeEach
     void setUp() {
@@ -33,21 +34,23 @@ class GestionMarinsTest {
                 new ArrayList<>(),
                 new Rectangle("rectangle", 5, 5, 5));
         ArrayList<Checkpoint> checkpoints = new ArrayList<>();
-        ArrayList<Sailor> sailors = new ArrayList<>();
+        checkpoint = new Checkpoint(new Position(5, 5, 0), new Circle("circle", 1));
+        checkpoints.add(checkpoint);
+
+        sailors = new ArrayList<>();
         jeu = new Game(
                 new Goal("regatte", checkpoints),
                 ship,
                 sailors,
                 4
         );
-        checkpoint = new Checkpoint(new Position(5, 5, 0), new Circle("circle", 1));
-        checkpoints.add(checkpoint);
-        Sailor sailor = new Sailor(1, 1, 0, "sailor1");
-        Sailor sailor2 = new Sailor(1, 1, 0, "sailor2");
+        Sailor sailor = new Sailor(1, 1, 1, "sailor1");
+        Sailor sailor2 = new Sailor(1, 2, 2, "sailor2");
+        Sailor sailor3 = new Sailor(3, 3, 2, "sailor2");
+
         sailors.add(sailor);
         sailors.add(sailor2);
-        checkpoint2 = new Checkpoint(new Position(1, 7, 0), new Circle("circle", 4));
-        checkpoint3 = new Checkpoint(new Position(-1, 0, 1), new Circle("circle", 1));
+        sailors.add(sailor3);
         strategy = new Strategy(jeu);
         gestionMarins = strategy.getGestionMarins();
     }
@@ -65,7 +68,9 @@ class GestionMarinsTest {
         ship.setEntities(entities);
         jeu.setShip(ship);
         strategy.getActions();
+
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
+
         Assertions.assertEquals(-1, ((Moving) strategy.getListActions().get(0)).getYdistance());
         Assertions.assertEquals(-1, ((Moving) strategy.getListActions().get(1)).getXdistance());
     }
@@ -103,6 +108,7 @@ class GestionMarinsTest {
     @DisplayName("Attribuer Marin qui est dans range de 5")
     @Test
     void attribuerBarreurTest1() {
+
         ArrayList<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
         sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
@@ -121,8 +127,12 @@ class GestionMarinsTest {
         entities.add(new OarEntity(1,4,"oar"));
         entities.add(new OarEntity(2,4,"oar"));
         ship.setEntities(entities);
+
         gestionMarins.attribuerBarreur();
+        System.out.println(gestionMarins.isPlacementBarreur());
+
         gestionMarins.repartirLesMarins();
+
         Assertions.assertEquals(0,gestionMarins.getBarreur().getId());
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
@@ -156,5 +166,27 @@ class GestionMarinsTest {
         Assertions.assertEquals(s, gestionMarins.findSailorById(s.getId(),sailors));
         Assertions.assertNull(gestionMarins.findSailorById(10, sailors));
         Assertions.assertNull(gestionMarins.findSailorById(0, sailorsVide));
+    }
+
+
+
+    @Test
+    void findMarinLePlusProche(){
+        Rudder rudder = new Rudder(1,2,"Rudder");
+        ArrayList<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
+        tmp.add(rudder);
+        gestionMarins.stratData.jeu.getShip().setEntities(tmp);
+        Sailor res = gestionMarins.marinLePlusProche(rudder);
+        Assertions.assertEquals(res,sailors.get(1));
+    }
+
+    @Test
+    void findMarinLePlusProcheDuSail(){
+        Sail sail = new Sail(2,4,"Sail",false);
+        ArrayList<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
+        tmp.add(sail);
+        gestionMarins.stratData.jeu.getShip().setEntities(tmp);
+        Sailor res = gestionMarins.marinLePlusProche(sail);
+        Assertions.assertEquals(res,sailors.get(2));
     }
 }

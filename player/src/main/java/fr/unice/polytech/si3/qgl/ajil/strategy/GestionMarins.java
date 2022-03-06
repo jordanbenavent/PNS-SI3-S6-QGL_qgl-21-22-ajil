@@ -52,7 +52,13 @@ public class GestionMarins {
     /**
      * @return boolean qui dit si oui ou non le marin a atteint la position fixée
      */
-    public boolean deplacerMarin(Sailor s, int dist, int movX, int movY){
+    public boolean deplacerMarin(Sailor s, Entity entity){
+        LOGGER.add("Marin :  "+s.getId()+"veut aller vers "+entity.toString());
+        int dist = entity.getDist(s);
+        int movX = entity.getX() - s.getX();
+        int movY = entity.getY() - s.getY();
+
+        if(dist==0){return true;}
         if ( dist > 5 ) {
             LOGGER.add("Marin mouvement :  X:" + movX +"  Y:" + movY);
             int depX = (movX < -2) ? -2 : Math.min(movX, 2);
@@ -67,6 +73,25 @@ public class GestionMarins {
         return true;
     }
 
+
+
+    public Sailor marinLePlusProche(Entity entity){
+        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        if(sailors.isEmpty()){return null;} //Comment on gere les cas ou y a une liste de sailors vide ?
+        int distMin = entity.getDist(sailors.get(0));
+        Sailor plusProche = sailors.get(0);
+        int nouvelleDistance;
+
+        for(Sailor s: sailors){
+            nouvelleDistance = entity.getDist(s);
+            if(nouvelleDistance<distMin){
+                distMin= nouvelleDistance;
+                plusProche =s;
+            }
+        }
+        return plusProche;
+    }
+
     /*
      * Trouve le marin le plus proche de la voile et le déplace vers celle-ci
      */
@@ -78,33 +103,12 @@ public class GestionMarins {
             placementSailManagers = true;
             return;
         }
-        int distMin = 15;
-        int index = -1;
-        for (int i = 0; i < sailors.size(); i++) {
-            if ( sailManager != null ) {
-                break;
-            }
-            int dist = sail.getDist(sailors.get(i));
-            if (dist < distMin){
-                distMin = dist;
-                index = i;
-            }
-            if (  dist == 0 ) {
-                sailManager = sailors.get(i);
-                LOGGER.add("Sail Manager est : " + sailors.get(i));
-                sailors.remove(i);
-                placementSailManagers = true;
-                return;
-            }
+        if(sailManager==null){
+            sailManager = marinLePlusProche(sail);
+            sailors.remove(sailManager.getId());
+            LOGGER.add("Sail Manager est : " + sailManager.getId());
         }
-        if ( sailManager == null ){
-            sailManager = sailors.get(index);
-            LOGGER.add("Sail Manager est : " + sailors.get(index));
-            sailors.remove(index);
-        }
-        int movX = sail.getX() - sailManager.getX();
-        int movY = sail.getY() - sailManager.getY();
-        placementSailManagers = deplacerMarin(sailManager, distMin, movX, movY);
+        placementSailManagers = deplacerMarin(sailManager,sail);
     }
 
     /*
@@ -118,33 +122,12 @@ public class GestionMarins {
             placementBarreur = true;
             return;
         }
-        int distMin = 15;
-        int index = -1;
-        for (int i = 0; i < sailors.size(); i++) {
-            if ( barreur != null ) {
-                break;
-            }
-            int dist = rudder.getDist(sailors.get(i));
-            if (dist < distMin){
-                distMin = dist;
-                index = i;
-            }
-            if (  dist == 0 ) {
-                barreur = sailors.get(i);
-                LOGGER.add("Barreur est : " + sailors.get(i));
-                sailors.remove(i);
-                placementBarreur = true;
-                return;
-            }
+        if(barreur==null){
+            barreur = marinLePlusProche(rudder);
+            sailors.remove(barreur.getId());
+            LOGGER.add("BarreurManageur est : " + barreur.getId());
         }
-        if ( barreur == null ){
-            barreur = sailors.get(index);
-            LOGGER.add("Barreur est : " + sailors.get(index));
-            sailors.remove(index);
-        }
-        int movX = rudder.getX() - barreur.getX();
-        int movY = rudder.getY() - barreur.getY();
-        placementBarreur = deplacerMarin(barreur, distMin, movX, movY);
+        placementBarreur= deplacerMarin(barreur,rudder);
     }
 
     /**
@@ -323,14 +306,14 @@ public class GestionMarins {
                     }
                 }
             }
+
             if (distMin == 0) {
                 oars.remove(index);
                 continue;
             }
-            int movX = oars.get(index).getX() - s.getX();
-            int movY = oars.get(index).getY() - s.getY();
-            allInRange = deplacerMarin(findSailorById(s.getId(), leftSailors), oars.get(index).getDist(s), movX,movY);
+            allInRange = deplacerMarin(findSailorById(s.getId(), leftSailors), oars.get(index));
             oars.remove(index);
+
         }
         for (Sailor s : rightSailors) {
             int distMin = 0;
@@ -348,9 +331,8 @@ public class GestionMarins {
                 oars.remove(index);
                 continue;
             }
-            int movX = oars.get(index).getX() - s.getX();
-            int movY = oars.get(index).getY() - s.getY();
-            allInRange = deplacerMarin(findSailorById(s.getId(), rightSailors), oars.get(index).getDist(s), movX,movY);
+
+            allInRange = deplacerMarin(findSailorById(s.getId(), rightSailors), oars.get(index));
             oars.remove(index);
         }
         if (!allInRange) {

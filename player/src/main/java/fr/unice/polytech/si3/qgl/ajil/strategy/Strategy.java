@@ -103,7 +103,9 @@ public class Strategy {
         if (!gestionMarins.isPlacementBarreur()){
             gestionMarins.attribuerBarreur();
         }
+
         gestionMarins.repartirLesMarins();
+
         if (!gestionMarins.isPlacementInit()) {
             gestionMarins.placerSurRames();
         }
