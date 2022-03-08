@@ -29,11 +29,11 @@ class VectorTest {
         v4 = new Vector(1.456, 5.45);
         v5 = new Vector(0, 0);
 
-        ancienneValeurV1 = v1.clone();
-        ancienneValeurV2 = v2.clone();
-        ancienneValeurV3 = v3.clone();
-        ancienneValeurV4 = v4.clone();
-        ancienneValeurV5 = v5.clone();
+        ancienneValeurV1 = v1.copy();
+        ancienneValeurV2 = v2.copy();
+        ancienneValeurV3 = v3.copy();
+        ancienneValeurV4 = v4.copy();
+        ancienneValeurV5 = v5.copy();
     }
 
     @Test
@@ -157,7 +157,7 @@ class VectorTest {
 
     @Test
     void testClonageVector() {
-        Vector bis = v1.clone();
+        Vector bis = v1.copy();
         assertEquals(v1, bis);
     }
 
@@ -166,7 +166,7 @@ class VectorTest {
         assertEquals(v1, v1);
         assertNotEquals(v1, v2);
         assertNotEquals(v1, v4);
-        assertEquals(v1, v1.clone());
+        assertEquals(v1, v1.copy());
     }
 
     @Test

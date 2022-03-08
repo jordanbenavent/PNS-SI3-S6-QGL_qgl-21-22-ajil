@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.ajil.shipentities.Rudder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,16 +28,16 @@ public class Ship {
     private Position position;
     private String name;
     private Deck deck;
-    private ArrayList<Entity> entities;
+    private List<Entity> entities;
     private Shape shape;
 
-    ArrayList<Entity> leftOars = new ArrayList<>();
-    ArrayList<Entity> rightOars = new ArrayList<>();
+    List<Entity> leftOars = new ArrayList<>();
+    List<Entity> rightOars = new ArrayList<>();
 
     public Ship() {
     }
 
-    public Ship(String type, int life, Position position, String name, Deck deck, ArrayList<Entity> entities, Shape shape) {
+    public Ship(String type, int life, Position position, String name, Deck deck, List<Entity> entities, Shape shape) {
         this.type = type;
         this.life = life;
         this.position = position;
@@ -124,7 +125,7 @@ public class Ship {
     /**
      * @return la liste des entités dans le bateau (les rames, voiles, gouvernail)
      */
-    public ArrayList<Entity> getEntities() {
+    public List<Entity> getEntities() {
         return entities;
     }
 
@@ -132,7 +133,7 @@ public class Ship {
      * Modifie la liste des entités
      * @param entities set ship entities
      */
-    public void setEntities(ArrayList<Entity> entities) {
+    public void setEntities(List<Entity> entities) {
         this.entities = entities;
     }
 
@@ -154,7 +155,7 @@ public class Ship {
     /**
      * @return la liste des rames présentes sur le bateau
      */
-    public ArrayList<Entity> getOars() {
+    public List<Entity> getOars() {
         ArrayList<Entity> res = new ArrayList<>();
         for (Entity e : entities) {
             if (e instanceof OarEntity) {
@@ -180,7 +181,7 @@ public class Ship {
      * Ajoute les rames dans les listes leftOars et rightOars en fonction de leur position dans le bateau
      */
     public void placeOars() {
-        ArrayList<Entity> oars = getOars();
+        List<Entity> oars = getOars();
         for (Entity oar : oars) {
             if (oar.getType().equals("oar")) {
                 if (oar.getY() == 0) {

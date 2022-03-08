@@ -1,6 +1,4 @@
 package fr.unice.polytech.si3.qgl.ajil;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +21,7 @@ public class Game {
 
     public Game(){}
 
-    public Game(Goal goal, Ship ship, ArrayList<Sailor> sailors, int shipCount) {
+    public Game(Goal goal, Ship ship, List<Sailor> sailors, int shipCount) {
         this.goal = goal;
         this.ship = ship;
         this.sailors = sailors;

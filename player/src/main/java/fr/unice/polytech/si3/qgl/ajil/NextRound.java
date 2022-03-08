@@ -24,7 +24,7 @@ public class NextRound {
 
     public NextRound(){}
 
-    public NextRound(Ship ship, Wind wind, ArrayList<VisibleEntitie> visibleEntities){
+    public NextRound(Ship ship, Wind wind,List<VisibleEntitie> visibleEntities){
         this.ship = ship;
         this.wind = wind;
         this.visibleEntities = visibleEntities;
