@@ -105,7 +105,7 @@ public class GestionMarins {
         }
         if(sailManager==null){
             sailManager = marinLePlusProche(sail);
-            sailors.remove(sailManager.getId());
+            sailors.remove(sailManager);
             LOGGER.add("Sail Manager est : " + sailManager.getId());
         }
         placementSailManagers = deplacerMarin(sailManager,sail);
@@ -124,7 +124,7 @@ public class GestionMarins {
         }
         if(barreur==null){
             barreur = marinLePlusProche(rudder);
-            sailors.remove(barreur.getId());
+            sailors.remove(barreur);
             LOGGER.add("BarreurManageur est : " + barreur.getId());
         }
         placementBarreur= deplacerMarin(barreur,rudder);
@@ -298,6 +298,7 @@ public class GestionMarins {
     public void placerSurRames() {
         ArrayList<Entity> oars = stratData.jeu.getShip().getOars();
         boolean allInRange = true;
+        boolean bienplace = true;
         for (Sailor s : leftSailors) {
             int distMin = 0;
             int index = -1;
@@ -316,6 +317,9 @@ public class GestionMarins {
                 continue;
             }
             allInRange = deplacerMarin(findSailorById(s.getId(), leftSailors), oars.get(index));
+            if (!allInRange){
+                bienplace = false;
+            }
             oars.remove(index);
 
         }
@@ -337,9 +341,12 @@ public class GestionMarins {
             }
 
             allInRange = deplacerMarin(findSailorById(s.getId(), rightSailors), oars.get(index));
+            if (!allInRange){
+                bienplace = false;
+            }
             oars.remove(index);
         }
-        if (!allInRange) {
+        if (!bienplace) {
             this.placementInit = false;
             return;
         }
