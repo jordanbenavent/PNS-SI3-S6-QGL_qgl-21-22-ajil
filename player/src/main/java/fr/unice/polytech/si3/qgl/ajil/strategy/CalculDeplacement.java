@@ -33,18 +33,22 @@ public class CalculDeplacement {
         Wind wind = stratData.jeu.getWind();
         double shipOrientation = s.getPosition().getOrientation()  % (2 * Math.PI);
         double windOrientation = wind.getOrientation();
-        int barreur = stratData.getSailorsManager().getId();
-        LiftSail lift = new LiftSail(barreur);
-        LowerSail lower = new LowerSail(barreur);
+        if (stratData.getSailorsManager() != null) {
+            int barreur = stratData.getSailorsManager().getId();
+            LiftSail lift = new LiftSail(barreur);
+            LowerSail lower = new LowerSail(barreur);
 
-        final double RANGE = Math.PI / 2;
-        stratData.actions.remove(lift);
-        stratData.actions.remove(lower);
-        if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
-            // stratData.actions.add(lift);
-            System.out.println("VOILE UP");
+            final double RANGE = Math.PI / 2;
+            stratData.actions.remove(lift);
+            stratData.actions.remove(lower);
+            if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
+                // stratData.actions.add(lift);
+                System.out.println("VOILE UP");
+            } else {
+                stratData.actions.add(lower);
+            }
         } else {
-            stratData.actions.add(lower);
+            System.out.println("Pas de SailorManager");
         }
     }
 
@@ -111,7 +115,7 @@ public class CalculDeplacement {
             double vitesse_opti = 0;
             double diffMin = -1;
             for(Deplacement d: futur_angle){
-                double diff = 0;
+                double diff;
                 if (d.getAngle() < 0){
                     diff = Math.abs(angle_maximum + d.getAngle());
                 }

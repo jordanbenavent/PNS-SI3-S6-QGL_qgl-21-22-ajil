@@ -116,8 +116,6 @@ public class Strategy {
         if (!gestionMarins.isPlacementSailManagers()){
             gestionMarins.attribuerSailManager();
         }
-        calculDeplacement.putSail();
-
 
         gestionMarins.repartirLesMarins();
 
@@ -127,5 +125,7 @@ public class Strategy {
         Checkpoint c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
         gestionMarins.ramerSelonVitesse(deplacement);
+        calculDeplacement.putSail();
+
     }
 }
