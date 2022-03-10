@@ -177,6 +177,21 @@ public class GestionMarins {
      * @param deplacement
      */
     void ramerSelonVitesse(Deplacement deplacement){
+
+        double angle = deplacement.getAngle();
+
+        if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
+
+            Turn tournerGouvernail = new Turn(barreur.getId(),angle);
+            stratData.actions.add(tournerGouvernail);
+            for (Sailor sailor : stratData.jeu.getSailors()) {
+                stratData.actions.add(new Oar(sailor.getId()));
+            }
+            return;
+        }
+
+        
+
         int sailor_qui_rame = 0;
         double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
         // Si le bateau doit avancer tout droit, l'angle vaut 0
