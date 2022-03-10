@@ -33,6 +33,14 @@ public class CalculDeplacement {
         angles_possibles.remove(0.0);
         Double angle_maximum =  quelEstLangleMaximum(angles_possibles);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
+
+        // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
+        if(Math.abs(angle) <= Math.PI/4){
+            deplacement.setAngle(angle);
+            deplacement.setVitesse(165.0);
+            return deplacement;
+        }
+
         if(Math.abs(angle) >= Math.PI/2){
             deplacement.setVitesse(82.5);
             if(angle < 0){

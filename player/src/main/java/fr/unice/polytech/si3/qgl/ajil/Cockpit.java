@@ -42,6 +42,7 @@ public class Cockpit implements ICockpit {
 	 */
 	public void initGame(String game) {
 		LOGGER.add("Début de la partie");
+		System.out.println("Début de la partie");
 		try {
 			this.jeu = objectMapper.readValue(game, Game.class);
 		} catch (JsonProcessingException e) {
