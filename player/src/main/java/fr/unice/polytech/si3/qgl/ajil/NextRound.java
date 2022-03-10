@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.ajil;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe NextRound
@@ -18,12 +19,12 @@ import java.util.ArrayList;
 public class NextRound {
 
     private Ship ship;
-    private ArrayList<VisibleEntitie> visibleEntities;
+    private List<VisibleEntitie> visibleEntities;
     private Wind wind;
 
     public NextRound(){}
 
-    public NextRound(Ship ship, Wind wind, ArrayList<VisibleEntitie> visibleEntities){
+    public NextRound(Ship ship, Wind wind,List<VisibleEntitie> visibleEntities){
         this.ship = ship;
         this.wind = wind;
         this.visibleEntities = visibleEntities;
@@ -32,7 +33,7 @@ public class NextRound {
     /**
      * @return la liste des entités visibles durant le tour de jeu
      */
-    public ArrayList<VisibleEntitie> getVisibleEntities() {
+    public List<VisibleEntitie> getVisibleEntities() {
         return visibleEntities;
     }
 
@@ -62,7 +63,7 @@ public class NextRound {
      * Modifie les entités visibles durant le tour de jeu
      * @param visibleEntities entités visibles
      */
-    public void setVisibleEntities(ArrayList<VisibleEntitie> visibleEntities) {
+    public void setVisibleEntities(List<VisibleEntitie> visibleEntities) {
         this.visibleEntities = visibleEntities;
     }
 

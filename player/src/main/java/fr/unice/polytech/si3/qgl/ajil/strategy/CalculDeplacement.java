@@ -6,13 +6,14 @@ import fr.unice.polytech.si3.qgl.ajil.actions.LiftSail;
 import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class CalculDeplacement {
 
     protected Game jeu;
     protected StratData stratData;
-    public ArrayList<String> LOGGER = Cockpit.LOGGER;
+    public List<String> LOGGER = Cockpit.LOGGER;
 
     public CalculDeplacement(StratData stratData) {
         this.jeu = stratData.jeu;
@@ -55,7 +56,6 @@ public class CalculDeplacement {
      */
     public Deplacement deplacementPourLeTourRefactor(Checkpoint c) {
         Ship s = jeu.getShip();
-        Wind wind = jeu.getWind();
         int nbr_rames = s.getOars().size();
         Vector v_ship = new Vector(Math.cos(s.getPosition().getOrientation()), Math.sin(s.getPosition().getOrientation()));
         Vector v_check = new Vector(c.getPosition().getX() - s.getPosition().getX(),c.getPosition().getY()-s.getPosition().getY());
@@ -65,6 +65,13 @@ public class CalculDeplacement {
         angles_possibles.remove(0.0);
         Double angle_maximum =  quelEstLangleMaximum(angles_possibles);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
+
+        // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
+        if(Math.abs(angle) <= Math.PI/4){
+            deplacement.setAngle(angle);
+            deplacement.setVitesse(165.0);
+            return deplacement;
+        }
 
         if(Math.abs(angle) >= Math.PI/2){
             deplacement.setVitesse(82.5);
@@ -104,7 +111,7 @@ public class CalculDeplacement {
             double vitesse_opti = 0;
             double diffMin = -1;
             for(Deplacement d: futur_angle){
-                double diff;
+                double diff = 0;
                 if (d.getAngle() < 0){
                     diff = Math.abs(angle_maximum + d.getAngle());
                 }
