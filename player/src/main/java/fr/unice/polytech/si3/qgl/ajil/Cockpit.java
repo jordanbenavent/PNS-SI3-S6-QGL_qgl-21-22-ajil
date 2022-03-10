@@ -65,6 +65,7 @@ public class Cockpit implements ICockpit {
 		nextRound.updateGame(jeu);
 		strategy.setJeu(jeu);
 		LOGGER.add("NextRound");
+
 		return strategy.getActions();
 	}
 
