@@ -173,67 +173,6 @@ public class GestionMarins {
     }
 
     /**
-     * Ajoute à la liste d'actions une ou plusieurs ramer en fonction de la vitesse et de l'angle voulu.
-     * @param deplacement
-     */
-    public void ramer(Deplacement deplacement) {
-
-        double angle = deplacement.getAngle();
-
-        if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
-
-            Turn tournerGouvernail = new Turn(barreur.getId(),angle);
-            stratData.actions.add(tournerGouvernail);
-                for (Sailor sailor : stratData.jeu.getSailors()) {
-                    stratData.actions.add(new Oar(sailor.getId()));
-                }
-                return;
-        }
-
-
-        if (deplacement.getAngle() < 0) {
-            if (deplacement.getAngle() == -Math.PI / 2) {
-                for (Sailor sailor : leftSailors) {
-                    stratData.actions.add(new Oar(sailor.getId()));
-                }
-                return;
-            }
-            if (deplacement.getAngle() == -Math.PI / 4) {
-                for (int i = 0; i < leftSailors.size() / 2; i++) {
-                    stratData.actions.add(new Oar(leftSailors.get(i).getId()));
-                }
-                return;
-            }
-        }
-        if (deplacement.getAngle() > 0) {
-            if (deplacement.getAngle() == Math.PI / 2) {
-                for (Sailor sailor : rightSailors) {
-                    stratData.actions.add(new Oar(sailor.getId()));
-                }
-                return;
-            }
-            if (deplacement.getAngle() == Math.PI / 4) {
-                for (int i = 0; i < rightSailors.size() / 2; i++) {
-                    stratData.actions.add(new Oar(rightSailors.get(i).getId()));
-                }
-                return;
-            }
-        }
-        if (deplacement.getVitesse() == 165) {
-            for (Sailor sailor : stratData.jeu.getSailors()) {
-                stratData.actions.add(new Oar(sailor.getId()));
-            }
-        } else {
-            for (int i = 0; i < rightSailors.size() / 2; i++) {
-                stratData.actions.add(new Oar(rightSailors.get(i).getId()));
-            }
-            for (int i = 0; i < leftSailors.size() / 2; i++) {
-                stratData.actions.add(new Oar(leftSailors.get(i).getId()));
-            }
-        }
-    }
-
-    /**
      * Rame selon la vitesse indiquée dans le déplacement
      * @param deplacement
      */
