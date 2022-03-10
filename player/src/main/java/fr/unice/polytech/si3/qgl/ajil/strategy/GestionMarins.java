@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GestionMarins {
 
@@ -16,7 +17,8 @@ public class GestionMarins {
     private boolean placementBarreur = false;
     private boolean placementSailManagers = false;
     protected StratData stratData;
-    public ArrayList<String> LOGGER = Cockpit.LOGGER;
+    public List<String> LOGGER = Cockpit.LOGGER;
+    private int idMarinGouvernail = 0;
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -76,7 +78,7 @@ public class GestionMarins {
 
 
     public Sailor marinLePlusProche(Entity entity){
-        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        List<Sailor> sailors = stratData.jeu.getSailors();
         if(sailors.isEmpty()){return null;} //Comment on gere les cas ou y a une liste de sailors vide ?
         int distMin = entity.getDist(sailors.get(0));
         Sailor plusProche = sailors.get(0);
@@ -96,7 +98,7 @@ public class GestionMarins {
      * Trouve le marin le plus proche de la voile et le déplace vers celle-ci
      */
     public void attribuerSailManager(){
-        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        List<Sailor> sailors = stratData.jeu.getSailors();
         Entity sail = stratData.jeu.getShip().getSail();
         if (sail == null){
             LOGGER.add("Il n'y a pas de Voile.");
@@ -115,7 +117,7 @@ public class GestionMarins {
     * Trouve le marin le plus proche du gouvernail et le déplace vers celui-ci
     */
     public void attribuerBarreur() {
-        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        List<Sailor> sailors = stratData.jeu.getSailors();
         Entity rudder = stratData.jeu.getShip().getRudder();
         if (rudder == null){
             LOGGER.add("Il n'y a pas de Gouvernail.");
@@ -136,7 +138,7 @@ public class GestionMarins {
     public void repartirLesMarins() {
         leftSailors.clear();
         rightSailors.clear();
-        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        List<Sailor> sailors = stratData.jeu.getSailors();
         for (Sailor s : sailors) {
             if (leftSailors.size() < sailors.size() / 2) {
                 leftSailors.add(s);
@@ -177,6 +179,21 @@ public class GestionMarins {
      * @param deplacement
      */
     void ramerSelonVitesse(Deplacement deplacement){
+
+        double angle = deplacement.getAngle();
+
+        if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
+
+            Turn tournerGouvernail = new Turn(barreur.getId(),angle);
+            stratData.actions.add(tournerGouvernail);
+            for (Sailor sailor : stratData.jeu.getSailors()) {
+                stratData.actions.add(new Oar(sailor.getId()));
+            }
+            return;
+        }
+
+        
+
         int sailor_qui_rame = 0;
         double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
         // Si le bateau doit avancer tout droit, l'angle vaut 0
@@ -235,7 +252,7 @@ public class GestionMarins {
      * Ajoute à la liste d'actions les déplacements que doivent effectuer les marins pour se placer sur les rames
      */
     public void placerSurRames() {
-        ArrayList<Entity> oars = stratData.jeu.getShip().getOars();
+        List<Entity> oars = stratData.jeu.getShip().getOars();
         boolean allInRange = true;
         boolean bienplace = true;
         for (Sailor s : leftSailors) {

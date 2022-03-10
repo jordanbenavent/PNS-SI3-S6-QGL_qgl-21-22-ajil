@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe Stratégie regroupant des méthodes qui s'occupent de coordonnées les différentes autre classes ce ce package
@@ -26,7 +27,7 @@ public class Strategy {
 
     private final ObjectMapper objectMapper;
     protected StratData stratData;
-    public ArrayList<String> LOGGER = Cockpit.LOGGER;
+    public List<String> LOGGER = Cockpit.LOGGER;
 
     public ValideCheckpoint getValideCheckpoint() {
         return valideCheckpoint;
