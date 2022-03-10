@@ -57,6 +57,12 @@ public class Strategy {
         calculDeplacement = new CalculDeplacement(jeu);
     }
 
+    /**
+     * @return la stratData
+     */
+    public StratData getStratData(){
+        return stratData;
+    }
 
     /**
      * @return la partie en cours

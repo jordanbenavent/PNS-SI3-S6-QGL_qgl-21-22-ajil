@@ -2,7 +2,10 @@ package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.*;
+import fr.unice.polytech.si3.qgl.ajil.actions.Action;
+import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
+import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
@@ -215,17 +218,17 @@ class GestionMarinsTest {
 
     @Test
     void ramerSelonVitesseTest(){
+        ArrayList<Action> actions = new ArrayList<Action>();
         ArrayList<Sailor> sailors = new ArrayList<>();
-        sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
-        sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
-        sailors.add(new Sailor(0, 1, 2, "Sailor 2"));
-        sailors.add(new Sailor(0, 2, 3, "Sailor 3"));
-        sailors.add(new Sailor(1, 1, 4, "Sailor 4"));
-        sailors.add(new Sailor(1, 3, 5, "Sailor 5"));
-        sailors.add(new Sailor(2, 1, 6, "Sailor 6"));
+        sailors.add(new Sailor(0, 0, 0, "Sailor 0")); // ( 3 , 3 )
+        sailors.add(new Sailor(1, 0, 1, "Sailor 1")); // ( 1 , 2 )
+        sailors.add(new Sailor(2, 0, 2, "Sailor 2"));
+        sailors.add(new Sailor(0, 4, 3, "Sailor 3"));
+        sailors.add(new Sailor(1, 4, 4, "Sailor 4"));
+        sailors.add(new Sailor(2, 4, 5, "Sailor 5"));
         jeu.setSailors(sailors);
+        strategy.getGestionMarins().repartirLesMarins();
         ArrayList<Entity> entities = new ArrayList<>();
-
         entities.add(new OarEntity(0,0,"oar"));
         entities.add(new OarEntity(1,0,"oar"));
         entities.add(new OarEntity(2,0,"oar"));
@@ -233,5 +236,48 @@ class GestionMarinsTest {
         entities.add(new OarEntity(1,4,"oar"));
         entities.add(new OarEntity(2,4,"oar"));
         ship.setEntities(entities);
+        // Déplacement tout droit à vitesse maximale
+        Deplacement deplacement_tout_droit = new Deplacement(165.0, 0.0);
+        for(Sailor s: sailors){
+            actions.add(new Oar(s.getId()));
+        }
+        strategy.getGestionMarins().ramerSelonVitesse(deplacement_tout_droit);
+        System.out.println(actions);
+        System.out.println(strategy.getStratData().actions);
+        Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());
+        strategy.getStratData().actions.clear();
+        actions.clear();
+        // Déplacement tout droit à la plus petite vitesse
+        Deplacement deplacement_tout_droit_55 = new Deplacement(55.0, 0.0);
+        actions.add(new Oar(gestionMarins.getLeftSailors().get(0).getId()));
+        actions.add(new Oar(gestionMarins.getRightSailors().get(0).getId()));
+        strategy.getGestionMarins().ramerSelonVitesse(deplacement_tout_droit_55);
+        System.out.println(actions);
+        System.out.println(strategy.getStratData().actions);
+        Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());
+        strategy.getStratData().actions.clear();
+        actions.clear();
+        // Déplacement à -PI/2
+        Deplacement deplacement_angle_droit_negatif = new Deplacement(82.5, -Math.PI/2);
+        for(Sailor s: strategy.getGestionMarins().getLeftSailors()){
+            actions.add(new Oar(s.getId()));
+        }
+        strategy.getGestionMarins().ramerSelonVitesse(deplacement_angle_droit_negatif);
+        System.out.println(actions);
+        System.out.println(strategy.getStratData().actions);
+        Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());
+        strategy.getStratData().actions.clear();
+        actions.clear();
+        // Déplacement à PI/2
+        Deplacement deplacement_angle_droit_positif = new Deplacement(82.5, Math.PI/2);
+        for(Sailor s: strategy.getGestionMarins().getRightSailors()){
+            actions.add(new Oar(s.getId()));
+        }
+        strategy.getGestionMarins().ramerSelonVitesse(deplacement_angle_droit_positif);
+        System.out.println(actions);
+        System.out.println(strategy.getStratData().actions);
+        Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());
+        strategy.getStratData().actions.clear();
+        actions.clear();
     }
 }
