@@ -15,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class GestionMarinsTest {
 
@@ -171,7 +172,7 @@ class GestionMarinsTest {
     @Test
     void findMarinLePlusProche(){
         Rudder rudder = new Rudder(1,2,"Rudder");
-        ArrayList<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
+        List<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
         tmp.add(rudder);
         gestionMarins.stratData.jeu.getShip().setEntities(tmp);
         Sailor res = gestionMarins.marinLePlusProche(rudder);
@@ -181,7 +182,7 @@ class GestionMarinsTest {
     @Test
     void findMarinLePlusProcheDuSail(){
         Sail sail = new Sail(2,4,"Sail",false);
-        ArrayList<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
+        List<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
         tmp.add(sail);
         gestionMarins.stratData.jeu.getShip().setEntities(tmp);
         Sailor res = gestionMarins.marinLePlusProche(sail);
