@@ -22,7 +22,7 @@ public class Game {
 
     public Game(){}
 
-    public Game(Goal goal, Ship ship, List<Sailor> sailors, int shipCount) {
+    public Game(Goal goal, Ship ship, List<Sailor> sailors, int shipCount, Wind wind) {
         this.goal = goal;
         this.ship = ship;
         this.sailors = sailors;
