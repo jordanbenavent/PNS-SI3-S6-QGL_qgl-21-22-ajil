@@ -80,10 +80,8 @@ public class Vector {
     public double angleBetweenVectors(Vector other){
         double a = this.x*other.y - this.y*other.x;
         double b = this.x*other.x + this.y*other.y;
-
         double ans=Math.atan2(a,b);
-        double repARounded = (double) Math.round(ans * 1000) / 1000;
-        return repARounded;
+        return (double) Math.round(ans * 1000) / 1000;
     }
 
     /**
@@ -159,8 +157,7 @@ public class Vector {
      * Permet de pouvoir cloner un vecteur, utile pour les tests
      * @return le vecteur cloné
      */
-    public Vector clone(){
-        Vector tmp = new Vector(this.getX(),this.getY());
-        return tmp;
+    public Vector copy(){
+        return new Vector(this.getX(),this.getY());
     }
 }

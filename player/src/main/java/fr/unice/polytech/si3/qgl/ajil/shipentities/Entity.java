@@ -3,9 +3,6 @@ package fr.unice.polytech.si3.qgl.ajil.shipentities;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.Sailor;
-import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
-import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
-import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
@@ -37,9 +34,9 @@ public abstract class Entity {
     private int y;
     private String type;
 
-    public Entity(){}
+    Entity(){}
 
-    public Entity(int x, int y, String type){
+    Entity(int x, int y, String type){
         this.type = type;
         this.x = x;
         this.y = y;
@@ -98,8 +95,7 @@ public abstract class Entity {
     public int getDist(Sailor sailor){
         int deplacementX = sailor.getX() - this.x;
         int deplacementY = sailor.getY() - this.y;
-        int res = Math.abs(deplacementX) + Math.abs(deplacementY);
-        return res ;
+        return Math.abs(deplacementX) + Math.abs(deplacementY);
     }
 
     /**

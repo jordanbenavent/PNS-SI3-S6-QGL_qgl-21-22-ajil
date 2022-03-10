@@ -1,8 +1,5 @@
 package fr.unice.polytech.si3.qgl.ajil.shape;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Classe fille de Shape représentant un polygone
  *

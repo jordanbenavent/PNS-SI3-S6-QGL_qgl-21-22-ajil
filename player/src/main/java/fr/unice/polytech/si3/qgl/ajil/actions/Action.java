@@ -1,14 +1,5 @@
 package fr.unice.polytech.si3.qgl.ajil.actions;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
-import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
-import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
-
-import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
-import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
-
 /**
  * Classe mère Action regroupant les méthodes de base d'une action, elle est déclarée abstract car on ne déclarera
  * jamais une action "par défaut".
