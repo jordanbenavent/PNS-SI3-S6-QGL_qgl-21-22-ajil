@@ -38,7 +38,8 @@ class ValideCheckpointTest {
                 new Goal("regatte", checkpoints),
                 ship,
                 sailors,
-                4
+                4,
+                new Wind(0, 50)
         );
         strategy = new Strategy(jeu);
         valideCheckpoint = strategy.getValideCheckpoint();
@@ -102,7 +103,8 @@ class ValideCheckpointTest {
                 new Goal("regatte", checkpoints),
                 ship,
                 sailors,
-                4
+                4,
+                new Wind(0, 50)
         );
         strategy = new Strategy(jeu);
         checkpoint = new Checkpoint(new Position(0, 7, 0), new Circle("circle", 1));
@@ -152,7 +154,7 @@ class ValideCheckpointTest {
 
     @Test
     void pointShipPolygoneTest(){
-        Point point[] = new Point[3];
+        Point[] point = new Point[3];
         Point point1 = new Point(1,2);
         Point point2 = new Point(0,3);
         Point point3 = new Point(0,1);

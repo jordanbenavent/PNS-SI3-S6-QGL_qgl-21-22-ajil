@@ -54,7 +54,7 @@ public class Strategy {
 
         valideCheckpoint = new ValideCheckpoint(jeu);
         gestionMarins = new GestionMarins(stratData);
-        calculDeplacement = new CalculDeplacement(jeu);
+        calculDeplacement = new CalculDeplacement(stratData);
     }
 
 
@@ -100,6 +100,7 @@ public class Strategy {
      * Effectue les actions dans l'ordre qu'il faut
      */
     public void effectuerActions() {
+        Deplacement deplacement;
         // d'abord on place le Barreur
         if (!gestionMarins.isPlacementBarreur()){
             gestionMarins.attribuerBarreur();
@@ -108,6 +109,8 @@ public class Strategy {
         if (!gestionMarins.isPlacementSailManagers()){
             gestionMarins.attribuerSailManager();
         }
+        calculDeplacement.putSail();
+
 
         gestionMarins.repartirLesMarins();
 
@@ -115,7 +118,7 @@ public class Strategy {
             gestionMarins.placerSurRames();
         }
         Checkpoint c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
-        Deplacement deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
+        deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
         gestionMarins.ramerSelonVitesse(deplacement);
     }
 }

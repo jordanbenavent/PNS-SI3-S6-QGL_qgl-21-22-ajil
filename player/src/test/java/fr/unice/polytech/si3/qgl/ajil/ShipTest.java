@@ -32,7 +32,8 @@ public class ShipTest {
                 new Goal("regatte", checkpoints),
                 ship,
                 sailors,
-                4
+                4,
+                new Wind(0, 50)
         );
         strategy = new Strategy(jeu);
         Checkpoint checkpoint = new Checkpoint(new Position(5, 5, 0), new Circle("circle", 1));

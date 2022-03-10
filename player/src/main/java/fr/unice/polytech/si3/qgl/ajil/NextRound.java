@@ -52,7 +52,7 @@ public class NextRound {
 
     /**
      * Modifie le bateau durant le tour de jeu
-     * @param ship
+     * @param ship bateay
      */
     public void setShip(Ship ship) {
         this.ship = ship;
@@ -60,7 +60,7 @@ public class NextRound {
 
     /**
      * Modifie les entités visibles durant le tour de jeu
-     * @param visibleEntities
+     * @param visibleEntities entités visibles
      */
     public void setVisibleEntities(ArrayList<VisibleEntitie> visibleEntities) {
         this.visibleEntities = visibleEntities;
@@ -68,7 +68,7 @@ public class NextRound {
 
     /**
      * Modifie le vent durant le tour de jeu
-     * @param wind
+     * @param wind vent
      */
     public void setWind(Wind wind) {
         this.wind = wind;
@@ -76,9 +76,10 @@ public class NextRound {
 
     /**
      * Modifie la partie durant le tour de jeu
-     * @param game
+     * @param game jeu
      */
     public void updateGame(Game game){
         game.setShip(this.ship);
+        game.setWind(this.wind);
     }
 }

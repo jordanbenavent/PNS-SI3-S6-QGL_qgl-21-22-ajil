@@ -42,7 +42,8 @@ class GestionMarinsTest {
                 new Goal("regatte", checkpoints),
                 ship,
                 sailors,
-                4
+                4,
+                new Wind(0, 50)
         );
         Sailor sailor = new Sailor(1, 1, 1, "sailor1");
         Sailor sailor2 = new Sailor(1, 2, 2, "sailor2");

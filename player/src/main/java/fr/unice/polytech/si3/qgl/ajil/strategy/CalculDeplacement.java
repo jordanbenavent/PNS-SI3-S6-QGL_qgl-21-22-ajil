@@ -2,6 +2,8 @@ package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
+import fr.unice.polytech.si3.qgl.ajil.actions.LiftSail;
+import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -9,10 +11,40 @@ import java.util.Set;
 public class CalculDeplacement {
 
     protected Game jeu;
+    protected StratData stratData;
     public ArrayList<String> LOGGER = Cockpit.LOGGER;
 
-    public CalculDeplacement(Game jeu) {
-        this.jeu = jeu;
+    public CalculDeplacement(StratData stratData) {
+        this.jeu = stratData.jeu;
+        this.stratData = stratData;
+    }
+
+    /**
+     * Actionne la voile
+     */
+    void putSail() {
+        /*
+        Vitesse du vent:
+        Direction: direction du bateau
+        Valeur: (nombre de voile ouverte / nombre de voile) x force du vent x cosinus(angle entre la direction du vent et la direction du bateau)
+         */
+        Ship s = stratData.jeu.getShip();
+        Wind wind = stratData.jeu.getWind();
+        double shipOrientation = s.getPosition().getOrientation()  % (2 * Math.PI);
+        double windOrientation = wind.getOrientation();
+        int barreur = stratData.getSailorsManager().getId();
+        LiftSail lift = new LiftSail(barreur);
+        LowerSail lower = new LowerSail(barreur);
+
+        final double RANGE = Math.PI / 2;
+        stratData.actions.remove(lift);
+        stratData.actions.remove(lower);
+        if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
+            // stratData.actions.add(lift);
+            System.out.println("VOILE UP");
+        } else {
+            stratData.actions.add(lower);
+        }
     }
 
     /**
@@ -23,6 +55,7 @@ public class CalculDeplacement {
      */
     public Deplacement deplacementPourLeTourRefactor(Checkpoint c) {
         Ship s = jeu.getShip();
+        Wind wind = jeu.getWind();
         int nbr_rames = s.getOars().size();
         Vector v_ship = new Vector(Math.cos(s.getPosition().getOrientation()), Math.sin(s.getPosition().getOrientation()));
         Vector v_check = new Vector(c.getPosition().getX() - s.getPosition().getX(),c.getPosition().getY()-s.getPosition().getY());
@@ -32,6 +65,7 @@ public class CalculDeplacement {
         angles_possibles.remove(0.0);
         Double angle_maximum =  quelEstLangleMaximum(angles_possibles);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
+
         if(Math.abs(angle) >= Math.PI/2){
             deplacement.setVitesse(82.5);
             if(angle < 0){
@@ -70,7 +104,7 @@ public class CalculDeplacement {
             double vitesse_opti = 0;
             double diffMin = -1;
             for(Deplacement d: futur_angle){
-                double diff = 0;
+                double diff;
                 if (d.getAngle() < 0){
                     diff = Math.abs(angle_maximum + d.getAngle());
                 }
@@ -147,8 +181,8 @@ public class CalculDeplacement {
         int nbr_oars = jeu.getShip().getOars().size();
         ArrayList<Deplacement> prediction = new ArrayList<>();
         double vitesse_init = 165;
-        double vitesse = 0;
-        double angle_apres_deplacement = 0;
+        double vitesse;
+        double angle_apres_deplacement;
         double positionX_init = jeu.getShip().getPosition().getX();
         double positionY_init = jeu.getShip().getPosition().getY();
         double positionX_apres_deplacement;
