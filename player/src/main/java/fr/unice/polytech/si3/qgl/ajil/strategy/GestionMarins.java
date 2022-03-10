@@ -78,7 +78,7 @@ public class GestionMarins {
 
 
     public Sailor marinLePlusProche(Entity entity){
-        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        List<Sailor> sailors = stratData.jeu.getSailors();
         if(sailors.isEmpty()){return null;} //Comment on gere les cas ou y a une liste de sailors vide ?
         int distMin = entity.getDist(sailors.get(0));
         Sailor plusProche = sailors.get(0);
@@ -98,7 +98,7 @@ public class GestionMarins {
      * Trouve le marin le plus proche de la voile et le déplace vers celle-ci
      */
     public void attribuerSailManager(){
-        ArrayList<Sailor> sailors = stratData.jeu.getSailors();
+        List<Sailor> sailors = stratData.jeu.getSailors();
         Entity sail = stratData.jeu.getShip().getSail();
         if (sail == null){
             LOGGER.add("Il n'y a pas de Voile.");
