@@ -43,12 +43,14 @@ public class CalculDeplacement {
             stratData.actions.remove(lower);
             if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
                 stratData.actions.add(lift);
-                System.out.println("VOILE UP");
+                LOGGER.add("Voile UP");
             } else {
                 stratData.actions.add(lower);
+                LOGGER.add("DOWN");
+
             }
         } else {
-            System.out.println("Pas de SailorManager");
+            LOGGER.add("Pas de Sailer Manager");
         }
     }
 
