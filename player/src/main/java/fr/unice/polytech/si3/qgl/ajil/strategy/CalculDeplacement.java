@@ -42,7 +42,7 @@ public class CalculDeplacement {
             stratData.actions.remove(lift);
             stratData.actions.remove(lower);
             if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
-                // stratData.actions.add(lift);
+                stratData.actions.add(lift);
                 System.out.println("VOILE UP");
             } else {
                 stratData.actions.add(lower);
