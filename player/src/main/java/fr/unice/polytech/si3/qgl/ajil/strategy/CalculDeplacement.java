@@ -145,6 +145,17 @@ public class CalculDeplacement {
         }
     }
 
+    public Deplacement deplacementSiGouvernail(Double angle){
+        Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
+        // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
+        if(Math.abs(angle) <= Math.PI/4){
+            deplacement.setAngle(angle);
+            deplacement.setVitesse(165.0);
+            return deplacement;
+        }
+        return deplacement;
+    }
+
     /**
      * Calcul de la vitesse minimum pour tourner d'un angle précis avec n'importe quel nombre de rames,
      * on souhaite tourner à une vitesse minimale pour tourner "sec"
