@@ -59,7 +59,8 @@ public class CalculDeplacement {
             if(Math.abs(angle) < angle_maximum && Math.abs(angle) >= new_angle_maximum){
                 // Faire une rotation du nouvel angle maximum
                 deplacement.setVitesse(vitesseAdapte(new_angle_maximum, nbr_rames)); // Faire une méthode qui calcule la vitesse minimum pour tourner d'un angle précis avec
-                // n'importe quel nombre de rames => on souhaite tourner à une vitesse minimale pour tourner "sec"
+                // n'importe quel nombre de rames => on s
+                // ouhaite tourner à une vitesse minimale pour tourner "sec"
                 if(angle < 0){
                     deplacement.setAngle(-new_angle_maximum);
                 }
