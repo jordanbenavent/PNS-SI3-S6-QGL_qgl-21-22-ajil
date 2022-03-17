@@ -38,7 +38,8 @@ class CalculDeplacementTest {
                 new Goal("regatte", checkpoints),
                 ship,
                 sailors,
-                4
+                4,
+                new Wind(0, 50)
         );
         strategie = new Strategy(jeu);
         checkpoint = new Checkpoint(new Position(5, 5, 0), new Circle("circle", 1));

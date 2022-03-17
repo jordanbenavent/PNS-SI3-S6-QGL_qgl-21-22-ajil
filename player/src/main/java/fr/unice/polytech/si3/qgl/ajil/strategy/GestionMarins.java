@@ -38,6 +38,14 @@ public class GestionMarins {
     }
 
     /**
+     * set SailorsManager for wind management using StratData class
+     */
+    void setSailorsManager(Sailor sailManager) {
+        if (sailManager != null) this.stratData.sailorsManager = sailManager;
+        else System.out.println("sailManager is null");
+    }
+
+    /**
      * @return la liste des marins à gauche du bateau
      */
     public ArrayList<Sailor> getLeftSailors() {
@@ -107,6 +115,7 @@ public class GestionMarins {
         }
         if(sailManager==null){
             sailManager = marinLePlusProche(sail);
+            setSailorsManager(sailManager);
             sailors.remove(sailManager);
             LOGGER.add("Sail Manager est : " + sailManager.getId());
         }
@@ -153,9 +162,9 @@ public class GestionMarins {
     }
 
     public Sailor findSailorById(int id, ArrayList<Sailor> sailors){
-        for ( int i = 0; i < sailors.size(); i++ ){
-            if (sailors.get(i).getId() == id ){
-                return sailors.get(i);
+        for (Sailor sailor : sailors) {
+            if (sailor.getId() == id) {
+                return sailor;
             }
         }
         LOGGER.add("Sailor n'a pas été trouvé");
@@ -176,13 +185,14 @@ public class GestionMarins {
 
     /**
      * Rame selon la vitesse indiquée dans le déplacement
-     * @param deplacement
+     * @param deplacement deplacement
      */
     void ramerSelonVitesse(Deplacement deplacement){
         double angle = deplacement.getAngle();
 
         if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
             System.out.println(angle);
+            LOGGER.add("On tourne avec le gouvernail : " + angle);
             Turn tournerGouvernail = new Turn(barreur.getId(),angle);
             stratData.actions.add(tournerGouvernail);
             for (Sailor sailor : stratData.jeu.getSailors()) {
@@ -230,19 +240,17 @@ public class GestionMarins {
                 sailor_qui_rame++;
             }
         }
-        return;
     }
 
     /**
      * Calcul le nombre de marins nécessaire pour adopté la vitesse en paramètre
-     * @param nbr_rames
-     * @param vitesse
+     * @param nbr_rames nb rames
+     * @param vitesse vitesse
      * @return le nombre de marins
      */
     public double nbrSailorsNecessaires(double nbr_rames, double vitesse){
         double vitesse_une_rame = 165/nbr_rames;
-        double marin_necessaire = vitesse/vitesse_une_rame;
-        return marin_necessaire;
+        return vitesse/vitesse_une_rame;
     }
 
     /**

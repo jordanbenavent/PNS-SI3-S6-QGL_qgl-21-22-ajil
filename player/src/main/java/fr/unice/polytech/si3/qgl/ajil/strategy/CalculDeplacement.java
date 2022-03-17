@@ -2,6 +2,8 @@ package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
+import fr.unice.polytech.si3.qgl.ajil.actions.LiftSail;
+import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +12,46 @@ import java.util.Set;
 public class CalculDeplacement {
 
     protected Game jeu;
+    protected StratData stratData;
     public List<String> LOGGER = Cockpit.LOGGER;
 
-    public CalculDeplacement(Game jeu) {
-        this.jeu = jeu;
+    public CalculDeplacement(StratData stratData) {
+        this.jeu = stratData.jeu;
+        this.stratData = stratData;
+    }
+
+    /**
+     * Actionne la voile
+     */
+    void putSail() {
+        /*
+        Vitesse du vent:
+        Direction: direction du bateau
+        Valeur: (nombre de voile ouverte / nombre de voile) x force du vent x cosinus(angle entre la direction du vent et la direction du bateau)
+         */
+        Ship s = stratData.jeu.getShip();
+        Wind wind = stratData.jeu.getWind();
+        double shipOrientation = s.getPosition().getOrientation()  % (2 * Math.PI);
+        double windOrientation = wind.getOrientation();
+        if (stratData.getSailorsManager() != null) {
+            int barreur = stratData.getSailorsManager().getId();
+            LiftSail lift = new LiftSail(barreur);
+            LowerSail lower = new LowerSail(barreur);
+
+            final double RANGE = Math.PI / 2;
+            stratData.actions.remove(lift);
+            stratData.actions.remove(lower);
+            if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
+                stratData.actions.add(lift);
+                LOGGER.add("Voile UP");
+            } else {
+                stratData.actions.add(lower);
+                LOGGER.add("DOWN");
+
+            }
+        } else {
+            LOGGER.add("Pas de Sailer Manager");
+        }
     }
 
     /**
@@ -80,7 +118,7 @@ public class CalculDeplacement {
             double vitesse_opti = 0;
             double diffMin = -1;
             for(Deplacement d: futur_angle){
-                double diff = 0;
+                double diff;
                 if (d.getAngle() < 0){
                     diff = Math.abs(angle_maximum + d.getAngle());
                 }
@@ -157,8 +195,8 @@ public class CalculDeplacement {
         int nbr_oars = jeu.getShip().getOars().size();
         ArrayList<Deplacement> prediction = new ArrayList<>();
         double vitesse_init = 165;
-        double vitesse = 0;
-        double angle_apres_deplacement = 0;
+        double vitesse;
+        double angle_apres_deplacement;
         double positionX_init = jeu.getShip().getPosition().getX();
         double positionY_init = jeu.getShip().getPosition().getY();
         double positionX_apres_deplacement;

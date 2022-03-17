@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Game {
 
+    private Wind wind;
     private Goal goal;
     private Ship ship;
     private List<Sailor> sailors;
@@ -21,11 +22,12 @@ public class Game {
 
     public Game(){}
 
-    public Game(Goal goal, Ship ship, List<Sailor> sailors, int shipCount) {
+    public Game(Goal goal, Ship ship, List<Sailor> sailors, int shipCount, Wind wind) {
         this.goal = goal;
         this.ship = ship;
         this.sailors = sailors;
         this.shipCount = shipCount;
+        this.wind = wind;
     }
 
     /**
@@ -37,7 +39,7 @@ public class Game {
 
     /**
      * Modifie "l'objectif" de la partie
-     * @param goal
+     * @param goal goal
      */
     void setGoal(Goal goal) {
         this.goal = goal;
@@ -52,10 +54,26 @@ public class Game {
 
     /**
      * Modifie le bateau participant
-     * @param ship
+     * @param ship ship
      */
     public void setShip(Ship ship) {
         this.ship = ship;
+    }
+
+    /**
+     * Récup le vent
+     * @return objet de type vent
+     */
+    public Wind getWind() {
+        return wind;
+    }
+
+    /**
+     * Modifie le vent
+     * @param wind le vent
+     */
+    public void setWind(Wind wind) {
+        this.wind = wind;
     }
 
     /**
@@ -67,7 +85,7 @@ public class Game {
 
     /**
      * Modifie la liste des marins
-     * @param sailors
+     * @param sailors marins
      */
     public void setSailors(List<Sailor> sailors) {
         this.sailors = sailors;
@@ -82,7 +100,7 @@ public class Game {
 
     /**
      * Modifie le nombre de bateaux participants
-     * @param shipCount
+     * @param shipCount nb bateaux
      */
     public void setShipCount(int shipCount) {
         this.shipCount = shipCount;
