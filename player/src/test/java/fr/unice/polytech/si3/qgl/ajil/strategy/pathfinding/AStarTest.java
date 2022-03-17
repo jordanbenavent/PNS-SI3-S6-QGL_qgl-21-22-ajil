@@ -29,5 +29,13 @@ class AStarTest {
         Assertions.assertEquals(0, chemin.get(0).getY());
         Assertions.assertEquals(3, chemin.get(chemin.size()-1).getX());
         Assertions.assertEquals(2, chemin.get(chemin.size()-1).getY());
+        Assertions.assertEquals(1, chemin.get(1).getX());
+        Assertions.assertEquals(0, chemin.get(1).getY());
+        Assertions.assertEquals(2, chemin.get(2).getX());
+        Assertions.assertEquals(0, chemin.get(2).getY());
+        Assertions.assertEquals(3, chemin.get(3).getX());
+        Assertions.assertEquals(0, chemin.get(3).getY());
+        Assertions.assertEquals(4, chemin.get(4).getX());
+        Assertions.assertEquals(1, chemin.get(4).getY());
     }
 }
