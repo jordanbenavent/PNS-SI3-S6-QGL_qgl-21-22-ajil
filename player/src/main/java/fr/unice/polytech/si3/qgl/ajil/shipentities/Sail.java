@@ -11,7 +11,6 @@ package fr.unice.polytech.si3.qgl.ajil.shipentities;
  */
 
 public class Sail extends Entity {
-
     private boolean opened;
 
     public Sail() {

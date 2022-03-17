@@ -24,42 +24,39 @@ public class Strategy {
 
 
     private final ObjectMapper objectMapper;
+    //Autre classes ayant chacune une responsabilite pour calculer et mettre en place la strategie
+    private final ValideCheckpoint valideCheckpoint;
+    private final GestionMarins gestionMarins;
+    private final GestionSail gestionSail;
+    private final CalculDeplacement calculDeplacement;
+    private final List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
-    public List<String> LOGGER = Cockpit.LOGGER;
+
+    public Strategy(Game jeu) {
+        this.stratData = new StratData(jeu);
+        objectMapper = new ObjectMapper();
+        valideCheckpoint = new ValideCheckpoint(jeu);
+        gestionMarins = new GestionMarins(stratData);
+        gestionSail = new GestionSail(stratData);
+        calculDeplacement = new CalculDeplacement(stratData);
+    }
 
     public ValideCheckpoint getValideCheckpoint() {
         return valideCheckpoint;
     }
 
-    //Autre classes ayant chacune une responsabilite pour calculer et mettre en place la strategie
-    private final ValideCheckpoint valideCheckpoint;
-    private final GestionMarins gestionMarins;
-
     public CalculDeplacement getCalculDeplacement() {
         return calculDeplacement;
     }
-
-    private final CalculDeplacement calculDeplacement;
-
 
     public GestionMarins getGestionMarins() {
         return gestionMarins;
     }
 
-    public Strategy(Game jeu) {
-        this.stratData = new StratData(jeu);
-
-        objectMapper = new ObjectMapper();
-
-        valideCheckpoint = new ValideCheckpoint(jeu);
-        gestionMarins = new GestionMarins(stratData);
-        calculDeplacement = new CalculDeplacement(stratData);
-    }
-
     /**
      * @return la stratData
      */
-    public StratData getStratData(){
+    public StratData getStratData() {
         return stratData;
     }
 
@@ -106,12 +103,13 @@ public class Strategy {
      */
     public void effectuerActions() {
         Deplacement deplacement;
+        Checkpoint c;
         // d'abord on place le Barreur
-        if (!gestionMarins.isPlacementBarreur()){
+        if (!gestionMarins.isPlacementBarreur()) {
             gestionMarins.attribuerBarreur();
         }
         // ensuite on place le marin responsable de la voile
-        if (!gestionMarins.isPlacementSailManagers()){
+        if (!gestionMarins.isPlacementSailManagers()) {
             gestionMarins.attribuerSailManager();
         }
 
@@ -120,12 +118,11 @@ public class Strategy {
         if (!gestionMarins.isPlacementInit()) {
             gestionMarins.placerSurRames();
         }
-        Checkpoint c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
+        c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
         gestionMarins.ramerSelonVitesse(deplacement);
         Ship ship = stratData.jeu.getShip();
         Wind wind = stratData.jeu.getWind();
-        calculDeplacement.putSail(ship, wind);
-
+        gestionSail.putSail(ship, wind);
     }
 }
