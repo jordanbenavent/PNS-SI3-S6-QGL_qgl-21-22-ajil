@@ -1,8 +1,17 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
+import fr.unice.polytech.si3.qgl.ajil.Cockpit;
+import fr.unice.polytech.si3.qgl.ajil.Position;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class AStar {
+
+    private ArrayList<Position> chemin;
+    public List<String> LOGGER = Cockpit.LOGGER;
 
     // les couts pour un déplacement Vertical / Horizontal / Diagonal
     public static final int DIAGONAL_COST = 14;
@@ -144,7 +153,6 @@ public class AStar {
 
     // Visualisation
     public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
     public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
@@ -188,6 +196,25 @@ public class AStar {
             System.out.println();
         }
         System.out.println();
+    }
+
+    // Calcul et return une liste de Positions
+    public ArrayList<Position> obtenirLeChemin(){
+        process();
+        if (closedCells[endI][endJ]){
+            Cell current = grid[endI][endJ];
+            chemin.add(new Position((double) current.i, (double) current.j, 0));
+            grid[current.i][current.j].solution = true;
+            while (current.parent != null){
+                chemin.add(new Position((double) current.parent.i, (double) current.parent.j, 0));
+                grid[current.parent.i][current.parent.j].solution = true;
+                current = current.parent;
+            }
+        } else {
+            LOGGER.add("Il n'y a pas de Chemin. ");
+        }
+        Collections.reverse(chemin);
+        return chemin;
     }
 
     public void displaySolution(){
