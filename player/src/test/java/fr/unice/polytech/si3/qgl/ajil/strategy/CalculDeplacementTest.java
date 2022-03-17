@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class CalculDeplacementTest {
 
     Strategy strategie;
@@ -112,63 +115,6 @@ class CalculDeplacementTest {
         Assertions.assertEquals(55, strategie.getCalculDeplacement().vitesseAdapte(Math.PI / 3, ship.getOars().size()));
     }
 
-    /**
-     * @Test void deplacementPourLeTourRefactorTest(){
-     * // Cas où le checkpoint est à un angle supérieur ou égal à PI/2 par rapport au bateau
-     * // Cas bateau à 4 rames
-     * ship = new Ship("ship", 100,
-     * new Position(10.0, 10.0, 0.0), "name",
-     * new Deck(2, 5),
-     * new ArrayList<>(),
-     * new Rectangle("rectangle", 5, 5, 5));
-     * jeu.setShip(ship);
-     * jeu.getShip().getEntities().add(new OarEntity(0, 1, "oar"));
-     * jeu.getShip().getEntities().add(new OarEntity(0, 2, "oar"));
-     * jeu.getShip().getEntities().add(new OarEntity(1, 1, "oar"));
-     * jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
-     * strategie = new Strategy(jeu);
-     * Checkpoint checkpoint_angle_positif = new Checkpoint(new Position(10, 242.5, 0), new Circle("circle", 1));
-     * Checkpoint checkpoint_angle_negatif = new Checkpoint(new Position(10, -242.5, 0), new Circle("circle", 1));
-     * Checkpoint checkpoint_aligne = new Checkpoint(new Position(10, 200, 0), new Circle("circle", 1));
-     * Checkpoint checkpoint_angle_sup_PI_2 = new Checkpoint(new Position(-40, -200, 0), new Circle("circle", 1));
-     * Deplacement deplacement_PI_sur_2 = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_positif);
-     * Assertions.assertEquals(Math.PI/2, deplacement_PI_sur_2.getAngle());
-     * Assertions.assertEquals(82.5, deplacement_PI_sur_2.getVitesse());
-     * Deplacement deplacement_moins_PI_sur_2 = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_negatif);
-     * Assertions.assertEquals(-Math.PI/2, deplacement_moins_PI_sur_2.getAngle());
-     * Assertions.assertEquals(82.5, deplacement_moins_PI_sur_2.getVitesse());
-     * ship.getPosition().setOrientation(0.2);
-     * Deplacement deplacement_PI_sur_4 = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_positif);
-     * Assertions.assertEquals(Math.PI/4, deplacement_PI_sur_4.getAngle());
-     * Assertions.assertEquals(41.25, deplacement_PI_sur_4.getVitesse());
-     * ship.getPosition().setOrientation(-0.4);
-     * Deplacement deplacement_moins_PI_sur_4 = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_negatif);
-     * Assertions.assertEquals(-Math.PI/4, deplacement_moins_PI_sur_4.getAngle());
-     * Assertions.assertEquals(41.25, deplacement_PI_sur_4.getVitesse());
-     * // On avance tout droit
-     * ship.getPosition().setOrientation(Math.PI/2);
-     * System.out.println(ship.getPosition());
-     * Deplacement deplacement_tout_droit = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_aligne);
-     * Assertions.assertEquals(0, deplacement_tout_droit.getAngle());
-     * Assertions.assertEquals(165, deplacement_tout_droit.getVitesse());
-     * // Partie où on prédit
-     * ship.getPosition().setOrientation(Math.PI/3);
-     * Deplacement deplacement_opti = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_positif);
-     * //Assertions.assertEquals(0, deplacement_opti.getAngle());
-     * Assertions.assertEquals(82.5, deplacement_opti.getVitesse());
-     * ship.getPosition().setOrientation(0.0);
-     * Deplacement deplacement_1 = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_sup_PI_2);
-     * Assertions.assertEquals(-Math.PI/2, deplacement_1.getAngle());
-     * Assertions.assertEquals(82.5, deplacement_1.getVitesse());
-     * ship.getPosition().setOrientation(-Math.PI/2);
-     * Deplacement deplacement_2 = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_sup_PI_2);
-     * Assertions.assertEquals(0, deplacement_2.getAngle());
-     * Assertions.assertEquals(82.5, deplacement_2.getVitesse());
-     * <p>
-     * <p>
-     * }
-     **/
-
     @Test
     void nbrSailorsNecessairesTest() {
         // Cas bateau à 6 rames
@@ -224,5 +170,73 @@ class CalculDeplacementTest {
             e.printStackTrace();
         }
         strategie.getListActions().clear();
+    }
+
+    @Test
+    void putSailTestPerfectAlignment() {
+        StratData stratData = new StratData(jeu);
+        stratData.setSailorsManager(new Sailor());
+        Wind wind = stratData.jeu.getWind();
+        wind.setOrientation(0);
+        wind.setStrength(50);
+
+        Ship ship = stratData.jeu.getShip();
+        ship.getPosition().setOrientation(0.0);
+
+        CalculDeplacement calcul = new CalculDeplacement(stratData);
+        calcul.putSail(ship, wind);
+
+        assertTrue(calcul.hasSailLifted());
+    }
+
+    @Test
+    void putSailTestPerfectOppositeAlignment() {
+        StratData stratData = new StratData(jeu);
+        stratData.setSailorsManager(new Sailor());
+        Wind wind = stratData.jeu.getWind();
+        wind.setOrientation(Math.PI);
+        wind.setStrength(50);
+
+        Ship ship = stratData.jeu.getShip();
+        ship.getPosition().setOrientation(0.0);
+
+        CalculDeplacement calcul = new CalculDeplacement(stratData);
+        calcul.putSail(ship, wind);
+
+        assertFalse(calcul.hasSailLifted());
+    }
+
+    @Test
+    void putSailTestPi2Alignment() {
+        StratData stratData = new StratData(jeu);
+        stratData.setSailorsManager(new Sailor());
+        Wind wind = stratData.jeu.getWind();
+        wind.setOrientation(-Math.PI / 2);
+        wind.setStrength(100);
+
+        Ship ship = stratData.jeu.getShip();
+        ship.getPosition().setOrientation(0);
+
+        CalculDeplacement calcul = new CalculDeplacement(stratData);
+        calcul.putSail(ship, wind);
+
+        assertFalse(calcul.hasSailLifted());
+    }
+
+    @Test
+    void putSailTest2PiShipAlignment() {
+        StratData stratData = new StratData(jeu);
+        stratData.setSailorsManager(new Sailor());
+        Wind wind = stratData.jeu.getWind();
+        wind.setOrientation(3* Math.PI / 4); // 3 PI /4
+        wind.setStrength(100);
+
+        Ship ship = stratData.jeu.getShip();
+        ship.getPosition().setOrientation(3 * Math.PI); // pi
+
+        CalculDeplacement calcul = new CalculDeplacement(stratData);
+        calcul.putSail(ship, wind);
+
+        assertTrue(calcul.hasSailLifted());
     }
 }

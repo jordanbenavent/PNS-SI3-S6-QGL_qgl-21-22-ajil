@@ -2,9 +2,7 @@ package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
-import fr.unice.polytech.si3.qgl.ajil.Cockpit;
-import fr.unice.polytech.si3.qgl.ajil.Game;
+import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 
@@ -125,7 +123,9 @@ public class Strategy {
         Checkpoint c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
         gestionMarins.ramerSelonVitesse(deplacement);
-        calculDeplacement.putSail();
+        Ship ship = stratData.jeu.getShip();
+        Wind wind = stratData.jeu.getWind();
+        calculDeplacement.putSail(ship, wind);
 
     }
 }

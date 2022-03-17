@@ -21,24 +21,19 @@ public class CalculDeplacement {
     }
 
     /**
-     * Actionne la voile
+     * Actionne la voile si le bateau est dans la même direction que le vent
+     * @param ship le bateau
+     * @param wind le vent
      */
-    void putSail() {
-        /*
-        Vitesse du vent:
-        Direction: direction du bateau
-        Valeur: (nombre de voile ouverte / nombre de voile) x force du vent x cosinus(angle entre la direction du vent et la direction du bateau)
-         */
-        Ship s = stratData.jeu.getShip();
-        Wind wind = stratData.jeu.getWind();
-        double shipOrientation = s.getPosition().getOrientation()  % (2 * Math.PI);
+    public void putSail(Ship ship, Wind wind) {
+        double shipOrientation = ship.getPosition().getOrientation()  % (2 * Math.PI);
         double windOrientation = wind.getOrientation();
+        final double RANGE = Math.PI / 2;
+
         if (stratData.getSailorsManager() != null) {
             int barreur = stratData.getSailorsManager().getId();
             LiftSail lift = new LiftSail(barreur);
             LowerSail lower = new LowerSail(barreur);
-
-            final double RANGE = Math.PI / 2;
             stratData.actions.remove(lift);
             stratData.actions.remove(lower);
             if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
@@ -50,6 +45,21 @@ public class CalculDeplacement {
         } else {
             System.out.println("Pas de SailorManager");
         }
+    }
+
+    public boolean hasSailLifted() {
+        int barreur = stratData.getSailorsManager().getId();
+        LiftSail lift = new LiftSail(barreur);
+        LowerSail lower = new LowerSail(barreur);
+        if (stratData.actions.stream().anyMatch(x -> x.getType().equals(lift.getType()))) {
+            return true;
+        }
+        if (stratData.actions.stream().anyMatch(x -> x.getType().equals(lower.getType()))) {
+            return false;
+        }
+        System.out.println("Erreur hasSailLifted: aucun element");
+        stratData.actions.forEach(System.out::println);
+        return false;
     }
 
     /**
