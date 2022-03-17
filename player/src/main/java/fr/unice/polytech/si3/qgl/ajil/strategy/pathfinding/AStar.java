@@ -200,6 +200,7 @@ public class AStar {
 
     // Calcul et return une liste de Positions
     public ArrayList<Position> obtenirLeChemin(){
+        chemin = new ArrayList<>();
         process();
         if (closedCells[endI][endJ]){
             Cell current = grid[endI][endJ];
