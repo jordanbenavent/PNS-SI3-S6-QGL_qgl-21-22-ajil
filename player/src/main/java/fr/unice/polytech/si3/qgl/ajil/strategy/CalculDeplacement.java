@@ -38,12 +38,14 @@ public class CalculDeplacement {
             stratData.actions.remove(lower);
             if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
                 stratData.actions.add(lift);
-                System.out.println("VOILE UP");
+                LOGGER.add("Voile UP");
             } else {
                 stratData.actions.add(lower);
+                LOGGER.add("DOWN");
+
             }
         } else {
-            System.out.println("Pas de SailorManager");
+            LOGGER.add("Pas de Sailer Manager");
         }
     }
 
@@ -105,7 +107,8 @@ public class CalculDeplacement {
             if(Math.abs(angle) < angle_maximum && Math.abs(angle) >= new_angle_maximum){
                 // Faire une rotation du nouvel angle maximum
                 deplacement.setVitesse(vitesseAdapte(new_angle_maximum, nbr_rames)); // Faire une méthode qui calcule la vitesse minimum pour tourner d'un angle précis avec
-                // n'importe quel nombre de rames => on souhaite tourner à une vitesse minimale pour tourner "sec"
+                // n'importe quel nombre de rames => on s
+                // ouhaite tourner à une vitesse minimale pour tourner "sec"
                 if(angle < 0){
                     deplacement.setAngle(-new_angle_maximum);
                 }
@@ -150,6 +153,17 @@ public class CalculDeplacement {
             deplacement.setAngle(0);
             return deplacement;
         }
+    }
+
+    public Deplacement deplacementSiGouvernail(Double angle){
+        Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
+        // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
+        if(Math.abs(angle) <= Math.PI/4){
+            deplacement.setAngle(angle);
+            deplacement.setVitesse(165.0);
+            return deplacement;
+        }
+        return deplacement;
     }
 
     /**

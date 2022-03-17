@@ -18,7 +18,6 @@ public class GestionMarins {
     private boolean placementSailManagers = false;
     protected StratData stratData;
     public List<String> LOGGER = Cockpit.LOGGER;
-    private int idMarinGouvernail = 0;
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -34,7 +33,7 @@ public class GestionMarins {
     * @return le marin attribué au gouvernail
     * */
     public Sailor getBarreur() {
-        return barreur;
+        return stratData.barreur;
     }
 
     /**
@@ -135,6 +134,7 @@ public class GestionMarins {
         }
         if(barreur==null){
             barreur = marinLePlusProche(rudder);
+            stratData.barreur=barreur;
             sailors.remove(barreur);
             LOGGER.add("BarreurManageur est : " + barreur.getId());
         }
@@ -192,6 +192,7 @@ public class GestionMarins {
 
         if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
             System.out.println(angle);
+            LOGGER.add("On tourne avec le gouvernail : " + angle);
             Turn tournerGouvernail = new Turn(barreur.getId(),angle);
             stratData.actions.add(tournerGouvernail);
             for (Sailor sailor : stratData.jeu.getSailors()) {

@@ -50,7 +50,7 @@ public class ValideCheckpoint {
         return checkpointCurrent;
     }
 
-    private boolean checkpointValideShipCircle(Ship ship, Checkpoint checkpointCurrent) {
+    public boolean checkpointValideShipCircle(Ship ship, Checkpoint checkpointCurrent) {
         double rs = ((Circle) ship.getShape()).getRadius();
         double rc = ((Circle) checkpointCurrent.getShape()).getRadius();
         Point pointShip = new Point(ship.getPosition().getX(), ship.getPosition().getY());
