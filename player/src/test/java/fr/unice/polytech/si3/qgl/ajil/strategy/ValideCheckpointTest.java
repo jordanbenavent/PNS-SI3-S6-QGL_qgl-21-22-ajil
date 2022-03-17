@@ -57,7 +57,6 @@ class ValideCheckpointTest {
                 new Deck(2, 2),
                 new ArrayList<>(),
                 new Rectangle("rectangle", 2, 2, 0));
-
         ArrayList<Point> point = valideCheckpoint.calculPointShip(ship);
         Assertions.assertEquals(new Point(3, 3), point.get(0));
         Assertions.assertEquals(new Point(1, 3), point.get(1));
@@ -72,6 +71,21 @@ class ValideCheckpointTest {
                 new Polygone("polygone",Math.PI/4, pointpolygone));
         point = valideCheckpoint.calculPointShip(ship);
         Assertions.assertEquals(new Point(2,5), point.get(0));
+
+        ship = new Ship("ship", 100,
+                new Position(9, 3, 1.04), "BateauCarre",
+                new Deck(2, 2),
+                new ArrayList<>(),
+                new Rectangle("rectangle", 2, 2, -3.35));
+        ArrayList<Point> point2 = valideCheckpoint.calculPointShip(ship);
+        Assertions.assertEquals(7.5,point2.get(0).getX(), 0.3);
+        Assertions.assertEquals(3,point2.get(0).getY(), 0.3);
+        Assertions.assertEquals(9,point2.get(1).getX(), 0.3);
+        Assertions.assertEquals(1.5,point2.get(1).getY(), 0.3);
+        Assertions.assertEquals(9,point2.get(2).getX(), 0.3);
+        Assertions.assertEquals(4.5,point2.get(2).getY(), 0.3);
+        Assertions.assertEquals(10.5,point2.get(3).getX(), 0.3);
+        Assertions.assertEquals(3,point2.get(3).getY(), 0.3);
     }
 
     @Test
@@ -121,6 +135,16 @@ class ValideCheckpointTest {
         Assertions.assertEquals(checkpoint2, valideCheckpoint.checkpointTarget(checkpoints));
         //Le bateau est assez proche du deuxième checkpoint, or la liste du checlpoint est finie. Cela retourne donc null.
         Assertions.assertNull(valideCheckpoint.checkpointTarget(checkpoints));
+        Assertions.assertNull(valideCheckpoint.checkpointTarget(checkpoints));
+        //Bateau en cercle
+        ship = new Ship("ship", 100,
+                new Position(2.5, 2.5, 2 * Math.PI / 4), "BateauCarre",
+                new Deck(2, 3),
+                new ArrayList<>(),
+                new Circle("circle", 2));
+        checkpoint = new Checkpoint(new Position(2.5, 5.5, 0), new Circle("circle", 1));
+        checkpoints.add(checkpoint);
+        Assertions.assertNull(valideCheckpoint.checkpointTarget(checkpoints));
     }
 
     @Test
@@ -168,7 +192,24 @@ class ValideCheckpointTest {
         Assertions.assertEquals(new Point(2,5), valideCheckpoint.pointShipPolygone(ship).get(0));
         Assertions.assertEquals(new Point(1,4), valideCheckpoint.pointShipPolygone(ship).get(1));
         Assertions.assertEquals(new Point(3,4), valideCheckpoint.pointShipPolygone(ship).get(2));
+    }
 
+    @Test
+    void intersectionValideShipCircleTest(){
+        ship = new Ship("ship", 100,
+                new Position(2.5, 2.5, 2 * Math.PI / 4), "BateauCarre",
+                new Deck(2, 3),
+                new ArrayList<>(),
+                new Circle("circle", 2));
+        checkpoint = new Checkpoint(new Position(2.5, 5.5, 0), new Circle("circle", 1));
+        Assertions.assertTrue(strategy.getValideCheckpoint().checkpointValideShipCircle(ship,checkpoint));
+        ship = new Ship("ship", 100,
+                new Position(2.5, 2.5, 2 * Math.PI / 4), "BateauCarre",
+                new Deck(2, 3),
+                new ArrayList<>(),
+                new Circle("circle", 2));
+        checkpoint = new Checkpoint(new Position(2.5, 5.5, 0), new Circle("circle", 0.5));
+        Assertions.assertFalse(strategy.getValideCheckpoint().checkpointValideShipCircle(ship,checkpoint));
     }
 }
 

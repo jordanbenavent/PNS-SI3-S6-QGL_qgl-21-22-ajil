@@ -11,6 +11,7 @@ public class StratData {
     protected Game jeu;
     protected final ArrayList<Action> actions;
     protected Sailor sailorsManager;
+    protected Sailor barreur;
 
     public StratData(Game jeu) {
         this.jeu = jeu;
@@ -23,5 +24,13 @@ public class StratData {
 
     public Sailor getSailorsManager() {
         return this.sailorsManager;
+    }
+
+    public Sailor getBarreur() {
+        return barreur;
+    }
+
+    public void setBarreur(Sailor barreur) {
+        this.barreur = barreur;
     }
 }
