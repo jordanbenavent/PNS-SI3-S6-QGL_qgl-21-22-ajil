@@ -25,8 +25,8 @@ public class GestionSail {
      * @param wind le vent
      */
     public void putSail(Ship ship, Wind wind) {
-        double s = ship.getPosition().getOrientation();
-        double w = wind.getOrientation();
+        double shipOrientation = ship.getPosition().getOrientation();
+        double windOrientation = wind.getOrientation();
 
         if (stratData.getSailorsManager() != null) {
             int barreur = stratData.getSailorsManager().getId();
@@ -35,7 +35,7 @@ public class GestionSail {
             stratData.actions.remove(lift);
             stratData.actions.remove(lower);
 
-            double result = simplifyAngle(s, w);
+            final double result = simplifyAngle(shipOrientation, windOrientation);
             if (result <= RANGE && result >= -RANGE) {
                 stratData.actions.add(lift);
                 lifted = true;
@@ -50,23 +50,27 @@ public class GestionSail {
         }
     }
 
+    /**
+     * Make sure the angle is in -pi : pi range
+     *
+     * @param s shipOrientation angle in radian
+     * @param w windOrientation angle in radian
+     * @return a [-pi : pi] angle between vectors
+     */
     private double simplifyAngle(double s, double w) {
-        int timeOut = 9999;
+        int timeOut = 99999;
         double result = s - w;
-        while (result < -Math.PI && timeOut > 0) {
-            result = result + 2 * Math.PI;
-            timeOut--;
-        }
-        while (result > Math.PI && timeOut > 0) {
-            result = result - 2 * Math.PI;
-            timeOut--;
-        }
-        if (timeOut <= 0) {
-            System.out.println("Err infinite while during simplifying angle");
-        }
+        while (result < -Math.PI && timeOut-- > 0) result = result + 2 * Math.PI;
+        while (result > Math.PI && timeOut-- > 0) result = result - 2 * Math.PI;
+        if (timeOut <= 0) System.out.println("Err infinite while during simplifying angle");
         return result;
     }
 
+    /**
+     * a small getter to tell if the sail is opened or closed
+     *
+     * @return sail state as boolean
+     */
     public boolean isSailLifted() {
         return this.lifted;
     }
