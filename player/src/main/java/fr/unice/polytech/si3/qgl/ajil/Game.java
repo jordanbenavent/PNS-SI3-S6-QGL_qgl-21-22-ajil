@@ -1,5 +1,10 @@
 package fr.unice.polytech.si3.qgl.ajil;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Classe Game représentant une partie
@@ -19,6 +24,7 @@ public class Game {
     private Ship ship;
     private List<Sailor> sailors;
     private int shipCount;
+    private Set<Reef> reefs;
 
     public Game(){}
 
@@ -28,6 +34,7 @@ public class Game {
         this.sailors = sailors;
         this.shipCount = shipCount;
         this.wind = wind;
+        this.reefs = new HashSet<>();
     }
 
     /**
@@ -105,4 +112,13 @@ public class Game {
     public void setShipCount(int shipCount) {
         this.shipCount = shipCount;
     }
+
+    public Set<Reef> getReefs() {
+        return new HashSet<>(reefs);
+    }
+
+    public void setReefs(Set<Reef> reefs) {
+        this.reefs = reefs;
+    }
+
 }

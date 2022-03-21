@@ -19,10 +19,11 @@ public class VisibleEntitie {
     private String type;
     private Position position;
     private Shape shape;
+    private VisibleEntities typeEntity;
 
     public VisibleEntitie(){}
 
-    public VisibleEntitie(String type, Position position, Shape shape){
+    public VisibleEntitie(String type, Position position, Shape shape, VisibleEntities visibleEntities){
         this.type=type;
         this.position=position;
         this.shape=shape;
@@ -50,6 +51,14 @@ public class VisibleEntitie {
 
     public void setShape(Shape shape) {
         this.shape = shape;
+    }
+
+    public VisibleEntities getTypeEntity() {
+        return typeEntity;
+    }
+
+    public void setTypeEntity(VisibleEntities typeEntity) {
+        this.typeEntity = typeEntity;
     }
 
     @Override

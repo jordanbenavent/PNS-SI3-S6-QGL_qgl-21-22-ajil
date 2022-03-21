@@ -9,6 +9,6 @@ public class Reef extends VisibleEntitie{
         setType("reef");
     }
     public Reef(String type, Position position, Shape shape) {
-        super(type, position, shape);
+        super(type, position, shape, VisibleEntities.REEF);
     }
 }

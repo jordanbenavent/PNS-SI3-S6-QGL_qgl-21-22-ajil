@@ -10,7 +10,7 @@ public class Stream extends VisibleEntitie {
         setType("stream");
     }
     public Stream(String type, Position position, Shape shape, double strength) {
-        super(type, position, shape);
+        super(type, position, shape, VisibleEntities.STREAM);
         this.strength=strength;
     }
 
