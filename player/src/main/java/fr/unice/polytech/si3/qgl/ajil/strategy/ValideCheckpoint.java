@@ -64,9 +64,7 @@ public class ValideCheckpoint {
     public ArrayList<Point> calculPointShip(Ship ship) {
         Position position = ship.getPosition();
         Shape shape = ship.getShape();
-        double largeur = ship.getDeck().getWidth();
-        double longueur = ship.getDeck().getLength();
-        return Calcul.calculExtremityPoints(shape, position, largeur, longueur);
+        return Calcul.calculExtremityPoints(shape, position);
     }
 
 

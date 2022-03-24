@@ -37,10 +37,12 @@ public class Calcul {
     }
 
 
-    public static ArrayList<Point> calculExtremityPoints(Shape shape, Position position, double largeur, double longueur) {
+    public static ArrayList<Point> calculExtremityPoints(Shape shape, Position position) {
         if (shape instanceof Polygone) {
             return calculPointPolygon(shape, position);
         }
+        double largeur = 0;
+        double longueur = 0;
         if (shape instanceof Rectangle) {
             largeur = ((Rectangle) shape).getWidth();
             longueur = ((Rectangle) shape).getHeight();
