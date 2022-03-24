@@ -41,7 +41,7 @@ public class GestionMarins {
      */
     void setSailorsManager(Sailor sailManager) {
         if (sailManager != null) this.stratData.sailorsManager = sailManager;
-        else System.out.println("sailManager is null");
+        else LOGGER.add("Il n'y a pas de SailManager.");
     }
 
     /**
