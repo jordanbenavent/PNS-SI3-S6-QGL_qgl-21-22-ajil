@@ -19,41 +19,6 @@ public class CalculDeplacement {
     }
 
     /**
-     * Actionne la voile
-     */
-
-    void putSail() {
-        /*
-        Vitesse du vent:
-        Direction: direction du bateau
-        Valeur: (nombre de voile ouverte / nombre de voile) x force du vent x cosinus(angle entre la direction du vent et la direction du bateau)
-         */
-        Ship s = stratData.jeu.getShip();
-        Wind wind = stratData.jeu.getWind();
-        double shipOrientation = s.getPosition().getOrientation()  % (2 * Math.PI);
-        double windOrientation = wind.getOrientation();
-        if (stratData.getSailorsManager() != null) {
-            int barreur = stratData.getSailorsManager().getId();
-            LiftSail lift = new LiftSail(barreur);
-            LowerSail lower = new LowerSail(barreur);
-
-            final double RANGE = Math.PI / 2;
-            stratData.actions.remove(lift);
-            stratData.actions.remove(lower);
-            if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
-                stratData.actions.add(lift);
-                LOGGER.add("Voile UP");
-            } else {
-                stratData.actions.add(lower);
-                LOGGER.add("DOWN");
-
-            }
-        } else {
-            LOGGER.add("Pas de Sailer Manager");
-        }
-    }
-
-    /**
      * Analyse quel déplacement le bateau devra faire pour le tour
      *
      * @param checkpoint Checkpoint needed to fetch position
