@@ -1,13 +1,10 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
-import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
-import fr.unice.polytech.si3.qgl.ajil.Cockpit;
-import fr.unice.polytech.si3.qgl.ajil.Game;
-import fr.unice.polytech.si3.qgl.ajil.Ship;
+import fr.unice.polytech.si3.qgl.ajil.*;
+import fr.unice.polytech.si3.qgl.ajil.maths.Calcul;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ValideCheckpoint {
@@ -65,66 +62,13 @@ public class ValideCheckpoint {
      * @return Points
      */
     public ArrayList<Point> calculPointShip(Ship ship) {
-        Point centre = new Point(ship.getPosition().getX(), ship.getPosition().getY());
+        Position position = ship.getPosition();
+        Shape shape = ship.getShape();
         double largeur = ship.getDeck().getWidth();
         double longueur = ship.getDeck().getLength();
-        double angle = calculAngleTotal(ship);
-        double sinus = Math.sin(angle);
-        double cosinus = Math.cos(angle);
-        ArrayList<Point> pointShip = new ArrayList<>();
-        if (ship.getShape() instanceof Polygone) {
-            return pointShipPolygone(ship);
-        }
-        if (ship.getShape() instanceof Rectangle) {
-            largeur = ((Rectangle) ship.getShape()).getWidth();
-            longueur = ((Rectangle) ship.getShape()).getHeight();
-        }
-        //Matrice changement de référentiel
-        ArrayList<ArrayList<Double>> matrice = new ArrayList<>();
-        ArrayList<Double> firstColumn = new ArrayList<>();
-        firstColumn.add(Math.cos(ship.getPosition().getOrientation()));
-        firstColumn.add(Math.sin(ship.getPosition().getOrientation()));
-        ArrayList<Double> secondColumn = new ArrayList<>();
-        secondColumn.add(-1 * Math.sin(ship.getPosition().getOrientation()));
-        secondColumn.add(Math.cos(ship.getPosition().getOrientation()));
-        matrice.add(firstColumn);
-        matrice.add(secondColumn);
-
-        pointShip.add(new Point(largeur / 2 * cosinus + longueur / 2 * sinus, -largeur / 2 * sinus + longueur / 2 * cosinus).addPoint(centre));
-        pointShip.add(new Point(-largeur / 2 * cosinus + longueur / 2 * sinus, largeur / 2 * sinus + longueur / 2 * cosinus).addPoint(centre));
-        pointShip.add(new Point(largeur / 2 * cosinus - longueur / 2 * sinus, -largeur / 2 * sinus - longueur / 2 * cosinus).addPoint(centre));
-        pointShip.add(new Point(-largeur / 2 * cosinus - longueur / 2 * sinus, largeur / 2 * sinus - longueur / 2 * cosinus).addPoint(centre));
-        return pointShip;
+        return Calcul.calculExtremityPoints(shape, position, largeur, longueur);
     }
 
-    public ArrayList<Point> pointShipPolygone(Ship ship) {
-        ArrayList<Point> pointsShip = new ArrayList<>();
-        double anglePosition = ship.getPosition().getOrientation();
-        double angleShape = ((Polygone)ship.getShape()).getOrientation();
-        double angleRotation = - calculAngleTotal(ship);
-        List<Point> pointPolygone = Arrays.asList(((Polygone)ship.getShape()).getVertices());
-        for(Point point : pointPolygone) {
-            double xPremierProj = point.getX() * Math.cos(angleRotation) + point.getY() * Math.sin(angleRotation) + ship.getPosition().getX();
-            double yPremierProj = (-1 * point.getX() * Math.sin(angleRotation)) + point.getY() * Math.cos(angleRotation)  + ship.getPosition().getY();
-            Point pointProjette = new Point(xPremierProj, yPremierProj);
-            pointsShip.add(pointProjette);
-        }
-        return pointsShip;
-    }
-
-
-    private double calculAngleTotal(Ship ship) {
-        if(ship.getShape() instanceof Circle){
-            return ship.getPosition().getOrientation();
-        }
-        if(ship.getShape() instanceof Rectangle){
-            return ship.getPosition().getOrientation() + ((Rectangle)ship.getShape()).getOrientation();
-        }
-        if(ship.getShape() instanceof Polygone){
-            return ship.getPosition().getOrientation() + ((Polygone)ship.getShape()).getOrientation();
-        }
-        return 0;
-    }
 
     /**
      * Dit si l'un des points du bateau est dans le checkpoint
@@ -151,8 +95,9 @@ public class ValideCheckpoint {
      * @return If ship intersects
      */
     public boolean intersectionCircleShip(ArrayList<Point> pointDuBateau, Checkpoint checkpoint) {
-        for (int i = 0; i < pointDuBateau.size() - 1; i++) {
-            for (int j = i + 1; j < pointDuBateau.size(); j++) {
+        int size = pointDuBateau.size();
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = i + 1; j < size; j++) {
                 //equation cercle (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
                 // équation de la droite du bateau = y = ax+b
                 double r = ((Circle) checkpoint.getShape()).getRadius();
