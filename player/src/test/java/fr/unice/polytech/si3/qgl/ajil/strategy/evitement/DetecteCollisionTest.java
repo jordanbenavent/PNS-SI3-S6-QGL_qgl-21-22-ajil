@@ -22,6 +22,7 @@ class DetecteCollisionTest {
 
     @BeforeEach
     void setUp(){
+        detecteCollision = new DetecteCollision(null,null);
        initiale = new Position(0,0,0);
        tourneDemiTourSensTrigo = new Position(0,0,Math.PI/2);
        tourneDemiTourSensAntiTrigo = new Position(0,0,-Math.PI/2);
@@ -34,7 +35,7 @@ class DetecteCollisionTest {
 
     @Test
     void toutDroitFuturePosition(){
-        Position res = DetecteCollision.futurePosition(initiale,toutDroit);
+        Position res = detecteCollision.futurePosition(initiale,toutDroit);
         System.out.println(res);
         Position attente = new Position(165,0,0);
         assertEquals(attente,res);
@@ -42,13 +43,13 @@ class DetecteCollisionTest {
 
     @Test
     void retournerDePiSurDeuxFuturePosition(){
-        Position res = DetecteCollision.futurePosition(tourneDemiTourSensTrigo,toutDroit);
+        Position res = detecteCollision.futurePosition(tourneDemiTourSensTrigo,toutDroit);
         Position attente = new Position(0,165,0);
         assertEquals(attente.getX(),res.getX(),0.1);
         assertEquals(attente.getY(),res.getY(),0.1);
 
         //Meme test mais en commencant avec une orientation de -pi/2 au lieu de +pi/2
-        res = DetecteCollision.futurePosition(tourneDemiTourSensAntiTrigo,toutDroit);
+        res = detecteCollision.futurePosition(tourneDemiTourSensAntiTrigo,toutDroit);
         attente = new Position(0,-165,0);
         assertEquals(attente.getX(),res.getX(),0.1);
         assertEquals(attente.getY(),res.getY(),0.1);
@@ -57,7 +58,7 @@ class DetecteCollisionTest {
 
     @Test
     void bateauRetourneTotalement(){
-        Position res = DetecteCollision.futurePosition(orientationRetourne,toutDroit);
+        Position res = detecteCollision.futurePosition(orientationRetourne,toutDroit);
         Position attente = new Position(-165,0,0);
         assertEquals(attente.getX(),res.getX(),0.1);
         assertEquals(attente.getY(),res.getY(),0.1);

@@ -20,7 +20,7 @@ public class DetecteCollision {
     }
 
     //Position du bateau
-    static Position futurePosition(Position position, Deplacement deplacement){
+    Position futurePosition(Position position, Deplacement deplacement){
         Position res = new Position();
         double xDeplacement = deplacement.getVitesse() * Math.cos(position.getOrientation()+deplacement.getAngle());
         double yDeplacement = deplacement.getVitesse() * Math.sin(position.getOrientation()+deplacement.getAngle());
@@ -30,6 +30,12 @@ public class DetecteCollision {
 
         return res;
     }
+
+
+
+
+
+
 
 
 
