@@ -92,7 +92,7 @@ public class CalculDeplacement {
                 }
                 if(diffMin == -1 || diffMin > diff){
                     diffMin = diff;
-                    vitesse_opti = d.getVitesse();
+                    vitesse_opti = d.getSpeed();
                 }
             }
             deplacement.setVitesse(vitesse_opti);

@@ -126,9 +126,9 @@ class CalculPointsDeplacementTest {
         jeu.getShip().getEntities().add(new OarEntity(1, 3, "oar"));
         int nb_oars = jeu.getShip().getOars().size();
         // On tourne à un angle de PI/3
-        Assertions.assertEquals(2, strategie.getGestionMarins().nbrSailorsNecessaires(nb_oars, 55));
+        Assertions.assertEquals(2, strategie.getGestionMarins().howManySailorsNeeded(nb_oars, 55));
         // On tourne à un angle de PI/2
-        Assertions.assertEquals(3, strategie.getGestionMarins().nbrSailorsNecessaires(nb_oars, 82.5));
+        Assertions.assertEquals(3, strategie.getGestionMarins().howManySailorsNeeded(nb_oars, 82.5));
     }
 
     @Test
@@ -154,7 +154,7 @@ class CalculPointsDeplacementTest {
         strategie.getListActions().clear();
         // Si le bateau doit aller à droite
         Deplacement deplacement_droite = new Deplacement(41.25, 42.5);
-        strategie.getGestionMarins().ramerSelonVitesse(deplacement_droite);
+        strategie.getGestionMarins().rowingAccordingToSpeed(deplacement_droite);
         try {
             System.out.println(objectMapper.writeValueAsString(strategie.getListActions()));
         } catch (JsonProcessingException e) {
@@ -163,7 +163,7 @@ class CalculPointsDeplacementTest {
         strategie.getListActions().clear();
         // Si le bateau doit aller à gauche
         Deplacement deplacement_gauche = new Deplacement(41.25, -42.5);
-        strategie.getGestionMarins().ramerSelonVitesse(deplacement_gauche);
+        strategie.getGestionMarins().rowingAccordingToSpeed(deplacement_gauche);
         try {
             System.out.println(objectMapper.writeValueAsString(strategie.getListActions()));
         } catch (JsonProcessingException e) {
