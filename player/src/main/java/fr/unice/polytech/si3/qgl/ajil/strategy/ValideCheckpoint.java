@@ -9,7 +9,7 @@ import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+ 
 public class ValideCheckpoint {
 
     protected Game jeu;

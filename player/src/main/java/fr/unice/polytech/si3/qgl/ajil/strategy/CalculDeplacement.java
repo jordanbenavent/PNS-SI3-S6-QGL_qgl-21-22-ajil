@@ -1,9 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
-import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
-import fr.unice.polytech.si3.qgl.ajil.actions.LiftSail;
-import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
+import fr.unice.polytech.si3.qgl.ajil.actions.*;
 
 import java.util.ArrayList;
 import java.util.List;

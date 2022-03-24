@@ -258,59 +258,46 @@ public class GestionMarins {
      */
     public void placerSurRames() {
         List<Entity> oars = stratData.jeu.getShip().getOars();
-        boolean allInRange = true;
-        boolean bienplace = true;
-        for (Sailor s : leftSailors) {
-            int distMin = 0;
-            int index = -1;
-            for (int i = 0; i < oars.size(); i++) {
-                if (oars.get(i).getY() == 0) {
-                    int dist = oars.get(i).getDist(s);
-                    if (dist >= distMin) {
-                        distMin = dist;
-                        index = i;
-                    }
-                }
-            }
-
-            if (distMin == 0) {
-                oars.remove(index);
-                continue;
-            }
-            allInRange = deplacerMarin(findSailorById(s.getId(), leftSailors), oars.get(index));
-            if (!allInRange){
-                bienplace = false;
-            }
-            oars.remove(index);
-
+        List<Entity> leftOars = new ArrayList<>();
+        List<Entity> rightOars = new ArrayList<>();
+        for (Entity oar : oars) {
+            if (oar.getY() == 0) {
+                leftOars.add(oar);
+            } else rightOars.add(oar);
         }
-        for (Sailor s : rightSailors) {
-            int distMin = 0;
-            int index = -1;
-            for (int i = 0; i < oars.size(); i++) {
-                if (oars.get(i).getY() > 0) {
-                    int dist = oars.get(i).getDist(s);
-                    if (dist >= distMin) {
-                        distMin = dist;
-                        index = i;
-                    }
-                }
-            }
-            if (distMin == 0) {
-                oars.remove(index);
-                continue;
-            }
-
-            allInRange = deplacerMarin(findSailorById(s.getId(), rightSailors), oars.get(index));
-            if (!allInRange){
-                bienplace = false;
-            }
-            oars.remove(index);
-        }
-        if (!bienplace) {
+        boolean bienPlaceGauche = deplacerRameurs(leftOars, leftSailors);
+        boolean bienPlaceDroite = deplacerRameurs(rightOars, rightSailors);
+        if (!bienPlaceGauche || !bienPlaceDroite) {
             this.placementInit = false;
             return;
         }
         this.placementInit = true;
+    }
+
+    public boolean deplacerRameurs(List<Entity> oars, ArrayList<Sailor> targetSide){
+        boolean allInRange;
+        boolean bienplace = true;
+
+        for (Sailor s : targetSide){
+            int distMin = 0;
+            int index = -1;
+            for (int i = 0; i < oars.size(); i++) {
+                int dist = oars.get(i).getDist(s);
+                if (dist >= distMin) {
+                    distMin = dist;
+                    index = i;
+                }
+            }
+            if (distMin == 0) {
+                oars.remove(index);
+                continue;
+            }
+            allInRange = deplacerMarin(findSailorById(s.getId(), targetSide), oars.get(index));
+            if (!allInRange){
+                bienplace = false;
+            }
+            oars.remove(index);
+        }
+        return bienplace;
     }
 }

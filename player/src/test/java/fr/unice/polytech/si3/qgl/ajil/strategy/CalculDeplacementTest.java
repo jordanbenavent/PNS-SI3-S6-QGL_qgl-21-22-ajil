@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class CalculDeplacementTest {
 
     CalculDeplacement calculDeplacement;
@@ -203,7 +206,6 @@ class CalculDeplacementTest {
         Deplacement deplacement_test = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_positif);
         Assertions.assertEquals(Math.PI/4, deplacement_test.getAngle());
         Assertions.assertEquals(41.25, deplacement_test.getVitesse());
-
     }
 
     @Test
