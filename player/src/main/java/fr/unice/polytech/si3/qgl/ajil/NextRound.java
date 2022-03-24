@@ -1,9 +1,13 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Classe NextRound
@@ -82,5 +86,16 @@ public class NextRound {
     public void updateGame(Game game){
         game.setShip(this.ship);
         game.setWind(this.wind);
+        game.setReefs(searchReef());
+    }
+
+    public Set<Reef> searchReef(){
+        Set<Reef> reefs = new HashSet<>();
+        for (VisibleEntitie entities : visibleEntities){
+            if( entities.getTypeEntity() == VisibleEntities.REEF){
+                reefs.add((Reef)entities);
+            }
+        }
+        return reefs;
     }
 }

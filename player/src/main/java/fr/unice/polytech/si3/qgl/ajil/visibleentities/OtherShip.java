@@ -10,7 +10,7 @@ public class OtherShip extends VisibleEntitie{
         setType("ship");
     }
     OtherShip(String type, Position position, Shape shape, int life) {
-        super(type, position, shape);
+        super(type, position, shape, VisibleEntities.SHIP);
         this.life=life;
     }
 
