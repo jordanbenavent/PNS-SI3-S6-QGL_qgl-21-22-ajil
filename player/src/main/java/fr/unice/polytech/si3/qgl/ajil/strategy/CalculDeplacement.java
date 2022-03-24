@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
-import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
+import fr.unice.polytech.si3.qgl.ajil.actions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,32 +18,60 @@ public class CalculDeplacement {
         this.stratData = stratData;
     }
 
+    /**
+     * Actionne la voile
+     */
+
+    void putSail() {
+        /*
+        Vitesse du vent:
+        Direction: direction du bateau
+        Valeur: (nombre de voile ouverte / nombre de voile) x force du vent x cosinus(angle entre la direction du vent et la direction du bateau)
+         */
+        Ship s = stratData.jeu.getShip();
+        Wind wind = stratData.jeu.getWind();
+        double shipOrientation = s.getPosition().getOrientation()  % (2 * Math.PI);
+        double windOrientation = wind.getOrientation();
+        if (stratData.getSailorsManager() != null) {
+            int barreur = stratData.getSailorsManager().getId();
+            LiftSail lift = new LiftSail(barreur);
+            LowerSail lower = new LowerSail(barreur);
+
+            final double RANGE = Math.PI / 2;
+            stratData.actions.remove(lift);
+            stratData.actions.remove(lower);
+            if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
+                stratData.actions.add(lift);
+                LOGGER.add("Voile UP");
+            } else {
+                stratData.actions.add(lower);
+                LOGGER.add("DOWN");
+
+            }
+        } else {
+            LOGGER.add("Pas de Sailer Manager");
+        }
+    }
 
     /**
      * Analyse quel déplacement le bateau devra faire pour le tour
      *
-     * @param c Checkpoint needed to fetch position
+     * @param checkpoint Checkpoint needed to fetch position
      * @return le déplacement que le bateau devra faire pour ce tour
      */
-    public Deplacement deplacementPourLeTourRefactor(Checkpoint c) {
-        Ship s = jeu.getShip();
-        int nbr_rames = s.getOars().size();
-        Vector v_ship = new Vector(Math.cos(s.getPosition().getOrientation()), Math.sin(s.getPosition().getOrientation()));
-        Vector v_check = new Vector(c.getPosition().getX() - s.getPosition().getX(),c.getPosition().getY()-s.getPosition().getY());
+    public Deplacement deplacementPourLeTourRefactor(Checkpoint checkpoint) {
+        Ship ship = jeu.getShip();
+        int nbr_rames = ship.getOars().size();
+        Vector v_ship = calculVecteurBateau(ship);
+        Vector v_check = calculVecteurCheckpoint(checkpoint, ship);
         double angle = v_ship.angleBetweenVectors(v_check);
-        ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check, c);
-        Set<Double> angles_possibles = s.getTurnRange();
+        ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check, checkpoint);
+        Set<Double> angles_possibles = ship.getTurnRange();
         angles_possibles.remove(0.0);
         Double angle_maximum =  quelEstLangleMaximum(angles_possibles);
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
-
-        // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
-        if(Math.abs(angle) <= Math.PI/4){
-            deplacement.setAngle(angle);
-            deplacement.setVitesse(165.0);
-            return deplacement;
-        }
-
+        Sailor barreur = stratData.getBarreur();
+        // Stratégie de déplacement commune aux deux stratégies (avec et sans barreur)
         if(Math.abs(angle) >= Math.PI/2){
             deplacement.setVitesse(82.5);
             if(angle < 0){
@@ -56,7 +84,17 @@ public class CalculDeplacement {
         }
         angles_possibles.remove(Math.PI/2);
         angles_possibles.remove(-Math.PI/2);
-        // Boucle qui test toutes les valeurs possibles de rotations et renvoie un déplacement si les conditions sont vérifiées
+        if(barreur != null){
+            // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
+            if(Math.abs(angle) <= Math.PI/4) {
+                deplacement = deplacementSiGouvernail(angle, deplacement);
+                return deplacement;
+            }
+            angles_possibles.removeIf(a -> Math.abs(a) < Math.PI/4);
+            if(angles_possibles.size() == 0){
+                return deplacement;
+            }
+        }
         while(angles_possibles.size() != 0) {
             Double new_angle_maximum = quelEstLangleMaximum(angles_possibles);
             if(Math.abs(angle) < angle_maximum && Math.abs(angle) >= new_angle_maximum){
@@ -76,48 +114,75 @@ public class CalculDeplacement {
             angles_possibles.remove(-new_angle_maximum);
             angle_maximum = new_angle_maximum;
         }
+        //deplacement = deplacementParmiAnglesPossibles(angle, angles_possibles, angle_maximum, deplacement, nbr_rames);
         // Si on sort de la boucle il nous reste un avant-dernier cas, celui ou l'angle est supérieur à 1° en radian et inférieur au plus petit
         // angle de rotation réalisable par le bateau on fait donc appel à la méthode qui prédit le futur angle et qui choisit la
         // meilleure option de déplacement pour que le bateau puisse avancer.
-        if (Math.abs(angle) < angle_maximum && Math.abs(angle) > 0.01745329){
-            double vitesse_opti = 0;
-            double diffMin = -1;
-            for(Deplacement d: futur_angle){
-                double diff;
-                if (d.getAngle() < 0){
-                    diff = Math.abs(angle_maximum + d.getAngle());
-                }
-                else{
-                    diff = Math.abs(angle_maximum - d.getAngle());
-                }
-                if(diffMin == -1 || diffMin > diff){
-                    diffMin = diff;
-                    vitesse_opti = d.getVitesse();
-                }
-            }
-            deplacement.setVitesse(vitesse_opti);
-            deplacement.setAngle(0);
-            return deplacement;
-            // Regarder toutes les sous-listes de futur_angle, aller tout droit à la vitesse rapprochant au plus de l'angle PI/4
-            // à savoir la plus petite différence entre l'angle futur et PI/4
+        if(Math.abs(angle) < angle_maximum && Math.abs(angle) > 0.01745329){
+            deplacement = deplacementSelonPrediction(angle_maximum, futur_angle, deplacement);
         }
-        // enfin le dernier cas, si on est parfaitement aligné avec le checkpoint
-        else {
-            // Avancer tout droit à la vitesse maximale
-            deplacement.setVitesse(165);
-            deplacement.setAngle(0);
-            return deplacement;
-        }
+        return deplacement;
     }
 
-    public Deplacement deplacementSiGouvernail(Double angle){
-        Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
-        // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
-        if(Math.abs(angle) <= Math.PI/4){
-            deplacement.setAngle(angle);
-            deplacement.setVitesse(165.0);
-            return deplacement;
+    /**
+     * Méthode de calcul du vecteur bateau permettant une meilleure compréhension de la méthode
+     * déplacementPourLeTourRefactor
+     * @param ship
+     * @return
+     */
+    public Vector calculVecteurBateau(Ship ship){
+        Vector v_ship =  new Vector(Math.cos(ship.getPosition().getOrientation()), Math.sin(ship.getPosition().getOrientation()));
+        return v_ship;
+    }
+
+    /**
+     * Méthode de calcul du vecteur checkpoint permettant une meilleure compréhension de la méthode
+     * déplacementPourLeTourRefactor
+     * @param checkpoint
+     * @param ship
+     * @return
+     */
+    public Vector calculVecteurCheckpoint(Checkpoint checkpoint, Ship ship){
+        Vector v_check = new Vector(checkpoint.getPosition().getX() - ship.getPosition().getX(), checkpoint.getPosition().getY()-ship.getPosition().getY());
+        return v_check;
+    }
+
+    /**
+     * Stratégie de déplacement si on a un barreur sur le bateau
+     * @param angle
+     * @return le déplacement à effectuer
+     */
+    public Deplacement deplacementSiGouvernail(Double angle, Deplacement deplacement){
+        deplacement.setAngle(angle);
+        deplacement.setVitesse(165.0);
+        return deplacement;
+    }
+
+    /**
+     * Stratégie de déplacement selon la prédiction du futur angle que le bateau aura avec le checkpoint après son déplacement
+     * @param angle_maximum
+     * @param futur_angle
+     * @param deplacement
+     * @return le déplacement à effectuer
+     */
+    public Deplacement deplacementSelonPrediction(Double angle_maximum, ArrayList<Deplacement> futur_angle, Deplacement deplacement){
+        double vitesse_opti = 0;
+        double diffMin = -1;
+        for(Deplacement d: futur_angle){
+            double diff;
+            if (d.getAngle() < 0){
+                diff = Math.abs(angle_maximum + d.getAngle());
+            }
+            else{
+                diff = Math.abs(angle_maximum - d.getAngle());
+            }
+            if(diffMin == -1 || diffMin > diff){
+                diffMin = diff;
+                vitesse_opti = d.getVitesse();
+            }
         }
+        deplacement.setVitesse(vitesse_opti);
+        deplacement.setAngle(0);
         return deplacement;
     }
 
