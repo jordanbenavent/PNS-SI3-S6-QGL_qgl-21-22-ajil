@@ -14,7 +14,48 @@ public class CreateCell {
     private Position positionShip;
     private Checkpoint checkpoint;
     private List<Cell> badCell;
+    private Matrice<Cell> cellules = new Matrice<>();
     private static final double MARGE = 1.1;
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void setPositionShip(Position positionShip) {
+        this.positionShip = positionShip;
+    }
+
+    public void setCheckpoint(Checkpoint checkpoint) {
+        this.checkpoint = checkpoint;
+    }
+
+    public void setBadCell(List<Cell> badCell) {
+        this.badCell = badCell;
+    }
+
+    public void setCellules(Matrice<Cell> cellules) {
+        this.cellules = cellules;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public Position getPositionShip() {
+        return positionShip;
+    }
+
+    public Checkpoint getCheckpoint() {
+        return checkpoint;
+    }
+
+    public List<Cell> getBadCell() {
+        return badCell;
+    }
+
+    public Matrice<Cell> getCellules() {
+        return cellules;
+    }
 
     public CreateCell(Game game){
         this.game = game;
@@ -24,26 +65,23 @@ public class CreateCell {
     }
 
     public void calculAllCell(){
-        Matrice<Cell> cellules = new Matrice<>();
         double xShip = positionShip.getX();
         double yShip = positionShip.getY();
         double xCheckpoint = checkpoint.getPosition().getX();
         double yCheckpoint = checkpoint.getPosition().getY();
-        double differenceX = (xCheckpoint-xShip)*MARGE;
-        double differenceY = (yCheckpoint-yShip)*MARGE;
-        int xMax = (int) ((xCheckpoint-xShip) > 0 ? xCheckpoint + 10 : xShip + 10);
-        int xMin = (int) ((xCheckpoint-xShip) < 0 ? xCheckpoint - 10 : xShip - 10);
-        int yMax = (int) ((yCheckpoint-yShip) > 0 ? yCheckpoint + 10 : yShip + 10);
-        int yMin = (int) ((yCheckpoint-yShip) < 0 ? yCheckpoint - 10 : yShip - 10);
+        int xMax = (int) ((xCheckpoint-xShip) > 0 ? xCheckpoint + 100 : xShip + 100);
+        int xMin = (int) ((xCheckpoint-xShip) < 0 ? xCheckpoint - 100 : xShip - 100);
+        int yMax = (int) ((yCheckpoint-yShip) > 0 ? yCheckpoint + 100 : yShip + 100);
+        int yMin = (int) ((yCheckpoint-yShip) < 0 ? yCheckpoint - 100 : yShip - 100);
         int iMatrice = 0;
-        int jMatricce = 0;
-        for(int i = xMin; i<xMax; i+=50 ){
-            for (int j = yMin; i<yMax; i+=50){
-                cellules.addElement(iMatrice,jMatricce,new Cell(i,j));
-                jMatricce++;
+        int jMatrice = 0;
+        for(int i = xMin; i<=xMax; i+=50 ){
+            for (int j = yMin; j<=yMax; j+=50){
+                cellules.addElement(iMatrice,jMatrice,new Cell(i,j));
+                jMatrice++;
             }
             iMatrice++;
-            jMatricce=0;
+            jMatrice=0;
         }
     }
 }
