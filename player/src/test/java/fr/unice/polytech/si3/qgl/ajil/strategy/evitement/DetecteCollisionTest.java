@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.ajil.strategy.evitement;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
-import net.bytebuddy.build.HashCodeAndEqualsPlugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

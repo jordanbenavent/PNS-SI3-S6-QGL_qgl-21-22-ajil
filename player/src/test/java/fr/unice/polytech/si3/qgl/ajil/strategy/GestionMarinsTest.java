@@ -216,14 +216,33 @@ class GestionMarinsTest {
         Assertions.assertTrue(gestionMarins.deplacerMarin(sailors.get(2), entities.get(2)));
         Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(2)).getXdistance());
         Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(2)).getYdistance());
+        Assertions.assertEquals(4, sailors.get(0).getX());
+        Assertions.assertEquals(4, sailors.get(0).getY());
+        Assertions.assertEquals(5, sailors.get(2).getX());
+        Assertions.assertEquals(0, sailors.get(2).getY());
+    }
+
+    @Test
+    void deplacerMarinTest2(){
+        Sailor sailor = new Sailor(3, 3, 0, "Sailor 0"); // ( 3 , 3 )
+        Entity entity = new OarEntity(3,3,"oar");
+        Assertions.assertTrue(gestionMarins.deplacerMarin(sailor, entity));
+        Sailor sailor1 = new Sailor(0, 0, 0, "Sailor 0"); // ( 0 , 0 )
+        Entity entity1 = new OarEntity(6,0,"oar");
+        Assertions.assertFalse(gestionMarins.deplacerMarin(sailor1, entity1));
+        Sailor sailor2 = new Sailor(0, 0, 0, "Sailor 0"); // ( 0 , 0 )
+        Entity entity2 = new OarEntity(0,4,"oar");
+        Assertions.assertTrue(gestionMarins.deplacerMarin(sailor2, entity2));
+        Assertions.assertEquals(2, sailor1.getX());
+        Assertions.assertEquals(0, sailor1.getY());
     }
 
     @Test
     void ramerSelonVitesseTest(){
         ArrayList<Action> actions = new ArrayList<Action>();
         ArrayList<Sailor> sailors = new ArrayList<>();
-        sailors.add(new Sailor(0, 0, 0, "Sailor 0")); // ( 3 , 3 )
-        sailors.add(new Sailor(1, 0, 1, "Sailor 1")); // ( 1 , 2 )
+        sailors.add(new Sailor(0, 0, 0, "Sailor 0")); // ( 0 , 0 )
+        sailors.add(new Sailor(1, 0, 1, "Sailor 1")); // ( 1 , 0 )
         sailors.add(new Sailor(2, 0, 2, "Sailor 2"));
         sailors.add(new Sailor(0, 4, 3, "Sailor 3"));
         sailors.add(new Sailor(1, 4, 4, "Sailor 4"));
@@ -281,5 +300,20 @@ class GestionMarinsTest {
         Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());
         strategy.getStratData().actions.clear();
         actions.clear();
+    }
+
+    @Test
+    void setSailManagerTest(){
+        gestionMarins.setSailorsManager(null);
+        Assertions.assertNull(gestionMarins.stratData.getSailorsManager());
+        ArrayList<Sailor> sailors = new ArrayList<>();
+        sailors.add(new Sailor(0, 4, 0, "Sailor 0")); // ( 0 , 4 )
+        jeu.setSailors(sailors);
+        ArrayList<Entity> entities = new ArrayList<>();
+        entities.add(new Sail(3, 0, "sail", false)); // ( 3 , 0 ) SAIL
+        ship.setEntities(entities);
+        jeu.setShip(ship);
+        gestionMarins.attribuerSailManager();
+        Assertions.assertNotNull(gestionMarins.stratData.getSailorsManager());
     }
 }
