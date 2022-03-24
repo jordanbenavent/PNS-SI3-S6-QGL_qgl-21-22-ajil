@@ -59,6 +59,12 @@ public class ValideCheckpoint {
     }
 
 
+    /**
+     * if checkpoint is a circle
+     * @param ship Ship needed to fetch shape and position
+     * @param checkpointCurrent Checkpoint to test
+     * @return is ship in the circle
+     */
     public boolean checkpointValideShipCircle(Ship ship, Checkpoint checkpointCurrent) {
         Point pointShip = new Point(ship.getPosition().getX(), ship.getPosition().getY());
         Point pointCheckpoint = new Point(checkpointCurrent.getPosition().getX(), checkpointCurrent.getPosition().getY());
