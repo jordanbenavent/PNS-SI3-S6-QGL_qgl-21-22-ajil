@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
-import fr.unice.polytech.si3.qgl.ajil.maths.Calcul;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
@@ -129,14 +128,14 @@ class ValideCheckpointTest {
         strategy = new Strategy(jeu);
         valideCheckpoint = strategy.getValideCheckpoint();
         // Le bateau est loin donc le checkpoint reste le même
-        Assertions.assertEquals(checkpoint, valideCheckpoint.checkpointTarget(checkpoints));
+        Assertions.assertEquals(checkpoint, valideCheckpoint.nextCheckpointTarget(checkpoints));
         //Le bateau a avancé
         ship.setPosition(new Position(0.5, 4.8, 2 * Math.PI / 4));
         //Le bateau est assez proche du checkpoint, cela le valide est donc le deuxième checkpoint est visé.
-        Assertions.assertEquals(checkpoint2, valideCheckpoint.checkpointTarget(checkpoints));
+        Assertions.assertEquals(checkpoint2, valideCheckpoint.nextCheckpointTarget(checkpoints));
         //Le bateau est assez proche du deuxième checkpoint, or la liste du checlpoint est finie. Cela retourne donc null.
-        Assertions.assertNull(valideCheckpoint.checkpointTarget(checkpoints));
-        Assertions.assertNull(valideCheckpoint.checkpointTarget(checkpoints));
+        Assertions.assertNull(valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertNull(valideCheckpoint.nextCheckpointTarget(checkpoints));
         //Bateau en cercle
         ship = new Ship("ship", 100,
                 new Position(2.5, 2.5, 2 * Math.PI / 4), "BateauCarre",
@@ -145,7 +144,7 @@ class ValideCheckpointTest {
                 new Circle("circle", 2));
         checkpoint = new Checkpoint(new Position(2.5, 5.5, 0), new Circle("circle", 1));
         checkpoints.add(checkpoint);
-        Assertions.assertNull(valideCheckpoint.checkpointTarget(checkpoints));
+        Assertions.assertNull(valideCheckpoint.nextCheckpointTarget(checkpoints));
     }
 
     @Test

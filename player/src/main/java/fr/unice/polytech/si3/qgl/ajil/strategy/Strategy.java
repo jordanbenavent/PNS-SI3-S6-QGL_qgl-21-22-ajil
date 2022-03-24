@@ -118,7 +118,7 @@ public class Strategy {
         if (!gestionMarins.isPlacementInit()) {
             gestionMarins.placerSurRames();
         }
-        c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
+        c = valideCheckpoint.nextCheckpointTarget(stratData.jeu.getGoal().getCheckpoints());
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
         gestionMarins.ramerSelonVitesse(deplacement);
         Ship ship = stratData.jeu.getShip();

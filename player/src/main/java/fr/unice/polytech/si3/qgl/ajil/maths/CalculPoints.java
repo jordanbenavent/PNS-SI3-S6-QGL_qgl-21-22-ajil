@@ -5,10 +5,21 @@ import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
 
-public class Calcul {
+public class CalculPoints {
 
+    public static ArrayList<Point> calculExtremityPoints(Shape shape, Position position, double largeur, double longueur) {
+        if (shape instanceof Polygone) {
+            return calculPointPolygon(shape, position);
+        }
+        if (shape instanceof Rectangle) {
+            largeur = ((Rectangle) shape).getWidth();
+            longueur = ((Rectangle) shape).getHeight();
+        }
+        double angle = CalculPoints.calculAngleTotal(shape, position);
+        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
+    }
 
-    public static double calculAngleTotal(Shape shape, Position pos) {
+    private static double calculAngleTotal(Shape shape, Position pos) {
         if (shape instanceof Circle) {
             return pos.getOrientation();
         }
@@ -34,19 +45,6 @@ public class Calcul {
             points.add(pointProjette);
         }
         return points;
-    }
-
-
-    public static ArrayList<Point> calculExtremityPoints(Shape shape, Position position, double largeur, double longueur) {
-        if (shape instanceof Polygone) {
-            return calculPointPolygon(shape, position);
-        }
-        if (shape instanceof Rectangle) {
-            largeur = ((Rectangle) shape).getWidth();
-            longueur = ((Rectangle) shape).getHeight();
-        }
-        double angle = Calcul.calculAngleTotal(shape, position);
-        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
     }
 
     private static ArrayList<Point> calculPointGeneric(double angle, Position position, double la, double lo) {

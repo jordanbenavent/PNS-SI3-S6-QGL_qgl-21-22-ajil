@@ -1,8 +1,10 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
-import fr.unice.polytech.si3.qgl.ajil.maths.Calcul;
-import fr.unice.polytech.si3.qgl.ajil.shape.*;
+import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
+import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
+import fr.unice.polytech.si3.qgl.ajil.shape.Point;
+import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,42 +18,52 @@ public class ValideCheckpoint {
         this.jeu = jeu;
     }
 
-
     /**
-     * Retourne le checkpoint à viser
+     * If checkpoints is not empty, return next checkpoint
+     *
+     * @param checkpoints List of the checkpoints
+     * @return the next Checkpoint
      */
-    public Checkpoint checkpointTarget(List<Checkpoint> checkpoints) {
-        boolean estDedans;
-        if (checkpoints.isEmpty()) {
-            return null;
-        }
-        Checkpoint checkpointCurrent = checkpoints.get(0);
+    public Checkpoint nextCheckpointTarget(List<Checkpoint> checkpoints) {
+        if (checkpoints.isEmpty()) return null;
+
         Ship ship = jeu.getShip();
-        ArrayList<Point> pointsDuBateau = calculPointShip(ship);
-        if (checkpointCurrent.getShape() instanceof Circle) {
-            if ((ship.getShape() instanceof Circle)) {
-                estDedans = checkpointValideShipCircle(ship, checkpointCurrent);
-            } else {
-                estDedans = checkpointValide(pointsDuBateau, checkpointCurrent);
-            }
-            if (estDedans) {
-                checkpoints.remove(checkpointCurrent);
-                if (checkpoints.isEmpty()) {
-                    checkpointCurrent = null;
-                } else {
-                    checkpointCurrent = checkpoints.get(0);
-                }
-            }
+        Checkpoint checkpointCurrent = checkpoints.get(0);
+
+        if (isShipInCheckpoint(ship, checkpointCurrent)) {
+            checkpoints.remove(checkpointCurrent);
+            if (checkpoints.isEmpty()) checkpointCurrent = null;
+            else checkpointCurrent = checkpoints.get(0);
         }
-        LOGGER.add("Checkpoint visé : " +checkpointCurrent);
+        LOGGER.add("Checkpoint visé : " + checkpointCurrent);
         return checkpointCurrent;
     }
 
+    /**
+     * Check if the ship is inside the checkpoint
+     *
+     * @param ship              ship is needed for hitbox calculation
+     * @param checkpointCurrent get the checkpoint
+     * @return ship in checkpoint boolean
+     */
+    private boolean isShipInCheckpoint(Ship ship, Checkpoint checkpointCurrent) {
+        ArrayList<Point> pointsDuBateau = calculPointShip(ship);
+        if (checkpointCurrent.getShape() instanceof Circle) {
+            if ((ship.getShape() instanceof Circle)) {
+                return checkpointValideShipCircle(ship, checkpointCurrent);
+            } else {
+                return checkpointValide(pointsDuBateau, checkpointCurrent);
+            }
+        }
+        return false;
+    }
+
+
     public boolean checkpointValideShipCircle(Ship ship, Checkpoint checkpointCurrent) {
-        double rs = ((Circle) ship.getShape()).getRadius();
-        double rc = ((Circle) checkpointCurrent.getShape()).getRadius();
         Point pointShip = new Point(ship.getPosition().getX(), ship.getPosition().getY());
         Point pointCheckpoint = new Point(checkpointCurrent.getPosition().getX(), checkpointCurrent.getPosition().getY());
+        double rs = ((Circle) ship.getShape()).getRadius();
+        double rc = ((Circle) checkpointCurrent.getShape()).getRadius();
         return pointCheckpoint.distance(pointShip) <= (rs + rc);
     }
 
@@ -66,7 +78,7 @@ public class ValideCheckpoint {
         Shape shape = ship.getShape();
         double largeur = ship.getDeck().getWidth();
         double longueur = ship.getDeck().getLength();
-        return Calcul.calculExtremityPoints(shape, position, largeur, longueur);
+        return CalculPoints.calculExtremityPoints(shape, position, largeur, longueur);
     }
 
 
@@ -156,9 +168,7 @@ public class ValideCheckpoint {
     boolean intersectionDroiteVerticaleCircle(Point point1, Point point2, Checkpoint checkpoint) {
         //Dans ce cas la droite du bateau est de la forme x=a;
         double a = point1.getX();
-        double xb1 = point1.getX();
         double yb1 = point1.getY();
-        double xb2 = point2.getX();
         double yb2 = point2.getY();
         double xc = checkpoint.getPosition().getX();
         double yc = checkpoint.getPosition().getY();
@@ -182,11 +192,11 @@ public class ValideCheckpoint {
     /**
      * Nous dit si le checkpoint est validé.
      *
-     * @param pointsDuBateau Point du bateau
-     * @param checkpoint     Checkpoint
+     * @param points     Point du bateau
+     * @param checkpoint Checkpoint
      * @return true si validé, false sinon
      */
-    boolean checkpointValide(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint) {
-        return dansLeCercle(pointsDuBateau, checkpoint) || intersectionCircleShip(pointsDuBateau, checkpoint);
+    boolean checkpointValide(ArrayList<Point> points, Checkpoint checkpoint) {
+        return dansLeCercle(points, checkpoint) || intersectionCircleShip(points, checkpoint);
     }
 }
