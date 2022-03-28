@@ -11,4 +11,9 @@ public class Reef extends VisibleEntitie{
     public Reef(String type, Position position, Shape shape) {
         super(type, position, shape, VisibleEntities.REEF);
     }
+
+    @Override
+    public VisibleEntitie copy(){
+        return super.copy();
+    }
 }

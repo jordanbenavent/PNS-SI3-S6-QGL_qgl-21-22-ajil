@@ -58,4 +58,8 @@ public class Shape {
                 "type='" + type + '\'' +
                 '}';
     }
+
+    public double getOrientation(){
+        return 0;
+    }
 }

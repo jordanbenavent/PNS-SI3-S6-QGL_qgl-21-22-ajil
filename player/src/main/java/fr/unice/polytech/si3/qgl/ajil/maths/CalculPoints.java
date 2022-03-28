@@ -2,8 +2,11 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CalculPoints {
 
@@ -59,5 +62,21 @@ public class CalculPoints {
         points.add(new Point(la * cosinus - lo * sinus, -la * sinus - lo * cosinus).addPoint(centre));
         points.add(new Point(-la * cosinus - lo * sinus, la * sinus - lo * cosinus).addPoint(centre));
         return points;
+    }
+
+    public static ArrayList<VisibleEntitie> entitiesToEntitiesPolygone(ArrayList<VisibleEntitie> entities){
+        ArrayList<VisibleEntitie> resultat = new ArrayList<>();
+        ArrayList<Point> pointShape = new ArrayList<>();
+        for ( VisibleEntitie entitie : entities){
+            if( entitie.getShape() instanceof Circle){
+                resultat.add(entitie);
+                continue;
+            }
+            pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
+            VisibleEntitie tmp = entitie.copy();
+            tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[pointShape.size()])));
+            resultat.add(tmp);
+        }
+        return resultat;
     }
 }

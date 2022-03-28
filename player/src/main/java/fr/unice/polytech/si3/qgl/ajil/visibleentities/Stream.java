@@ -28,4 +28,11 @@ public class Stream extends VisibleEntitie {
                 "strength=" + strength +
                 '}';
     }
+
+    @Override
+    public VisibleEntitie copy(){
+        Stream copy = (Stream) super.copy();
+        copy.setStrength(strength);
+        return copy;
+    }
 }

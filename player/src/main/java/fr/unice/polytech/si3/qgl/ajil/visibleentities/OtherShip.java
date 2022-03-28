@@ -6,10 +6,10 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 public class OtherShip extends VisibleEntitie{
     private int life;
 
-    OtherShip(){
+    public OtherShip(){
         setType("ship");
     }
-    OtherShip(String type, Position position, Shape shape, int life) {
+    public OtherShip(String type, Position position, Shape shape, int life) {
         super(type, position, shape, VisibleEntities.SHIP);
         this.life=life;
     }
@@ -20,5 +20,12 @@ public class OtherShip extends VisibleEntitie{
 
     public void setLife(int life) {
         this.life = life;
+    }
+
+    @Override
+    public VisibleEntitie copy(){
+        OtherShip copy = (OtherShip) super.copy();
+        copy.setLife(life);
+        return copy;
     }
 }

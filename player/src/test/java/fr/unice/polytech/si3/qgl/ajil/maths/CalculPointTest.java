@@ -7,13 +7,17 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.strategy.Strategy;
 import fr.unice.polytech.si3.qgl.ajil.strategy.ValideCheckpoint;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.OtherShip;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Stream;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class CalculTest {
+public class CalculPointTest {
 
     private Polygone polygone;
     private Rectangle rectangle;
@@ -54,5 +58,15 @@ public class CalculTest {
         Assertions.assertEquals(4.5,point2.get(2).getY(), 0.3);
         Assertions.assertEquals(10.5,point2.get(3).getX(), 0.3);
         Assertions.assertEquals(3,point2.get(3).getY(), 0.3);
+    }
+
+    @Test
+    void entitiesToPolygoneEntitiesTest(){
+        ArrayList<VisibleEntitie> list = new ArrayList<>();
+        list.add(new Stream("stream",new Position(0,0,0),  rectangle, 100));
+        list.add(new Reef("reef",new Position(0,0,0), polygone));
+        list.add(new OtherShip("ship",new Position(0,0,0),  circle, 100));
+        ArrayList<VisibleEntitie> resultat = CalculPoints.entitiesToEntitiesPolygone(list);
+        Assertions.assertEquals();
     }
 }

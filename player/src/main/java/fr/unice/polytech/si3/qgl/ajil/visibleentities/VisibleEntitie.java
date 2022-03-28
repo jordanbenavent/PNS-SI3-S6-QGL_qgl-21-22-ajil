@@ -69,4 +69,8 @@ public class VisibleEntitie {
                 ", shape=" + shape +
                 '}';
     }
+
+    public VisibleEntitie copy(){
+        return new VisibleEntitie(type,position, shape,typeEntity);
+    }
 }

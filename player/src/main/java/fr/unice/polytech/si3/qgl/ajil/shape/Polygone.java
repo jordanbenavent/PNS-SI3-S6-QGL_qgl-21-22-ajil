@@ -29,6 +29,7 @@ public class Polygone extends Shape{
     /**
      * @return l'orientation du polygone
      */
+    @Override
     public double getOrientation() {
         return orientation;
     }
