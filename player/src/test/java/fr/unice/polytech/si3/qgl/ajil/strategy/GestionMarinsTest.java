@@ -1,6 +1,5 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
@@ -133,12 +132,12 @@ class GestionMarinsTest {
         entities.add(new OarEntity(2,4,"oar"));
         ship.setEntities(entities);
 
-        gestionMarins.attribuerBarreur();
+        gestionMarins.setCoxswain();
         System.out.println(gestionMarins.isPlacementBarreur());
 
         gestionMarins.repartirLesMarins();
 
-        Assertions.assertEquals(0,gestionMarins.getBarreur().getId());
+        Assertions.assertEquals(0,gestionMarins.getCoxswain().getId());
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
         Assertions.assertEquals(3, gestionMarins.getLeftSailors().size());
@@ -155,8 +154,8 @@ class GestionMarinsTest {
         ArrayList<Entity> entities = new ArrayList<>();
         entities.add(new Rudder(6,4,"rudder"));
         ship.setEntities(entities);
-        gestionMarins.attribuerBarreur();
-        Assertions.assertEquals(0,gestionMarins.getBarreur().getId());
+        gestionMarins.setCoxswain();
+        Assertions.assertEquals(0,gestionMarins.getCoxswain().getId());
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(0)).getXdistance());
         Assertions.assertFalse(gestionMarins.isPlacementBarreur());
@@ -179,7 +178,7 @@ class GestionMarinsTest {
         List<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
         tmp.add(rudder);
         gestionMarins.stratData.jeu.getShip().setEntities(tmp);
-        Sailor res = gestionMarins.marinLePlusProche(rudder);
+        Sailor res = gestionMarins.nearestSailor(rudder);
         Assertions.assertEquals(res,sailors.get(1));
     }
 
@@ -189,7 +188,7 @@ class GestionMarinsTest {
         List<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
         tmp.add(sail);
         gestionMarins.stratData.jeu.getShip().setEntities(tmp);
-        Sailor res = gestionMarins.marinLePlusProche(sail);
+        Sailor res = gestionMarins.nearestSailor(sail);
         Assertions.assertEquals(res,sailors.get(2));
     }
 
@@ -207,20 +206,20 @@ class GestionMarinsTest {
         entities.add(new OarEntity(5,0,"oar"));
         ship.setEntities(entities);
 
-        Assertions.assertTrue(gestionMarins.deplacerMarin(sailors.get(0), entities.get(0)));
+        Assertions.assertTrue(gestionMarins.moveSailor(sailors.get(0), entities.get(0)));
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getXdistance());
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
-        Assertions.assertFalse(gestionMarins.deplacerMarin(sailors.get(1), entities.get(1)));
+        Assertions.assertFalse(gestionMarins.moveSailor(sailors.get(1), entities.get(1)));
         Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(1)).getXdistance());
         Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(1)).getYdistance());
-        Assertions.assertTrue(gestionMarins.deplacerMarin(sailors.get(2), entities.get(2)));
+        Assertions.assertTrue(gestionMarins.moveSailor(sailors.get(2), entities.get(2)));
         Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(2)).getXdistance());
         Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(2)).getYdistance());
     }
 
     @Test
     void ramerSelonVitesseTest(){
-        ArrayList<Action> actions = new ArrayList<Action>();
+        ArrayList<Action> actions = new ArrayList<>();
         ArrayList<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(0, 0, 0, "Sailor 0")); // ( 3 , 3 )
         sailors.add(new Sailor(1, 0, 1, "Sailor 1")); // ( 1 , 2 )
@@ -243,7 +242,7 @@ class GestionMarinsTest {
         for(Sailor s: sailors){
             actions.add(new Oar(s.getId()));
         }
-        strategy.getGestionMarins().ramerSelonVitesse(deplacement_tout_droit);
+        strategy.getGestionMarins().rowingAccordingToSpeed(deplacement_tout_droit);
         System.out.println(actions);
         System.out.println(strategy.getStratData().actions);
         Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());
@@ -253,7 +252,7 @@ class GestionMarinsTest {
         Deplacement deplacement_tout_droit_55 = new Deplacement(55.0, 0.0);
         actions.add(new Oar(gestionMarins.getLeftSailors().get(0).getId()));
         actions.add(new Oar(gestionMarins.getRightSailors().get(0).getId()));
-        strategy.getGestionMarins().ramerSelonVitesse(deplacement_tout_droit_55);
+        strategy.getGestionMarins().rowingAccordingToSpeed(deplacement_tout_droit_55);
         System.out.println(actions);
         System.out.println(strategy.getStratData().actions);
         Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());
@@ -264,7 +263,7 @@ class GestionMarinsTest {
         for(Sailor s: strategy.getGestionMarins().getLeftSailors()){
             actions.add(new Oar(s.getId()));
         }
-        strategy.getGestionMarins().ramerSelonVitesse(deplacement_angle_droit_negatif);
+        strategy.getGestionMarins().rowingAccordingToSpeed(deplacement_angle_droit_negatif);
         System.out.println(actions);
         System.out.println(strategy.getStratData().actions);
         Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());
@@ -275,7 +274,7 @@ class GestionMarinsTest {
         for(Sailor s: strategy.getGestionMarins().getRightSailors()){
             actions.add(new Oar(s.getId()));
         }
-        strategy.getGestionMarins().ramerSelonVitesse(deplacement_angle_droit_positif);
+        strategy.getGestionMarins().rowingAccordingToSpeed(deplacement_angle_droit_positif);
         System.out.println(actions);
         System.out.println(strategy.getStratData().actions);
         Assertions.assertEquals(actions.size(), strategy.getStratData().actions.size());

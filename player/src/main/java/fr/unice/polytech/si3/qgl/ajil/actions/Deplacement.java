@@ -28,7 +28,7 @@ public class Deplacement {
     /**
      * @return la vitesse du déplacement
      */
-    public double getVitesse() {
+    public double getSpeed() {
         return vitesse;
     }
 

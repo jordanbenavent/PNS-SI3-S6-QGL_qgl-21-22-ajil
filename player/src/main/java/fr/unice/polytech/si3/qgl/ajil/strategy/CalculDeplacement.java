@@ -2,8 +2,6 @@ package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
-import fr.unice.polytech.si3.qgl.ajil.actions.LiftSail;
-import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,49 +18,6 @@ public class CalculDeplacement {
         this.stratData = stratData;
     }
 
-    /**
-     * Actionne la voile si le bateau est dans la même direction que le vent
-     * @param ship le bateau
-     * @param wind le vent
-     */
-    public void putSail(Ship ship, Wind wind) {
-        double shipOrientation = ship.getPosition().getOrientation()  % (2 * Math.PI);
-        double windOrientation = wind.getOrientation();
-        final double RANGE = Math.PI / 2;
-
-        if (stratData.getSailorsManager() != null) {
-            int barreur = stratData.getSailorsManager().getId();
-            LiftSail lift = new LiftSail(barreur);
-            LowerSail lower = new LowerSail(barreur);
-            stratData.actions.remove(lift);
-            stratData.actions.remove(lower);
-            if ((windOrientation + RANGE > shipOrientation) && (windOrientation - RANGE < shipOrientation)) {
-                stratData.actions.add(lift);
-                LOGGER.add("Voile UP");
-            } else {
-                stratData.actions.add(lower);
-                LOGGER.add("DOWN");
-
-            }
-        } else {
-            LOGGER.add("Pas de Sailer Manager");
-        }
-    }
-
-    public boolean hasSailLifted() {
-        int barreur = stratData.getSailorsManager().getId();
-        LiftSail lift = new LiftSail(barreur);
-        LowerSail lower = new LowerSail(barreur);
-        if (stratData.actions.stream().anyMatch(x -> x.getType().equals(lift.getType()))) {
-            return true;
-        }
-        if (stratData.actions.stream().anyMatch(x -> x.getType().equals(lower.getType()))) {
-            return false;
-        }
-        System.out.println("Erreur hasSailLifted: aucun element");
-        stratData.actions.forEach(System.out::println);
-        return false;
-    }
 
     /**
      * Analyse quel déplacement le bateau devra faire pour le tour
@@ -137,7 +92,7 @@ public class CalculDeplacement {
                 }
                 if(diffMin == -1 || diffMin > diff){
                     diffMin = diff;
-                    vitesse_opti = d.getVitesse();
+                    vitesse_opti = d.getSpeed();
                 }
             }
             deplacement.setVitesse(vitesse_opti);

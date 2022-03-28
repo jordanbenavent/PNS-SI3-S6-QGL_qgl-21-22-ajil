@@ -18,7 +18,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class CalculDeplacementTest {
+class CalculPointsDeplacementTest {
 
     Strategy strategie;
     Game jeu;
@@ -126,9 +126,9 @@ class CalculDeplacementTest {
         jeu.getShip().getEntities().add(new OarEntity(1, 3, "oar"));
         int nb_oars = jeu.getShip().getOars().size();
         // On tourne à un angle de PI/3
-        Assertions.assertEquals(2, strategie.getGestionMarins().nbrSailorsNecessaires(nb_oars, 55));
+        Assertions.assertEquals(2, strategie.getGestionMarins().howManySailorsNeeded(nb_oars, 55));
         // On tourne à un angle de PI/2
-        Assertions.assertEquals(3, strategie.getGestionMarins().nbrSailorsNecessaires(nb_oars, 82.5));
+        Assertions.assertEquals(3, strategie.getGestionMarins().howManySailorsNeeded(nb_oars, 82.5));
     }
 
     @Test
@@ -154,7 +154,7 @@ class CalculDeplacementTest {
         strategie.getListActions().clear();
         // Si le bateau doit aller à droite
         Deplacement deplacement_droite = new Deplacement(41.25, 42.5);
-        strategie.getGestionMarins().ramerSelonVitesse(deplacement_droite);
+        strategie.getGestionMarins().rowingAccordingToSpeed(deplacement_droite);
         try {
             System.out.println(objectMapper.writeValueAsString(strategie.getListActions()));
         } catch (JsonProcessingException e) {
@@ -163,80 +163,12 @@ class CalculDeplacementTest {
         strategie.getListActions().clear();
         // Si le bateau doit aller à gauche
         Deplacement deplacement_gauche = new Deplacement(41.25, -42.5);
-        strategie.getGestionMarins().ramerSelonVitesse(deplacement_gauche);
+        strategie.getGestionMarins().rowingAccordingToSpeed(deplacement_gauche);
         try {
             System.out.println(objectMapper.writeValueAsString(strategie.getListActions()));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         strategie.getListActions().clear();
-    }
-
-    @Test
-    void putSailTestPerfectAlignment() {
-        StratData stratData = new StratData(jeu);
-        stratData.setSailorsManager(new Sailor());
-        Wind wind = stratData.jeu.getWind();
-        wind.setOrientation(0);
-        wind.setStrength(50);
-
-        Ship ship = stratData.jeu.getShip();
-        ship.getPosition().setOrientation(0.0);
-
-        CalculDeplacement calcul = new CalculDeplacement(stratData);
-        calcul.putSail(ship, wind);
-
-        assertTrue(calcul.hasSailLifted());
-    }
-
-    @Test
-    void putSailTestPerfectOppositeAlignment() {
-        StratData stratData = new StratData(jeu);
-        stratData.setSailorsManager(new Sailor());
-        Wind wind = stratData.jeu.getWind();
-        wind.setOrientation(Math.PI);
-        wind.setStrength(50);
-
-        Ship ship = stratData.jeu.getShip();
-        ship.getPosition().setOrientation(0.0);
-
-        CalculDeplacement calcul = new CalculDeplacement(stratData);
-        calcul.putSail(ship, wind);
-
-        assertFalse(calcul.hasSailLifted());
-    }
-
-    @Test
-    void putSailTestPi2Alignment() {
-        StratData stratData = new StratData(jeu);
-        stratData.setSailorsManager(new Sailor());
-        Wind wind = stratData.jeu.getWind();
-        wind.setOrientation(-Math.PI / 2);
-        wind.setStrength(100);
-
-        Ship ship = stratData.jeu.getShip();
-        ship.getPosition().setOrientation(0);
-
-        CalculDeplacement calcul = new CalculDeplacement(stratData);
-        calcul.putSail(ship, wind);
-
-        assertFalse(calcul.hasSailLifted());
-    }
-
-    @Test
-    void putSailTest2PiShipAlignment() {
-        StratData stratData = new StratData(jeu);
-        stratData.setSailorsManager(new Sailor());
-        Wind wind = stratData.jeu.getWind();
-        wind.setOrientation(3* Math.PI / 4); // 3 PI /4
-        wind.setStrength(100);
-
-        Ship ship = stratData.jeu.getShip();
-        ship.getPosition().setOrientation(3 * Math.PI); // pi
-
-        CalculDeplacement calcul = new CalculDeplacement(stratData);
-        calcul.putSail(ship, wind);
-
-        assertTrue(calcul.hasSailLifted());
     }
 }
