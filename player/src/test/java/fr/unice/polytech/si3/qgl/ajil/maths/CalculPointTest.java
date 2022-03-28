@@ -67,6 +67,6 @@ public class CalculPointTest {
         list.add(new Reef("reef",new Position(0,0,0), polygone));
         list.add(new OtherShip("ship",new Position(0,0,0),  circle, 100));
         ArrayList<VisibleEntitie> resultat = CalculPoints.entitiesToEntitiesPolygone(list);
-        Assertions.assertEquals();
+        //Assertions.assertEquals();
     }
 }
