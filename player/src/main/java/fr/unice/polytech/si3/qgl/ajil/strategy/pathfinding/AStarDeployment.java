@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AStarDeployment {
     private Game game;
@@ -16,6 +17,8 @@ public class AStarDeployment {
     private Goal goal;
     private Ship ship;
     private Point origine;
+    public List<String> LOGGER = Cockpit.LOGGER;
+
 
 
     public AStarDeployment(Game game, double sizeCell){
@@ -67,10 +70,12 @@ public class AStarDeployment {
                 origine, ship.getPosition(), goal.getCheckpoints().get(0).getPosition());
 
         ArrayList<VisibleEntitie> mainList = new ArrayList<>(game.getReefs());
+        LOGGER.add("on a nb recifs"+mainList.size());
         ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList);
 
         int[][] cellsB = pointsVersTableau( ObstacleDetection.gridProcess(grid, visibleReefs));
 
+        LOGGER.add(""+cellsB.length);
         System.out.println((int)sizeXY.getX());
         System.out.println((int)sizeXY.getY());
 
