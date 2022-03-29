@@ -29,7 +29,7 @@ public class AStarDeployment {
     public Point gridSizeXY(Point shipPosition, Point checkPointPosition, double sizeCell){
         double x = Math.abs(shipPosition.getX()) + Math.abs(checkPointPosition.getX());
         double y = Math.abs(shipPosition.getY()) + Math.abs(checkPointPosition.getY());
-        return new Point( Math.ceil(x/sizeCell), Math.ceil(y/sizeCell) );
+        return new Point( Math.ceil(x/sizeCell)+1, Math.ceil(y/sizeCell)+1 );
     }
 
     public ArrayList<Checkpoint> convertPositionToCheckpoint(ArrayList<Position> listePos){
@@ -70,6 +70,9 @@ public class AStarDeployment {
         ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList);
 
         int[][] cellsB = pointsVersTableau( ObstacleDetection.gridProcess(grid, visibleReefs));
+
+        System.out.println((int)sizeXY.getX());
+        System.out.println((int)sizeXY.getY());
 
         AStar astar = new AStar((int)sizeXY.getX(), (int)sizeXY.getY(), ObstacleDetection.startX, ObstacleDetection.startY,
                 ObstacleDetection.endX,ObstacleDetection.endY, cellsB);
