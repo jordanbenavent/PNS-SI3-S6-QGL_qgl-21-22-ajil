@@ -32,7 +32,7 @@ public class AStarDeployment {
     public Point gridSizeXY(Point shipPosition, Point checkPointPosition, double sizeCell){
         double x = Math.abs(shipPosition.getX()) + Math.abs(checkPointPosition.getX());
         double y = Math.abs(shipPosition.getY()) + Math.abs(checkPointPosition.getY());
-        return new Point( Math.ceil(x/sizeCell)+1, Math.ceil(y/sizeCell)+1 );
+        return new Point( Math.ceil(x/sizeCell)+5, Math.ceil(y/sizeCell)+3 );
     }
 
     public ArrayList<Checkpoint> convertPositionToCheckpoint(ArrayList<Position> listePos){
@@ -81,6 +81,9 @@ public class AStarDeployment {
 
         AStar astar = new AStar((int)sizeXY.getX(), (int)sizeXY.getY(), ObstacleDetection.startX, ObstacleDetection.startY,
                 ObstacleDetection.endX,ObstacleDetection.endY, cellsB);
+
+        System.out.println("StartX: " + ObstacleDetection.startX + ", StartY: " +ObstacleDetection.startY);
+        System.out.println("EndX: " + ObstacleDetection.endY + ", EndY: " +ObstacleDetection.endY);
 
         LOGGER.add(""+convertPositionToCheckpoint(astar.obtenirLeChemin()).size());
 

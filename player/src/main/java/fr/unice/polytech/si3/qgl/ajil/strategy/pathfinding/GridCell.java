@@ -52,7 +52,7 @@ public class GridCell {
         double maxx = center.getX()+size/2;
         double miny = center.getY()-size/2;
         double maxy = center.getY()+size/2;
-        return (pos.getX() > minx && pos.getX()<maxx && pos.getY() > miny && pos.getY() < maxy);
+        return (pos.getX() >= minx && pos.getX()<maxx && pos.getY() >= miny && pos.getY() < maxy);
     }
 
     @Override

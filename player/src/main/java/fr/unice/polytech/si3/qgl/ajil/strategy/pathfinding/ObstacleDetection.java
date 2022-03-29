@@ -65,8 +65,11 @@ public class ObstacleDetection {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 grid[i][j] = new GridCell(new Point(
-                        j*sizeCell + sizeCell/2 +origine.getX(),
-                        i*sizeCell + sizeCell/2 + origine.getY()), sizeCell);
+                        i*sizeCell + sizeCell/2 +origine.getY(),
+                        j*sizeCell + sizeCell/2 + origine.getX()), sizeCell);
+                System.out.println("startfound: "+ startFound);
+                System.out.println("endfound: "+ endFound);
+                System.out.println(grid[i][j]);
                 if (!startFound){
                     startFound = grid[i][j].contains(ship);
                     if(startFound){
@@ -83,6 +86,10 @@ public class ObstacleDetection {
                 }
             }
         }
+        System.out.println("Start i trouvé : " + startX);
+        System.out.println("Start j trouvé : " + startY);
+        System.out.println("End i trouvé : " + endX);
+        System.out.println("End j trouvé : " + endY);
         return grid;
     }
 
