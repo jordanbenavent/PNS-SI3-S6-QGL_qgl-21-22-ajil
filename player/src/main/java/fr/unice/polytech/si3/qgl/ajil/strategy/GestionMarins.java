@@ -71,14 +71,12 @@ public class GestionMarins {
             return true;
         }
         if (dist > 5) {
-            LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
             int depX = (movX < -2) ? -2 : Math.min(movX, 2);
             int depY = (movY < -2) ? -2 : Math.min(movY, 2);
             s.updatePos(depX, depY); // met à jour les (x , y) de ce sailor
             stratData.actions.add(new Moving(s.getId(), depX, depY));
             return false;
         }
-        LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
         s.updatePos(movX, movY);
         stratData.actions.add(new Moving(s.getId(), movX, movY));
         return true;
