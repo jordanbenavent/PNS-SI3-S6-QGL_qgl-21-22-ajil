@@ -76,7 +76,7 @@ public class ObstacleDetection {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j].intersection(reefSegments);
                 if (grid[i][j].isBlocked()){
-                    blockCells.add(new Point(i, j));
+                    blockedCells.add(new Point(i, j));
                 }
             }
         }
