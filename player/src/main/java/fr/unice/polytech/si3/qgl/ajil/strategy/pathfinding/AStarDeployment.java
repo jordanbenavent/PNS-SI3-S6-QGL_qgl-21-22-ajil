@@ -5,6 +5,9 @@ import fr.unice.polytech.si3.qgl.ajil.Goal;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.Ship;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
+
+import java.util.ArrayList;
 
 public class AStarDeployment {
     private Game game;
@@ -41,5 +44,17 @@ public class AStarDeployment {
 
         GridCell[][] grid = ObstacleDetection.gridCreation((int)sizeXY.getX(),(int)sizeXY.getY(),this.sizeCell,origineGrid);
 
+    }
+
+
+
+    public int[][] pointsVersTableau(ArrayList<Point> listPoints){
+        int [][] res = new int[listPoints.size()][2];
+
+        for(int i=0;i<listPoints.size();i++){
+            res[i][0] = (int) listPoints.get(i).getX();
+            res[i][1] = (int) listPoints.get(i).getY();
+        }
+        return res;
     }
 }
