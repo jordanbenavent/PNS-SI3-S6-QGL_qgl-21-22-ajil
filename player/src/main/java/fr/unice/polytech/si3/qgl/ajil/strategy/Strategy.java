@@ -167,11 +167,12 @@ public class Strategy {
         futureVraiCheckpoint = listeCheckpoints.get(0);
 
         AStarDeployment deploy = new AStarDeployment(this.stratData.jeu,100);
-        deploy.deployment();
-
-
-
-
+        ArrayList<Checkpoint> fauxCheckpoints = deploy.deployment();
         //appelle astart deployement et ajoute nouveaux checkpojt au debut
+
+
+        fauxCheckpoints.addAll(listeCheckpoints);
+        stratData.jeu.getGoal().setCheckpoints(fauxCheckpoints);
+
     }
 }
