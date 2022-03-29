@@ -62,7 +62,7 @@ public class GestionMarins {
      * @return boolean qui dit si oui ou non le marin a atteint la position fixée
      */
     public boolean moveSailor(Sailor s, Entity entity) {
-        LOGGER.add("Marin :  " + s.getId() + "veut aller vers " + entity.toString());
+        //LOGGER.add("Marin :  " + s.getId() + "veut aller vers " + entity.toString());
         int dist = entity.getDist(s);
         int movX = entity.getX() - s.getX();
         int movY = entity.getY() - s.getY();
