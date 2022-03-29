@@ -31,8 +31,6 @@ public class Stream extends VisibleEntitie {
 
     @Override
     public VisibleEntitie copy(){
-        Stream copy = (Stream) super.copy();
-        copy.setStrength(strength);
-        return copy;
+        return new Stream(this.getType(), this.getPosition(), this.getShape(), this.strength);
     }
 }
