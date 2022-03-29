@@ -82,6 +82,8 @@ public class AStarDeployment {
         AStar astar = new AStar((int)sizeXY.getX(), (int)sizeXY.getY(), ObstacleDetection.startX, ObstacleDetection.startY,
                 ObstacleDetection.endX,ObstacleDetection.endY, cellsB);
 
+        LOGGER.add(""+convertPositionToCheckpoint(astar.obtenirLeChemin()).size());
+
         return convertPositionToCheckpoint(astar.obtenirLeChemin());
     }
 

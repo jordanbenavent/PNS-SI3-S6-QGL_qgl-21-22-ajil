@@ -134,8 +134,6 @@ public class Strategy {
             calculAStar();
         }
 
-
-
         //mesure size
         //Actions deplacement
         boolean tmp = false;
@@ -147,7 +145,7 @@ public class Strategy {
 
         c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
         if(tmp){
-            if (tailleAvant==listeCheckpoints.size()+1){ //On vient de supprimer le vraiCheckpoint
+            if (tailleAvant==(listeCheckpoints.size()+1)){ //On vient de supprimer le vraiCheckpoint
                 LOGGER.add("Recalcule Checkpont");
                 calculAStar();
             }
@@ -165,7 +163,6 @@ public class Strategy {
         LOGGER.add("Calcule ASTAR");
         if (listeCheckpoints.isEmpty()){LOGGER.add("Aucun Checkpoint");return;}
         futureVraiCheckpoint = listeCheckpoints.get(0);
-
         LOGGER.add("Avant A star"+listeCheckpoints.size());
 
         AStarDeployment deploy = new AStarDeployment(this.stratData.jeu,100);

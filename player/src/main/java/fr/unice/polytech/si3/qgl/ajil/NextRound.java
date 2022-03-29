@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.ajil;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
+import lombok.extern.java.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,6 +26,8 @@ public class NextRound {
     private Ship ship;
     private List<VisibleEntitie> visibleEntities;
     private Wind wind;
+    public List<String> LOGGER = Cockpit.LOGGER;
+
 
     public NextRound(){}
 
@@ -91,8 +94,10 @@ public class NextRound {
 
     public Set<Reef> searchReef(){
         Set<Reef> reefs = new HashSet<>();
+        LOGGER.add("size entities"+visibleEntities.size());
+
         for (VisibleEntitie entities : visibleEntities){
-            if( entities.getTypeEntity() == VisibleEntities.REEF){
+            if( entities.getType().equals("reef")){
                 reefs.add((Reef)entities);
             }
         }
