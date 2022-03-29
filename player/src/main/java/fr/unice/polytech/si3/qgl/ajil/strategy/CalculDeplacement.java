@@ -30,6 +30,7 @@ public class CalculDeplacement {
      */
     public Deplacement deplacementPourLeTourRefactor(Checkpoint checkpoint) {
         Ship ship = jeu.getShip();
+        double distance = Math.sqrt(Math.pow((checkpoint.getPosition().getX() - ship.getPosition().getX()), 2) + Math.pow((checkpoint.getPosition().getY() - ship.getPosition().getY()), 2));
         int nbr_rames = ship.getOars().size();
         if(stratData.jeu.getGoal().getCheckpoints().size() > 1){
             checkpoint = viseExtremiteCheckpoint(checkpoint);
@@ -37,7 +38,6 @@ public class CalculDeplacement {
         Vector v_ship = calculVecteurBateau(ship);
         Vector v_check = calculVecteurCheckpoint(checkpoint, ship);
         double angle = v_ship.angleBetweenVectors(v_check);
-        double distance = Math.sqrt(Math.pow((checkpoint.getPosition().getX() - ship.getPosition().getX()), 2) + Math.pow((checkpoint.getPosition().getY() - ship.getPosition().getY()), 2));
         ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check, checkpoint);
         Set<Double> angles_possibles = ship.getTurnRange();
         angles_possibles.remove(0.0);
@@ -120,9 +120,9 @@ public class CalculDeplacement {
         if(shape_checkpoint.getType().equals("circle")){
             Circle shape = (Circle) shape_checkpoint;
             double radius = shape.getRadius();
-            // On multiplie par 0.99 pour ne pas être totalement à l'extrémité du checkpoint pour éviter de le rater
-            double new_x = checkpoint.getPosition().getX() + (radius * Math.cos(angle));
-            double new_y = checkpoint.getPosition().getY() + (radius * Math.sin(angle));
+            // On multiplie par 0.75 pour ne pas être totalement à l'extrémité du checkpoint pour éviter de le rater
+            double new_x = checkpoint.getPosition().getX() + (radius * 0.9 * Math.cos(angle));
+            double new_y = checkpoint.getPosition().getY() + (radius * 0.9 * Math.sin(angle));
             new_checkpoint.setPosition(new Position(new_x, new_y, 0.0));
             new_checkpoint.setShape(shape);
         }
