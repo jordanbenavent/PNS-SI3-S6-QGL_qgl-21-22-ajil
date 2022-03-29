@@ -66,16 +66,21 @@ public class ObstacleDetection {
         return grid;
     }
 
-    public static void gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs){
+    public static ArrayList<Point> gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs){
         ArrayList<Segment> reefSegments = new ArrayList<Segment>();
+        ArrayList<Point> blockedCells = new ArrayList<Point>();
         for (VisibleEntitie reef : reefs){
             reefSegments.addAll(reefToSegments(reef));
         }
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j].intersection(reefSegments);
+                if (grid[i][j].isBlocked()){
+                    blockCells.add(new Point(i, j));
+                }
             }
         }
+        return blockedCells;
     }
 
     // Couleurs pour affichage
