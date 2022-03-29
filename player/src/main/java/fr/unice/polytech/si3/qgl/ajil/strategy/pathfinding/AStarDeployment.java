@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
+import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
@@ -55,15 +56,25 @@ public class AStarDeployment {
         return new Point(pos.getX(), pos.getY());
     }
 
-    public void deployment(){
+    public ArrayList<Checkpoint> deployment(){
         Point shipPoint = posToPoint(ship.getPosition());
         Point checkPoint = posToPoint(goal.getCheckpoints().get(0).getPosition());
 
         Point sizeXY = gridSizeXY(shipPoint, checkPoint, this.sizeCell); //nombre de i et j dans la grille
         origine = ObstacleDetection.findOrigin(shipPoint, checkPoint); // origine de la grille
 
-        GridCell[][] grid = ObstacleDetection.gridCreation((int)sizeXY.getX(),(int)sizeXY.getY(),this.sizeCell,origine);
+        GridCell[][] grid = ObstacleDetection.gridCreation((int)sizeXY.getX(),(int)sizeXY.getY(),this.sizeCell,
+                origine, ship.getPosition(), goal.getCheckpoints().get(0).getPosition());
 
+        ArrayList<VisibleEntitie> mainList = new ArrayList<>(game.getReefs());
+        ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList);
+
+        int[][] cellsB = pointsVersTableau( ObstacleDetection.gridProcess(grid, visibleReefs));
+
+        AStar astar = new AStar((int)sizeXY.getX(), (int)sizeXY.getY(), ObstacleDetection.startX, ObstacleDetection.startY,
+                ObstacleDetection.endX,ObstacleDetection.endY, cellsB);
+
+        return convertPositionToCheckpoint(astar.obtenirLeChemin());
     }
 
 
