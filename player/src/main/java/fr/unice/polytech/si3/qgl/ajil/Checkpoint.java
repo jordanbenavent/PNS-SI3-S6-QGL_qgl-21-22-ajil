@@ -2,6 +2,8 @@ package fr.unice.polytech.si3.qgl.ajil;
 
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 
+import java.util.Objects;
+
 /**
  * Classe Checkpoint représentant un checkpoint que le bateau doit atteindre pour réussir la course
  *
@@ -17,6 +19,19 @@ public class Checkpoint {
 
     private Position position;
     private Shape shape;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Checkpoint that = (Checkpoint) o;
+        return Objects.equals(position, that.position) && Objects.equals(shape, that.shape);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position, shape);
+    }
 
     public Checkpoint(){}
 
