@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
+import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
@@ -19,21 +20,20 @@ public class ObstacleDetection {
             return createSegments(points, size);
 
         } else { // Traitement des cercles
-            Point[] points = rectangleToPoints((Rectangle)reef.getShape(), reef.getPosition() );
+            Point[] points = rectangleToPoints((Circle)reef.getShape(), reef.getPosition() );
             int size = points.length;
             return createSegments(points, size);
         }
     }
 
-    // plus besoin normalement
-    public static Point[] rectangleToPoints(Rectangle rectangle, Position pos){
+    // Crée une forme de type losange (substitution temporaire pour le cercle)
+    public static Point[] rectangleToPoints(Circle circle, Position pos){
         Point[] points = new Point[4];
-        double dx = rectangle.getWidth()/2;
-        double dy = rectangle.getHeight()/2;
-        points[0] = new Point(pos.getX() - dx, pos.getY() - dy );
-        points[1] = new Point(pos.getX() - dx, pos.getY() + dy );
-        points[2] = new Point(pos.getX() + dx, pos.getY() + dy);
-        points[3] = new Point(pos.getX() + dx, pos.getY() - dy  );
+        double r = circle.getRadius();
+        points[0] = new Point(pos.getX() - r, pos.getY() - r);
+        points[1] = new Point(pos.getX() - r, pos.getY() + r);
+        points[2] = new Point(pos.getX() + r, pos.getY() + r);
+        points[3] = new Point(pos.getX() + r, pos.getY() - r);
         return points;
     }
 
@@ -46,11 +46,21 @@ public class ObstacleDetection {
         return resolution;
     }
 
-    public static GridCell[][] gridCreation(int x, int y, double sizeCell){
+    // Trouve l'origine pour le repère de la grille
+    public static Point findOrigin(Point shipPosition, Point checkPointPosition){
+        double minX = Math.min(shipPosition.getX(), checkPointPosition.getX());
+        double minY = Math.min(shipPosition.getY(), checkPointPosition.getY());
+        double margin = 50.0;
+        return new Point(minX-margin,minY-margin);
+    }
+
+    public static GridCell[][] gridCreation(int x, int y, double sizeCell, Point origine){
         GridCell[][] grid = new GridCell[x][y];
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                grid[i][j] = new GridCell(new Point(j*sizeCell + sizeCell/2, i*sizeCell + sizeCell/2), sizeCell);
+                grid[i][j] = new GridCell(new Point(
+                        j*sizeCell + sizeCell/2 +origine.getX(),
+                        i*sizeCell + sizeCell/2 + origine.getY()), sizeCell);
             }
         }
         return grid;
@@ -75,7 +85,7 @@ public class ObstacleDetection {
 
     // Affichage
     public static void main(String[] args) {
-        GridCell[][] grid = gridCreation(10,10,10);
+        GridCell[][] grid = gridCreation(10,10,10, new Point(0.0,0.0));
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j].isBlocked()){
