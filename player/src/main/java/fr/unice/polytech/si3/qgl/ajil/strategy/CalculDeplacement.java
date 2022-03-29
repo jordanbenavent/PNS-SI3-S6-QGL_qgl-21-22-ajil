@@ -185,7 +185,6 @@ public class CalculDeplacement {
             angle_apres_deplacement = v_ship.angleBetweenVectors(new_v_check);
             prediction.add(new Deplacement(vitesse, angle_apres_deplacement));
         }
-        LOGGER.add("Prédiction :" + prediction);
         return prediction;
     }
 }
