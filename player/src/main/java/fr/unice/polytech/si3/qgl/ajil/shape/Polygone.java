@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.shape;
 
+import java.util.Arrays;
+
 /**
  * Classe fille de Shape représentant un polygone
  *
@@ -55,5 +57,13 @@ public class Polygone extends Shape{
      */
     public void setVertices(Point[] vertices) {
         this.vertices = vertices;
+    }
+
+    @Override
+    public String toString() {
+        return "Polygone{" +
+                "orientation=" + orientation +
+                ", vertices=" + Arrays.toString(vertices) +
+                '}';
     }
 }

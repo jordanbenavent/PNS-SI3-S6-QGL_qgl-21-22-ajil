@@ -24,8 +24,6 @@ public class OtherShip extends VisibleEntitie{
 
     @Override
     public VisibleEntitie copy(){
-        OtherShip copy = (OtherShip) super.copy();
-        copy.setLife(life);
-        return copy;
+        return new OtherShip(this.getType(), this.getPosition(), this.getShape(), this.life);
     }
 }

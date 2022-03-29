@@ -66,7 +66,7 @@ public class CalculPoints {
 
     public static ArrayList<VisibleEntitie> entitiesToEntitiesPolygone(ArrayList<VisibleEntitie> entities){
         ArrayList<VisibleEntitie> resultat = new ArrayList<>();
-        ArrayList<Point> pointShape = new ArrayList<>();
+        ArrayList<Point> pointShape;
         for ( VisibleEntitie entitie : entities){
             if( entitie.getShape() instanceof Circle){
                 resultat.add(entitie);

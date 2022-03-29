@@ -62,11 +62,21 @@ public class CalculPointTest {
 
     @Test
     void entitiesToPolygoneEntitiesTest(){
+        Point[] pointpolygone = {new Point(1,2), new Point(0,1), new Point(2,1)};
+        polygone = new Polygone("circle",-2.94961, pointpolygone);
+        rectangle = new Rectangle("rectangle", 1,2,2.67035);
+        circle = new Circle("circle", 1);
         ArrayList<VisibleEntitie> list = new ArrayList<>();
-        list.add(new Stream("stream",new Position(0,0,0),  rectangle, 100));
-        list.add(new Reef("reef",new Position(0,0,0), polygone));
+        list.add(new Stream("stream",new Position(3,2,-0.558505),  rectangle, 100));
+        list.add(new Reef("reef",new Position(3,3,0.3665), polygone));
         list.add(new OtherShip("ship",new Position(0,0,0),  circle, 100));
         ArrayList<VisibleEntitie> resultat = CalculPoints.entitiesToEntitiesPolygone(list);
-        //Assertions.assertEquals();
+        Assertions.assertTrue(resultat.get(0).getShape() instanceof Polygone);
+        Assertions.assertTrue(resultat.get(1).getShape() instanceof Polygone);
+        Assertions.assertTrue(resultat.get(2).getShape() instanceof Circle);
+        Assertions.assertEquals(3.2, ((Polygone) resultat.get(1).getShape()).getVertices()[0].getX(), 0.05);
+        Assertions.assertEquals(0.75, ((Polygone) resultat.get(1).getShape()).getVertices()[0].getY(), 0.05);
+        Assertions.assertEquals(3.6, ((Polygone) resultat.get(0).getShape()).getVertices()[0].getX(), 0.05);
+        Assertions.assertEquals(1.1, ((Polygone) resultat.get(0).getShape()).getVertices()[0].getY(), 0.05);
     }
 }

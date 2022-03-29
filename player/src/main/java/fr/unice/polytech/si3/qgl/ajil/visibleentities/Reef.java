@@ -14,6 +14,6 @@ public class Reef extends VisibleEntitie{
 
     @Override
     public VisibleEntitie copy(){
-        return super.copy();
+        return new Reef(this.getType(), this.getPosition(), this.getShape());
     }
 }
