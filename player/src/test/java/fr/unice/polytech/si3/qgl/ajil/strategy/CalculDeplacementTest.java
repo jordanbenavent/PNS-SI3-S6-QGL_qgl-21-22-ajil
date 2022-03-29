@@ -225,47 +225,6 @@ class CalculDeplacementTest {
     }
 
     @Test
-    void ramerSelonVitesseTest() {
-        // Cas bateau à 4 rames avec 4 marins
-        jeu.getShip().getEntities().add(new OarEntity(0, 1, "oar"));
-        jeu.getShip().getEntities().add(new OarEntity(0, 2, "oar"));
-        jeu.getShip().getEntities().add(new OarEntity(1, 1, "oar"));
-        jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
-        Sailor sailor3 = new Sailor(0, 0, 2, "sailor3");
-        Sailor sailor4 = new Sailor(1, 0, 3, "sailor4");
-        jeu.getSailors().add(sailor3);
-        jeu.getSailors().add(sailor4);
-        strategie.getGestionMarins().repartirLesMarins();
-        // Si le bateau doit aller tout droit
-        Deplacement deplacement_toutdroit = new Deplacement(165, 0);
-        strategie.getGestionMarins().repartirLesMarins();
-        try {
-            System.out.println(objectMapper.writeValueAsString(strategie.getListActions()));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        strategie.getListActions().clear();
-        // Si le bateau doit aller à droite
-        Deplacement deplacement_droite = new Deplacement(41.25, 42.5);
-        strategie.getGestionMarins().ramerSelonVitesse(deplacement_droite);
-        try {
-            System.out.println(objectMapper.writeValueAsString(strategie.getListActions()));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        strategie.getListActions().clear();
-        // Si le bateau doit aller à gauche
-        Deplacement deplacement_gauche = new Deplacement(41.25, -42.5);
-        strategie.getGestionMarins().ramerSelonVitesse(deplacement_gauche);
-        try {
-            System.out.println(objectMapper.writeValueAsString(strategie.getListActions()));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        strategie.getListActions().clear();
-    }
-
-    @Test
     void deplacementSiGouvernailTest(){
         Deplacement deplacement1 = new Deplacement(0, 0);
         calculDeplacement.deplacementSiGouvernail(0.5, deplacement1);
@@ -287,9 +246,76 @@ class CalculDeplacementTest {
         futurs_angles.add(deplacement_futur3);
         calculDeplacement.deplacementSelonPrediction(angle_maximum, futurs_angles, deplacement_test);
         Assertions.assertEquals(120.0, deplacement_test.getVitesse());
+        Assertions.assertEquals(0.0, deplacement_test.getAngle());
         Deplacement deplacement_futur4 = new Deplacement(100.0, -0.79);
         futurs_angles.add(deplacement_futur4);
         calculDeplacement.deplacementSelonPrediction(angle_maximum, futurs_angles, deplacement_test);
         Assertions.assertEquals(100.0, deplacement_test.getVitesse());
+        Assertions.assertEquals(0.0, deplacement_test.getAngle());
+    }
+
+    @Test
+    void viseExtremiteCheckpointTest(){
+        Checkpoint checkpoint1 = new Checkpoint(new Position(0, 10, 0), new Circle("circle", 2));
+        Checkpoint checkpoint2 = new Checkpoint(new Position(15, 10, 0), new Circle("circle", 2));
+        Checkpoint checkpoint3 = new Checkpoint(new Position(5, 15, 0), new Circle("circle", 2));
+        Checkpoint checkpoint4 = new Checkpoint(new Position(0, 15, 0), new Circle("circle", 2));
+        calculDeplacement.stratData.jeu.getGoal().getCheckpoints().clear();
+        calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint1);
+
+        // Cas où le prochain checkpoint est tout droit
+        calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint4);
+        Checkpoint test = new Checkpoint(new Position(0, 12, 0), new Circle("circle", 2));
+        Assertions.assertEquals(test.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 0.01);
+        Assertions.assertEquals(test.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 0.01);
+        calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint4);
+
+        // Cas où le prochain checkpoint est à 90° sur la droite
+        calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint2);
+        Checkpoint test2 = new Checkpoint(new Position(2, 10, 0), new Circle("circle", 2));
+        Assertions.assertEquals(test2.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 0.01);
+        Assertions.assertEquals(test2.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 0.01);
+        calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint2);
+
+        // Cas où le prochain checkpoint est à 45° sur la droite
+        calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint3);
+        Checkpoint test3 = new Checkpoint(new Position(Math.sqrt(2), 10 + Math.sqrt(2), 0), new Circle("circle", 2));
+        Assertions.assertEquals(test3.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 0.01);
+        Assertions.assertEquals(test3.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 0.01);
+        calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint3);
+    }
+
+    @Test
+    void vitesseSelonDistanceTest(){
+        // On prend le cas de 8 rames
+        Assertions.assertEquals(82.5, calculDeplacement.vitesseSelonDistance(90.0, 8));
+        Assertions.assertEquals(165.0, calculDeplacement.vitesseSelonDistance(165.0, 8));
+        Assertions.assertEquals(41.25, calculDeplacement.vitesseSelonDistance(10.0, 8));
+    }
+
+    @Test
+    void test(){
+        Checkpoint checkpoint1 = new Checkpoint(new Position(0, 10, 0), new Circle("circle", 2));
+        Checkpoint checkpoint2 = new Checkpoint(new Position(-5, -10, 0), new Circle("circle", 2));
+        Checkpoint checkpoint3 = new Checkpoint(new Position(-5, 10, 0), new Circle("circle", 2));
+        Checkpoint checkpoint4 = new Checkpoint(new Position(0, 15, 0), new Circle("circle", 2));
+        Vector v_checkpoint1 = new Vector(Math.cos(checkpoint1.getPosition().getOrientation()), Math.sin(checkpoint1.getPosition().getOrientation()));
+        System.out.println(v_checkpoint1);
+        Vector v_checkpoint2 = new Vector(checkpoint2.getPosition().getX() - checkpoint1.getPosition().getX(), checkpoint2.getPosition().getY() - checkpoint1.getPosition().getY());
+        System.out.println(v_checkpoint2);
+        Vector v_checkpoint3 = new Vector(checkpoint3.getPosition().getX() - checkpoint1.getPosition().getX(), checkpoint3.getPosition().getY() - checkpoint1.getPosition().getY());
+        System.out.println(v_checkpoint3);
+        Vector v_checkpoint4 = new Vector(checkpoint4.getPosition().getX() - checkpoint1.getPosition().getX(), checkpoint4.getPosition().getY() - checkpoint1.getPosition().getY());
+        System.out.println(v_checkpoint4);
+        double angle1 = v_checkpoint1.angleBetweenVectors(v_checkpoint2);
+        System.out.println(angle1);
+        double angle2 = v_checkpoint1.angleBetweenVectors(v_checkpoint3);
+        System.out.println(angle2);
+        double angle3 = v_checkpoint1.angleBetweenVectors(v_checkpoint4);
+        System.out.println(angle3);
+        System.out.println("Coordonnées du centre: x = " + checkpoint1.getPosition().getX() + ", y = " + checkpoint1.getPosition().getY());
+        System.out.println("Coordonnées du nouveau centre: x = " + (checkpoint1.getPosition().getX() + (2 * Math.cos(angle1))) + ", y = " + (checkpoint1.getPosition().getY() + (2 * Math.sin(angle1))));
+        System.out.println("Coordonnées du nouveau centre: x = " + (checkpoint1.getPosition().getX() + (2 * Math.cos(angle3))) + ", y = " + (checkpoint1.getPosition().getY() + (2 * Math.sin(angle3))));
+
     }
 }

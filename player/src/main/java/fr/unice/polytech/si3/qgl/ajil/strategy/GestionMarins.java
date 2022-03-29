@@ -191,7 +191,6 @@ public class GestionMarins {
         double angle = deplacement.getAngle();
 
         if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
-            System.out.println(angle);
             LOGGER.add("On tourne avec le gouvernail : " + angle);
             Turn tournerGouvernail = new Turn(barreur.getId(),angle);
             stratData.actions.add(tournerGouvernail);
