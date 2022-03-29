@@ -18,13 +18,14 @@ public class ObstacleDetection {
             int size = points.length;
             return createSegments(points, size);
 
-        } else {
+        } else { // Traitement des cercles
             Point[] points = rectangleToPoints((Rectangle)reef.getShape(), reef.getPosition() );
             int size = points.length;
             return createSegments(points, size);
         }
     }
 
+    // plus besoin normalement
     public static Point[] rectangleToPoints(Rectangle rectangle, Position pos){
         Point[] points = new Point[4];
         double dx = rectangle.getWidth()/2;
@@ -55,8 +56,11 @@ public class ObstacleDetection {
         return grid;
     }
 
-    public static void gridProcess(GridCell[][] grid, VisibleEntitie reef){
-        ArrayList<Segment> reefSegments = reefToSegments(reef);
+    public static void gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs){
+        ArrayList<Segment> reefSegments = new ArrayList<Segment>();
+        for (VisibleEntitie reef : reefs){
+            reefSegments.addAll(reefToSegments(reef));
+        }
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j].intersection(reefSegments);
@@ -82,11 +86,13 @@ public class ObstacleDetection {
         }
         System.out.println(" ");
         System.out.println(" ");
-        gridProcess(grid, new Reef("reef", new Position(20.0, 10.0,0.0),
+        ArrayList<VisibleEntitie> recifs = new ArrayList<>();
+        recifs.add(new Reef("reef", new Position(20.0, 10.0,0.0),
                 new Polygone("polygone",0.0,
                         new Point[]{new Point(66.4,13), new Point(49.0, 33.7),
-                        new Point(51.1, 50.0), new Point(89.7, 51.2)})
+                                new Point(51.1, 50.0), new Point(89.7, 51.2)})
         ));
+        gridProcess(grid, recifs);
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j].isBlocked()) {
