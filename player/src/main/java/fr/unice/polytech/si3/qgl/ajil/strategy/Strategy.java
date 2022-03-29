@@ -166,10 +166,13 @@ public class Strategy {
         if (listeCheckpoints.isEmpty()){LOGGER.add("Aucun Checkpoint");return;}
         futureVraiCheckpoint = listeCheckpoints.get(0);
 
+        LOGGER.add("Avant A star"+listeCheckpoints.size());
+
         AStarDeployment deploy = new AStarDeployment(this.stratData.jeu,100);
         ArrayList<Checkpoint> fauxCheckpoints = deploy.deployment();
         //appelle astart deployement et ajoute nouveaux checkpojt au debut
 
+        LOGGER.add("Apres A star"+listeCheckpoints.size());
 
         fauxCheckpoints.addAll(listeCheckpoints);
         stratData.jeu.getGoal().setCheckpoints(fauxCheckpoints);
