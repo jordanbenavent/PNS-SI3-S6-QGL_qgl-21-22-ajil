@@ -11,6 +11,10 @@ import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 import java.util.ArrayList;
 
 public class ObstacleDetection {
+    public static int startX;
+    public static int startY;
+    public static int endY;
+    public static int endX;
 
     // Pour des récifs de type Rectangle ou Polygone
     public static ArrayList<Segment> reefToSegments(VisibleEntitie reef){
@@ -50,17 +54,33 @@ public class ObstacleDetection {
     public static Point findOrigin(Point shipPosition, Point checkPointPosition){
         double minX = Math.min(shipPosition.getX(), checkPointPosition.getX());
         double minY = Math.min(shipPosition.getY(), checkPointPosition.getY());
-        double margin = 50.0;
+        double margin = 250.0;
         return new Point(minX-margin,minY-margin);
     }
 
-    public static GridCell[][] gridCreation(int x, int y, double sizeCell, Point origine){
+    public static GridCell[][] gridCreation(int x, int y, double sizeCell, Point origine, Position ship, Position target){
         GridCell[][] grid = new GridCell[x][y];
+        boolean startFound = false;
+        boolean endFound = false;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 grid[i][j] = new GridCell(new Point(
                         j*sizeCell + sizeCell/2 +origine.getX(),
                         i*sizeCell + sizeCell/2 + origine.getY()), sizeCell);
+                if (!startFound){
+                    startFound = grid[i][j].contains(ship);
+                    if(startFound){
+                        startX = i;
+                        startY = j;
+                    }
+                }
+                if (!endFound){
+                    endFound = grid[i][j].contains(target);
+                    if(endFound){
+                        endX = i;
+                        endY = j;
+                    }
+                }
             }
         }
         return grid;
@@ -90,7 +110,8 @@ public class ObstacleDetection {
 
     // Affichage
     public static void main(String[] args) {
-        GridCell[][] grid = gridCreation(10,10,10, new Point(0.0,0.0));
+        GridCell[][] grid = gridCreation(10,10,10, new Point(0.0,0.0),
+                new Position(0.0,0.0,0.0),new Position(1.0,1.0,0.0));
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j].isBlocked()){

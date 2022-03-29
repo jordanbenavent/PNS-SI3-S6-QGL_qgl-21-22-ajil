@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
+import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 
 import java.util.ArrayList;
@@ -44,6 +45,14 @@ public class GridCell {
 
     public boolean isBlocked() {
         return blocked;
+    }
+
+    public boolean contains(Position pos){
+        double minx = center.getX()-size/2;
+        double maxx = center.getX()+size/2;
+        double miny = center.getY()-size/2;
+        double maxy = center.getY()+size/2;
+        return (pos.getX() > minx && pos.getX()<maxx && pos.getY() > miny && pos.getY() < maxy);
     }
 
     @Override
