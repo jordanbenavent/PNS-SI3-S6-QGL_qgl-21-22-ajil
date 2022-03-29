@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
+import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.AStarDeployment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,10 @@ public class Strategy {
     private final CalculDeplacement calculDeplacement;
     private final List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
+    private List<Checkpoint> listeCheckpoints;
+    private boolean algoAenCours ;
+    private Checkpoint futureVraiCheckpoint;
+
 
     public Strategy(Game jeu) {
         this.stratData = new StratData(jeu);
@@ -39,6 +44,8 @@ public class Strategy {
         gestionMarins = new GestionMarins(stratData);
         gestionSail = new GestionSail(stratData);
         calculDeplacement = new CalculDeplacement(stratData);
+        listeCheckpoints = stratData.jeu.getGoal().getCheckpoints();
+        algoAenCours = false;
     }
 
     public ValideCheckpoint getValideCheckpoint() {
@@ -89,7 +96,7 @@ public class Strategy {
     public String getActions() {
         stratData.actions.clear();
         effectuerActions();
-        LOGGER.add(stratData.actions.toString());
+        //LOGGER.add(stratData.actions.toString());
         try {
             return objectMapper.writeValueAsString(stratData.actions);
         } catch (JsonProcessingException e) {
@@ -118,11 +125,53 @@ public class Strategy {
         if (!gestionMarins.isPlacementInit()) {
             gestionMarins.placerSurRames();
         }
-        c = valideCheckpoint.nextCheckpointTarget(stratData.jeu.getGoal().getCheckpoints());
+
+        //------------------Fin placement marin, début actions deplacement
+
+        //Test A Star
+
+        if(!algoAenCours){
+            calculAStar();
+        }
+
+
+
+        //mesure size
+        //Actions deplacement
+        boolean tmp = false;
+        int tailleAvant=0;
+        if(listeCheckpoints.get(0)==futureVraiCheckpoint){
+            tmp = true;
+            tailleAvant = listeCheckpoints.size();
+        }
+
+        c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
+        if(tmp){
+            if (tailleAvant==listeCheckpoints.size()+1){ //On vient de supprimer le vraiCheckpoint
+                LOGGER.add("Recalcule Checkpont");
+                calculAStar();
+            }
+        }
+
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
         gestionMarins.rowingAccordingToSpeed(deplacement);
         Ship ship = stratData.jeu.getShip();
         Wind wind = stratData.jeu.getWind();
         gestionSail.putSail(ship, wind);
+    }
+
+
+    void calculAStar(){
+        LOGGER.add("Calcule ASTAR");
+        if (listeCheckpoints.isEmpty()){LOGGER.add("Aucun Checkpoint");return;}
+        futureVraiCheckpoint = listeCheckpoints.get(0);
+
+        AStarDeployment deploy = new AStarDeployment(this.stratData.jeu,100);
+        deploy.deployment();
+
+
+
+
+        //appelle astart deployement et ajoute nouveaux checkpojt au debut
     }
 }
