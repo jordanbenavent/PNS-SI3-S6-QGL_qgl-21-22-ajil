@@ -266,22 +266,22 @@ class CalculDeplacementTest {
         // Cas où le prochain checkpoint est tout droit
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint4);
         Checkpoint test = new Checkpoint(new Position(0, 12, 0), new Circle("circle", 2));
-        Assertions.assertEquals(test.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 0.01);
-        Assertions.assertEquals(test.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 0.01);
+        Assertions.assertEquals(test.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 1);
+        Assertions.assertEquals(test.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 1);
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint4);
 
         // Cas où le prochain checkpoint est à 90° sur la droite
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint2);
         Checkpoint test2 = new Checkpoint(new Position(2, 10, 0), new Circle("circle", 2));
-        Assertions.assertEquals(test2.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 0.01);
-        Assertions.assertEquals(test2.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 0.01);
+        Assertions.assertEquals(test2.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 1);
+        Assertions.assertEquals(test2.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 1);
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint2);
 
         // Cas où le prochain checkpoint est à 45° sur la droite
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint3);
         Checkpoint test3 = new Checkpoint(new Position(Math.sqrt(2), 10 + Math.sqrt(2), 0), new Circle("circle", 2));
-        Assertions.assertEquals(test3.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 0.01);
-        Assertions.assertEquals(test3.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 0.01);
+        Assertions.assertEquals(test3.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 1);
+        Assertions.assertEquals(test3.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 1);
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint3);
     }
 
@@ -291,31 +291,5 @@ class CalculDeplacementTest {
         Assertions.assertEquals(82.5, calculDeplacement.vitesseSelonDistance(90.0, 8));
         Assertions.assertEquals(165.0, calculDeplacement.vitesseSelonDistance(165.0, 8));
         Assertions.assertEquals(41.25, calculDeplacement.vitesseSelonDistance(10.0, 8));
-    }
-
-    @Test
-    void test(){
-        Checkpoint checkpoint1 = new Checkpoint(new Position(0, 10, 0), new Circle("circle", 2));
-        Checkpoint checkpoint2 = new Checkpoint(new Position(-5, -10, 0), new Circle("circle", 2));
-        Checkpoint checkpoint3 = new Checkpoint(new Position(-5, 10, 0), new Circle("circle", 2));
-        Checkpoint checkpoint4 = new Checkpoint(new Position(0, 15, 0), new Circle("circle", 2));
-        Vector v_checkpoint1 = new Vector(Math.cos(checkpoint1.getPosition().getOrientation()), Math.sin(checkpoint1.getPosition().getOrientation()));
-        System.out.println(v_checkpoint1);
-        Vector v_checkpoint2 = new Vector(checkpoint2.getPosition().getX() - checkpoint1.getPosition().getX(), checkpoint2.getPosition().getY() - checkpoint1.getPosition().getY());
-        System.out.println(v_checkpoint2);
-        Vector v_checkpoint3 = new Vector(checkpoint3.getPosition().getX() - checkpoint1.getPosition().getX(), checkpoint3.getPosition().getY() - checkpoint1.getPosition().getY());
-        System.out.println(v_checkpoint3);
-        Vector v_checkpoint4 = new Vector(checkpoint4.getPosition().getX() - checkpoint1.getPosition().getX(), checkpoint4.getPosition().getY() - checkpoint1.getPosition().getY());
-        System.out.println(v_checkpoint4);
-        double angle1 = v_checkpoint1.angleBetweenVectors(v_checkpoint2);
-        System.out.println(angle1);
-        double angle2 = v_checkpoint1.angleBetweenVectors(v_checkpoint3);
-        System.out.println(angle2);
-        double angle3 = v_checkpoint1.angleBetweenVectors(v_checkpoint4);
-        System.out.println(angle3);
-        System.out.println("Coordonnées du centre: x = " + checkpoint1.getPosition().getX() + ", y = " + checkpoint1.getPosition().getY());
-        System.out.println("Coordonnées du nouveau centre: x = " + (checkpoint1.getPosition().getX() + (2 * Math.cos(angle1))) + ", y = " + (checkpoint1.getPosition().getY() + (2 * Math.sin(angle1))));
-        System.out.println("Coordonnées du nouveau centre: x = " + (checkpoint1.getPosition().getX() + (2 * Math.cos(angle3))) + ", y = " + (checkpoint1.getPosition().getY() + (2 * Math.sin(angle3))));
-
     }
 }
