@@ -15,6 +15,7 @@ public class ObstacleDetection {
     private int sY;
     private int eX;
     private int eY;
+    public static final int margin = 250;
 
     public int getsX() {
         return sX;
@@ -71,7 +72,6 @@ public class ObstacleDetection {
     public Point findOrigin(Point shipPosition, Point checkPointPosition){
         double minX = Math.min(shipPosition.getX(), checkPointPosition.getX());
         double minY = Math.min(shipPosition.getY(), checkPointPosition.getY());
-        double margin = 250.0;
         return new Point(minX-margin,minY-margin);
     }
 
