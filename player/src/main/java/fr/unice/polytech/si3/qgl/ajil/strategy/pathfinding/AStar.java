@@ -14,7 +14,7 @@ public class AStar {
     public List<String> LOGGER = Cockpit.LOGGER;
 
     // les couts pour un déplacement Vertical / Horizontal / Diagonal
-    public static final int DIAGONAL_COST = 14;
+    public static final int DIAGONAL_COST = 11;
     public static final int V_H_COST = 10;
 
     // Cellules de la grille
