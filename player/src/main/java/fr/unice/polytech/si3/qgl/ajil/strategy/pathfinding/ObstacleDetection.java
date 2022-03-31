@@ -41,6 +41,7 @@ public class ObstacleDetection {
         return points;
     }
 
+    // Prend un ensemble de points du polygone et crée les segments correspondants
     public static ArrayList<Segment> createSegments(Point[] points, int size){
         ArrayList<Segment> resolution = new ArrayList<Segment>();
         for ( int i = 0; i<size-1; i++){
@@ -58,6 +59,7 @@ public class ObstacleDetection {
         return new Point(minX-margin,minY-margin);
     }
 
+    // Création de la grille imaginaire
     public static GridCell[][] gridCreation(int x, int y, double sizeCell, Point origine, Position ship, Position target){
         GridCell[][] grid = new GridCell[x][y];
         boolean startFound = false;
@@ -93,6 +95,7 @@ public class ObstacleDetection {
         return grid;
     }
 
+    // Traitement de la grille = grisement des cellules bloquantes
     public static ArrayList<Point> gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs){
         ArrayList<Segment> reefSegments = new ArrayList<Segment>();
         ArrayList<Point> blockedCells = new ArrayList<Point>();
