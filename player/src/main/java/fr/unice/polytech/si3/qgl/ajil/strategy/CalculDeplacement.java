@@ -11,9 +11,9 @@ import java.util.Set;
 
 public class CalculDeplacement {
 
-    protected Game jeu;
-    protected StratData stratData;
-    public List<String> LOGGER = Cockpit.LOGGER;
+    final public List<String> LOGGER = Cockpit.LOGGER;
+    final protected Game jeu;
+    final protected StratData stratData;
 
     public CalculDeplacement(StratData stratData) {
         this.jeu = stratData.jeu;
@@ -39,7 +39,7 @@ public class CalculDeplacement {
         final Vector v_check = calculVecteurCheckpoint(checkpoint, ship);
         final double angle = v_ship.angleBetweenVectors(v_check);
 
-        final ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, v_check, checkpoint);
+        final ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, checkpoint);
         Set<Double> angles_possibles = ship.getTurnRange();
         angles_possibles.remove(0.0);
         final double angle_maximum = quelEstLangleMaximum(angles_possibles);
@@ -132,10 +132,7 @@ public class CalculDeplacement {
      * @return true si le checkpoint suivant est à gauche, false sinon
      */
     public boolean estAGauche(double angle, double angle_suivant) {
-        if (angle_suivant > angle) {
-            return true;
-        }
-        return false;
+        return angle_suivant > angle;
     }
 
     /**
@@ -146,8 +143,7 @@ public class CalculDeplacement {
      * @return
      */
     public Vector calculVecteurBateau(Ship ship) {
-        Vector v_ship = new Vector(Math.cos(ship.getPosition().getOrientation()), Math.sin(ship.getPosition().getOrientation()));
-        return v_ship;
+        return new Vector(Math.cos(ship.getPosition().getOrientation()), Math.sin(ship.getPosition().getOrientation()));
     }
 
     /**
@@ -159,8 +155,7 @@ public class CalculDeplacement {
      * @return
      */
     public Vector calculVecteurCheckpoint(Checkpoint checkpoint, Ship ship) {
-        Vector v_check = new Vector(checkpoint.getPosition().getX() - ship.getPosition().getX(), checkpoint.getPosition().getY() - ship.getPosition().getY());
-        return v_check;
+        return new Vector(checkpoint.getPosition().getX() - ship.getPosition().getX(), checkpoint.getPosition().getY() - ship.getPosition().getY());
     }
 
     /**
@@ -267,12 +262,11 @@ public class CalculDeplacement {
      * Le bateau avance droit, on calcule les différents angles qu'on obtiendra en fonction de la vitesse du bateau qu'on peut appliquer
      * au bateau
      *
-     * @param v_ship       Vecteur bateau
-     * @param v_checkpoint vecteur checkpoint
-     * @param checkpoint   checkpoint
+     * @param v_ship     Vecteur bateau
+     * @param checkpoint checkpoint
      * @return une liste de liste de double où chaque sous-liste contient une vitesse associée à un angle
      */
-    public ArrayList<Deplacement> predictionAngleTourSuivant(Vector v_ship, Vector v_checkpoint, Checkpoint checkpoint) {
+    public ArrayList<Deplacement> predictionAngleTourSuivant(Vector v_ship, Checkpoint checkpoint) {
         int nbr_oars = jeu.getShip().getOars().size();
         ArrayList<Deplacement> prediction = new ArrayList<>();
         double vitesse_init = 165;
