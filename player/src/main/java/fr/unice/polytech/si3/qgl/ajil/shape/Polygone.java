@@ -19,7 +19,7 @@ public class Polygone extends Shape{
     private Point[] vertices;
 
     public Polygone(){
-        setType("polygone");
+        setType("polygon");
     }
 
     public Polygone(String type, double orientation, Point[] vertices){
