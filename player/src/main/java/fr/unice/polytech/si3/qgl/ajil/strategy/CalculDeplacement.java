@@ -106,22 +106,28 @@ public class CalculDeplacement {
      * @return le nouveau checkpoint se basant sur l'extrémité de celui passé en paramètre
      */
     public Checkpoint viseExtremiteCheckpoint(Checkpoint checkpoint) {
-        Checkpoint checkpoint_suivant = stratData.jeu.getGoal().getCheckpoints().get(1);
-        Vector v_check = new Vector(1.0, 0.0); //vecteur unitaire du checkpoint suivant l'axe des abscisses
-        Vector v_suivant = new Vector(checkpoint_suivant.getPosition().getX() - checkpoint.getPosition().getX(), checkpoint_suivant.getPosition().getY() - checkpoint.getPosition().getY());
-        double angle = v_check.angleBetweenVectors(v_suivant);
+        final Vector v_suivant = getNextCheckpointVector(checkpoint);
+        final Vector v_check = new Vector(1.0, 0.0); //vecteur unitaire du checkpoint suivant l'axe des abscisses
+        final double angle = v_check.angleBetweenVectors(v_suivant);
         Checkpoint new_checkpoint = new Checkpoint();
         Shape shape_checkpoint = checkpoint.getShape();
         if (shape_checkpoint.getType().equals("circle")) {
             Circle shape = (Circle) shape_checkpoint;
-            double radius = shape.getRadius();
+            final double radius = shape.getRadius();
             // On multiplie par 0.75 pour ne pas être totalement à l'extrémité du checkpoint pour éviter de le rater
-            double new_x = checkpoint.getPosition().getX() + (radius * 0.9 * Math.cos(angle));
-            double new_y = checkpoint.getPosition().getY() + (radius * 0.9 * Math.sin(angle));
+            final double new_x = checkpoint.getPosition().getX() + (radius * 0.9 * Math.cos(angle));
+            final double new_y = checkpoint.getPosition().getY() + (radius * 0.9 * Math.sin(angle));
             new_checkpoint.setPosition(new Position(new_x, new_y, 0.0));
             new_checkpoint.setShape(shape);
         }
         return new_checkpoint;
+    }
+
+    private Vector getNextCheckpointVector(Checkpoint checkpoint) {
+        final Checkpoint checkpoint_suivant = stratData.jeu.getGoal().getCheckpoints().get(1);
+        final double distanceX = checkpoint_suivant.getPosition().getX() - checkpoint.getPosition().getX();
+        final double distanceY = checkpoint_suivant.getPosition().getY() - checkpoint.getPosition().getY();
+        return new Vector(distanceX, distanceY);
     }
 
     /**
