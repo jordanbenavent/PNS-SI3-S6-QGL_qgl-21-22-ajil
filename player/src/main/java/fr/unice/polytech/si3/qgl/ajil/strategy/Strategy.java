@@ -33,7 +33,7 @@ public class Strategy {
     private final List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
     private List<Checkpoint> listeCheckpoints;
-    private boolean algoAenCours ;
+    private boolean premierCalculA ;
     private Checkpoint futureVraiCheckpoint;
 
 
@@ -45,7 +45,7 @@ public class Strategy {
         gestionSail = new GestionSail(stratData);
         calculDeplacement = new CalculDeplacement(stratData);
         listeCheckpoints = stratData.jeu.getGoal().getCheckpoints();
-        algoAenCours = false;
+        premierCalculA = false;
     }
 
     public ValideCheckpoint getValideCheckpoint() {
@@ -130,7 +130,9 @@ public class Strategy {
 
         //Test A Star
 
-        if(!algoAenCours){
+        if(!premierCalculA){
+            futureVraiCheckpoint = listeCheckpoints.get(0);
+            premierCalculA= true;
             calculAStar();
         }
 
@@ -144,11 +146,12 @@ public class Strategy {
         }
 
         c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
-        if(tmp){
-            if (tailleAvant==(listeCheckpoints.size()+1)){ //On vient de supprimer le vraiCheckpoint
+
+
+        if(tmp && ((listeCheckpoints.size()+1)==tailleAvant)){ //On vient de supprimer le dernier vrai Checkpoint
                 LOGGER.add("Recalcule Checkpont");
+                futureVraiCheckpoint = listeCheckpoints.get(0);
                 calculAStar();
-            }
         }
 
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
