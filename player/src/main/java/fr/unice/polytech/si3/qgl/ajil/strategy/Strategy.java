@@ -110,6 +110,9 @@ public class Strategy {
      * Effectue les actions dans l'ordre qu'il faut
      */
     public void effectuerActions() {
+
+        if(listeCheckpoints.isEmpty()){LOGGER.add("Aucun Checkpoint");return;}
+
         Deplacement deplacement;
         Checkpoint c;
         // d'abord on place le Barreur
