@@ -65,27 +65,29 @@ public class AStarDeployment {
         Point shipPoint = posToPoint(ship.getPosition());
         Point checkPoint = posToPoint(goal.getCheckpoints().get(0).getPosition());
 
-        Point sizeXY = gridSizeXY(shipPoint, checkPoint, this.sizeCell); //nombre de i et j dans la grille
-        origine = ObstacleDetection.findOrigin(shipPoint, checkPoint); // origine de la grille
+        ObstacleDetection obstacleDetection = new ObstacleDetection();
 
-        GridCell[][] grid = ObstacleDetection.gridCreation((int)sizeXY.getX(),(int)sizeXY.getY(),this.sizeCell,
+        Point sizeXY = gridSizeXY(shipPoint, checkPoint, this.sizeCell); //nombre de i et j dans la grille
+        origine = obstacleDetection.findOrigin(shipPoint, checkPoint); // origine de la grille
+
+        GridCell[][] grid = obstacleDetection.gridCreation((int)sizeXY.getX(),(int)sizeXY.getY(),this.sizeCell,
                 origine, ship.getPosition(), goal.getCheckpoints().get(0).getPosition());
 
         ArrayList<VisibleEntitie> mainList = new ArrayList<>(game.getReefs());
         LOGGER.add("on a nb recifs"+mainList.size());
         ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList);
 
-        int[][] cellsB = pointsVersTableau( ObstacleDetection.gridProcess(grid, visibleReefs));
+        int[][] cellsB = pointsVersTableau( obstacleDetection.gridProcess(grid, visibleReefs));
 
         LOGGER.add(""+cellsB.length);
         System.out.println((int)sizeXY.getX());
         System.out.println((int)sizeXY.getY());
 
-        AStar astar = new AStar((int)sizeXY.getX(), (int)sizeXY.getY(), ObstacleDetection.startX, ObstacleDetection.startY,
-                ObstacleDetection.endX,ObstacleDetection.endY, cellsB);
+        AStar astar = new AStar((int)sizeXY.getX(), (int)sizeXY.getY(), obstacleDetection.getsX(), obstacleDetection.getsY(),
+                obstacleDetection.geteX(),obstacleDetection.geteY(), cellsB);
 
-        System.out.println("StartX: " + ObstacleDetection.startX + ", StartY: " +ObstacleDetection.startY);
-        System.out.println("EndX: " + ObstacleDetection.endY + ", EndY: " +ObstacleDetection.endY);
+        System.out.println("StartX: " + obstacleDetection.getsX() + ", StartY: " +obstacleDetection.getsY());
+        System.out.println("EndX: " + obstacleDetection.geteX() + ", EndY: " +obstacleDetection.geteY());
 
         LOGGER.add(""+convertPositionToCheckpoint(astar.obtenirLeChemin()).size());
 

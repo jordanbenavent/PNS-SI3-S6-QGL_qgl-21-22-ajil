@@ -11,13 +11,29 @@ import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 import java.util.ArrayList;
 
 public class ObstacleDetection {
-    public static int startX;
-    public static int startY;
-    public static int endY;
-    public static int endX;
+    private int sX;
+    private int sY;
+    private int eX;
+    private int eY;
+
+    public int getsX() {
+        return sX;
+    }
+
+    public int getsY() {
+        return sY;
+    }
+
+    public int geteX() {
+        return eX;
+    }
+
+    public int geteY() {
+        return eY;
+    }
 
     // Pour des récifs de type Rectangle ou Polygone
-    public static ArrayList<Segment> reefToSegments(VisibleEntitie reef){
+    public ArrayList<Segment> reefToSegments(VisibleEntitie reef){
         if (reef.getShape().getType().equals("polygone")){
             Point[] points = ((Polygone)reef.getShape()).getVertices();
             int size = points.length;
@@ -31,7 +47,7 @@ public class ObstacleDetection {
     }
 
     // Crée une forme de type losange (substitution temporaire pour le cercle)
-    public static Point[] rectangleToPoints(Circle circle, Position pos){
+    public Point[] rectangleToPoints(Circle circle, Position pos){
         Point[] points = new Point[4];
         double r = circle.getRadius();
         points[0] = new Point(pos.getX() - r, pos.getY() - r);
@@ -42,7 +58,7 @@ public class ObstacleDetection {
     }
 
     // Prend un ensemble de points du polygone et crée les segments correspondants
-    public static ArrayList<Segment> createSegments(Point[] points, int size){
+    public ArrayList<Segment> createSegments(Point[] points, int size){
         ArrayList<Segment> resolution = new ArrayList<Segment>();
         for ( int i = 0; i<size-1; i++){
             resolution.add(new Segment(points[i].getX(),points[i].getY(),points[i+1].getX(),points[i+1].getY()));
@@ -52,7 +68,7 @@ public class ObstacleDetection {
     }
 
     // Trouve l'origine pour le repère de la grille
-    public static Point findOrigin(Point shipPosition, Point checkPointPosition){
+    public Point findOrigin(Point shipPosition, Point checkPointPosition){
         double minX = Math.min(shipPosition.getX(), checkPointPosition.getX());
         double minY = Math.min(shipPosition.getY(), checkPointPosition.getY());
         double margin = 250.0;
@@ -60,7 +76,7 @@ public class ObstacleDetection {
     }
 
     // Création de la grille imaginaire
-    public static GridCell[][] gridCreation(int x, int y, double sizeCell, Point origine, Position ship, Position target){
+    public GridCell[][] gridCreation(int x, int y, double sizeCell, Point origine, Position ship, Position target){
         GridCell[][] grid = new GridCell[x][y];
         boolean startFound = false;
         boolean endFound = false;
@@ -72,31 +88,32 @@ public class ObstacleDetection {
                 System.out.println("startfound: "+ startFound);
                 System.out.println("endfound: "+ endFound);
                 System.out.println(grid[i][j]);
+                System.out.println("i : " + i+ " j :" + j);
                 if (!startFound){
                     startFound = grid[i][j].contains(ship);
                     if(startFound){
-                        startX = i;
-                        startY = j;
+                        this.sX = i;
+                        this.sY = j;
                     }
                 }
                 if (!endFound){
                     endFound = grid[i][j].contains(target);
                     if(endFound){
-                        endX = i;
-                        endY = j;
+                        this.eX = i;
+                        this.eY = j;
                     }
                 }
             }
         }
-        System.out.println("Start i trouvé : " + startX);
-        System.out.println("Start j trouvé : " + startY);
-        System.out.println("End i trouvé : " + endX);
-        System.out.println("End j trouvé : " + endY);
+        System.out.println("Start i trouvé : " + sX);
+        System.out.println("Start j trouvé : " + sY);
+        System.out.println("End i trouvé : " + eX);
+        System.out.println("End j trouvé : " + eY);
         return grid;
     }
 
     // Traitement de la grille = grisement des cellules bloquantes
-    public static ArrayList<Point> gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs){
+    public ArrayList<Point> gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs){
         ArrayList<Segment> reefSegments = new ArrayList<Segment>();
         ArrayList<Point> blockedCells = new ArrayList<Point>();
         for (VisibleEntitie reef : reefs){
@@ -120,7 +137,8 @@ public class ObstacleDetection {
 
     // Affichage
     public static void main(String[] args) {
-        GridCell[][] grid = gridCreation(10,10,10, new Point(0.0,0.0),
+        ObstacleDetection obstacleDetection = new ObstacleDetection();
+        GridCell[][] grid = obstacleDetection.gridCreation(10,10,10, new Point(0.0,0.0),
                 new Position(0.0,0.0,0.0),new Position(1.0,1.0,0.0));
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -138,7 +156,7 @@ public class ObstacleDetection {
                         new Point[]{new Point(66.4,13), new Point(49.0, 33.7),
                                 new Point(51.1, 50.0), new Point(89.7, 51.2)})
         ));
-        gridProcess(grid, recifs);
+        obstacleDetection.gridProcess(grid, recifs);
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j].isBlocked()) {

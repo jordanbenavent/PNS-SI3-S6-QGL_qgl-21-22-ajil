@@ -20,12 +20,13 @@ public class GridCell {
     public ArrayList<Segment> createGridSegments(){
         Point[] points = new Point[4];
         double delta = size/2;
+        ObstacleDetection obstacleDetection = new ObstacleDetection();
         points[0] = new Point(center.getX() - delta, center.getY() - delta );
         points[1] = new Point(center.getX() - delta,center.getY() + delta );
         points[2] = new Point(center.getX() + delta,center.getY() + delta );
         points[3] = new Point(center.getX() + delta,center.getY() - delta );
 
-        return ObstacleDetection.createSegments(points, points.length);
+        return obstacleDetection.createSegments(points, points.length);
     }
 
     public void intersection(ArrayList<Segment> segmentsToCheck){
