@@ -10,19 +10,20 @@ public class ObstacleDetectionTest {
 
     @Test
     void findOriginTest(){
+        ObstacleDetection obstacleDetection = new ObstacleDetection();
         Point positionShip = new Point(55,55);
         Point positionCheckpoint = new Point(100,100);
-        Point point = ObstacleDetection.findOrigin(positionShip, positionCheckpoint);
-        Assertions.assertEquals(new Point(-ObstacleDetection.margin + positionShip.getX(), -ObstacleDetection.margin + positionShip.getY()), point);
+        Point point = obstacleDetection.findOrigin(positionShip, positionCheckpoint);
+        Assertions.assertEquals(new Point(-obstacleDetection.margin + positionShip.getX(), -obstacleDetection.margin + positionShip.getY()), point);
         positionCheckpoint = new Point(100,-100);
-        point = ObstacleDetection.findOrigin(positionShip, positionCheckpoint);
-        Assertions.assertEquals(new Point(-ObstacleDetection.margin + positionShip.getX(), -ObstacleDetection.margin + positionCheckpoint.getY()), point);
+        point = obstacleDetection.findOrigin(positionShip, positionCheckpoint);
+        Assertions.assertEquals(new Point(-obstacleDetection.margin + positionShip.getX(), -obstacleDetection.margin + positionCheckpoint.getY()), point);
         positionCheckpoint = new Point(-100,-100);
-        point = ObstacleDetection.findOrigin(positionShip, positionCheckpoint);
-        Assertions.assertEquals(new Point(-ObstacleDetection.margin + positionCheckpoint.getX(), -ObstacleDetection.margin + positionCheckpoint.getY()), point);
+        point = obstacleDetection.findOrigin(positionShip, positionCheckpoint);
+        Assertions.assertEquals(new Point(-obstacleDetection.margin + positionCheckpoint.getX(), -obstacleDetection.margin + positionCheckpoint.getY()), point);
         positionCheckpoint = new Point(-100,100);
-        point = ObstacleDetection.findOrigin(positionShip, positionCheckpoint);
-        Assertions.assertEquals(new Point(-ObstacleDetection.margin - positionCheckpoint.getY(), -ObstacleDetection.margin + positionShip.getY()), point);
+        point = obstacleDetection.findOrigin(positionShip, positionCheckpoint);
+        Assertions.assertEquals(new Point(-obstacleDetection.margin - positionCheckpoint.getY(), -obstacleDetection.margin + positionShip.getY()), point);
     }
 
 
