@@ -38,6 +38,7 @@ public class ValideCheckpoint {
                 estDedans = checkpointValide(pointsDuBateau, checkpointCurrent);
             }
             if (estDedans) {
+                System.out.println("Le bateau est dedans");
                 checkpoints.remove(checkpointCurrent);
                 if (checkpoints.isEmpty()) {
                     checkpointCurrent = null;

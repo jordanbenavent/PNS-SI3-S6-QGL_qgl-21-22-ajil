@@ -171,6 +171,28 @@ class CalculDeplacementTest {
     }
 
     @Test
+    void deplacementPourLeTourCasLimiteTest(){
+        // Cas bateau à 4 rames
+        ship = new Ship("ship", 100,
+                new Position(0.0, 0.0, 0.0), "name",
+                new Deck(2, 5),
+                new ArrayList<>(),
+                new Rectangle("rectangle", 5, 5, 5));
+        jeu.setShip(ship);
+        jeu.getShip().getEntities().add(new OarEntity(0, 1, "oar"));
+        jeu.getShip().getEntities().add(new OarEntity(0, 2, "oar"));
+        jeu.getShip().getEntities().add(new OarEntity(1, 1, "oar"));
+        jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
+        strategie = new Strategy(jeu);
+        Checkpoint checkpoint_PI_2 = new Checkpoint(new Position(0, 20, 0), new Circle("circle", 1));
+        Checkpoint checkpoint_aligne = new Checkpoint(new Position(10, 0, 0), new Circle("circle", 1));
+        Deplacement deplacement_PI_2 = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_PI_2);
+        Assertions.assertEquals(Math.PI/2, deplacement_PI_2.getAngle());
+        Deplacement deplacement_aligne = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_aligne);
+        Assertions.assertEquals(0, deplacement_aligne.getAngle());
+    }
+
+    @Test
     void deplacementPourLeTourAvecBarreurTest(){
         // Cas où le checkpoint est à un angle supérieur ou égal à PI/2 par rapport au bateau
         // Cas bateau à 4 rames et 1 barreur

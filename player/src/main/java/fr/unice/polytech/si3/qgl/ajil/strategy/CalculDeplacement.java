@@ -117,7 +117,7 @@ public class CalculDeplacement {
         double angle = v_check.angleBetweenVectors(v_suivant);
         Checkpoint new_checkpoint = new Checkpoint();
         Shape shape_checkpoint = checkpoint.getShape();
-        if(shape_checkpoint.getType().equals("circle")){
+        if(shape_checkpoint.getType().equals("circle")) {
             Circle shape = (Circle) shape_checkpoint;
             double radius = shape.getRadius();
             // On multiplie par 0.75 pour ne pas être totalement à l'extrémité du checkpoint pour éviter de le rater
@@ -126,33 +126,7 @@ public class CalculDeplacement {
             new_checkpoint.setPosition(new Position(new_x, new_y, 0.0));
             new_checkpoint.setShape(shape);
         }
-        /*
-        else if(shape_checkpoint.getType().equals("rectangle")){
-            Rectangle shape = (Rectangle) shape_checkpoint;
-            new_checkpoint.setPosition();
-            new_checkpoint.setShape(shape);
-        }
-        else{
-            Polygone shape = (Polygone) shape_checkpoint;
-            new_checkpoint.setPosition();
-            new_checkpoint.setShape(shape);
-        }
-
-         */
         return new_checkpoint;
-    }
-
-    /**
-     * Permet de savoir si un checkpoint est à gauche ou à droite d'un autre checkpoint grâce à leur angle par rapport au bateau
-     * @param angle
-     * @param angle_suivant
-     * @return true si le checkpoint suivant est à gauche, false sinon
-     */
-    public boolean estAGauche(double angle, double angle_suivant){
-        if(angle_suivant > angle){
-            return true;
-        }
-        return false;
     }
 
     /**
