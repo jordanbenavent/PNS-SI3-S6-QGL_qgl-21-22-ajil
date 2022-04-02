@@ -31,8 +31,8 @@ public class AStarDeployment {
 
     // Fournit la taille de la grille à créer
     public Point gridSizeXY(Point shipPosition, Point checkPointPosition, double sizeCell){
-        double x = Math.abs(shipPosition.getX()) + Math.abs(checkPointPosition.getX());
-        double y = Math.abs(shipPosition.getY()) + Math.abs(checkPointPosition.getY());
+        double x = Math.abs(shipPosition.getX() - checkPointPosition.getX());
+        double y = Math.abs(shipPosition.getY() - checkPointPosition.getY());
         return new Point( Math.ceil(x/sizeCell)+5, Math.ceil(y/sizeCell)+3 );
     }
 
