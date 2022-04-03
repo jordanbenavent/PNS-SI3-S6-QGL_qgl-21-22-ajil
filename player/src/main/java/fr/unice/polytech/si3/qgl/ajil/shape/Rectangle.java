@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.shape;
 
+import java.util.Objects;
+
 /**
  * Classe fille de Shape représentant un rectangle
  *
@@ -74,9 +76,25 @@ public class Rectangle extends Shape{
         this.width = width;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rectangle rectangle = (Rectangle) o;
+        return Double.compare(rectangle.width, width) == 0 && Double.compare(rectangle.height, height) == 0 && Double.compare(rectangle.orientation, orientation) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(width, height, orientation);
+    }
+
     /**
      * @return un string composé de la largeur, la longueur ainsi que de l'orientation du rectangle
      */
+
+
     @Override
     public String toString() {
         return super.toString()+ "Rectangle{" +

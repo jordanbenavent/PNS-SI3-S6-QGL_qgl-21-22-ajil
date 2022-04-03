@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
+import java.util.Objects;
+
 /**
  * Classe Position
  * Elle représente la position d'un objet sur la carte avec ses coordonnées ainsi que son orientation
@@ -71,9 +73,25 @@ public class Position {
         this.y = y;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return Double.compare(position.x, x) == 0 && Double.compare(position.y, y) == 0 && Double.compare(position.orientation, orientation) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, orientation);
+    }
+
     /**
      * @return un string composé des coordonnées x et y ainsi que l'orientation
      */
+
+
+
     @Override
     public String toString() {
         return "Position{" +
