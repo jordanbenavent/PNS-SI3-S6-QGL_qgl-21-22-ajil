@@ -120,6 +120,7 @@ public class Strategy {
         }
         c = valideCheckpoint.checkpointTarget(stratData.jeu.getGoal().getCheckpoints());
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
+        System.out.println("Deplacement: " + deplacement);
         gestionMarins.ramerSelonVitesse(deplacement);
         Ship ship = stratData.jeu.getShip();
         Wind wind = stratData.jeu.getWind();

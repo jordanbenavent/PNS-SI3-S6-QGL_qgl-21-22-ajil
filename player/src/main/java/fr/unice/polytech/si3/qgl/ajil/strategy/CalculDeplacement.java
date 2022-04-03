@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.ajil.strategy;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
+import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 
 import java.util.ArrayList;
@@ -28,9 +29,8 @@ public class CalculDeplacement {
      */
     public Deplacement deplacementPourLeTourRefactor(Checkpoint checkpoint) {
         final Ship ship = jeu.getShip();
-        final double distance = getDistance(checkpoint, ship);
         final int nbr_rames = ship.getOars().size();
-
+        double distance = getDistance(ship, checkpoint);
         if (stratData.jeu.getGoal().getCheckpoints().size() > 1) {
             checkpoint = viseExtremiteCheckpoint(checkpoint);
         }
@@ -38,6 +38,15 @@ public class CalculDeplacement {
         final Vector v_ship = calculVecteurBateau(ship);
         final Vector v_check = calculVecteurCheckpoint(checkpoint, ship);
         final double angle = v_ship.angleBetweenVectors(v_check);
+        System.out.println(checkpoint);
+        // Si le bateau est aligné avec le checkpoint d'un angle inférieur à 1° sinon on aurait pas de points d'intersection
+        if(Math.abs(angle) < 0.01745329){
+            ArrayList<Point> points_dintersection = intersection(ship, v_ship, checkpoint);
+            System.out.println(points_dintersection);
+            distance = getDistancePointIntersection(points_dintersection, ship);
+            System.out.println(distance);
+        }
+
 
         final ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, checkpoint);
         Set<Double> angles_possibles = ship.getTurnRange();
@@ -46,8 +55,26 @@ public class CalculDeplacement {
         return getDeplacement(nbr_rames, distance, angle, futur_angle, angles_possibles, angle_maximum);
     }
 
-    private double getDistance(Checkpoint checkpoint, Ship ship) {
+    private double getDistance(Ship ship, Checkpoint checkpoint){
         return Math.sqrt(Math.pow((checkpoint.getPosition().getX() - ship.getPosition().getX()), 2) + Math.pow((checkpoint.getPosition().getY() - ship.getPosition().getY()), 2));
+    }
+
+    /**
+     * Méthode calculant la distance la plus petite entre le bateau et le point d'intersection avec le checkpoint visé
+     * @param points
+     * @param ship
+     * @return la distance la plus petite entre le bateau et les points de la liste de points d'intersection
+     */
+    double getDistancePointIntersection(ArrayList<Point> points, Ship ship) {
+        double distmin = Math.sqrt(Math.pow((points.get(0).getX() - ship.getPosition().getX()), 2) + Math.pow((points.get(0).getY() - ship.getPosition().getY()), 2));
+        points.remove(0);
+        for(Point point: points){
+            double distance = Math.sqrt(Math.pow((point.getX() - ship.getPosition().getX()), 2) + Math.pow((point.getY() - ship.getPosition().getY()), 2));
+            if(distmin > distance){
+                distmin = distance;
+            }
+        }
+        return distmin;
     }
 
     private Deplacement getDeplacement(int nbr_rames, double distance, double angle, ArrayList<Deplacement> futur_angle, Set<Double> angles_possibles, double angle_maximum) {
@@ -99,6 +126,67 @@ public class CalculDeplacement {
     }
 
     /**
+     * Méthode calculant les points d'intersection entre la droite de la trajectoire du bateau et le checkpoint (un cercle)
+     * @param ship
+     * @param checkpoint
+     * @return les points d'intersection
+     */
+    public ArrayList<Point> intersection(Ship ship, Vector v_ship, Checkpoint checkpoint){
+        // (1) équation cercle: (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
+        double r = ((Circle) checkpoint.getShape()).getRadius();
+        double xc = checkpoint.getPosition().getX();
+        double yc = checkpoint.getPosition().getY();
+
+        // (2) équation de la droite du bateau: y = ax+b
+        // Etape 1: On prend d'abord deux points (à partir du vecteur bateau) pour pouvoir calculer la droite
+        double x1 = ship.getPosition().getX();
+        double y1 = ship.getPosition().getY();
+        double x2 = ship.getPosition().getX() + v_ship.getX();
+        double y2 = ship.getPosition().getY() + v_ship.getY();
+        System.out.println("x1: " + x1);
+        System.out.println("y1: " + y1);
+        System.out.println("x2: " + x2);
+        System.out.println("y2: " + y2);
+        // Etape 2: on calcule la pente
+        double a = (y2 - y1)/(x2 - x1);
+        // Etape 3: On remplace dans l'équation a par la pente et x et y par un point pour trouver b
+        double b = y1 - a*x1;
+        System.out.println("a: " + a);
+        System.out.println("b: " + b);
+
+        // Maintenant on remplace (2) dans (1)
+        // (x − xc)² + (a*x + b −yc)² = R²
+        // x² − 2*x*xc + xc² + a²*x² +b² + yc² + 2(a*x*b − a*x*yc − b*yc) − R = 0
+        // x²(1 + a²) + x(−2*xc + 2*a*b − 2*a*yc) + (xc² + yc² + b²− 2*b*yc − R²) = 0
+        // On a donc du second degré de la forme ax² + bx + c = 0 avec:
+        ArrayList<Point> points_intersection = new ArrayList<>();
+        double A = 1 + a*a;
+        double B = 2 * (-xc + a*b - a*yc);
+        double C = xc*xc + yc*yc + b*b - 2*b*yc - r*r;
+        double delta = B*B - 4*A*C;
+
+        if (delta > 0)
+        {
+            double x = (-B - Math.sqrt(delta)) / (2*A);
+            double y = a*x + b;
+            points_intersection.add(new Point(x, y));
+
+            x = (-B + Math.sqrt(delta)) / (2*A);
+            y = a*x + b;
+            points_intersection.add(new Point(x, y));
+        }
+        else if (delta == 0)
+        {
+            double x = -B / (2*A);
+            double y = a*x + b;
+
+            points_intersection.add(new Point(x, y));
+        }
+
+        return points_intersection;
+    }
+
+    /**
      * Méthode retournant un nouveau checkpoint, on basera le calcul du déplacement en fonction
      * de ce checkpoint. Le but étant de viser l'extrémité du checkpoint pour gagner du temps
      *
@@ -122,17 +210,6 @@ public class CalculDeplacement {
             new_checkpoint.setShape(shape);
         }
         return new_checkpoint;
-    }
-
-    /**
-     * Permet de savoir si un checkpoint est à gauche ou à droite d'un autre checkpoint grâce à leur angle par rapport au bateau
-     *
-     * @param angle
-     * @param angle_suivant
-     * @return true si le checkpoint suivant est à gauche, false sinon
-     */
-    public boolean estAGauche(double angle, double angle_suivant) {
-        return angle_suivant > angle;
     }
 
     /**
