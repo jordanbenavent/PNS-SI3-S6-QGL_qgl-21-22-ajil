@@ -12,10 +12,19 @@ import java.util.List;
 public class ValideCheckpoint {
 
     protected Game jeu;
+    private List<Checkpoint> fakeCheckpoint = new ArrayList<>();
     public List<String> LOGGER = Cockpit.LOGGER;
 
     public ValideCheckpoint(Game jeu) {
         this.jeu = jeu;
+    }
+
+    public List<Checkpoint> getFakeCheckpoint() {
+        return fakeCheckpoint;
+    }
+
+    public void setFakeCheckpoint(List<Checkpoint> fakeCheckpoint) {
+        this.fakeCheckpoint = fakeCheckpoint;
     }
 
     /**
@@ -25,17 +34,28 @@ public class ValideCheckpoint {
      * @return the next Checkpoint
      */
     public Checkpoint nextCheckpointTarget(List<Checkpoint> checkpoints) {
-        if (checkpoints.isEmpty()) return null;
-
         Ship ship = jeu.getShip();
-        Checkpoint checkpointCurrent = checkpoints.get(0);
+        Checkpoint checkpointCurrent;
+        if(fakeCheckpoint.isEmpty()){
+            if (checkpoints.isEmpty()) return null;
+            checkpointCurrent = checkpoints.get(0);
 
-        if (isShipInCheckpoint(ship, checkpointCurrent)) {
-            checkpoints.remove(checkpointCurrent);
-            if (checkpoints.isEmpty()) checkpointCurrent = null;
-            else checkpointCurrent = checkpoints.get(0);
+            if (isShipInCheckpoint(ship, checkpointCurrent)) {
+                checkpoints.remove(checkpointCurrent);
+                if (checkpoints.isEmpty()) checkpointCurrent = null;
+                else checkpointCurrent = checkpoints.get(0);
+            }
+            LOGGER.add("Checkpoint visé : " + checkpointCurrent);
+        } else {
+            checkpointCurrent = fakeCheckpoint.get(0);
+
+            if (isShipInCheckpoint(ship, checkpointCurrent)) {
+                checkpoints.remove(checkpointCurrent);
+                if (checkpoints.isEmpty()) checkpointCurrent = null;
+                else checkpointCurrent = checkpoints.get(0);
+            }
+            LOGGER.add("Faux checkpoint Checkpoint visé : " + checkpointCurrent);
         }
-        LOGGER.add("Checkpoint visé : " + checkpointCurrent);
         return checkpointCurrent;
     }
 

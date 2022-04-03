@@ -180,8 +180,10 @@ public class Strategy {
         ArrayList<Checkpoint> fauxCheckpoints = deploy.deployment();
         //appelle astart deployement et ajoute nouveaux checkpojt au debut
         fauxCheckpoints.addAll(listeCheckpoints);
-        listeCheckpoints = (ArrayList<Checkpoint>) fauxCheckpoints.clone();
+        valideCheckpoint.setFakeCheckpoint(fauxCheckpoints);
+        //listeCheckpoints = (ArrayList<Checkpoint>) fauxCheckpoints.clone();
         LOGGER.add("Apres A star"+listeCheckpoints.size());
+        LOGGER.add("Apres A star"+valideCheckpoint.getFakeCheckpoint().size());
 
         stratData.jeu.getGoal().setCheckpoints(fauxCheckpoints);
 
