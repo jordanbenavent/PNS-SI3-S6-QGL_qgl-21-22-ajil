@@ -185,7 +185,7 @@ public class Strategy {
         LOGGER.add("Apres A star"+listeCheckpoints.size());
         LOGGER.add("Apres A star"+valideCheckpoint.getFakeCheckpoint().size());
 
-        stratData.jeu.getGoal().setCheckpoints(fauxCheckpoints);
+        //stratData.jeu.getGoal().setCheckpoints(fauxCheckpoints);
 
     }
 
