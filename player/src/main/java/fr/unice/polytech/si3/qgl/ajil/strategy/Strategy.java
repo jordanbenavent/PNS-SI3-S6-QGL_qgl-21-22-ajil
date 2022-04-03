@@ -179,7 +179,7 @@ public class Strategy {
         AStarDeployment deploy = new AStarDeployment(this.stratData.jeu,200);
         ArrayList<Checkpoint> fauxCheckpoints = deploy.deployment();
         //appelle astart deployement et ajoute nouveaux checkpojt au debut
-        fauxCheckpoints.addAll(listeCheckpoints);
+        //fauxCheckpoints.addAll(listeCheckpoints);
         valideCheckpoint.setFakeCheckpoint(fauxCheckpoints);
         //listeCheckpoints = (ArrayList<Checkpoint>) fauxCheckpoints.clone();
         LOGGER.add("Apres A star"+listeCheckpoints.size());

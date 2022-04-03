@@ -35,27 +35,15 @@ public class ValideCheckpoint {
      */
     public Checkpoint nextCheckpointTarget(List<Checkpoint> checkpoints) {
         Ship ship = jeu.getShip();
-        Checkpoint checkpointCurrent;
-        if(fakeCheckpoint.isEmpty()){
-            if (checkpoints.isEmpty()) return null;
-            checkpointCurrent = checkpoints.get(0);
-
-            if (isShipInCheckpoint(ship, checkpointCurrent)) {
-                checkpoints.remove(checkpointCurrent);
-                if (checkpoints.isEmpty()) checkpointCurrent = null;
-                else checkpointCurrent = checkpoints.get(0);
-            }
-            LOGGER.add("Checkpoint visé : " + checkpointCurrent);
-        } else {
-            checkpointCurrent = fakeCheckpoint.get(0);
-
-            if (isShipInCheckpoint(ship, checkpointCurrent)) {
-                checkpoints.remove(checkpointCurrent);
-                if (checkpoints.isEmpty()) checkpointCurrent = null;
-                else checkpointCurrent = checkpoints.get(0);
-            }
-            LOGGER.add("Faux checkpoint Checkpoint visé : " + checkpointCurrent);
+        Checkpoint checkpointCurrent = fakeOrRealCheckpoint(checkpoints);
+        if(checkpointCurrent == null) return null;
+        if(isShipInCheckpoint(ship, checkpointCurrent)) {
+            checkpoints.remove(checkpointCurrent);
+            if (checkpoints.isEmpty()) checkpointCurrent = null;
+            else checkpointCurrent = checkpoints.get(0);
         }
+        System.out.println(checkpointCurrent);
+        LOGGER.add("Checkpoint visé : " + checkpointCurrent);
         return checkpointCurrent;
     }
 
@@ -222,5 +210,14 @@ public class ValideCheckpoint {
      */
     boolean checkpointValide(ArrayList<Point> points, Checkpoint checkpoint) {
         return dansLeCercle(points, checkpoint) || intersectionCircleShip(points, checkpoint);
+    }
+
+    public Checkpoint fakeOrRealCheckpoint(List<Checkpoint> real){
+        if(fakeCheckpoint.isEmpty()){
+            if(real.isEmpty()) return null;
+            return real.get(0);
+        } else {
+            return fakeCheckpoint.get(0);
+        }
     }
 }
