@@ -35,6 +35,7 @@ public class ValideCheckpoint {
      */
     public Checkpoint nextCheckpointTarget(List<Checkpoint> checkpoints) {
         Ship ship = jeu.getShip();
+        checkRealCheckpoint(checkpoints,ship);
         Checkpoint checkpointCurrent = fakeOrRealCheckpoint(checkpoints);
         if(checkpointCurrent == null) return null;
         while(isShipInCheckpoint(ship, checkpointCurrent)) {
@@ -45,6 +46,18 @@ public class ValideCheckpoint {
         System.out.println(checkpointCurrent);
         LOGGER.add("Checkpoint visé : " + checkpointCurrent);
         return checkpointCurrent;
+    }
+
+    public void checkRealCheckpoint(List<Checkpoint> checkpoints, Ship ship){
+        if(checkpoints.isEmpty()) return;
+        Checkpoint checkpointCurrent = checkpoints.get(0);
+        if(checkpointCurrent == null) return;
+        while(isShipInCheckpoint(ship, checkpointCurrent)) {
+            fakeCheckpoint.clear();
+            checkpoints.remove(checkpointCurrent);
+            if (checkpoints.isEmpty()) checkpointCurrent = null;
+            else checkpointCurrent = checkpoints.get(0);
+        }
     }
 
     /**
