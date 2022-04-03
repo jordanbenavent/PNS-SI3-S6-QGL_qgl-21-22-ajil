@@ -37,7 +37,7 @@ public class ValideCheckpoint {
         Ship ship = jeu.getShip();
         Checkpoint checkpointCurrent = fakeOrRealCheckpoint(checkpoints);
         if(checkpointCurrent == null) return null;
-        if(isShipInCheckpoint(ship, checkpointCurrent)) {
+        while(isShipInCheckpoint(ship, checkpointCurrent)) {
             checkpoints.remove(checkpointCurrent);
             if (checkpoints.isEmpty()) checkpointCurrent = null;
             else checkpointCurrent = checkpoints.get(0);
