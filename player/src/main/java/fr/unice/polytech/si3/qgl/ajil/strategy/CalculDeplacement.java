@@ -146,14 +146,18 @@ public class CalculDeplacement {
         double y1 = ship.getPosition().getY();
         double x2 = ship.getPosition().getX() + v_ship.getX();
         double y2 = ship.getPosition().getY() + v_ship.getY();
-        // Etape 2: on calcule la pente
+        if(Math.abs(x2 - x1) < 0.0001){
+            return intersectionDroiteVerticaleCircle(ship, checkpoint);
+        }
+
+        // Etape 2: on calcule la pente si x1 != x2
         double a = (y2 - y1)/(x2 - x1);
         // Etape 3: On remplace dans l'équation a par la pente et x et y par un point pour trouver b
         double b = y1 - a*x1;
 
         // Maintenant on remplace (2) dans (1)
         // (x − xc)² + (a*x + b −yc)² = R²
-        // x² − 2*x*xc + xc² + a²*x² +b² + yc² + 2(a*x*b − a*x*yc − b*yc) − R = 0
+        // x² − 2*x*xc + xc² + a²*x² + b² + yc² + 2(a*x*b − a*x*yc − b*yc) − R² = 0
         // x²(1 + a²) + x(−2*xc + 2*a*b − 2*a*yc) + (xc² + yc² + b²− 2*b*yc − R²) = 0
         // On a donc du second degré de la forme ax² + bx + c = 0 avec:
         ArrayList<Point> points_intersection = new ArrayList<>();
@@ -162,8 +166,7 @@ public class CalculDeplacement {
         double C = xc*xc + yc*yc + b*b - 2*b*yc - r*r;
         double delta = B*B - 4*A*C;
 
-        if (delta > 0)
-        {
+        if (delta > 0) {
             double x = (-B - Math.sqrt(delta)) / (2*A);
             double y = a*x + b;
             points_intersection.add(new Point(x, y));
@@ -172,14 +175,53 @@ public class CalculDeplacement {
             y = a*x + b;
             points_intersection.add(new Point(x, y));
         }
-        else if (delta == 0)
-        {
+        else if (delta == 0) {
             double x = -B / (2*A);
             double y = a*x + b;
-
             points_intersection.add(new Point(x, y));
         }
 
+        return points_intersection;
+    }
+
+    /**
+     * Lors d'une droite verticale, l'équation de droite change
+     *
+     * @param ship
+     * @param checkpoint
+     * @return true si le côté du bateau coupe le checkpoint
+     */
+    public ArrayList<Point> intersectionDroiteVerticaleCircle(Ship ship, Checkpoint checkpoint) {
+        //Dans ce cas la droite du bateau est de la forme x = a;
+        double a = ship.getPosition().getX();
+        double xc = checkpoint.getPosition().getX();
+        double yc = checkpoint.getPosition().getY();
+        double r = ((Circle) checkpoint.getShape()).getRadius();
+
+        // (a − xc)² + (y − yc)² = R²
+        // a² − 2*a*xc + xc² + y² -2*y*yc + yc² − R² = 0
+        // y² + y(−2*yc) + (a² - 2*a*xc + xc² + yc² − R²) = 0
+        // On a donc du second degré de la forme ax² + bx + c = 0 avec:
+        ArrayList<Point> points_intersection = new ArrayList<>();
+        double A = 1;
+        double B = -2*yc;
+        double C = a*a - 2*a*xc + xc*xc + yc*yc - r*r;
+        double delta = B*B - 4*A*C;
+
+        if (delta > 0) {
+            double x = a;
+            double y = (-B - Math.sqrt(delta)) / (2*A);
+            points_intersection.add(new Point(x, y));
+
+            x = a;
+            y = (-B + Math.sqrt(delta)) / (2*A);
+            points_intersection.add(new Point(x, y));
+        }
+        else if (delta == 0) {
+            double x = a;
+            double y = -B / (2*A);
+            points_intersection.add(new Point(x, y));
+        }
         return points_intersection;
     }
 
