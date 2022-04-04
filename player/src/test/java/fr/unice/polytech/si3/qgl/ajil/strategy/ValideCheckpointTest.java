@@ -115,7 +115,6 @@ class ValideCheckpointTest {
                 new Rectangle("rectangle", 2, 3, Math.PI / 4));
         ArrayList<Checkpoint> checkpoints = new ArrayList<>();
         ArrayList<Sailor> sailors = new ArrayList<>();
-        /*
         jeu = new Game(
                 new Goal("regatte", checkpoints),
                 ship,
@@ -150,7 +149,7 @@ class ValideCheckpointTest {
         jeu.setShip(ship);
         checkpoints.add(checkpoint);
         Assertions.assertNull(valideCheckpoint.nextCheckpointTarget(checkpoints));
-        checkpoints.clear();*/
+        checkpoints.clear();
 
 
         //Version PathFinding avec faux checkpoints !
