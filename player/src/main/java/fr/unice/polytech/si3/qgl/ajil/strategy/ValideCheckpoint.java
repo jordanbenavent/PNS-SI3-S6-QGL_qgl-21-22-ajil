@@ -35,16 +35,15 @@ public class ValideCheckpoint {
      */
     public Checkpoint nextCheckpointTarget(List<Checkpoint> checkpoints) {
         Ship ship = jeu.getShip();
-        checkRealCheckpoint(checkpoints,ship);
-        Checkpoint checkpointCurrent = fakeOrRealCheckpoint(checkpoints);
-        if(checkpointCurrent == null) return null;
-        while(isShipInCheckpoint(ship, checkpointCurrent)) {
-            checkpoints.remove(checkpointCurrent);
-            if (checkpoints.isEmpty()) checkpointCurrent = null;
-            else checkpointCurrent = checkpoints.get(0);
+        List<Checkpoint> realOrFalse = realOrFakeCheckpoint(checkpoints);
+        if( realOrFalse==null || realOrFalse.isEmpty()) return null;
+        Checkpoint checkpointCurrent = realOrFalse.get(0);
+        while(isShipInCheckpoint(ship,checkpointCurrent)){
+            realOrFalse.remove(checkpointCurrent);
+            realOrFalse = realOrFakeCheckpoint(checkpoints);
+            if(realOrFalse==null || realOrFalse.isEmpty()) return null;
+            checkpointCurrent = realOrFalse.get(0);
         }
-        System.out.println(checkpointCurrent);
-        LOGGER.add("Checkpoint visé : " + checkpointCurrent);
         return checkpointCurrent;
     }
 
@@ -55,8 +54,9 @@ public class ValideCheckpoint {
         while(isShipInCheckpoint(ship, checkpointCurrent)) {
             fakeCheckpoint.clear();
             checkpoints.remove(checkpointCurrent);
-            if (checkpoints.isEmpty()) checkpointCurrent = null;
+            if (checkpoints.isEmpty()) return;
             else checkpointCurrent = checkpoints.get(0);
+            if(checkpointCurrent == null) return;
         }
     }
 
@@ -160,9 +160,10 @@ public class ValideCheckpoint {
 
                 //Après simplification on obtient une équation du deuxième degré et on obtient donc un delta.
                 //Equation : alpha x^2 + beta x + c = 0
-                double beta = -2 * xc - 2 * a * b + 2 * a * yc;
+                double beta = (-2 * xc) + (2 * a * b) - (2 * a * yc);
                 double alpha = (a * a + 1);
-                double delta = beta * beta - 4 * alpha * (xc * xc + (b - yc) * (b - yc) - r * r);
+                double ceta = ((xc * xc) + ((b - yc) * (b - yc)) - (r * r));
+                double delta = beta * beta - (4 * alpha * ceta);
                 if (delta >= 0) {
                     x1 = (-beta - Math.sqrt(delta)) / (2 * alpha);
                     y1 = a * x1 + b;
@@ -233,4 +234,30 @@ public class ValideCheckpoint {
             return fakeCheckpoint.get(0);
         }
     }
+
+    public Checkpoint nextCheckpointTarget2(List<Checkpoint> checkpoints){
+        Ship ship = jeu.getShip();
+        List<Checkpoint> realOrFalse = realOrFakeCheckpoint(checkpoints);
+        if( realOrFalse==null || realOrFalse.isEmpty()) return null;
+        Checkpoint checkpointCurrent = realOrFalse.get(0);
+        while(isShipInCheckpoint(ship,checkpointCurrent)){
+            realOrFalse.remove(checkpointCurrent);
+            realOrFalse = realOrFakeCheckpoint(checkpoints);
+            if(realOrFalse==null || realOrFalse.isEmpty()) return null;
+            checkpointCurrent = realOrFalse.get(0);
+        }
+        return checkpointCurrent;
+    }
+
+    private List<Checkpoint> realOrFakeCheckpoint(List<Checkpoint> checkpoints) {
+        if(fakeCheckpoint.isEmpty()){
+            System.out.println("REAL");
+            if(checkpoints.isEmpty()) return null;
+            return checkpoints;
+        } else {
+            System.out.println("FAKE");
+            return fakeCheckpoint;
+        }
+    }
+
 }
