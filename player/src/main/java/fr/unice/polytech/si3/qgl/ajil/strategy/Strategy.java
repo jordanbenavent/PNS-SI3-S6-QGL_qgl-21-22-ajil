@@ -33,6 +33,7 @@ public class Strategy {
     private final List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
     private List<Checkpoint> listeCheckpoints;
+    private int listCheckpointsSize;
     private boolean premierCalculA ;
     private int tailleRecifAvant=0;
     private Checkpoint prochainVraiCheckpoint;
@@ -46,6 +47,7 @@ public class Strategy {
         gestionSail = new GestionSail(stratData);
         calculDeplacement = new CalculDeplacement(stratData);
         listeCheckpoints = stratData.jeu.getGoal().getCheckpoints();
+        listCheckpointsSize = listeCheckpoints.size();
         premierCalculA = false;
     }
 
@@ -150,14 +152,20 @@ public class Strategy {
         //mesure size
         //Actions deplacement
 
-        c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
-
+        if (this.listCheckpointsSize != listeCheckpoints.size()){
+            listCheckpointsSize--;
+            calculAStar(false);
+        }
+        /*
         if(c.equals(prochainVraiCheckpoint)){
             LOGGER.add("On recalcule tout car on a atteint un vrai Checkpoint");
             calculAStar(true);
         }
+        */
 
-        deplacement = calculDeplacement.deplacementPourLeTourRefactor(listeCheckpoints.get(0));
+        c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
+
+        deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
         gestionMarins.rowingAccordingToSpeed(deplacement);
         Ship ship = stratData.jeu.getShip();
         Wind wind = stratData.jeu.getWind();
