@@ -166,6 +166,7 @@ public class Strategy {
         c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
 
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
+        System.out.println("Deplacement: " + deplacement);
         gestionMarins.ramerSelonVitesse(deplacement);
         Ship ship = stratData.jeu.getShip();
         Wind wind = stratData.jeu.getWind();
