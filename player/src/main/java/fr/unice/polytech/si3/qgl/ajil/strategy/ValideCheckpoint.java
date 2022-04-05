@@ -1,60 +1,96 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
-import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
-import fr.unice.polytech.si3.qgl.ajil.Cockpit;
-import fr.unice.polytech.si3.qgl.ajil.Game;
-import fr.unice.polytech.si3.qgl.ajil.Ship;
-import fr.unice.polytech.si3.qgl.ajil.shape.*;
+import fr.unice.polytech.si3.qgl.ajil.*;
+import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
+import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
+import fr.unice.polytech.si3.qgl.ajil.shape.Point;
+import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
  
 public class ValideCheckpoint {
 
     protected Game jeu;
+    private List<Checkpoint> fakeCheckpoint = new ArrayList<>();
     public List<String> LOGGER = Cockpit.LOGGER;
 
     public ValideCheckpoint(Game jeu) {
         this.jeu = jeu;
     }
 
+    public List<Checkpoint> getFakeCheckpoint() {
+        return fakeCheckpoint;
+    }
+
+    public void setFakeCheckpoint(List<Checkpoint> fakeCheckpoint) {
+        this.fakeCheckpoint = fakeCheckpoint;
+    }
 
     /**
-     * Retourne le checkpoint à viser
+     * If checkpoints is not empty, return next checkpoint
+     *
+     * @param checkpoints List of the checkpoints
+     * @return the next Checkpoint
      */
-    public Checkpoint checkpointTarget(List<Checkpoint> checkpoints) {
-        boolean estDedans;
-        if (checkpoints.isEmpty()) {
-            return null;
-        }
-        Checkpoint checkpointCurrent = checkpoints.get(0);
+    public Checkpoint nextCheckpointTarget(List<Checkpoint> checkpoints) {
         Ship ship = jeu.getShip();
-        ArrayList<Point> pointsDuBateau = calculPointShip(ship);
-        if (checkpointCurrent.getShape() instanceof Circle) {
-            if ((ship.getShape() instanceof Circle)) {
-                estDedans = checkpointValideShipCircle(ship, checkpointCurrent);
-            } else {
-                estDedans = checkpointValide(pointsDuBateau, checkpointCurrent);
-            }
-            if (estDedans) {
-                checkpoints.remove(checkpointCurrent);
-                if (checkpoints.isEmpty()) {
-                    checkpointCurrent = null;
-                } else {
-                    checkpointCurrent = checkpoints.get(0);
-                }
-            }
+        List<Checkpoint> realOrFalse = realOrFakeCheckpoint(checkpoints);
+        if( realOrFalse==null || realOrFalse.isEmpty()) return null;
+        Checkpoint checkpointCurrent = realOrFalse.get(0);
+        while(isShipInCheckpoint(ship,checkpointCurrent)){
+            realOrFalse.remove(checkpointCurrent);
+            realOrFalse = realOrFakeCheckpoint(checkpoints);
+            if(realOrFalse==null || realOrFalse.isEmpty()) return null;
+            checkpointCurrent = realOrFalse.get(0);
         }
-        LOGGER.add("Checkpoint visé : " +checkpointCurrent);
         return checkpointCurrent;
     }
 
+    public void checkRealCheckpoint(List<Checkpoint> checkpoints, Ship ship){
+        if(checkpoints.isEmpty()) return;
+        Checkpoint checkpointCurrent = checkpoints.get(0);
+        if(checkpointCurrent == null) return;
+        while(isShipInCheckpoint(ship, checkpointCurrent)) {
+            fakeCheckpoint.clear();
+            checkpoints.remove(checkpointCurrent);
+            if (checkpoints.isEmpty()) return;
+            else checkpointCurrent = checkpoints.get(0);
+            if(checkpointCurrent == null) return;
+        }
+    }
+
+    /**
+     * Check if the ship is inside the checkpoint
+     *
+     * @param ship              ship is needed for hitbox calculation
+     * @param checkpointCurrent get the checkpoint
+     * @return ship in checkpoint boolean
+     */
+    private boolean isShipInCheckpoint(Ship ship, Checkpoint checkpointCurrent) {
+        ArrayList<Point> pointsDuBateau = calculPointShip(ship);
+        if (checkpointCurrent.getShape() instanceof Circle) {
+            if ((ship.getShape() instanceof Circle)) {
+                return checkpointValideShipCircle(ship, checkpointCurrent);
+            } else {
+                return checkpointValide(pointsDuBateau, checkpointCurrent);
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * if checkpoint is a circle
+     * @param ship Ship needed to fetch shape and position
+     * @param checkpointCurrent Checkpoint to test
+     * @return is ship in the circle
+     */
     public boolean checkpointValideShipCircle(Ship ship, Checkpoint checkpointCurrent) {
-        double rs = ((Circle) ship.getShape()).getRadius();
-        double rc = ((Circle) checkpointCurrent.getShape()).getRadius();
         Point pointShip = new Point(ship.getPosition().getX(), ship.getPosition().getY());
         Point pointCheckpoint = new Point(checkpointCurrent.getPosition().getX(), checkpointCurrent.getPosition().getY());
+        double rs = ((Circle) ship.getShape()).getRadius();
+        double rc = ((Circle) checkpointCurrent.getShape()).getRadius();
         return pointCheckpoint.distance(pointShip) <= (rs + rc);
     }
 
@@ -65,66 +101,11 @@ public class ValideCheckpoint {
      * @return Points
      */
     public ArrayList<Point> calculPointShip(Ship ship) {
-        Point centre = new Point(ship.getPosition().getX(), ship.getPosition().getY());
-        double largeur = ship.getDeck().getWidth();
-        double longueur = ship.getDeck().getLength();
-        double angle = calculAngleTotal(ship);
-        double sinus = Math.sin(angle);
-        double cosinus = Math.cos(angle);
-        ArrayList<Point> pointShip = new ArrayList<>();
-        if (ship.getShape() instanceof Polygone) {
-            return pointShipPolygone(ship);
-        }
-        if (ship.getShape() instanceof Rectangle) {
-            largeur = ((Rectangle) ship.getShape()).getWidth();
-            longueur = ((Rectangle) ship.getShape()).getHeight();
-        }
-        //Matrice changement de référentiel
-        ArrayList<ArrayList<Double>> matrice = new ArrayList<>();
-        ArrayList<Double> firstColumn = new ArrayList<>();
-        firstColumn.add(Math.cos(ship.getPosition().getOrientation()));
-        firstColumn.add(Math.sin(ship.getPosition().getOrientation()));
-        ArrayList<Double> secondColumn = new ArrayList<>();
-        secondColumn.add(-1 * Math.sin(ship.getPosition().getOrientation()));
-        secondColumn.add(Math.cos(ship.getPosition().getOrientation()));
-        matrice.add(firstColumn);
-        matrice.add(secondColumn);
-
-        pointShip.add(new Point(largeur / 2 * cosinus + longueur / 2 * sinus, -largeur / 2 * sinus + longueur / 2 * cosinus).addPoint(centre));
-        pointShip.add(new Point(-largeur / 2 * cosinus + longueur / 2 * sinus, largeur / 2 * sinus + longueur / 2 * cosinus).addPoint(centre));
-        pointShip.add(new Point(largeur / 2 * cosinus - longueur / 2 * sinus, -largeur / 2 * sinus - longueur / 2 * cosinus).addPoint(centre));
-        pointShip.add(new Point(-largeur / 2 * cosinus - longueur / 2 * sinus, largeur / 2 * sinus - longueur / 2 * cosinus).addPoint(centre));
-        return pointShip;
+        Position position = ship.getPosition();
+        Shape shape = ship.getShape();
+        return CalculPoints.calculExtremityPoints(shape, position);
     }
 
-    public ArrayList<Point> pointShipPolygone(Ship ship) {
-        ArrayList<Point> pointsShip = new ArrayList<>();
-        double anglePosition = ship.getPosition().getOrientation();
-        double angleShape = ((Polygone)ship.getShape()).getOrientation();
-        double angleRotation = - calculAngleTotal(ship);
-        List<Point> pointPolygone = Arrays.asList(((Polygone)ship.getShape()).getVertices());
-        for(Point point : pointPolygone) {
-            double xPremierProj = point.getX() * Math.cos(angleRotation) + point.getY() * Math.sin(angleRotation) + ship.getPosition().getX();
-            double yPremierProj = (-1 * point.getX() * Math.sin(angleRotation)) + point.getY() * Math.cos(angleRotation)  + ship.getPosition().getY();
-            Point pointProjette = new Point(xPremierProj, yPremierProj);
-            pointsShip.add(pointProjette);
-        }
-        return pointsShip;
-    }
-
-
-    private double calculAngleTotal(Ship ship) {
-        if(ship.getShape() instanceof Circle){
-            return ship.getPosition().getOrientation();
-        }
-        if(ship.getShape() instanceof Rectangle){
-            return ship.getPosition().getOrientation() + ((Rectangle)ship.getShape()).getOrientation();
-        }
-        if(ship.getShape() instanceof Polygone){
-            return ship.getPosition().getOrientation() + ((Polygone)ship.getShape()).getOrientation();
-        }
-        return 0;
-    }
 
     /**
      * Dit si l'un des points du bateau est dans le checkpoint
@@ -151,8 +132,9 @@ public class ValideCheckpoint {
      * @return If ship intersects
      */
     public boolean intersectionCircleShip(ArrayList<Point> pointDuBateau, Checkpoint checkpoint) {
-        for (int i = 0; i < pointDuBateau.size() - 1; i++) {
-            for (int j = i + 1; j < pointDuBateau.size(); j++) {
+        int size = pointDuBateau.size();
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = i + 1; j < size; j++) {
                 //equation cercle (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
                 // équation de la droite du bateau = y = ax+b
                 double r = ((Circle) checkpoint.getShape()).getRadius();
@@ -178,9 +160,10 @@ public class ValideCheckpoint {
 
                 //Après simplification on obtient une équation du deuxième degré et on obtient donc un delta.
                 //Equation : alpha x^2 + beta x + c = 0
-                double beta = -2 * xc - 2 * a * b + 2 * a * yc;
+                double beta = (-2 * xc) + (2 * a * b) - (2 * a * yc);
                 double alpha = (a * a + 1);
-                double delta = beta * beta - 4 * alpha * (xc * xc + (b - yc) * (b - yc) - r * r);
+                double ceta = ((xc * xc) + ((b - yc) * (b - yc)) - (r * r));
+                double delta = beta * beta - (4 * alpha * ceta);
                 if (delta >= 0) {
                     x1 = (-beta - Math.sqrt(delta)) / (2 * alpha);
                     y1 = a * x1 + b;
@@ -211,9 +194,7 @@ public class ValideCheckpoint {
     boolean intersectionDroiteVerticaleCircle(Point point1, Point point2, Checkpoint checkpoint) {
         //Dans ce cas la droite du bateau est de la forme x=a;
         double a = point1.getX();
-        double xb1 = point1.getX();
         double yb1 = point1.getY();
-        double xb2 = point2.getX();
         double yb2 = point2.getY();
         double xc = checkpoint.getPosition().getX();
         double yc = checkpoint.getPosition().getY();
@@ -237,11 +218,46 @@ public class ValideCheckpoint {
     /**
      * Nous dit si le checkpoint est validé.
      *
-     * @param pointsDuBateau Point du bateau
-     * @param checkpoint     Checkpoint
+     * @param points     Point du bateau
+     * @param checkpoint Checkpoint
      * @return true si validé, false sinon
      */
-    boolean checkpointValide(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint) {
-        return dansLeCercle(pointsDuBateau, checkpoint) || intersectionCircleShip(pointsDuBateau, checkpoint);
+    boolean checkpointValide(ArrayList<Point> points, Checkpoint checkpoint) {
+        return dansLeCercle(points, checkpoint) || intersectionCircleShip(points, checkpoint);
     }
+
+    public Checkpoint fakeOrRealCheckpoint(List<Checkpoint> real){
+        if(fakeCheckpoint.isEmpty()){
+            if(real.isEmpty()) return null;
+            return real.get(0);
+        } else {
+            return fakeCheckpoint.get(0);
+        }
+    }
+
+    public Checkpoint nextCheckpointTarget2(List<Checkpoint> checkpoints){
+        Ship ship = jeu.getShip();
+        List<Checkpoint> realOrFalse = realOrFakeCheckpoint(checkpoints);
+        if( realOrFalse==null || realOrFalse.isEmpty()) return null;
+        Checkpoint checkpointCurrent = realOrFalse.get(0);
+        while(isShipInCheckpoint(ship,checkpointCurrent)){
+            realOrFalse.remove(checkpointCurrent);
+            realOrFalse = realOrFakeCheckpoint(checkpoints);
+            if(realOrFalse==null || realOrFalse.isEmpty()) return null;
+            checkpointCurrent = realOrFalse.get(0);
+        }
+        return checkpointCurrent;
+    }
+
+    private List<Checkpoint> realOrFakeCheckpoint(List<Checkpoint> checkpoints) {
+        if(fakeCheckpoint.isEmpty()){
+            System.out.println("REAL");
+            if(checkpoints.isEmpty()) return null;
+            return checkpoints;
+        } else {
+            System.out.println("FAKE");
+            return fakeCheckpoint;
+        }
+    }
+
 }

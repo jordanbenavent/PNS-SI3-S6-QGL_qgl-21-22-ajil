@@ -47,7 +47,7 @@ public class Goal {
      * Modifie la liste des checkpoints
      * @param checkpoints
      */
-    void setCheckpoints(List<Checkpoint> checkpoints) {
+    public void setCheckpoints(List<Checkpoint> checkpoints) {
         this.checkpoints = checkpoints;
     }
 

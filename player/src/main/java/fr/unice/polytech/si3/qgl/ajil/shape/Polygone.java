@@ -1,5 +1,8 @@
 package fr.unice.polytech.si3.qgl.ajil.shape;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Classe fille de Shape représentant un polygone
  *
@@ -17,7 +20,7 @@ public class Polygone extends Shape{
     private Point[] vertices;
 
     public Polygone(){
-        setType("polygone");
+        setType("polygon");
     }
 
     public Polygone(String type, double orientation, Point[] vertices){
@@ -29,6 +32,7 @@ public class Polygone extends Shape{
     /**
      * @return l'orientation du polygone
      */
+    @Override
     public double getOrientation() {
         return orientation;
     }
@@ -54,5 +58,28 @@ public class Polygone extends Shape{
      */
     public void setVertices(Point[] vertices) {
         this.vertices = vertices;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Polygone polygone = (Polygone) o;
+        return Double.compare(polygone.orientation, orientation) == 0 && Arrays.equals(vertices, polygone.vertices);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(orientation);
+        result = 31 * result + Arrays.hashCode(vertices);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Polygone{" +
+                "orientation=" + orientation +
+                ", vertices=" + Arrays.toString(vertices) +
+                '}';
     }
 }

@@ -10,7 +10,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 @JsonSubTypes({
         @JsonSubTypes.Type(value=Circle.class, name = "circle"),
         @JsonSubTypes.Type(value=Rectangle.class, name = "rectangle"),
-        @JsonSubTypes.Type(value=Polygone.class, name = "polygone")
+        @JsonSubTypes.Type(value=Polygone.class, name = "polygon")
 })
 
 /**
@@ -57,5 +57,9 @@ public class Shape {
         return "Shape{" +
                 "type='" + type + '\'' +
                 '}';
+    }
+
+    public double getOrientation(){
+        return 0;
     }
 }

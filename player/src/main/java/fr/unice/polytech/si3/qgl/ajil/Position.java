@@ -73,18 +73,6 @@ public class Position {
         this.y = y;
     }
 
-    /**
-     * @return un string composé des coordonnées x et y ainsi que l'orientation
-     */
-    @Override
-    public String toString() {
-        return "Position{" +
-                "x=" + x +
-                ", y=" + y +
-                ", orientation=" + orientation +
-                '}';
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,5 +84,20 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, orientation);
+    }
+
+    /**
+     * @return un string composé des coordonnées x et y ainsi que l'orientation
+     */
+
+
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                ", orientation=" + orientation +
+                '}';
     }
 }

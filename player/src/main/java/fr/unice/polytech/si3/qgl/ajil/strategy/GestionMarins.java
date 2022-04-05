@@ -30,8 +30,8 @@ public class GestionMarins {
     private final ArrayList<Sailor> rightSailors = new ArrayList<>();
 
     /**
-    * @return le marin attribué au gouvernail
-    * */
+     * @return le marin attribué au gouvernail
+     * */
     public Sailor getBarreur() {
         return stratData.barreur;
     }
@@ -122,8 +122,8 @@ public class GestionMarins {
     }
 
     /*
-    * Trouve le marin le plus proche du gouvernail et le déplace vers celui-ci
-    */
+     * Trouve le marin le plus proche du gouvernail et le déplace vers celui-ci
+     */
     public void attribuerBarreur() {
         List<Sailor> sailors = stratData.jeu.getSailors();
         Entity rudder = stratData.jeu.getShip().getRudder();

@@ -129,9 +129,11 @@ public class Test {
         // System.out.println(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));*/
         Checkpoint test = null;
         System.out.println(test);
-
-
-
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(1); arrayList.add(2);
+        System.out.println(arrayList);
+        arrayList.remove((Integer) 3);
+        System.out.println(arrayList);
     }
 
 }

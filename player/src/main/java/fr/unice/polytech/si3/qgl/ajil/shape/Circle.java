@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.shape;
 
+import java.util.Objects;
+
 /**
  * Classe fille de Shape représentant un cercle
  *
@@ -39,9 +41,25 @@ public class Circle extends Shape{
         this.radius = radius;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Circle circle = (Circle) o;
+        return Double.compare(circle.radius, radius) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(radius);
+    }
+
     /**
      * @return un string composé du rayon du cercle
      */
+
+
+
     @Override
     public String toString() {
         return super.toString() + "Circle{" +

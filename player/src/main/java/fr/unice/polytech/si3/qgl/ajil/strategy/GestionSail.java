@@ -39,14 +39,14 @@ public class GestionSail {
             if (result <= RANGE && result >= -RANGE) {
                 stratData.actions.add(lift);
                 lifted = true;
-                LOGGER.add("Voile UP");
+                //LOGGER.add("Voile UP");
             } else {
                 stratData.actions.add(lower);
                 lifted = false;
-                LOGGER.add("Voile DOWN");
+                //LOGGER.add("Voile DOWN");
             }
         } else {
-            LOGGER.add("Pas de Sailer Manager");
+            //LOGGER.add("Pas de Sailer Manager");
         }
     }
 

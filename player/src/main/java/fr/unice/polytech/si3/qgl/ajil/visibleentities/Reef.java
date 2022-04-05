@@ -9,6 +9,11 @@ public class Reef extends VisibleEntitie{
         setType("reef");
     }
     public Reef(String type, Position position, Shape shape) {
-        super(type, position, shape);
+        super(type, position, shape, VisibleEntities.REEF);
+    }
+
+    @Override
+    public VisibleEntitie copy(){
+        return new Reef(this.getType(), this.getPosition(), this.getShape());
     }
 }

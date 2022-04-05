@@ -19,10 +19,11 @@ public class VisibleEntitie {
     private String type;
     private Position position;
     private Shape shape;
+    private VisibleEntities typeEntity;
 
     public VisibleEntitie(){}
 
-    public VisibleEntitie(String type, Position position, Shape shape){
+    public VisibleEntitie(String type, Position position, Shape shape, VisibleEntities visibleEntities){
         this.type=type;
         this.position=position;
         this.shape=shape;
@@ -52,6 +53,14 @@ public class VisibleEntitie {
         this.shape = shape;
     }
 
+    public VisibleEntities getTypeEntity() {
+        return typeEntity;
+    }
+
+    public void setTypeEntity(VisibleEntities typeEntity) {
+        this.typeEntity = typeEntity;
+    }
+
     @Override
     public String toString() {
         return "VisibleEntitie{" +
@@ -59,5 +68,9 @@ public class VisibleEntitie {
                 ", position=" + position +
                 ", shape=" + shape +
                 '}';
+    }
+
+    public VisibleEntitie copy(){
+        return new VisibleEntitie(type,position, shape,typeEntity);
     }
 }
