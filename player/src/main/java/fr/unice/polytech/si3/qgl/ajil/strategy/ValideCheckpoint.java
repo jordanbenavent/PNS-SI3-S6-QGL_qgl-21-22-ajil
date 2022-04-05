@@ -8,7 +8,7 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 public class ValideCheckpoint {
 
     protected Game jeu;

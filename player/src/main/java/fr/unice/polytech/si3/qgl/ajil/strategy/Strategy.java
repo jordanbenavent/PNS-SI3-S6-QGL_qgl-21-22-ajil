@@ -119,7 +119,7 @@ public class Strategy {
         Checkpoint c;
         // d'abord on place le Barreur
         if (!gestionMarins.isPlacementBarreur()) {
-            gestionMarins.setCoxswain();
+            gestionMarins.attribuerBarreur();
         }
         // ensuite on place le marin responsable de la voile
         if (!gestionMarins.isPlacementSailManagers()) {
@@ -166,7 +166,7 @@ public class Strategy {
         c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
 
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
-        gestionMarins.rowingAccordingToSpeed(deplacement);
+        gestionMarins.ramerSelonVitesse(deplacement);
         Ship ship = stratData.jeu.getShip();
         Wind wind = stratData.jeu.getWind();
         gestionSail.putSail(ship, wind);

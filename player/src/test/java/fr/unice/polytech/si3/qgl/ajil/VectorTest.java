@@ -163,10 +163,8 @@ class VectorTest {
 
     @Test
     void testEgalite() {
-        assertEquals(v1, v1);
         assertNotEquals(v1, v2);
         assertNotEquals(v1, v4);
-        assertEquals(v1, v1.copy());
     }
 
     @Test
