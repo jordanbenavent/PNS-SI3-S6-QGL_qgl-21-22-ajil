@@ -62,9 +62,9 @@ public class ObstacleDetection {
     public ArrayList<Segment> createSegments(Point[] points, int size) {
         ArrayList<Segment> resolution = new ArrayList<Segment>();
         for (int i = 0; i < size - 1; i++) {
-            resolution.add(new Segment(points[i].getX(), points[i].getY(), points[i + 1].getX(), points[i + 1].getY()));
+            resolution.add(new Segment(points[i], points[i + 1]));
         }
-        resolution.add(new Segment(points[size - 1].getX(), points[size - 1].getY(), points[0].getX(), points[0].getY()));
+        resolution.add(new Segment(points[size - 1], points[0]));
         return resolution;
     }
 

@@ -17,25 +17,37 @@ public class IntersectionTest {
 
         @Test
         void segmentIntersectionTest() {
-                Segment s1 = new Segment(-1.14, 3.39, -1.14, 4.39);
-                Segment s2 = new Segment(0.48, 1.15, 4, 2.35);
-                assertNull(Intersection.segmentIntersection(s1, s2));
+                Point a = new Point(-1.14, 3.39);
+                Point b = new Point(-1.14, 4.39);
+                Point c = new Point(0.48, 1.15);
+                Point d = new Point(4, 2.35);
+                Segment ab = new Segment(a, b);
+                Segment ac = new Segment(c, d);
+                assertNull(Intersection.segmentIntersection(ab, ac));
         }
 
 
         // collinear case
         @Test
         void segmentIntersectionTestCollinear() {
-                Segment s1 = new Segment(1, 1, 4, 4);
-                Segment s2 = new Segment(4, 4, 1, 1);
+                Point a = new Point(1, 1);
+                Point b = new Point(4, 4);
+                Point c = new Point(4, 4);
+                Point d = new Point(1, 1);
+                Segment s1 = new Segment(a, b);
+                Segment s2 = new Segment(c, d);
                 assertNull(Intersection.segmentIntersection(s1, s2));
         }
 
         // intersection
         @Test
         void segmentIntersectionTestIntersectNormalCase() {
-                Segment s1 = new Segment(1, 1, 4, 3);
-                Segment s2 = new Segment(2, 1, 4, 4);
+                Point a = new Point(1, 1);
+                Point b = new Point(4, 3);
+                Point c = new Point(2, 1);
+                Point d = new Point(4, 4);
+                Segment s1 = new Segment(a, b);
+                Segment s2 = new Segment(c, d);
                 Point res = new Point(2.8, 2.2);
                 assertEquals(res, Intersection.segmentIntersection(s1, s2));
         }
