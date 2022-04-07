@@ -96,6 +96,10 @@ public class AStar {
 
     public void process(){
         // on ajoute le placement de départ dans openCells
+        System.out.println("Grid i length : " + grid.length);
+        System.out.println("Grid j length : " + grid[0].length);
+        System.out.println("Algo AStar startI : " + startJ);
+        System.out.println("Algo AStar startJ : " + startI);
         openCells.add(grid[startI][startJ]);
         Cell current;
 
