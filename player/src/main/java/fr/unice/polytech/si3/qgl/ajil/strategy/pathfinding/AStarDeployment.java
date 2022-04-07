@@ -84,17 +84,9 @@ public class AStarDeployment {
         System.out.println((int) sizeXY.getX());
         System.out.println((int) sizeXY.getY());
 
-        System.out.println("abcdefg");
-        System.out.println("obs getX " + obstacleDetection.getsX());
-        System.out.println("obs getY " + obstacleDetection.getsY());
-
-
         AStar astar = new AStar((int) sizeXY.getX(), (int) sizeXY.getY(), obstacleDetection.getsX(), obstacleDetection.getsY(),
                 obstacleDetection.geteX(), obstacleDetection.geteY(), cellsB);
 
-        System.out.println("StartX: " + obstacleDetection.getsX() + ", StartY: " + obstacleDetection.getsY());
-        System.out.println("EndX: " + obstacleDetection.geteX() + ", EndY: " + obstacleDetection.geteY());
-        astar.display();
         System.out.println("StartX: " + obstacleDetection.getsX() + ", StartY: " + obstacleDetection.getsY());
         System.out.println("EndX: " + obstacleDetection.geteX() + ", EndY: " + obstacleDetection.geteY());
 
