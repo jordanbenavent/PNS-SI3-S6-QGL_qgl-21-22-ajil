@@ -5,21 +5,21 @@ import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CalculPoints {
 
-    public static ArrayList<Point> calculExtremityPoints(Shape shape, Position position) {
-        if (shape instanceof Polygone) {
-            return calculPointPolygon(shape, position);
+    public static List<Point> calculExtremityPoints(Shape shape, Position position) {
+        switch (shape.getType()) {
+            case "polygon":
+                return calculPointPolygon(shape, position);
+            case "rectangle":
+                final double largeur = ((Rectangle) shape).getWidth();
+                final double longueur = ((Rectangle) shape).getHeight();
+                return calculPointGeneric(shape, position, largeur / 2, longueur / 2);
+            default:
+                return calculPointGeneric(shape, position, 0, 0);
         }
-        double largeur = 0;
-        double longueur = 0;
-        if (shape instanceof Rectangle) {
-            largeur = ((Rectangle) shape).getWidth();
-            longueur = ((Rectangle) shape).getHeight();
-        }
-        double angle = CalculPoints.calculAngleTotal(shape, position);
-        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
     }
 
     private static double calculAngleTotal(Shape shape, Position pos) {
@@ -35,8 +35,8 @@ public class CalculPoints {
         return 0;
     }
 
-    private static ArrayList<Point> calculPointPolygon(Shape shape, Position pos) {
-        ArrayList<Point> points = new ArrayList<>();
+    private static List<Point> calculPointPolygon(Shape shape, Position pos) {
+        List<Point> points = new ArrayList<>();
         Point[] pointPolygone = ((Polygone) shape).getVertices();
         double angleRotation = -calculAngleTotal(shape, pos);
         double cosAngle = Math.cos(angleRotation);
@@ -50,11 +50,12 @@ public class CalculPoints {
         return points;
     }
 
-    private static ArrayList<Point> calculPointGeneric(double angle, Position position, double la, double lo) {
+    private static List<Point> calculPointGeneric(Shape shape, Position position, double la, double lo) {
         ArrayList<Point> points = new ArrayList<>();
-        Point centre = new Point(position.getX(), position.getY());
-        double sinus = Math.sin(angle);
-        double cosinus = Math.cos(angle);
+        final double angle = CalculPoints.calculAngleTotal(shape, position);
+        final Point centre = new Point(position.getX(), position.getY());
+        final double sinus = Math.sin(angle);
+        final double cosinus = Math.cos(angle);
         points.add(new Point(la * cosinus + lo * sinus, -la * sinus + lo * cosinus).addPoint(centre));
         points.add(new Point(-la * cosinus + lo * sinus, la * sinus + lo * cosinus).addPoint(centre));
         points.add(new Point(la * cosinus - lo * sinus, -la * sinus - lo * cosinus).addPoint(centre));
@@ -62,9 +63,9 @@ public class CalculPoints {
         return points;
     }
 
-    public static ArrayList<VisibleEntitie> entitiesToEntitiesPolygone(ArrayList<VisibleEntitie> entities) {
-        ArrayList<VisibleEntitie> resultat = new ArrayList<>();
-        ArrayList<Point> pointShape;
+    public static List<VisibleEntitie> entitiesToEntitiesPolygone(List<VisibleEntitie> entities) {
+        List<VisibleEntitie> resultat = new ArrayList<>();
+        List<Point> pointShape;
         for (VisibleEntitie entitie : entities) {
             if (entitie.getShape() instanceof Circle) {
                 resultat.add(entitie);

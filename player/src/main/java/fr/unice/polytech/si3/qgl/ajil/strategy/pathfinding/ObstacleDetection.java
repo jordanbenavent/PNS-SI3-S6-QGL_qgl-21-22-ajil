@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ObstacleDetection {
     public static final int margin = 250;
@@ -35,7 +36,7 @@ public class ObstacleDetection {
     }
 
     // Pour des récifs de type Rectangle ou Polygone
-    public ArrayList<Segment> reefToSegments(VisibleEntitie reef) {
+    public List<Segment> reefToSegments(VisibleEntitie reef) {
         if (reef.getShape().getType().equals("polygone")) {
             Point[] points = ((Polygone) reef.getShape()).getVertices();
             int size = points.length;
@@ -60,8 +61,8 @@ public class ObstacleDetection {
     }
 
     // Prend un ensemble de points du polygone et crée les segments correspondants
-    public ArrayList<Segment> createSegments(Point[] points, int size) {
-        ArrayList<Segment> resolution = new ArrayList<Segment>();
+    public List<Segment> createSegments(Point[] points, int size) {
+        List<Segment> resolution = new ArrayList<Segment>();
         for (int i = 0; i < size - 1; i++) {
             resolution.add(new Segment(points[i], points[i + 1]));
         }
@@ -110,8 +111,8 @@ public class ObstacleDetection {
     }
 
     // Traitement de la grille = grisement des cellules bloquantes
-    public ArrayList<Point> gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs) {
-        ArrayList<Segment> reefSegments = new ArrayList<Segment>();
+    public ArrayList<Point> gridProcess(GridCell[][] grid, List<VisibleEntitie> reefs) {
+        List<Segment> reefSegments = new ArrayList<Segment>();
         ArrayList<Point> blockedCells = new ArrayList<Point>();
         for (VisibleEntitie reef : reefs) {
             reefSegments.addAll(reefToSegments(reef));
