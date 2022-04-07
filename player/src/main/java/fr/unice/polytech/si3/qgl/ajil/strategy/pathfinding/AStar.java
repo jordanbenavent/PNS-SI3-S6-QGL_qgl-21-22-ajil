@@ -74,9 +74,13 @@ public class AStar {
     }
 
     private void addObstaclesSurCell(int i, int j) {
-        if ( i != startI && i != endJ && j != startJ && j != endJ ){
-            grid[i][j] = null;
+        if ( i == startI && j == startJ ){
+            return;
         }
+        if (i == endI && j == endJ){
+            return;
+        }
+        grid[i][j] = null;
     }
 
     public void updateCostIfNeeded(Cell currentCell, Cell target, int cost){
