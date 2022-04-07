@@ -10,15 +10,17 @@ import java.util.List;
 public class CalculPoints {
 
     public static List<Point> calculExtremityPoints(Shape shape, Position position) {
+        double longueur = 0;
+        double largeur = 0;
+
         switch (shape.getType()) {
             case "polygon":
-                return calculPointPolygon(shape, position);
+                return calculPointPolygon((Polygone) shape, position);
             case "rectangle":
-                final double largeur = ((Rectangle) shape).getWidth();
-                final double longueur = ((Rectangle) shape).getHeight();
-                return calculPointGeneric(shape, position, largeur / 2, longueur / 2);
+                largeur = ((Rectangle) shape).getWidth();
+                longueur = ((Rectangle) shape).getHeight();
             default:
-                return calculPointGeneric(shape, position, 0, 0);
+                return calculPointGeneric(shape, position, largeur / 2, longueur / 2);
         }
     }
 
@@ -30,10 +32,10 @@ public class CalculPoints {
         };
     }
 
-    private static List<Point> calculPointPolygon(Shape shape, Position pos) {
+    private static List<Point> calculPointPolygon(Polygone poly, Position pos) {
         List<Point> points = new ArrayList<>();
-        Point[] pointPolygone = ((Polygone) shape).getVertices();
-        double angleRotation = -calculAngleTotal(shape, pos);
+        Point[] pointPolygone = poly.getVertices();
+        double angleRotation = -calculAngleTotal(poly, pos);
         double cosAngle = Math.cos(angleRotation);
         double sinAngle = Math.sin(angleRotation);
         for (Point point : pointPolygone) {
