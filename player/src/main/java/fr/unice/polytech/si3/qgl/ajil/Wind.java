@@ -31,19 +31,19 @@ public class Wind {
     }
 
     /**
-     * @return la force du vent
-     */
-    public double getStrength() {
-        return strength;
-    }
-
-    /**
      * Modifie l'orientation du vent
      *
      * @param orientation
      */
     public void setOrientation(double orientation) {
         this.orientation = orientation;
+    }
+
+    /**
+     * @return la force du vent
+     */
+    public double getStrength() {
+        return strength;
     }
 
     /**
