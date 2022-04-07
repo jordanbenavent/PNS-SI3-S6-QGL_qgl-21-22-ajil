@@ -3,10 +3,7 @@ package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class AStar {
 
@@ -38,10 +35,8 @@ public class AStar {
     public AStar(int width, int height, int si, int sj, int ei, int ej, int[][] obstacles) {
         grid = new Cell[width][height];
         closedCells = new boolean[width][height];
-        openCells = new PriorityQueue<Cell>(
-                (Cell c1, Cell c2) -> {
-                    return c1.finalCost < c2.finalCost ? -1 : c1.finalCost > c2.finalCost ? 1 : 0 ;
-                }
+        openCells = new PriorityQueue<>(
+                Comparator.comparingInt((Cell c) -> c.finalCost)
         );
 
         startCell(si, sj);
