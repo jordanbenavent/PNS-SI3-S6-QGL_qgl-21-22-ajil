@@ -102,6 +102,14 @@ public class AStar {
         System.out.println("startI "+startI);
         System.out.println("startJ "+startJ);
         System.out.println("on a "+ grid[startI][startJ]);
+        System.out.println("grid existe ? "+grid.length);
+        System.out.println("Lentgh Colonne i  ? "+grid[startI].length);
+        System.out.println("Length Colonne j  ? "+grid[startJ].length);
+
+
+        ;
+
+
         openCells.add(grid[startI][startJ]);
         System.out.println("On a initialisé le placement de depart dans grille");
         Cell current;
