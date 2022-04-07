@@ -96,54 +96,69 @@ public class AStar {
 
     public void process(){
         // on ajoute le placement de départ dans openCells
+        System.out.println("coucou");
+        System.out.println("startI "+startI);
+        System.out.println("startJ "+startJ);
+        System.out.println("on a "+ grid[startI][startJ]);
         openCells.add(grid[startI][startJ]);
+        System.out.println("On a initialisé le placement de depart dans grille");
         Cell current;
 
         while (true){
             current = openCells.poll();
              if (current == null){
+                 System.out.println("NULLLLL");
                  break;
              }
 
              closedCells[current.i][current.j] = true;
 
              if (current.equals(grid[endI][endJ])){
+                 System.out.println("On arrive a la fin");
                  return;
              }
              Cell target;
              if(current.i -1 >= 0){
                  target = grid[current.i -1][current.j];
+                 System.out.println("NULL1");
                  updateCostIfNeeded(current, target, current.finalCost + V_H_COST);
 
                  if (current.j -1 >= 0){
+                     System.out.println("NULL2");
                      target = grid[current.i -1][current.j - 1];
                      updateCostIfNeeded(current, target, current.finalCost + DIAGONAL_COST);
                  }
                  if (current.j + 1 < grid[0].length){
+                     System.out.println("NULL3");
                      target = grid[current.i -1][current.j + 1];
                      updateCostIfNeeded(current, target, current.finalCost + DIAGONAL_COST);
                  }
              }
              if (current.j - 1 >= 0){
+                 System.out.println("NULL4");
                  target = grid[current.i][current.j - 1];
                  updateCostIfNeeded(current, target, current.finalCost + V_H_COST);
              }
 
             if (current.j + 1 < grid[0].length){
+                System.out.println("NULL5");
                 target = grid[current.i][current.j + 1];
                 updateCostIfNeeded(current, target, current.finalCost + V_H_COST);
             }
 
             if (current.i + 1 < grid.length){
+                System.out.println("NULL6");
                 target = grid[current.i + 1][current.j];
                 updateCostIfNeeded(current, target, current.finalCost + V_H_COST);
 
                 if (current.j - 1 >= 0){
+                    System.out.println("NULL7");
                     target = grid[current.i + 1][current.j - 1];
                     updateCostIfNeeded(current, target, current.finalCost + DIAGONAL_COST);
                 }
 
                 if (current.j + 1 < grid[0].length){
+                    System.out.println("NULL8");
                     target = grid[current.i + 1][current.j + 1];
                     updateCostIfNeeded(current, target, current.finalCost + DIAGONAL_COST);
                 }
@@ -202,6 +217,7 @@ public class AStar {
     public ArrayList<Position> obtenirLeChemin(){
         chemin = new ArrayList<>();
         process();
+        System.out.println("Process bien passe");
         if (closedCells[endI][endJ]){
             Cell current = grid[endI][endJ];
             chemin.add(new Position((double) current.i, (double) current.j, 0));
@@ -213,6 +229,7 @@ public class AStar {
             }
         } else {
             LOGGER.add("Il n'y a pas de Chemin. ");
+            System.out.println("On na pas trouver de chemin");
         }
         Collections.reverse(chemin);
         return chemin;
