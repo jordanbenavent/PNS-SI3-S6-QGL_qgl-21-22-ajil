@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
+import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
