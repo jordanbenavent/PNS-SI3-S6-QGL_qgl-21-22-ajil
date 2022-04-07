@@ -48,9 +48,14 @@ public class AStar {
         // init heuristic et cells
         for (int i = 0; i < grid.length; i++){
             for (int j = 0; j < grid[i].length ; j++){
+                if(i==1 && j==1){
+                    System.out.println("cas 1 et 1");
+                }
                 grid[i][j] = new Cell(i, j);
                 grid[i][j].heuristicCost = Math.abs(i - endI) + Math.abs( j - endJ);
                 grid[i][j].solution = false;
+
+                System.out.println("i = "+i+" j: "+j +"et on a grid "+grid[i][j]);
             }
         }
 
