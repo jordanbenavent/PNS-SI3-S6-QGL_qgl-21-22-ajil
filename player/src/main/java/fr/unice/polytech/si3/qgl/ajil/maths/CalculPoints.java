@@ -9,21 +9,34 @@ import java.util.List;
 
 public class CalculPoints {
 
-    public static List<Point> calculExtremityPoints(Shape shape, Position position) {
-        double longueur = 0;
-        double largeur = 0;
-
-        switch (shape.getType()) {
-            case "polygon":
-                return calculPointPolygon((Polygone) shape, position);
-            case "rectangle":
-                largeur = ((Rectangle) shape).getWidth();
-                longueur = ((Rectangle) shape).getHeight();
-            default:
-                return calculPointGeneric(shape, position, largeur / 2, longueur / 2);
-        }
+    private CalculPoints() {
     }
 
+    /**
+     * HitBox calculation depending on the shape
+     *
+     * @param shape    Shape object can be rectangular, polygonal, circular...
+     * @param position Position of the object X and Y
+     * @return An efficient list of points representing the shape in the space
+     */
+    public static List<Point> calculExtremityPoints(Shape shape, Position position) {
+        if (shape instanceof Polygone) {
+            return calculPointPolygon(shape, position);
+        }
+        double largeur = 0;
+        double longueur = 0;
+        if (shape instanceof Rectangle) {
+            largeur = ((Rectangle) shape).getWidth();
+            longueur = ((Rectangle) shape).getHeight();
+        }
+        double angle = CalculPoints.calculAngleTotal(shape, position);
+        return calculPointGeneric(angle, position, longueur / 2, largeur / 2);    }
+
+    /**
+     * @param shape Shape orientation is needed for polygone shape
+     * @param pos   Position object to get the current orientation
+     * @return Angle in radians
+     */
     private static double calculAngleTotal(Shape shape, Position pos) {
         return switch (shape.getType()) {
             case "circle" -> pos.getOrientation();
@@ -32,10 +45,10 @@ public class CalculPoints {
         };
     }
 
-    private static List<Point> calculPointPolygon(Polygone poly, Position pos) {
+    private static List<Point> calculPointPolygon(Shape shape, Position pos) {
         List<Point> points = new ArrayList<>();
-        Point[] pointPolygone = poly.getVertices();
-        double angleRotation = -calculAngleTotal(poly, pos);
+        Point[] pointPolygone = ((Polygone) shape).getVertices();
+        double angleRotation = -calculAngleTotal(shape, pos);
         double cosAngle = Math.cos(angleRotation);
         double sinAngle = Math.sin(angleRotation);
         for (Point point : pointPolygone) {
@@ -47,32 +60,53 @@ public class CalculPoints {
         return points;
     }
 
-    private static List<Point> calculPointGeneric(Shape shape, Position position, double la, double lo) {
+    private static ArrayList<Point> calculPointGeneric(double angle, Position position, double lo, double la) {
         ArrayList<Point> points = new ArrayList<>();
-        final double angle = CalculPoints.calculAngleTotal(shape, position);
-        final Point centre = new Point(position.getX(), position.getY());
-        final double sinus = Math.sin(angle);
-        final double cosinus = Math.cos(angle);
-        points.add(new Point(la * cosinus + lo * sinus, -la * sinus + lo * cosinus).addPoint(centre));
-        points.add(new Point(-la * cosinus + lo * sinus, la * sinus + lo * cosinus).addPoint(centre));
-        points.add(new Point(la * cosinus - lo * sinus, -la * sinus - lo * cosinus).addPoint(centre));
-        points.add(new Point(-la * cosinus - lo * sinus, la * sinus - lo * cosinus).addPoint(centre));
+        Point centre = new Point(position.getX(), position.getY());
+        double sinus = Math.sin(-angle);
+        double cosinus = Math.cos(-angle);
+        points.add(new Point(lo * cosinus + la * sinus, -lo * sinus + la * cosinus).addPoint(centre));
+        points.add(new Point(-lo * cosinus + la * sinus, lo * sinus + la * cosinus).addPoint(centre));
+        points.add(new Point(-lo * cosinus - la * sinus, lo * sinus - la * cosinus).addPoint(centre));
+        points.add(new Point(lo * cosinus - la * sinus, -lo * sinus - la * cosinus).addPoint(centre));
         return points;
+
     }
 
-    public static List<VisibleEntitie> entitiesToEntitiesPolygone(List<VisibleEntitie> entities) {
+
+    public static List<VisibleEntitie> entitiesToEntitiesPolygone(List<VisibleEntitie> entities, int widthShip) {
         List<VisibleEntitie> resultat = new ArrayList<>();
         List<Point> pointShape;
+        List<Point> pointShape2;
+        List<Point> pointShape3;
         for (VisibleEntitie entitie : entities) {
             if (entitie.getShape() instanceof Circle) {
                 resultat.add(entitie);
                 continue;
             }
             pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
+            pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 200);
             VisibleEntitie tmp = entitie.copy();
-            tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[pointShape.size()])));
+            VisibleEntitie tmp2 = entitie.copy();
+            tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[0])));
+            tmp2.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape2.toArray(new Point[0])));
             resultat.add(tmp);
+            resultat.add(tmp2);
         }
         return resultat;
+    }
+
+    public static List<Point> calculExtremityPointsBigger(Shape shape, Position position, double widthShip) {
+        if (shape instanceof Polygone) {
+            return calculPointPolygon(shape, position);
+        }
+        double largeur = 0;
+        double longueur = 0;
+        if (shape instanceof Rectangle) {
+            largeur = ((Rectangle) shape).getWidth() + (widthShip / 2);
+            longueur = ((Rectangle) shape).getHeight() + (widthShip / 2);
+        }
+        double angle = CalculPoints.calculAngleTotal(shape, position);
+        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
     }
 }
