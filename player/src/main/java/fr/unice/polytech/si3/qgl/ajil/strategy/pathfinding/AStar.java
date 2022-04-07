@@ -69,6 +69,8 @@ public class AStar {
     }
 
     private void startCell(int si, int sj) {
+        System.out.println("bonsoir");
+        System.out.println("on start cell avec si :"+si +" et sj avec "+sj);
         this.startI = si;
         this.startJ = sj;
     }
