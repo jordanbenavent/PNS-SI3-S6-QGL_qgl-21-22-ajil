@@ -38,6 +38,12 @@ public class ValideCheckpoint {
         List<Checkpoint> realOrFalse = realOrFakeCheckpoint(checkpoints);
         if( realOrFalse==null || realOrFalse.isEmpty()) return null;
         Checkpoint checkpointCurrent = realOrFalse.get(0);
+        if (fakeCheckpoint.contains(checkpointCurrent)){
+            realOrFalse.remove(checkpointCurrent);
+            realOrFalse = realOrFakeCheckpoint(checkpoints);
+            if(realOrFalse==null || realOrFalse.isEmpty()) return null;
+            checkpointCurrent = realOrFalse.get(0);
+        }
         while(isShipInCheckpoint(ship,checkpointCurrent)){
             realOrFalse.remove(checkpointCurrent);
             realOrFalse = realOrFakeCheckpoint(checkpoints);
