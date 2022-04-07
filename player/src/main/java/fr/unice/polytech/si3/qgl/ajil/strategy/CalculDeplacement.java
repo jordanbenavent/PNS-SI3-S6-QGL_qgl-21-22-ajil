@@ -51,7 +51,7 @@ public class CalculDeplacement {
         final ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, checkpoint);
         Set<Double> angles_possibles = ship.getTurnRange();
         angles_possibles.remove(0.0);
-        final double angle_maximum = quelEstLangleMaximum(angles_possibles);
+        final double angle_maximum = getMaxAngle(angles_possibles);
         return getDeplacement(nbr_rames, distance, angle, futur_angle, angles_possibles, angle_maximum);
     }
 
@@ -104,7 +104,7 @@ public class CalculDeplacement {
             if (angles_possibles.size() == 0) return deplacement;
         }
         while (angles_possibles.size() != 0) {
-            Double new_angle_maximum = quelEstLangleMaximum(angles_possibles);
+            Double new_angle_maximum = getMaxAngle(angles_possibles);
             if (Math.abs(angle) < angle_maximum && Math.abs(angle) >= new_angle_maximum) {
                 // Faire une rotation du nouvel angle maximum
                 deplacement.setVitesse(vitesseAdapte(new_angle_maximum, nbr_rames)); // Faire une méthode qui calcule la vitesse minimum pour tourner d'un angle précis avec
@@ -363,14 +363,8 @@ public class CalculDeplacement {
      * @param angles Une liste comportant des angles sous forme décimal / radian
      * @return l'angle avec la valeur la plus élevée
      */
-    public Double quelEstLangleMaximum(Set<Double> angles) {
-        double max = -1;
-        for (Double a : angles) {
-            if (Math.abs(a) > max) {
-                max = a;
-            }
-        }
-        return max;
+    public Double getMaxAngle(Set<Double> angles) {
+        return angles.stream().mapToDouble(Double::doubleValue).max().isPresent() ? angles.stream().mapToDouble(Double::doubleValue).max().getAsDouble() : 0.0;
     }
 
     /**

@@ -132,7 +132,7 @@ public class Strategy {
         gestionMarins.repartirLesMarins();
 
         if (!gestionMarins.isPlacementInit()) {
-            gestionMarins.placerSurRames();
+            gestionMarins.placeOnOars();
         }
 
         //------------------Fin placement marin, début actions deplacement

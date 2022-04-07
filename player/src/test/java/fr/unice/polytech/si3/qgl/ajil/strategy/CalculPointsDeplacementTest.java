@@ -93,11 +93,11 @@ class CalculDeplacementTest {
         jeu.getShip().getEntities().add(new OarEntity(1, 1, "oar"));
         jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
         Set<Double> angles = ship.getTurnRange();
-        Assertions.assertEquals(Math.PI / 2, strategie.getCalculDeplacement().quelEstLangleMaximum(angles));
+        Assertions.assertEquals(Math.PI / 2, strategie.getCalculDeplacement().getMaxAngle(angles));
         // On supprime l'angle PI/2 et -PI/2
         angles.remove(Math.PI / 2);
         angles.remove(-Math.PI / 2);
-        Assertions.assertEquals(Math.PI / 4, strategie.getCalculDeplacement().quelEstLangleMaximum(angles));
+        Assertions.assertEquals(Math.PI / 4, strategie.getCalculDeplacement().getMaxAngle(angles));
     }
 
     @Test

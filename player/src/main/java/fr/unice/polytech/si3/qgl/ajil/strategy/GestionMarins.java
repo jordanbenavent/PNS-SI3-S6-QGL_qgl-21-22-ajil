@@ -258,7 +258,7 @@ public class GestionMarins {
     /**
      * Ajoute à la liste d'actions les déplacements que doivent effectuer les marins pour se placer sur les rames
      */
-    public void placerSurRames() {
+    public void placeOnOars() {
         List<Entity> oars = stratData.jeu.getShip().getOars();
         List<Entity> leftOars = new ArrayList<>();
         List<Entity> rightOars = new ArrayList<>();
