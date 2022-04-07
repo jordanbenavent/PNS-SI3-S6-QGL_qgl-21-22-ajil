@@ -1,11 +1,11 @@
-package fr.unice.polytech.si3.qgl.ajil.strategy.evitement;
+package fr.unice.polytech.si3.qgl.ajil.strategy.avoidance;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //Mockito
 
