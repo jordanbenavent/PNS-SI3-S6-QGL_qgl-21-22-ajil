@@ -20,7 +20,7 @@ public class GridCell {
         this.segments = createGridSegments();
     }
 
-    public List<Segment> createGridSegments() {
+    public ArrayList<Segment> createGridSegments() {
         Point[] points = new Point[4];
         double delta = size / 2;
         ObstacleDetection obstacleDetection = new ObstacleDetection();
@@ -32,7 +32,7 @@ public class GridCell {
         return obstacleDetection.createSegments(points, points.length);
     }
 
-    public void intersection(List<Segment> segmentsToCheck) {
+    public void intersection(ArrayList<Segment> segmentsToCheck) {
         for (Segment seg : segments) {
             for (Segment segToCheck : segmentsToCheck) {
                 if (Intersection.segmentIntersection(seg, segToCheck) != null) {
@@ -61,9 +61,6 @@ public class GridCell {
 
     @Override
     public String toString() {
-        return "GridCell{" +
-                "center=" + center.toString() +
-                ", blocked=" + blocked +
-                '}';
+        return "GridCell{" + "center=" + center.toString() + ", blocked=" + blocked + '}';
     }
 }
