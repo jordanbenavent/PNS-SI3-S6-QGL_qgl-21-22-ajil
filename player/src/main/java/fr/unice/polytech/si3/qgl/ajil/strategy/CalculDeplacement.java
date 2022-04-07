@@ -218,9 +218,8 @@ public class CalculDeplacement {
             points_intersection.add(new Point(x, y));
         }
         else if (delta == 0) {
-            double x = a;
             double y = -B / (2*A);
-            points_intersection.add(new Point(x, y));
+            points_intersection.add(new Point(a, y));
         }
         return points_intersection;
     }
