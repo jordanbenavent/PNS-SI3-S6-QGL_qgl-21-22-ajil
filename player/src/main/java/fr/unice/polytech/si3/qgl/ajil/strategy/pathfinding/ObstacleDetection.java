@@ -9,11 +9,11 @@ import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 import java.util.ArrayList;
 
 public class ObstacleDetection {
+    public static final int margin = 250;
     private int sX;
     private int sY;
     private int eX;
     private int eY;
-    public static final int margin = 250;
 
     public int getsX() {
         return sX;

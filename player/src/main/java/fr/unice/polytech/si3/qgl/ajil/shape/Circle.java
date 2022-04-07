@@ -10,18 +10,17 @@ import java.util.Objects;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Circle extends Shape{
+public class Circle extends Shape {
 
     private double radius;
 
-    public Circle(){
+    public Circle() {
         setType("circle");
     }
 
-    public Circle( String type, double radius){
+    public Circle(String type, double radius) {
         super(type);
         this.radius = radius;
     }
@@ -35,6 +34,7 @@ public class Circle extends Shape{
 
     /**
      * Modifie le rayon du cercle
+     *
      * @param radius
      */
     public void setRadius(double radius) {
@@ -59,11 +59,8 @@ public class Circle extends Shape{
      */
 
 
-
     @Override
     public String toString() {
-        return super.toString() + "Circle{" +
-                "radius=" + radius +
-                '}';
+        return super.toString() + "Circle{" + "radius=" + radius + '}';
     }
 }

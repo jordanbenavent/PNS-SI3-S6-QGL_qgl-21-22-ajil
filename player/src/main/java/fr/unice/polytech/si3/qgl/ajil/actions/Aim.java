@@ -8,10 +8,9 @@ package fr.unice.polytech.si3.qgl.ajil.actions;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Aim extends Action{
+public class Aim extends Action {
     public Aim(int sailorId, Actions type) {
         super(sailorId, type);
     }

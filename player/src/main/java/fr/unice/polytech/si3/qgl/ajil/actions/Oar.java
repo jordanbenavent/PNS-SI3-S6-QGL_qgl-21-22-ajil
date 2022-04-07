@@ -8,10 +8,9 @@ package fr.unice.polytech.si3.qgl.ajil.actions;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Oar extends Action{
+public class Oar extends Action {
     public Oar(int sailorId) {
         super(sailorId, Actions.OAR);
     }

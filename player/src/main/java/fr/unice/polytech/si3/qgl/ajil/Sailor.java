@@ -8,7 +8,6 @@ package fr.unice.polytech.si3.qgl.ajil;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Sailor {
@@ -18,8 +17,10 @@ public class Sailor {
     private int id;
     private String name;
 
-    public Sailor(){}
-    public Sailor(int x, int y, int id, String name){
+    public Sailor() {
+    }
+
+    public Sailor(int x, int y, int id, String name) {
         this.id = id;
         this.name = name;
         this.x = x;
@@ -35,6 +36,7 @@ public class Sailor {
 
     /**
      * Modifie la coordonnée en x du marin
+     *
      * @param x
      */
     void setX(int x) {
@@ -50,6 +52,7 @@ public class Sailor {
 
     /**
      * Modifie la coordonnée en y du marin
+     *
      * @param y
      */
     void setY(int y) {
@@ -65,6 +68,7 @@ public class Sailor {
 
     /**
      * Modifie l'id du marin
+     *
      * @param id
      */
     void setId(int id) {
@@ -80,6 +84,7 @@ public class Sailor {
 
     /**
      * Modifie le nom du marin
+     *
      * @param name
      */
     void setName(String name) {
@@ -88,10 +93,11 @@ public class Sailor {
 
     /**
      * Met à jour les coordonnés du marin
+     *
      * @param x
      * @param y
      */
-    public void updatePos(int x, int y){
+    public void updatePos(int x, int y) {
         this.x += x;
         this.y += y;
     }
@@ -101,11 +107,6 @@ public class Sailor {
      */
     @Override
     public String toString() {
-        return "Sailor{" +
-                "x=" + x +
-                ", y=" + y +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return "Sailor{" + "x=" + x + ", y=" + y + ", id=" + id + ", name='" + name + '\'' + '}';
     }
 }

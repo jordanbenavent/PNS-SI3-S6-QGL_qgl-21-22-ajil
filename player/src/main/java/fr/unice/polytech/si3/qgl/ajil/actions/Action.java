@@ -9,7 +9,6 @@ package fr.unice.polytech.si3.qgl.ajil.actions;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public abstract class Action {
@@ -17,7 +16,7 @@ public abstract class Action {
     private int sailorId;
     private Actions type;
 
-    Action (int sailorId, Actions type){
+    Action(int sailorId, Actions type) {
         this.sailorId = sailorId;
         this.type = type;
     }
@@ -30,14 +29,8 @@ public abstract class Action {
     }
 
     /**
-     * @return le type de l'action
-     */
-    public Actions getType() {
-        return type;
-    }
-
-    /**
      * Modifie l'id du marin qui fait l'action
+     *
      * @param sailorId
      */
     public void setSailorId(int sailorId) {
@@ -45,7 +38,15 @@ public abstract class Action {
     }
 
     /**
+     * @return le type de l'action
+     */
+    public Actions getType() {
+        return type;
+    }
+
+    /**
      * Modifie le type de l'action
+     *
      * @param type
      */
     public void setType(Actions type) {

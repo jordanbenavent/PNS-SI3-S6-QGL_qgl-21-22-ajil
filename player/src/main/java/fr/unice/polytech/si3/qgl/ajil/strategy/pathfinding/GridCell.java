@@ -19,19 +19,19 @@ public class GridCell {
 
     public ArrayList<Segment> createGridSegments() {
         Point[] points = new Point[4];
-        double delta = size/2;
+        double delta = size / 2;
         ObstacleDetection obstacleDetection = new ObstacleDetection();
-        points[0] = new Point(center.getX() - delta, center.getY() - delta );
-        points[1] = new Point(center.getX() - delta,center.getY() + delta );
-        points[2] = new Point(center.getX() + delta,center.getY() + delta );
-        points[3] = new Point(center.getX() + delta,center.getY() - delta );
+        points[0] = new Point(center.getX() - delta, center.getY() - delta);
+        points[1] = new Point(center.getX() - delta, center.getY() + delta);
+        points[2] = new Point(center.getX() + delta, center.getY() + delta);
+        points[3] = new Point(center.getX() + delta, center.getY() - delta);
 
         return obstacleDetection.createSegments(points, points.length);
     }
 
-    public void intersection(ArrayList<Segment> segmentsToCheck){
-        for (Segment seg : segments){
-            for ( Segment segToCheck : segmentsToCheck ){
+    public void intersection(ArrayList<Segment> segmentsToCheck) {
+        for (Segment seg : segments) {
+            for (Segment segToCheck : segmentsToCheck) {
                 if (Intersection.segmentIntersection(seg, segToCheck) != null) {
                     this.blocked = true;
                     return;
@@ -48,12 +48,12 @@ public class GridCell {
         return blocked;
     }
 
-    public boolean contains(Position pos){
-        double minx = center.getX()-size/2;
-        double maxx = center.getX()+size/2;
-        double miny = center.getY()-size/2;
-        double maxy = center.getY()+size/2;
-        return (pos.getX() >= minx && pos.getX()<maxx && pos.getY() >= miny && pos.getY() < maxy);
+    public boolean contains(Position pos) {
+        double minx = center.getX() - size / 2;
+        double maxx = center.getX() + size / 2;
+        double miny = center.getY() - size / 2;
+        double maxy = center.getY() + size / 2;
+        return (pos.getX() >= minx && pos.getX() < maxx && pos.getY() >= miny && pos.getY() < maxy);
     }
 
     @Override

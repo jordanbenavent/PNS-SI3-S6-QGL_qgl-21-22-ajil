@@ -1,6 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil;
+
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +14,6 @@ import java.util.Set;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Game {
@@ -26,7 +25,8 @@ public class Game {
     private int shipCount;
     private Set<Reef> reefs;
 
-    public Game(){}
+    public Game() {
+    }
 
     public Game(Goal goal, Ship ship, List<Sailor> sailors, int shipCount, Wind wind) {
         this.goal = goal;
@@ -46,6 +46,7 @@ public class Game {
 
     /**
      * Modifie "l'objectif" de la partie
+     *
      * @param goal goal
      */
     void setGoal(Goal goal) {
@@ -61,6 +62,7 @@ public class Game {
 
     /**
      * Modifie le bateau participant
+     *
      * @param ship ship
      */
     public void setShip(Ship ship) {
@@ -69,6 +71,7 @@ public class Game {
 
     /**
      * Récup le vent
+     *
      * @return objet de type vent
      */
     public Wind getWind() {
@@ -77,6 +80,7 @@ public class Game {
 
     /**
      * Modifie le vent
+     *
      * @param wind le vent
      */
     public void setWind(Wind wind) {
@@ -92,6 +96,7 @@ public class Game {
 
     /**
      * Modifie la liste des marins
+     *
      * @param sailors marins
      */
     public void setSailors(List<Sailor> sailors) {
@@ -107,6 +112,7 @@ public class Game {
 
     /**
      * Modifie le nombre de bateaux participants
+     *
      * @param shipCount nb bateaux
      */
     public void setShipCount(int shipCount) {

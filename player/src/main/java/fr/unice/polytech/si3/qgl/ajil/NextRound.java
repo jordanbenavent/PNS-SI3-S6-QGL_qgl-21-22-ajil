@@ -2,10 +2,7 @@ package fr.unice.polytech.si3.qgl.ajil;
 
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
-import lombok.extern.java.Log;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,20 +15,20 @@ import java.util.Set;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class NextRound {
 
+    public List<String> LOGGER = Cockpit.LOGGER;
     private Ship ship;
     private List<VisibleEntitie> visibleEntities;
     private Wind wind;
-    public List<String> LOGGER = Cockpit.LOGGER;
 
 
-    public NextRound(){}
+    public NextRound() {
+    }
 
-    public NextRound(Ship ship, Wind wind,List<VisibleEntitie> visibleEntities){
+    public NextRound(Ship ship, Wind wind, List<VisibleEntitie> visibleEntities) {
         this.ship = ship;
         this.wind = wind;
         this.visibleEntities = visibleEntities;
@@ -45,10 +42,28 @@ public class NextRound {
     }
 
     /**
+     * Modifie les entités visibles durant le tour de jeu
+     *
+     * @param visibleEntities entités visibles
+     */
+    public void setVisibleEntities(List<VisibleEntitie> visibleEntities) {
+        this.visibleEntities = visibleEntities;
+    }
+
+    /**
      * @return le bateau durant le tour jeu
      */
     public Ship getShip() {
         return ship;
+    }
+
+    /**
+     * Modifie le bateau durant le tour de jeu
+     *
+     * @param ship bateay
+     */
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
     /**
@@ -59,23 +74,8 @@ public class NextRound {
     }
 
     /**
-     * Modifie le bateau durant le tour de jeu
-     * @param ship bateay
-     */
-    public void setShip(Ship ship) {
-        this.ship = ship;
-    }
-
-    /**
-     * Modifie les entités visibles durant le tour de jeu
-     * @param visibleEntities entités visibles
-     */
-    public void setVisibleEntities(List<VisibleEntitie> visibleEntities) {
-        this.visibleEntities = visibleEntities;
-    }
-
-    /**
      * Modifie le vent durant le tour de jeu
+     *
      * @param wind vent
      */
     public void setWind(Wind wind) {
@@ -84,21 +84,22 @@ public class NextRound {
 
     /**
      * Modifie la partie durant le tour de jeu
+     *
      * @param game jeu
      */
-    public void updateGame(Game game){
+    public void updateGame(Game game) {
         game.setShip(this.ship);
         game.setWind(this.wind);
         game.setReefs(searchReef());
     }
 
-    public Set<Reef> searchReef(){
+    public Set<Reef> searchReef() {
         Set<Reef> reefs = new HashSet<>();
-        LOGGER.add("size entities"+visibleEntities.size());
+        LOGGER.add("size entities" + visibleEntities.size());
 
-        for (VisibleEntitie entities : visibleEntities){
-            if( entities.getType().equals("reef")){
-                reefs.add((Reef)entities);
+        for (VisibleEntitie entities : visibleEntities) {
+            if (entities.getType().equals("reef")) {
+                reefs.add((Reef) entities);
             }
         }
         return reefs;

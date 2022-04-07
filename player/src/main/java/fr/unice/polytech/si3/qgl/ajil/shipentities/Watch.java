@@ -8,16 +8,15 @@ package fr.unice.polytech.si3.qgl.ajil.shipentities;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Watch extends Entity{
+public class Watch extends Entity {
 
-    public Watch(){
+    public Watch() {
         setType("watch");
     }
 
-    public Watch(int x, int y, String type){
+    public Watch(int x, int y, String type) {
         super(x, y, type);
     }
 }
