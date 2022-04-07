@@ -38,7 +38,7 @@ public class AStar {
         closedCells = new boolean[width][height];
         openCells = new PriorityQueue<Cell>(
                 (Cell c1, Cell c2) -> {
-                    return c1.finalCost < c2.finalCost ? -1 : c1.finalCost > c2.finalCost ? 1 : 0 ;
+                    return c1.finalCost < c2.finalCost ? -1 : c1.finalCost > c2.finalCost ? 1 : 0;
                 }
         );
 
@@ -76,7 +76,9 @@ public class AStar {
     }
 
     private void addObstaclesSurCell(int i, int j) {
-        grid[i][j] = null;
+        if ( i != startI && i != endJ && j != startJ && j != endJ ){
+            grid[i][j] = null;
+        }
     }
 
     public void updateCostIfNeeded(Cell currentCell, Cell target, int cost){
@@ -106,10 +108,6 @@ public class AStar {
         System.out.println("grid existe ? "+grid.length);
         System.out.println("Lentgh Colonne i  ? "+grid[startI].length);
         System.out.println("Length Colonne j  ? "+grid[startJ].length);
-
-
-        ;
-
 
         openCells.add(grid[startI][startJ]);
         System.out.println("On a initialisé le placement de depart dans grille");
