@@ -95,9 +95,11 @@ public class NextRound {
     public ArrayList<Reef> searchReef(){
         ArrayList<Reef> reefs = new ArrayList<>();
         LOGGER.add("size entities"+visibleEntities.size());
+        System.out.println("aaaaaaa on a visibleEntites size"+visibleEntities.size());
 
         for (VisibleEntitie entities : visibleEntities){
             if( entities.getType().equals("reef")){
+                System.out.println("ajoute recif");
                 reefs.add((Reef)entities);
             }
         }
