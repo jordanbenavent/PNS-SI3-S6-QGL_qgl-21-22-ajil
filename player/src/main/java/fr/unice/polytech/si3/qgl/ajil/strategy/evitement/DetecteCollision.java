@@ -23,12 +23,14 @@ public class DetecteCollision {
     //Position du bateau
     Position futurePosition(Position position, Deplacement deplacement) {
         Position res = new Position();
-        double xDeplacement = deplacement.getVitesse() * Math.cos(position.getOrientation() + deplacement.getAngle());
-        double yDeplacement = deplacement.getVitesse() * Math.sin(position.getOrientation() + deplacement.getAngle());
+        final double orientation = position.getOrientation();
+        final double vitesse = deplacement.getVitesse();
+        final double angle = deplacement.getAngle();
 
+        final double xDeplacement = vitesse * Math.cos(orientation + angle);
+        final double yDeplacement = vitesse * Math.sin(orientation + angle);
         res.setX(position.getX() + xDeplacement);
         res.setY(position.getY() + yDeplacement);
-
         return res;
     }
 

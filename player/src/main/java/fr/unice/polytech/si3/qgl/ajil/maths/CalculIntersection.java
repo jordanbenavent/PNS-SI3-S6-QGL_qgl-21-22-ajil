@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CalculIntersection {
 
@@ -122,10 +123,10 @@ public class CalculIntersection {
     }
 
     public static boolean intersectionSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2) {
-        ArrayList<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
-        ArrayList<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
-        int sizePoint1 = pointsShape1.size();
-        int sizePoint2 = pointsShape2.size();
+        List<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
+        List<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
+        final int sizePoint1 = pointsShape1.size();
+        final int sizePoint2 = pointsShape2.size();
         for (int i = 0; i < sizePoint1; i++) {
             for (int j = i; j < sizePoint1; j++) {
                 for (int k = 0; k < sizePoint2; k++) {
@@ -157,8 +158,9 @@ public class CalculIntersection {
         if (x1 == x2 && x2 != x3 && x3 == x4) {
             return false;
         }
+        boolean condition_b1 = ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
         if (x1 == x2 && x2 == x3 && x3 == x4) {
-            return ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
+            return condition_b1;
         }
         double xtemp;
         double ytemp;
@@ -179,7 +181,7 @@ public class CalculIntersection {
         c = (y4 - y3) / (x4 - x3);
         d = (y3 - c * x3);
         if (a == c && b == d) {
-            return ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
+            return condition_b1;
         }
         if (a == c) {
             return false;
@@ -197,8 +199,7 @@ public class CalculIntersection {
         return pointCircle1.distance(pointCircle2) <= (rs + rc);
     }
 
-    public ArrayList<Point> equationSecondDegres(double a, double b, double c) { //ax^2+bx+c==0
-        ArrayList<Point> solution = new ArrayList<Point>();
-        return solution;
+    public List<Point> equationSecondDegres(double a, double b, double c) { //ax^2+bx+c==0
+        return new ArrayList<>();
     }
 }
