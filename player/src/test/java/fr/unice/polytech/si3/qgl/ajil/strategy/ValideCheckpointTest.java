@@ -66,10 +66,10 @@ class ValideCheckpointTest {
 
         Point[] pointpolygone = {new Point(1,2), new Point(0,1), new Point(0,3)};
         ship = new Ship("ship", 100,
-                new Position(4, 4, Math.PI/4), "BateauTriangle",
+                new Position(4, 4, Math.PI / 4), "BateauTriangle",
                 new Deck(2, 2),
                 new ArrayList<>(),
-                new Polygone("polygone",Math.PI/4, pointpolygone));
+                new Polygone("polygon", Math.PI / 4, pointpolygone));
         point = valideCheckpoint.calculPointShip(ship);
         Assertions.assertEquals(new Point(2,5), point.get(0));
 

@@ -23,16 +23,11 @@ public class CalculPoints {
     }
 
     private static double calculAngleTotal(Shape shape, Position pos) {
-        if (shape instanceof Circle) {
-            return pos.getOrientation();
-        }
-        if (shape instanceof Rectangle) {
-            return pos.getOrientation() + shape.getOrientation();
-        }
-        if (shape instanceof Polygone) {
-            return pos.getOrientation() + shape.getOrientation();
-        }
-        return 0;
+        return switch (shape.getType()) {
+            case "circle" -> pos.getOrientation();
+            case "rectangle", "polygon" -> pos.getOrientation() + shape.getOrientation();
+            default -> 0;
+        };
     }
 
     private static List<Point> calculPointPolygon(Shape shape, Position pos) {
