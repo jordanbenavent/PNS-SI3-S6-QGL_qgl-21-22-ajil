@@ -149,6 +149,8 @@ public class Strategy {
             calculAStar(false);
         }
 
+        calculAStar(false);
+
         //mesure size
         //Actions deplacement
 
