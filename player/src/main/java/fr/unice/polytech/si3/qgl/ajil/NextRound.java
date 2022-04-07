@@ -92,8 +92,8 @@ public class NextRound {
         game.setReefs(searchReef());
     }
 
-    public Set<Reef> searchReef(){
-        Set<Reef> reefs = new HashSet<>();
+    public ArrayList<Reef> searchReef(){
+        ArrayList<Reef> reefs = new ArrayList<>();
         LOGGER.add("size entities"+visibleEntities.size());
 
         for (VisibleEntitie entities : visibleEntities){

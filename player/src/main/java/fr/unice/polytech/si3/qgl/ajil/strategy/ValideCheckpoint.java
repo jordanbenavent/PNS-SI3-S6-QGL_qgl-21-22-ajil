@@ -226,14 +226,7 @@ public class ValideCheckpoint {
         return dansLeCercle(points, checkpoint) || intersectionCircleShip(points, checkpoint);
     }
 
-    public Checkpoint fakeOrRealCheckpoint(List<Checkpoint> real){
-        if(fakeCheckpoint.isEmpty()){
-            if(real.isEmpty()) return null;
-            return real.get(0);
-        } else {
-            return fakeCheckpoint.get(0);
-        }
-    }
+
 
     public Checkpoint nextCheckpointTarget2(List<Checkpoint> checkpoints){
         Ship ship = jeu.getShip();
