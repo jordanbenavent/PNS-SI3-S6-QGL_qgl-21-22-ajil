@@ -35,15 +35,8 @@ public class AStar {
     public AStar(int width, int height, int si, int sj, int ei, int ej, int[][] obstacles) {
         grid = new Cell[width][height];
         closedCells = new boolean[width][height];
-<<<<<<< HEAD
-        openCells = new PriorityQueue<Cell>(
-                (Cell c1, Cell c2) -> {
-                    return c1.finalCost < c2.finalCost ? -1 : c1.finalCost > c2.finalCost ? 1 : 0;
-                }
-=======
         openCells = new PriorityQueue<>(
                 Comparator.comparingInt((Cell c) -> c.finalCost)
->>>>>>> 68730773e75cda97c8552d85b26b915c63919e9b
         );
 
         startCell(si, sj);
