@@ -74,9 +74,9 @@ public class AStarDeployment {
         GridCell[][] grid = obstacleDetection.gridCreation((int) sizeXY.getX(), (int) sizeXY.getY(), this.sizeCell,
                 origine, ship.getPosition(), goal.getCheckpoints().get(0).getPosition());
 
-        ArrayList<VisibleEntitie> mainList = new ArrayList<>(game.getReefs());
+        List<VisibleEntitie> mainList = new ArrayList<>(game.getReefs());
         LOGGER.add("on a nb recifs" + mainList.size());
-        ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList);
+        List<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList);
 
         int[][] cellsB = pointsVersTableau(obstacleDetection.gridProcess(grid, visibleReefs));
 

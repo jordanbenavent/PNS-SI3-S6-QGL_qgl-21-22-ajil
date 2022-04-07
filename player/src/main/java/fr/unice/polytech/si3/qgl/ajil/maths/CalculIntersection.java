@@ -37,16 +37,16 @@ public class CalculIntersection {
     }
 
     public static boolean intersectionCirclePolygone(Circle circle, Position position1, Polygone polygone, Position position2) {
-        ArrayList<Point> pointsRectangle = CalculPoints.calculExtremityPoints(polygone, position2);
+        List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(polygone, position2);
         return intersectionCircleSegments(circle, position1, pointsRectangle);
     }
 
     public static boolean intersectionCircleRectangle(Circle circle, Position position1, Rectangle rectangle, Position position2) {
-        ArrayList<Point> pointsRectangle = CalculPoints.calculExtremityPoints(rectangle, position2);
+        List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(rectangle, position2);
         return intersectionCircleSegments(circle, position1, pointsRectangle);
     }
 
-    public static boolean intersectionCircleSegments(Circle circle, Position position, ArrayList<Point> points) {
+    public static boolean intersectionCircleSegments(Circle circle, Position position, List<Point> points) {
         int size = points.size();
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {

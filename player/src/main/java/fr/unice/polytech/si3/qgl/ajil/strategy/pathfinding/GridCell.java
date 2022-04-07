@@ -6,12 +6,13 @@ import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GridCell {
     private final Point center;
     private final double size;
     private boolean blocked = false;
-    private ArrayList<Segment> segments = new ArrayList<>();
+    private List<Segment> segments = new ArrayList<>();
 
     public GridCell(Point center, double size) {
         this.center = center;
@@ -19,7 +20,7 @@ public class GridCell {
         this.segments = createGridSegments();
     }
 
-    public ArrayList<Segment> createGridSegments() {
+    public List<Segment> createGridSegments() {
         Point[] points = new Point[4];
         double delta = size / 2;
         ObstacleDetection obstacleDetection = new ObstacleDetection();
@@ -31,7 +32,7 @@ public class GridCell {
         return obstacleDetection.createSegments(points, points.length);
     }
 
-    public void intersection(ArrayList<Segment> segmentsToCheck) {
+    public void intersection(List<Segment> segmentsToCheck) {
         for (Segment seg : segments) {
             for (Segment segToCheck : segmentsToCheck) {
                 if (Intersection.segmentIntersection(seg, segToCheck) != null) {
@@ -42,7 +43,7 @@ public class GridCell {
         }
     }
 
-    public ArrayList<Segment> getSegments() {
+    public List<Segment> getSegments() {
         return segments;
     }
 

@@ -16,7 +16,7 @@ public class Matrice<AnyType> {
         return matrice;
     }
 
-    public List<AnyType> getComlumn(int i) {
+    public List<AnyType> getColumn(int i) {
         return matrice.get(i);
     }
 
