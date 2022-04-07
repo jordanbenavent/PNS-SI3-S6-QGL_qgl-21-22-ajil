@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
+package fr.unice.polytech.si3.qgl.ajil.maths;
 
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 
