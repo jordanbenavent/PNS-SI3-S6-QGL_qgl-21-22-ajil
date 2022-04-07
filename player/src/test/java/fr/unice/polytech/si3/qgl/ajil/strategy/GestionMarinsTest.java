@@ -1,6 +1,5 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
@@ -112,7 +111,7 @@ class GestionMarinsTest {
 
     @DisplayName("Attribuer Marin qui est dans range de 5")
     @Test
-    void attribuerBarreurTest1() {
+    void attribuerCoxswainTest1() {
 
         ArrayList<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
@@ -124,42 +123,42 @@ class GestionMarinsTest {
         sailors.add(new Sailor(2, 1, 6, "Sailor 6"));
         jeu.setSailors(sailors);
         ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new Rudder(3,4,"rudder"));
-        entities.add(new OarEntity(0,0,"oar"));
-        entities.add(new OarEntity(1,0,"oar"));
-        entities.add(new OarEntity(2,0,"oar"));
-        entities.add(new OarEntity(0,4,"oar"));
-        entities.add(new OarEntity(1,4,"oar"));
-        entities.add(new OarEntity(2,4,"oar"));
+        entities.add(new Rudder(3, 4, "rudder"));
+        entities.add(new OarEntity(0, 0, "oar"));
+        entities.add(new OarEntity(1, 0, "oar"));
+        entities.add(new OarEntity(2, 0, "oar"));
+        entities.add(new OarEntity(0, 4, "oar"));
+        entities.add(new OarEntity(1, 4, "oar"));
+        entities.add(new OarEntity(2, 4, "oar"));
         ship.setEntities(entities);
 
-        gestionMarins.attribuerBarreur();
-        System.out.println(gestionMarins.isPlacementBarreur());
+        gestionMarins.attribuerCoxswain();
+        System.out.println(gestionMarins.isPlacementCoxswain());
 
         gestionMarins.repartirLesMarins();
 
-        Assertions.assertEquals(0,gestionMarins.getBarreur().getId());
+        Assertions.assertEquals(0, gestionMarins.getCoxswain().getId());
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
         Assertions.assertEquals(3, gestionMarins.getLeftSailors().size());
         Assertions.assertEquals(3, gestionMarins.getRightSailors().size());
-        Assertions.assertTrue(gestionMarins.isPlacementBarreur());
+        Assertions.assertTrue(gestionMarins.isPlacementCoxswain());
     }
 
     @DisplayName("Attribuer Marin qui est hors son range de 5")
     @Test
-    void attribuerBarreurTest2(){
+    void attribuerCoxswainTest2() {
         ArrayList<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(0, 4, 0, "Sailor 0")); // ( 0 , 4 )
         jeu.setSailors(sailors);
         ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new Rudder(6,4,"rudder"));
+        entities.add(new Rudder(6, 4, "rudder"));
         ship.setEntities(entities);
-        gestionMarins.attribuerBarreur();
-        Assertions.assertEquals(0,gestionMarins.getBarreur().getId());
+        gestionMarins.attribuerCoxswain();
+        Assertions.assertEquals(0, gestionMarins.getCoxswain().getId());
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(0)).getXdistance());
-        Assertions.assertFalse(gestionMarins.isPlacementBarreur());
+        Assertions.assertFalse(gestionMarins.isPlacementCoxswain());
     }
 
     @Test

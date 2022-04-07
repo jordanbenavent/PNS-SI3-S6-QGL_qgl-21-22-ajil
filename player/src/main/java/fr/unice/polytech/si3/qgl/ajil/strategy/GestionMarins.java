@@ -18,10 +18,10 @@ public class GestionMarins {
     public List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
     private boolean placementInit = false;
-    private boolean placementBarreur = false;
+    private boolean placementCoxswain = false;
     private boolean placementSailManagers = false;
     // marins
-    private Sailor barreur; // celui qui gère le gouvernail
+    private Sailor coxswain; // celui qui gère le gouvernail
     private Sailor sailManager; // celui qui gère la voile
 
     public GestionMarins(StratData stratData) {
@@ -31,8 +31,8 @@ public class GestionMarins {
     /**
      * @return le marin attribué au gouvernail
      */
-    public Sailor getBarreur() {
-        return stratData.barreur;
+    public Sailor getCoxswain() {
+        return stratData.coxswain;
     }
 
     /**
@@ -126,21 +126,21 @@ public class GestionMarins {
     /*
      * Trouve le marin le plus proche du gouvernail et le déplace vers celui-ci
      */
-    public void attribuerBarreur() {
+    public void attribuerCoxswain() {
         List<Sailor> sailors = stratData.jeu.getSailors();
         Entity rudder = stratData.jeu.getShip().getRudder();
         if (rudder == null) {
             LOGGER.add("Il n'y a pas de Gouvernail.");
-            placementBarreur = true;
+            placementCoxswain = true;
             return;
         }
-        if (barreur == null) {
-            barreur = marinLePlusProche(rudder);
-            stratData.barreur = barreur;
-            sailors.remove(barreur);
-            LOGGER.add("BarreurManageur est : " + barreur.getId());
+        if (coxswain == null) {
+            coxswain = marinLePlusProche(rudder);
+            stratData.coxswain = coxswain;
+            sailors.remove(coxswain);
+            LOGGER.add("CoxswainManageur est : " + coxswain.getId());
         }
-        placementBarreur = deplacerMarin(barreur, rudder);
+        placementCoxswain = deplacerMarin(coxswain, rudder);
     }
 
     /**
@@ -177,8 +177,8 @@ public class GestionMarins {
         return placementInit;
     }
 
-    public boolean isPlacementBarreur() {
-        return placementBarreur;
+    public boolean isPlacementCoxswain() {
+        return placementCoxswain;
     }
 
     public boolean isPlacementSailManagers() {
@@ -193,9 +193,9 @@ public class GestionMarins {
     void ramerSelonVitesse(Deplacement deplacement) {
         double angle = deplacement.getAngle();
 
-        if (Math.abs(angle) < Math.PI / 4 && barreur != null) {
+        if (Math.abs(angle) < Math.PI / 4 && coxswain != null) {
             LOGGER.add("On tourne avec le gouvernail : " + angle);
-            Turn tournerGouvernail = new Turn(barreur.getId(), angle);
+            Turn tournerGouvernail = new Turn(coxswain.getId(), angle);
             stratData.actions.add(tournerGouvernail);
             for (Sailor sailor : stratData.jeu.getSailors()) {
                 stratData.actions.add(new Oar(sailor.getId()));

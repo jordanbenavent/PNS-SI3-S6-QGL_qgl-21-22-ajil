@@ -28,7 +28,7 @@ public class Strategy {
     //Autre classes ayant chacune une responsabilite pour calculer et mettre en place la strategie
     private final ValideCheckpoint valideCheckpoint;
     private final GestionMarins gestionMarins;
-    private final GestionSail gestionSail;
+    private final SailManagement sailManagement;
     private final CalculDeplacement calculDeplacement;
     private final List<String> LOGGER = Cockpit.LOGGER;
     private final List<Checkpoint> listeCheckpoints;
@@ -44,7 +44,7 @@ public class Strategy {
         objectMapper = new ObjectMapper();
         valideCheckpoint = new ValideCheckpoint(jeu);
         gestionMarins = new GestionMarins(stratData);
-        gestionSail = new GestionSail(stratData);
+        sailManagement = new SailManagement(stratData);
         calculDeplacement = new CalculDeplacement(stratData);
         listeCheckpoints = stratData.jeu.getGoal().getCheckpoints();
         listCheckpointsSize = listeCheckpoints.size();
@@ -120,9 +120,9 @@ public class Strategy {
 
         Deplacement deplacement;
         Checkpoint c;
-        // d'abord on place le Barreur
-        if (!gestionMarins.isPlacementBarreur()) {
-            gestionMarins.attribuerBarreur();
+        // d'abord on place le Coxswain
+        if (!gestionMarins.isPlacementCoxswain()) {
+            gestionMarins.attribuerCoxswain();
         }
         // ensuite on place le marin responsable de la voile
         if (!gestionMarins.isPlacementSailManagers()) {
@@ -173,7 +173,7 @@ public class Strategy {
         gestionMarins.ramerSelonVitesse(deplacement);
         Ship ship = stratData.jeu.getShip();
         Wind wind = stratData.jeu.getWind();
-        gestionSail.putSail(ship, wind);
+        sailManagement.putSail(ship, wind);
 
 
         tailleRecifAvant = stratData.jeu.getReefs().size();

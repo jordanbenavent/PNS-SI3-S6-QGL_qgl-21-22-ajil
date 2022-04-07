@@ -83,8 +83,8 @@ public class CalculDeplacement {
 
     private Deplacement getDeplacement(int nbr_rames, double distance, double angle, ArrayList<Deplacement> futur_angle, Set<Double> angles_possibles, double angle_maximum) {
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
-        final Sailor barreur = stratData.getBarreur();
-        // Stratégie de déplacement commune aux deux stratégies (avec et sans barreur)
+        final Sailor coxswain = stratData.getCoxswain();
+        // Stratégie de déplacement commune aux deux stratégies (avec et sans coxswain)
         if (Math.abs(angle) >= Math.PI / 2) {
             deplacement.setVitesse(82.5);
             if (angle < 0) deplacement.setAngle(-Math.PI / 2);
@@ -93,7 +93,7 @@ public class CalculDeplacement {
         }
         angles_possibles.remove(Math.PI / 2);
         angles_possibles.remove(-Math.PI / 2);
-        if (barreur != null) {
+        if (coxswain != null) {
             // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
             if (Math.abs(angle) <= Math.PI / 4) {
                 deplacement = deplacementSiGouvernail(angle, deplacement);
@@ -274,7 +274,7 @@ public class CalculDeplacement {
     }
 
     /**
-     * Stratégie de déplacement si on a un barreur sur le bateau
+     * Stratégie de déplacement si on a un coxswain sur le bateau
      *
      * @param angle
      * @return le déplacement à effectuer
