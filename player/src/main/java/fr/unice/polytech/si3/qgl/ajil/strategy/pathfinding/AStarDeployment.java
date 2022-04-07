@@ -96,6 +96,7 @@ public class AStarDeployment {
         AStar astar = new AStar((int)sizeXY.getX(), (int)sizeXY.getY(), obstacleDetection.getsX(), obstacleDetection.getsY(),
                 obstacleDetection.geteX(),obstacleDetection.geteY(), cellsB);
 
+        astar.display();
         System.out.println("StartX: " + obstacleDetection.getsX() + ", StartY: " +obstacleDetection.getsY());
         System.out.println("EndX: " + obstacleDetection.geteX() + ", EndY: " +obstacleDetection.geteY());
 
