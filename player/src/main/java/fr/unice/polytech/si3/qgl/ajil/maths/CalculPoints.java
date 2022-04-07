@@ -3,10 +3,8 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CalculPoints {
 
@@ -29,10 +27,10 @@ public class CalculPoints {
             return pos.getOrientation();
         }
         if (shape instanceof Rectangle) {
-            return pos.getOrientation() + ((Rectangle) shape).getOrientation();
+            return pos.getOrientation() + shape.getOrientation();
         }
         if (shape instanceof Polygone) {
-            return pos.getOrientation() + ((Polygone) shape).getOrientation();
+            return pos.getOrientation() + shape.getOrientation();
         }
         return 0;
     }

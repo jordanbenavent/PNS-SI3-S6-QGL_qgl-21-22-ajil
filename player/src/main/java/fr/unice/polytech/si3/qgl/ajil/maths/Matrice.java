@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Matrice < AnyType > {
 
-    private List<List<AnyType>> matrice;
+    private final List<List<AnyType>> matrice;
 
     public Matrice() {
         matrice = new ArrayList<>();

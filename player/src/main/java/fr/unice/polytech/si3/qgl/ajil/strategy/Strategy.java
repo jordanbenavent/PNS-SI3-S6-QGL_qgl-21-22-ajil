@@ -32,7 +32,7 @@ public class Strategy {
     private final CalculDeplacement calculDeplacement;
     private final List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
-    private List<Checkpoint> listeCheckpoints;
+    private final List<Checkpoint> listeCheckpoints;
     private int listCheckpointsSize;
     private boolean premierCalculA ;
     private int tailleRecifAvant=0;
