@@ -18,6 +18,8 @@ public class ObstacleDetection {
     public static final int margin = 250;
 
     public int getsX() {
+        System.out.println("passe get ObstacelDetec X" );
+        System.out.println(this.sX);
         return sX;
     }
 
