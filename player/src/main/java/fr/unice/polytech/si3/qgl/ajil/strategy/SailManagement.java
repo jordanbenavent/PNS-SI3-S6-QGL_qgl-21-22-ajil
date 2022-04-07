@@ -8,13 +8,13 @@ import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
 
 import java.util.List;
 
-public class GestionSail {
+public class SailManagement {
     final double RANGE = Math.PI / 2;
     private final List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
-    private boolean lifted;
+    private boolean isLifted;
 
-    public GestionSail(StratData stratData) {
+    public SailManagement(StratData stratData) {
         this.stratData = stratData;
     }
 
@@ -29,20 +29,20 @@ public class GestionSail {
         double windOrientation = wind.getOrientation();
 
         if (stratData.getSailorsManager() != null) {
-            int barreur = stratData.getSailorsManager().getId();
-            LiftSail lift = new LiftSail(barreur);
-            LowerSail lower = new LowerSail(barreur);
+            int coxswain = stratData.getSailorsManager().getId();
+            LiftSail lift = new LiftSail(coxswain);
+            LowerSail lower = new LowerSail(coxswain);
             stratData.actions.remove(lift);
             stratData.actions.remove(lower);
 
             final double result = simplifyAngle(shipOrientation, windOrientation);
             if (result <= RANGE && result >= -RANGE) {
                 stratData.actions.add(lift);
-                lifted = true;
+                isLifted = true;
                 //LOGGER.add("Voile UP");
             } else {
                 stratData.actions.add(lower);
-                lifted = false;
+                isLifted = false;
                 //LOGGER.add("Voile DOWN");
             }
         } else {
@@ -72,6 +72,6 @@ public class GestionSail {
      * @return sail state as boolean
      */
     public boolean isSailLifted() {
-        return this.lifted;
+        return this.isLifted;
     }
 }

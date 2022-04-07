@@ -1,4 +1,6 @@
-package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
+package fr.unice.polytech.si3.qgl.ajil.maths;
+
+import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 
 public class Segment {
     private double startX;
@@ -6,11 +8,11 @@ public class Segment {
     private double endX;
     private double endY;
 
-    public Segment(double startX, double startY, double endX, double endY) {
-        this.startX = startX;
-        this.startY = startY;
-        this.endX = endX;
-        this.endY = endY;
+    public Segment(Point a, Point b) {
+        this.startX = a.getX();
+        this.startY = a.getY();
+        this.endX = b.getX();
+        this.endY = b.getY();
     }
 
     public double getStartX() {

@@ -8,10 +8,9 @@ package fr.unice.polytech.si3.qgl.ajil.actions;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Reload extends Action{
+public class Reload extends Action {
     public Reload(int sailorId) {
         super(sailorId, Actions.RELOAD);
     }

@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
@@ -15,9 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CalculDeplacementTest {
 
@@ -97,11 +93,11 @@ class CalculDeplacementTest {
         jeu.getShip().getEntities().add(new OarEntity(1, 1, "oar"));
         jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
         Set<Double> angles = ship.getTurnRange();
-        Assertions.assertEquals(Math.PI / 2, strategie.getCalculDeplacement().quelEstLangleMaximum(angles));
+        Assertions.assertEquals(Math.PI / 2, strategie.getCalculDeplacement().getMaxAngle(angles));
         // On supprime l'angle PI/2 et -PI/2
         angles.remove(Math.PI / 2);
         angles.remove(-Math.PI / 2);
-        Assertions.assertEquals(Math.PI / 4, strategie.getCalculDeplacement().quelEstLangleMaximum(angles));
+        Assertions.assertEquals(Math.PI / 4, strategie.getCalculDeplacement().getMaxAngle(angles));
     }
 
     @Test
@@ -199,9 +195,9 @@ class CalculDeplacementTest {
     }
 
     @Test
-    void deplacementPourLeTourAvecBarreurTest(){
+    void deplacementPourLeTourAvecCoxswainTest() {
         // Cas où le checkpoint est à un angle supérieur ou égal à PI/2 par rapport au bateau
-        // Cas bateau à 4 rames et 1 barreur
+        // Cas bateau à 4 rames et 1 coxswain
         ship = new Ship("ship", 100,
                 new Position(10.0, 10.0, 0.0), "name",
                 new Deck(2, 5),
@@ -213,26 +209,26 @@ class CalculDeplacementTest {
         jeu.getShip().getEntities().add(new OarEntity(1, 1, "oar"));
         jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
         strategie = new Strategy(jeu);
-        Sailor barreur = new Sailor(0, 0, 1, "Jean");
-        strategie.stratData.setBarreur(barreur);
+        Sailor coxswain = new Sailor(0, 0, 1, "Jean");
+        strategie.stratData.setCoxswain(coxswain);
         Checkpoint checkpoint_angle_positif = new Checkpoint(new Position(10, 242.5, 0), new Circle("circle", 1));
-        ship.getPosition().setOrientation(Math.PI/3);
+        ship.getPosition().setOrientation(Math.PI / 3);
         // déplacement pour un angle inférieur à PI/4 entre le bateau et le checkpoint
-        Deplacement deplacement_barreur = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_positif);
+        Deplacement deplacement_coxswain = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_positif);
         Vector v_ship = calculDeplacement.calculVecteurBateau(ship);
         Vector v_check = calculDeplacement.calculVecteurCheckpoint(checkpoint_angle_positif, ship);
         double angle = v_ship.angleBetweenVectors(v_check);
-        Assertions.assertEquals(angle, deplacement_barreur.getAngle());
-        Assertions.assertEquals(165.0, deplacement_barreur.getVitesse());
+        Assertions.assertEquals(angle, deplacement_coxswain.getAngle());
+        Assertions.assertEquals(165.0, deplacement_coxswain.getVitesse());
 
         //Cas d'un bateau avec 8 rames où l'angle du bateau par rapport au checkpoint est supérieur à PI/4
         jeu.getShip().getEntities().add(new OarEntity(2, 1, "oar"));
         jeu.getShip().getEntities().add(new OarEntity(2, 2, "oar"));
         jeu.getShip().getEntities().add(new OarEntity(3, 1, "oar"));
         jeu.getShip().getEntities().add(new OarEntity(3, 2, "oar"));
-        ship.getPosition().setOrientation(Math.PI/6 - 0.03);
+        ship.getPosition().setOrientation(Math.PI / 6 - 0.03);
         Deplacement deplacement_test = strategie.getCalculDeplacement().deplacementPourLeTourRefactor(checkpoint_angle_positif);
-        Assertions.assertEquals(Math.PI/4, deplacement_test.getAngle());
+        Assertions.assertEquals(Math.PI / 4, deplacement_test.getAngle());
         Assertions.assertEquals(41.25, deplacement_test.getVitesse());
     }
 

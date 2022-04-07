@@ -2,17 +2,12 @@ package fr.unice.polytech.si3.qgl.ajil.tooling;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.ajil.*;
+import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
+import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
-import fr.unice.polytech.si3.qgl.ajil.shape.Point;
-import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
-import fr.unice.polytech.si3.qgl.ajil.strategy.Strategy;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.ajil.*;
-
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
 
@@ -129,7 +124,7 @@ public class Test {
         // System.out.println(strategie.intersectionCircleShip(pointsShip, checkpointValideDunPoint));*/
         Checkpoint test = null;
         System.out.println(test);
-        ArrayList<Integer> arrayList = new ArrayList<>();
+        List<Integer> arrayList = new ArrayList<>();
         arrayList.add(1); arrayList.add(2);
         System.out.println(arrayList);
         arrayList.remove((Integer) 3);

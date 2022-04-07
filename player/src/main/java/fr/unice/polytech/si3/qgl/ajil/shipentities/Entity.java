@@ -9,9 +9,9 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value= Rudder.class, name = "rudder"),
-        @JsonSubTypes.Type(value= Watch.class, name = "watch"),
-        @JsonSubTypes.Type(value= Canon.class, name = "canon"),
+        @JsonSubTypes.Type(value = Rudder.class, name = "rudder"),
+        @JsonSubTypes.Type(value = Watch.class, name = "watch"),
+        @JsonSubTypes.Type(value = Canon.class, name = "canon"),
         @JsonSubTypes.Type(value = OarEntity.class, name = "oar"),
         @JsonSubTypes.Type(value = Sail.class, name = "sail")
 })
@@ -34,9 +34,10 @@ public abstract class Entity {
     private int y;
     private String type;
 
-    Entity(){}
+    Entity() {
+    }
 
-    Entity(int x, int y, String type){
+    Entity(int x, int y, String type) {
         this.type = type;
         this.x = x;
         this.y = y;
@@ -51,6 +52,7 @@ public abstract class Entity {
 
     /**
      * Modifie la coordonnée x de l'entité
+     *
      * @param x
      */
     void setX(int x) {
@@ -66,6 +68,7 @@ public abstract class Entity {
 
     /**
      * Modifie la coordonnée y de l'entité
+     *
      * @param y
      */
     void setY(int y) {
@@ -81,6 +84,7 @@ public abstract class Entity {
 
     /**
      * Modifie le type de l'entité
+     *
      * @param type
      */
     void setType(String type) {
@@ -89,10 +93,11 @@ public abstract class Entity {
 
     /**
      * Calcul la distance entre l'entité et un marin
+     *
      * @param sailor
      * @return la distance entre l'entité this et le marin
      */
-    public int getDist(Sailor sailor){
+    public int getDist(Sailor sailor) {
         int deplacementX = sailor.getX() - this.x;
         int deplacementY = sailor.getY() - this.y;
         return Math.abs(deplacementX) + Math.abs(deplacementY);

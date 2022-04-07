@@ -1,15 +1,18 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
+import fr.unice.polytech.si3.qgl.ajil.maths.Intersection;
+import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GridCell {
-    private Point center;
-    private double size;
+    private final Point center;
+    private final double size;
     private boolean blocked = false;
-    private ArrayList<Segment> segments = new ArrayList<>();
+    private List<Segment> segments = new ArrayList<>();
 
     public GridCell(Point center, double size) {
         this.center = center;
@@ -17,22 +20,22 @@ public class GridCell {
         this.segments = createGridSegments();
     }
 
-    public ArrayList<Segment> createGridSegments(){
+    public List<Segment> createGridSegments() {
         Point[] points = new Point[4];
-        double delta = size/2;
+        double delta = size / 2;
         ObstacleDetection obstacleDetection = new ObstacleDetection();
-        points[0] = new Point(center.getX() - delta, center.getY() - delta );
-        points[1] = new Point(center.getX() - delta,center.getY() + delta );
-        points[2] = new Point(center.getX() + delta,center.getY() + delta );
-        points[3] = new Point(center.getX() + delta,center.getY() - delta );
+        points[0] = new Point(center.getX() - delta, center.getY() - delta);
+        points[1] = new Point(center.getX() - delta, center.getY() + delta);
+        points[2] = new Point(center.getX() + delta, center.getY() + delta);
+        points[3] = new Point(center.getX() + delta, center.getY() - delta);
 
         return obstacleDetection.createSegments(points, points.length);
     }
 
-    public void intersection(ArrayList<Segment> segmentsToCheck){
-        for (Segment seg : segments){
-            for ( Segment segToCheck : segmentsToCheck ){
-                if (Intersection.SegIntersection(seg, segToCheck) != null){
+    public void intersection(List<Segment> segmentsToCheck) {
+        for (Segment seg : segments) {
+            for (Segment segToCheck : segmentsToCheck) {
+                if (Intersection.segmentIntersection(seg, segToCheck) != null) {
                     this.blocked = true;
                     return;
                 }
@@ -40,7 +43,7 @@ public class GridCell {
         }
     }
 
-    public ArrayList<Segment> getSegments() {
+    public List<Segment> getSegments() {
         return segments;
     }
 
@@ -48,12 +51,12 @@ public class GridCell {
         return blocked;
     }
 
-    public boolean contains(Position pos){
-        double minx = center.getX()-size/2;
-        double maxx = center.getX()+size/2;
-        double miny = center.getY()-size/2;
-        double maxy = center.getY()+size/2;
-        return (pos.getX() >= minx && pos.getX()<maxx && pos.getY() >= miny && pos.getY() < maxy);
+    public boolean contains(Position pos) {
+        double minx = center.getX() - size / 2;
+        double maxx = center.getX() + size / 2;
+        double miny = center.getY() - size / 2;
+        double maxy = center.getY() + size / 2;
+        return (pos.getX() >= minx && pos.getX() < maxx && pos.getY() >= miny && pos.getY() < maxy);
     }
 
     @Override

@@ -12,13 +12,20 @@ import java.util.Objects;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Checkpoint {
 
     private Position position;
     private Shape shape;
+
+    public Checkpoint() {
+    }
+
+    public Checkpoint(Position position, Shape shape) {
+        this.position = position;
+        this.shape = shape;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -33,18 +40,20 @@ public class Checkpoint {
         return Objects.hash(position, shape);
     }
 
-    public Checkpoint(){}
-
-    public Checkpoint(Position position, Shape shape){
-        this.position = position;
-        this.shape = shape;
-    }
-
     /**
      * @return la position du checkpoint
      */
     public Position getPosition() {
         return position;
+    }
+
+    /**
+     * Modifie la position du checkpoint
+     *
+     * @param position
+     */
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     /**
@@ -55,15 +64,8 @@ public class Checkpoint {
     }
 
     /**
-     * Modifie la position du checkpoint
-     * @param position
-     */
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    /**
      * Modifie la forme du checkpoint
+     *
      * @param shape
      */
     public void setShape(Shape shape) {
@@ -75,9 +77,6 @@ public class Checkpoint {
      */
     @Override
     public String toString() {
-        return "Checkpoint{" +
-                "position=" + position +
-                ", shape=" + shape +
-                '}';
+        return "Checkpoint{" + "position=" + position + ", shape=" + shape + '}';
     }
 }

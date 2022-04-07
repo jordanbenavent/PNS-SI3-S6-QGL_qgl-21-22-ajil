@@ -3,44 +3,39 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class CalculPoints {
 
-    public static ArrayList<Point> calculExtremityPoints(Shape shape, Position position) {
-        if (shape instanceof Polygone) {
-            return calculPointPolygon(shape, position);
-        }
-        double largeur = 0;
+    public static List<Point> calculExtremityPoints(Shape shape, Position position) {
         double longueur = 0;
-        if (shape instanceof Rectangle) {
-            largeur = ((Rectangle) shape).getWidth();
-            longueur = ((Rectangle) shape).getHeight();
+        double largeur = 0;
+
+        switch (shape.getType()) {
+            case "polygon":
+                return calculPointPolygon((Polygone) shape, position);
+            case "rectangle":
+                largeur = ((Rectangle) shape).getWidth();
+                longueur = ((Rectangle) shape).getHeight();
+            default:
+                return calculPointGeneric(shape, position, largeur / 2, longueur / 2);
         }
-        double angle = CalculPoints.calculAngleTotal(shape, position);
-        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
     }
 
     private static double calculAngleTotal(Shape shape, Position pos) {
-        if (shape instanceof Circle) {
-            return pos.getOrientation();
-        }
-        if (shape instanceof Rectangle) {
-            return pos.getOrientation() + ((Rectangle) shape).getOrientation();
-        }
-        if (shape instanceof Polygone) {
-            return pos.getOrientation() + ((Polygone) shape).getOrientation();
-        }
-        return 0;
+        return switch (shape.getType()) {
+            case "circle" -> pos.getOrientation();
+            case "rectangle", "polygon" -> pos.getOrientation() + shape.getOrientation();
+            default -> 0;
+        };
     }
 
-    private static ArrayList<Point> calculPointPolygon(Shape shape, Position pos) {
-        ArrayList<Point> points = new ArrayList<>();
-        Point[] pointPolygone = ((Polygone) shape).getVertices();
-        double angleRotation = -calculAngleTotal(shape, pos);
+    private static List<Point> calculPointPolygon(Polygone poly, Position pos) {
+        List<Point> points = new ArrayList<>();
+        Point[] pointPolygone = poly.getVertices();
+        double angleRotation = -calculAngleTotal(poly, pos);
         double cosAngle = Math.cos(angleRotation);
         double sinAngle = Math.sin(angleRotation);
         for (Point point : pointPolygone) {
@@ -52,11 +47,12 @@ public class CalculPoints {
         return points;
     }
 
-    private static ArrayList<Point> calculPointGeneric(double angle, Position position, double la, double lo) {
+    private static List<Point> calculPointGeneric(Shape shape, Position position, double la, double lo) {
         ArrayList<Point> points = new ArrayList<>();
-        Point centre = new Point(position.getX(), position.getY());
-        double sinus = Math.sin(angle);
-        double cosinus = Math.cos(angle);
+        final double angle = CalculPoints.calculAngleTotal(shape, position);
+        final Point centre = new Point(position.getX(), position.getY());
+        final double sinus = Math.sin(angle);
+        final double cosinus = Math.cos(angle);
         points.add(new Point(la * cosinus + lo * sinus, -la * sinus + lo * cosinus).addPoint(centre));
         points.add(new Point(-la * cosinus + lo * sinus, la * sinus + lo * cosinus).addPoint(centre));
         points.add(new Point(la * cosinus - lo * sinus, -la * sinus - lo * cosinus).addPoint(centre));
@@ -64,11 +60,11 @@ public class CalculPoints {
         return points;
     }
 
-    public static ArrayList<VisibleEntitie> entitiesToEntitiesPolygone(ArrayList<VisibleEntitie> entities){
-        ArrayList<VisibleEntitie> resultat = new ArrayList<>();
-        ArrayList<Point> pointShape;
-        for ( VisibleEntitie entitie : entities){
-            if( entitie.getShape() instanceof Circle){
+    public static List<VisibleEntitie> entitiesToEntitiesPolygone(List<VisibleEntitie> entities) {
+        List<VisibleEntitie> resultat = new ArrayList<>();
+        List<Point> pointShape;
+        for (VisibleEntitie entitie : entities) {
+            if (entitie.getShape() instanceof Circle) {
                 resultat.add(entitie);
                 continue;
             }
