@@ -11,19 +11,18 @@ import java.util.Objects;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Polygone extends Shape{
+public class Polygone extends Shape {
 
     private double orientation;
     private Point[] vertices;
 
-    public Polygone(){
+    public Polygone() {
         setType("polygon");
     }
 
-    public Polygone(String type, double orientation, Point[] vertices){
+    public Polygone(String type, double orientation, Point[] vertices) {
         super(type);
         this.orientation = orientation;
         this.vertices = vertices;
@@ -38,14 +37,8 @@ public class Polygone extends Shape{
     }
 
     /**
-     * @return les sommets du polygone
-     */
-    public Point[] getVertices() {
-        return vertices;
-    }
-
-    /**
      * Modifie l'orientation du polygone
+     *
      * @param orientation
      */
     public void setOrientation(double orientation) {
@@ -53,7 +46,15 @@ public class Polygone extends Shape{
     }
 
     /**
+     * @return les sommets du polygone
+     */
+    public Point[] getVertices() {
+        return vertices;
+    }
+
+    /**
      * Modifie les sommets du polygone
+     *
      * @param vertices
      */
     public void setVertices(Point[] vertices) {
@@ -77,9 +78,6 @@ public class Polygone extends Shape{
 
     @Override
     public String toString() {
-        return "Polygone{" +
-                "orientation=" + orientation +
-                ", vertices=" + Arrays.toString(vertices) +
-                '}';
+        return "Polygone{" + "orientation=" + orientation + ", vertices=" + Arrays.toString(vertices) + '}';
     }
 }

@@ -8,16 +8,15 @@ package fr.unice.polytech.si3.qgl.ajil.actions;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Turn extends Action{
+public class Turn extends Action {
 
-    private double rotation=0;
+    private double rotation = 0;
 
     public Turn(int sailorId, double rotation) {
         super(sailorId, Actions.TURN);
-        this.rotation=rotation;
+        this.rotation = rotation;
     }
 
     public double getRotation() {

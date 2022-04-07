@@ -8,16 +8,15 @@ package fr.unice.polytech.si3.qgl.ajil.shipentities;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class OarEntity extends Entity {
 
-    public OarEntity(){
+    public OarEntity() {
         setType("oar");
     }
 
-    public OarEntity(int x, int y,String type){
+    public OarEntity(int x, int y, String type) {
         super(x, y, type);
     }
 }

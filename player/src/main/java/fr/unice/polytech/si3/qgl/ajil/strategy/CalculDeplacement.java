@@ -41,7 +41,7 @@ public class CalculDeplacement {
         final double angle = v_ship.angleBetweenVectors(v_check);
         System.out.println(checkpoint);
         // Si le bateau est aligné avec le checkpoint d'un angle inférieur à 1° sinon on aurait pas de points d'intersection
-        if(Math.abs(angle) < 0.01745329){
+        if (Math.abs(angle) < 0.01745329) {
             ArrayList<Point> points_dintersection = intersection(ship, v_ship, checkpoint);
             System.out.println(points_dintersection);
             distance = getDistancePointIntersection(points_dintersection, ship);
@@ -55,12 +55,13 @@ public class CalculDeplacement {
         return getDeplacement(nbr_rames, distance, angle, futur_angle, angles_possibles, angle_maximum);
     }
 
-    private double getDistance(Ship ship, Checkpoint checkpoint){
+    private double getDistance(Ship ship, Checkpoint checkpoint) {
         return Math.sqrt(Math.pow((checkpoint.getPosition().getX() - ship.getPosition().getX()), 2) + Math.pow((checkpoint.getPosition().getY() - ship.getPosition().getY()), 2));
     }
 
     /**
      * Méthode calculant la distance la plus petite entre le bateau et le point d'intersection avec le checkpoint visé
+     *
      * @param points
      * @param ship
      * @return la distance la plus petite entre le bateau et les points de la liste de points d'intersection
@@ -70,10 +71,10 @@ public class CalculDeplacement {
         double distmin = Math.sqrt(Math.pow((points.get(0).getX() - ship.getPosition().getX()), 2) + Math.pow((points.get(0).getY() - ship.getPosition().getY()), 2));
         System.out.println("Point 1: " + points.get(0));
         points.remove(0);
-        for(Point point: points){
+        for (Point point : points) {
             System.out.println("Point 2: " + point);
             double distance = Math.sqrt(Math.pow((point.getX() - ship.getPosition().getX()), 2) + Math.pow((point.getY() - ship.getPosition().getY()), 2));
-            if(distmin > distance){
+            if (distmin > distance) {
                 distmin = distance;
             }
         }
@@ -102,9 +103,9 @@ public class CalculDeplacement {
             angles_possibles.removeIf(a -> Math.abs(a) < Math.PI / 4);
             if (angles_possibles.size() == 0) return deplacement;
         }
-        while(angles_possibles.size() != 0) {
+        while (angles_possibles.size() != 0) {
             Double new_angle_maximum = quelEstLangleMaximum(angles_possibles);
-            if(Math.abs(angle) < angle_maximum && Math.abs(angle) >= new_angle_maximum){
+            if (Math.abs(angle) < angle_maximum && Math.abs(angle) >= new_angle_maximum) {
                 // Faire une rotation du nouvel angle maximum
                 deplacement.setVitesse(vitesseAdapte(new_angle_maximum, nbr_rames)); // Faire une méthode qui calcule la vitesse minimum pour tourner d'un angle précis avec
                 // n'importe quel nombre de rames => on souhaite tourner à une vitesse minimale pour tourner "sec"
@@ -130,11 +131,12 @@ public class CalculDeplacement {
 
     /**
      * Méthode calculant les points d'intersection entre la droite de la trajectoire du bateau et le checkpoint (un cercle)
+     *
      * @param ship
      * @param checkpoint
      * @return les points d'intersection
      */
-    public ArrayList<Point> intersection(Ship ship, Vector v_ship, Checkpoint checkpoint){
+    public ArrayList<Point> intersection(Ship ship, Vector v_ship, Checkpoint checkpoint) {
         // (1) équation cercle: (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
         double r = ((Circle) checkpoint.getShape()).getRadius();
         double xc = checkpoint.getPosition().getX();
@@ -146,14 +148,14 @@ public class CalculDeplacement {
         double y1 = ship.getPosition().getY();
         double x2 = ship.getPosition().getX() + v_ship.getX();
         double y2 = ship.getPosition().getY() + v_ship.getY();
-        if(Math.abs(x2 - x1) < 0.0001){
+        if (Math.abs(x2 - x1) < 0.0001) {
             return intersectionDroiteVerticaleCircle(ship, checkpoint);
         }
 
         // Etape 2: on calcule la pente si x1 != x2
-        double a = (y2 - y1)/(x2 - x1);
+        double a = (y2 - y1) / (x2 - x1);
         // Etape 3: On remplace dans l'équation a par la pente et x et y par un point pour trouver b
-        double b = y1 - a*x1;
+        double b = y1 - a * x1;
 
         // Maintenant on remplace (2) dans (1)
         // (x − xc)² + (a*x + b −yc)² = R²
@@ -161,23 +163,22 @@ public class CalculDeplacement {
         // x²(1 + a²) + x(−2*xc + 2*a*b − 2*a*yc) + (xc² + yc² + b²− 2*b*yc − R²) = 0
         // On a donc du second degré de la forme ax² + bx + c = 0 avec:
         ArrayList<Point> points_intersection = new ArrayList<>();
-        double A = 1 + a*a;
-        double B = 2 * (-xc + a*b - a*yc);
-        double C = xc*xc + yc*yc + b*b - 2*b*yc - r*r;
-        double delta = B*B - 4*A*C;
+        double A = 1 + a * a;
+        double B = 2 * (-xc + a * b - a * yc);
+        double C = xc * xc + yc * yc + b * b - 2 * b * yc - r * r;
+        double delta = B * B - 4 * A * C;
 
         if (delta > 0) {
-            double x = (-B - Math.sqrt(delta)) / (2*A);
-            double y = a*x + b;
+            double x = (-B - Math.sqrt(delta)) / (2 * A);
+            double y = a * x + b;
             points_intersection.add(new Point(x, y));
 
-            x = (-B + Math.sqrt(delta)) / (2*A);
-            y = a*x + b;
+            x = (-B + Math.sqrt(delta)) / (2 * A);
+            y = a * x + b;
             points_intersection.add(new Point(x, y));
-        }
-        else if (delta == 0) {
-            double x = -B / (2*A);
-            double y = a*x + b;
+        } else if (delta == 0) {
+            double x = -B / (2 * A);
+            double y = a * x + b;
             points_intersection.add(new Point(x, y));
         }
 
@@ -204,21 +205,20 @@ public class CalculDeplacement {
         // On a donc du second degré de la forme ax² + bx + c = 0 avec:
         ArrayList<Point> points_intersection = new ArrayList<>();
         double A = 1;
-        double B = -2*yc;
-        double C = a*a - 2*a*xc + xc*xc + yc*yc - r*r;
-        double delta = B*B - 4*A*C;
+        double B = -2 * yc;
+        double C = a * a - 2 * a * xc + xc * xc + yc * yc - r * r;
+        double delta = B * B - 4 * A * C;
 
         if (delta > 0) {
             double x = a;
-            double y = (-B - Math.sqrt(delta)) / (2*A);
+            double y = (-B - Math.sqrt(delta)) / (2 * A);
             points_intersection.add(new Point(x, y));
 
             x = a;
-            y = (-B + Math.sqrt(delta)) / (2*A);
+            y = (-B + Math.sqrt(delta)) / (2 * A);
             points_intersection.add(new Point(x, y));
-        }
-        else if (delta == 0) {
-            double y = -B / (2*A);
+        } else if (delta == 0) {
+            double y = -B / (2 * A);
             points_intersection.add(new Point(a, y));
         }
         return points_intersection;

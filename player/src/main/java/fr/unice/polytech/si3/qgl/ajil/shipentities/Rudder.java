@@ -8,17 +8,16 @@ package fr.unice.polytech.si3.qgl.ajil.shipentities;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Rudder extends Entity{
+public class Rudder extends Entity {
 
-    public Rudder(){
+    public Rudder() {
         setType("rudder");
     }
 
-    public Rudder( int x, int y, String type){
-        super(x, y,type);
+    public Rudder(int x, int y, String type) {
+        super(x, y, type);
     }
 
 }

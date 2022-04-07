@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class StratData {
 
-    protected Game jeu;
     protected final ArrayList<Action> actions;
+    protected Game jeu;
     protected Sailor sailorsManager;
     protected Sailor barreur;
 
@@ -18,12 +18,12 @@ public class StratData {
         this.actions = new ArrayList<>();
     }
 
-    public void setSailorsManager(Sailor sailManager) {
-        this.sailorsManager = sailManager;
-    }
-
     public Sailor getSailorsManager() {
         return this.sailorsManager;
+    }
+
+    public void setSailorsManager(Sailor sailManager) {
+        this.sailorsManager = sailManager;
     }
 
     public Sailor getBarreur() {

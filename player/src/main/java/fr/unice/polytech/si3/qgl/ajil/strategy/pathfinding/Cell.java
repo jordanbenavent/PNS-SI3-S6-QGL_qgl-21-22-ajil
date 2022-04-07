@@ -17,13 +17,13 @@ public class Cell {
     // Dit si la cellule fait partie de la solution finale
     public boolean solution;
 
-    public Cell(int i, int j){
+    public Cell(int i, int j) {
         this.i = i;
         this.j = j;
     }
 
     @Override
     public String toString() {
-        return "[" + i + "," + j +"]";
+        return "[" + i + "," + j + "]";
     }
 }

@@ -8,19 +8,18 @@ package fr.unice.polytech.si3.qgl.ajil.shipentities;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
-public class Canon extends Entity{
+public class Canon extends Entity {
 
     private boolean loaded;
     private double angle;
 
-    public Canon(){
+    public Canon() {
         setType("canon");
     }
 
-    public Canon(int x, int y, String type, boolean loaded, double angle){
+    public Canon(int x, int y, String type, boolean loaded, double angle) {
         super(x, y, type);
         this.loaded = loaded;
         this.angle = angle;
@@ -35,6 +34,7 @@ public class Canon extends Entity{
 
     /**
      * Modifie l'angle de visée
+     *
      * @param angle
      */
     public void setAngle(double angle) {
@@ -44,12 +44,13 @@ public class Canon extends Entity{
     /**
      * @return true si le canon est chargé, false sinon
      */
-    public boolean getLoaded(){
+    public boolean getLoaded() {
         return loaded;
     }
 
     /**
      * Modifie le boolean loaded qui signifie si le canon est chargé ou non
+     *
      * @param loaded
      */
     public void setLoaded(boolean loaded) {

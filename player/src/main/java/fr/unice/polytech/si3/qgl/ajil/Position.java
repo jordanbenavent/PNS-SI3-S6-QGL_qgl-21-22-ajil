@@ -11,7 +11,6 @@ import java.util.Objects;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Position {
@@ -20,9 +19,10 @@ public class Position {
     private double y;
     private double orientation;
 
-    public Position(){} // Pour le mapper
+    public Position() {
+    } // Pour le mapper
 
-    public Position(double x, double y, double orientation){
+    public Position(double x, double y, double orientation) {
         this.x = x;
         this.y = y;
         this.orientation = orientation;
@@ -36,10 +36,28 @@ public class Position {
     }
 
     /**
+     * Modifie la coordonnée x de la position de l'objet
+     *
+     * @param x
+     */
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    /**
      * @return la coordonnée y de la position de l'objet
      */
     public double getY() {
         return y;
+    }
+
+    /**
+     * Modifie la coordonnée y de la position de l'objet
+     *
+     * @param y
+     */
+    public void setY(double y) {
+        this.y = y;
     }
 
     /**
@@ -51,26 +69,11 @@ public class Position {
 
     /**
      * Modifie l'orientation de la position de l'objet
+     *
      * @param orientation
      */
     public void setOrientation(double orientation) {
         this.orientation = orientation;
-    }
-
-    /**
-     * Modifie la coordonnée x de la position de l'objet
-     * @param x
-     */
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    /**
-     * Modifie la coordonnée y de la position de l'objet
-     * @param y
-     */
-    public void setY(double y) {
-        this.y = y;
     }
 
     @Override
@@ -91,13 +94,8 @@ public class Position {
      */
 
 
-
     @Override
     public String toString() {
-        return "Position{" +
-                "x=" + x +
-                ", y=" + y +
-                ", orientation=" + orientation +
-                '}';
+        return "Position{" + "x=" + x + ", y=" + y + ", orientation=" + orientation + '}';
     }
 }
