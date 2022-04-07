@@ -122,45 +122,37 @@ public class AStar {
              Cell target;
              if(current.i -1 >= 0){
                  target = grid[current.i -1][current.j];
-                 System.out.println("NULL1");
                  updateCostIfNeeded(current, target, current.finalCost + V_H_COST);
 
                  if (current.j -1 >= 0){
-                     System.out.println("NULL2");
                      target = grid[current.i -1][current.j - 1];
                      updateCostIfNeeded(current, target, current.finalCost + DIAGONAL_COST);
                  }
                  if (current.j + 1 < grid[0].length){
-                     System.out.println("NULL3");
                      target = grid[current.i -1][current.j + 1];
                      updateCostIfNeeded(current, target, current.finalCost + DIAGONAL_COST);
                  }
              }
              if (current.j - 1 >= 0){
-                 System.out.println("NULL4");
                  target = grid[current.i][current.j - 1];
                  updateCostIfNeeded(current, target, current.finalCost + V_H_COST);
              }
 
             if (current.j + 1 < grid[0].length){
-                System.out.println("NULL5");
                 target = grid[current.i][current.j + 1];
                 updateCostIfNeeded(current, target, current.finalCost + V_H_COST);
             }
 
             if (current.i + 1 < grid.length){
-                System.out.println("NULL6");
                 target = grid[current.i + 1][current.j];
                 updateCostIfNeeded(current, target, current.finalCost + V_H_COST);
 
                 if (current.j - 1 >= 0){
-                    System.out.println("NULL7");
                     target = grid[current.i + 1][current.j - 1];
                     updateCostIfNeeded(current, target, current.finalCost + DIAGONAL_COST);
                 }
 
                 if (current.j + 1 < grid[0].length){
-                    System.out.println("NULL8");
                     target = grid[current.i + 1][current.j + 1];
                     updateCostIfNeeded(current, target, current.finalCost + DIAGONAL_COST);
                 }
