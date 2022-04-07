@@ -4,47 +4,49 @@ import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CalculIntersection {
 
     /**
      * Méthode global pour calculer l'intersection entre deux formes
-     * @param shape1 première forme
+     *
+     * @param shape1    première forme
      * @param position1 position de la forme 1
-     * @param shape2 deuxième forme
+     * @param shape2    deuxième forme
      * @param position2 position de la forme 2
      * @return true s'il y a une intersection, false sinon
      */
-    public static boolean intersection(Shape shape1, Position position1, Shape shape2, Position position2){
-        if(shape1 instanceof Circle && shape2 instanceof Circle){
+    public static boolean intersection(Shape shape1, Position position1, Shape shape2, Position position2) {
+        if (shape1 instanceof Circle && shape2 instanceof Circle) {
             return intersectionCircleCircle((Circle) shape1, position1, (Circle) shape2, position2);
         }
-        if(shape1 instanceof Circle && shape2 instanceof Rectangle){
+        if (shape1 instanceof Circle && shape2 instanceof Rectangle) {
             return intersectionCircleRectangle((Circle) shape1, position1, (Rectangle) shape2, position2);
         }
-        if(shape1 instanceof Rectangle && shape2 instanceof Circle){
+        if (shape1 instanceof Rectangle && shape2 instanceof Circle) {
             return intersectionCircleRectangle((Circle) shape2, position2, (Rectangle) shape1, position1);
         }
-        if(shape1 instanceof Circle && shape2 instanceof Polygone){
+        if (shape1 instanceof Circle && shape2 instanceof Polygone) {
             return intersectionCirclePolygone((Circle) shape1, position1, (Polygone) shape2, position2);
         }
-        if(shape1 instanceof Polygone && shape2 instanceof Circle){
+        if (shape1 instanceof Polygone && shape2 instanceof Circle) {
             return intersectionCirclePolygone((Circle) shape2, position2, (Polygone) shape1, position1);
         }
         return intersectionSegmentsSegments(shape1, position1, shape2, position2);
     }
 
     public static boolean intersectionCirclePolygone(Circle circle, Position position1, Polygone polygone, Position position2) {
-        ArrayList<Point> pointsRectangle = CalculPoints.calculExtremityPoints(polygone,position2);
+        List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(polygone, position2);
         return intersectionCircleSegments(circle, position1, pointsRectangle);
     }
 
     public static boolean intersectionCircleRectangle(Circle circle, Position position1, Rectangle rectangle, Position position2) {
-        ArrayList<Point> pointsRectangle = CalculPoints.calculExtremityPoints(rectangle,position2);
+        List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(rectangle, position2);
         return intersectionCircleSegments(circle, position1, pointsRectangle);
     }
 
-    public static boolean intersectionCircleSegments(Circle circle, Position position, ArrayList<Point> points) {
+    public static boolean intersectionCircleSegments(Circle circle, Position position, List<Point> points) {
         int size = points.size();
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
@@ -120,16 +122,16 @@ public class CalculIntersection {
         return (yb1 <= y2 && y2 <= yb2) || (yb2 <= y2 && y2 <= yb1);
     }
 
-    public static boolean intersectionSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2){
-        ArrayList<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
-        ArrayList<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
-        int sizePoint1 = pointsShape1.size();
-        int sizePoint2 = pointsShape2.size();
-        for (int i = 0; i<sizePoint1; i++){
-            for (int j = i; j<sizePoint1; j++){
-                for (int k = 0; k<sizePoint2; k++){
-                    for (int l = k; l< sizePoint2; l++){
-                        if(intersectionSegmentSegment(pointsShape1.get(i), pointsShape1.get(j), pointsShape2.get(k), pointsShape2.get(l))){
+    public static boolean intersectionSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2) {
+        List<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
+        List<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
+        final int sizePoint1 = pointsShape1.size();
+        final int sizePoint2 = pointsShape2.size();
+        for (int i = 0; i < sizePoint1; i++) {
+            for (int j = i; j < sizePoint1; j++) {
+                for (int k = 0; k < sizePoint2; k++) {
+                    for (int l = k; l < sizePoint2; l++) {
+                        if (intersectionSegmentSegment(pointsShape1.get(i), pointsShape1.get(j), pointsShape2.get(k), pointsShape2.get(l))) {
                             return true;
                         }
                     }
@@ -153,39 +155,40 @@ public class CalculIntersection {
         double b;
         double c;
         double d;
-        if(x1==x2 && x2!=x3 && x3==x4){
+        if (x1 == x2 && x2 != x3 && x3 == x4) {
             return false;
         }
-        if(x1==x2 && x2==x3 && x3==x4){
-            return ((y1<=y4 && y1>=y3)) ||((y1>=y4) && (y1<=y3)) || ((y2<=y4) && (y2>=y3)) || ((y2>=y4) && (y2<=y3));
+        boolean condition_b1 = ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
+        if (x1 == x2 && x2 == x3 && x3 == x4) {
+            return condition_b1;
         }
         double xtemp;
         double ytemp;
-        if(x1==x2 && x3!=x4){
-            c = (y4-y3)/(x4-x3);
+        if (x1 == x2 && x3 != x4) {
+            c = (y4 - y3) / (x4 - x3);
             d = (y3 - c * x3);
-            ytemp = c*x1 + d;
-            return (ytemp<=y4 && ytemp >= y3) || (ytemp>=y4 && ytemp <= y3);
+            ytemp = c * x1 + d;
+            return (ytemp <= y4 && ytemp >= y3) || (ytemp >= y4 && ytemp <= y3);
         }
-        if(x1!=x2 && x3==x4){
-            a = (y2-y1)/(x2-x1);
+        if (x1 != x2 && x3 == x4) {
+            a = (y2 - y1) / (x2 - x1);
             b = (y1 - a * x1);
-            ytemp = a*x3 + b;
-            return (ytemp<=y2 && ytemp >= y1) || (ytemp>=y2 && ytemp <= y1);
+            ytemp = a * x3 + b;
+            return (ytemp <= y2 && ytemp >= y1) || (ytemp >= y2 && ytemp <= y1);
         }
-        a = (y2-y1)/(x2-x1);
+        a = (y2 - y1) / (x2 - x1);
         b = (y1 - a * x1);
-        c = (y4-y3)/(x4-x3);
+        c = (y4 - y3) / (x4 - x3);
         d = (y3 - c * x3);
-        if(a==c && b==d){
-            return ((y1<=y4 && y1>=y3)) ||((y1>=y4) && (y1<=y3)) || ((y2<=y4) && (y2>=y3)) || ((y2>=y4) && (y2<=y3));
+        if (a == c && b == d) {
+            return condition_b1;
         }
-        if(a==c){
+        if (a == c) {
             return false;
         }
-        xtemp = (d-b)/(a-c);
-        ytemp = a*xtemp+b;
-        return ((ytemp<=y2 && ytemp>=y1) || (ytemp>=y2 && ytemp<=y1)) && ((ytemp<=y4 && ytemp>=y2) || (ytemp>=y4 && ytemp<=y2));
+        xtemp = (d - b) / (a - c);
+        ytemp = a * xtemp + b;
+        return ((ytemp <= y2 && ytemp >= y1) || (ytemp >= y2 && ytemp <= y1)) && ((ytemp <= y4 && ytemp >= y2) || (ytemp >= y4 && ytemp <= y2));
     }
 
     public static boolean intersectionCircleCircle(Circle circle1, Position position1, Circle circle2, Position position2) {
@@ -196,8 +199,7 @@ public class CalculIntersection {
         return pointCircle1.distance(pointCircle2) <= (rs + rc);
     }
 
-    public ArrayList<Point> equationSecondDegres(double a, double b, double c){ //ax^2+bx+c==0
-        ArrayList<Point> solution = new ArrayList<Point>();
-        return solution;
+    public List<Point> equationSecondDegres(double a, double b, double c) { //ax^2+bx+c==0
+        return new ArrayList<>();
     }
 }

@@ -10,7 +10,6 @@ import java.util.Objects;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Point {
@@ -18,9 +17,10 @@ public class Point {
     private double x;
     private double y;
 
-    public Point(){}
+    public Point() {
+    }
 
-    public Point(double x, double y){
+    public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -33,14 +33,8 @@ public class Point {
     }
 
     /**
-     * @return la coordonnée y
-     */
-    public double getY() {
-        return y;
-    }
-
-    /**
      * Modifie la coordonnée x
+     *
      * @param x
      */
     public void setX(double x) {
@@ -48,7 +42,15 @@ public class Point {
     }
 
     /**
+     * @return la coordonnée y
+     */
+    public double getY() {
+        return y;
+    }
+
+    /**
      * Modifie la coordonnée y
+     *
      * @param y
      */
     public void setY(double y) {
@@ -57,20 +59,22 @@ public class Point {
 
     /**
      * Ajoute les coordonnées de deux points
+     *
      * @param other
      * @return un point qui est le résultat du calcul
      */
     public Point addPoint(Point other) {
-        return new Point(this.x+other.x, this.y+other.y);
+        return new Point(this.x + other.x, this.y + other.y);
     }
 
     /**
      * Calcule la distance entre deux points
+     *
      * @param other
      * @return la distance
      */
     public double distance(Point other) {
-        return Math.sqrt((this.x - other.x)*(this.x - other.x) + (this.y - other.y)*(this.y - other.y));
+        return Math.sqrt((this.x - other.x) * (this.x - other.x) + (this.y - other.y) * (this.y - other.y));
     }
 
     /**
@@ -98,8 +102,6 @@ public class Point {
      */
     @Override
     public String toString() {
-        return  "("+x +
-                "," + y +
-                ')';
+        return "(" + x + "," + y + ')';
     }
 }

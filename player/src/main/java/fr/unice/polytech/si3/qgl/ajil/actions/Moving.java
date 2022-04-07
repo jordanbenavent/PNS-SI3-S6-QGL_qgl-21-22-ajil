@@ -8,7 +8,6 @@ package fr.unice.polytech.si3.qgl.ajil.actions;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Moving extends Action {
@@ -30,14 +29,8 @@ public class Moving extends Action {
     }
 
     /**
-     * @return la distance parcourue en y
-     */
-    public int getYdistance() {
-        return ydistance;
-    }
-
-    /**
      * Modifie la distance parcourue en x
+     *
      * @param xdistance
      */
     public void setXdistance(int xdistance) {
@@ -45,7 +38,15 @@ public class Moving extends Action {
     }
 
     /**
+     * @return la distance parcourue en y
+     */
+    public int getYdistance() {
+        return ydistance;
+    }
+
+    /**
      * Modifie la distance parcourue en y
+     *
      * @param ydistance
      */
     public void setYdistance(int ydistance) {

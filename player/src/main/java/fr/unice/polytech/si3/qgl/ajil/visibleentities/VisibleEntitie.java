@@ -4,16 +4,15 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.*;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value= OtherShip.class, name = "ship"),
-        @JsonSubTypes.Type(value= Reef.class, name = "reef"),
-        @JsonSubTypes.Type(value= Stream.class, name = "stream")
+        @JsonSubTypes.Type(value = OtherShip.class, name = "ship"),
+        @JsonSubTypes.Type(value = Reef.class, name = "reef"),
+        @JsonSubTypes.Type(value = Stream.class, name = "stream")
 })
 public class VisibleEntitie {
     private String type;
@@ -21,32 +20,33 @@ public class VisibleEntitie {
     private Shape shape;
     private VisibleEntities typeEntity;
 
-    public VisibleEntitie(){}
+    public VisibleEntitie() {
+    }
 
-    public VisibleEntitie(String type, Position position, Shape shape, VisibleEntities visibleEntities){
-        this.type=type;
-        this.position=position;
-        this.shape=shape;
+    public VisibleEntitie(String type, Position position, Shape shape, VisibleEntities visibleEntities) {
+        this.type = type;
+        this.position = position;
+        this.shape = shape;
     }
 
     public String getType() {
         return type;
     }
 
-    public Position getPosition() {
-        return position;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Shape getShape() {
-        return shape;
+    public Position getPosition() {
+        return position;
     }
 
     public void setPosition(Position position) {
         this.position = position;
     }
 
-    public void setType (String type) {
-        this.type=type;
+    public Shape getShape() {
+        return shape;
     }
 
     public void setShape(Shape shape) {
@@ -70,7 +70,7 @@ public class VisibleEntitie {
                 '}';
     }
 
-    public VisibleEntitie copy(){
-        return new VisibleEntitie(type,position, shape,typeEntity);
+    public VisibleEntitie copy() {
+        return new VisibleEntitie(type, position, shape, typeEntity);
     }
 }

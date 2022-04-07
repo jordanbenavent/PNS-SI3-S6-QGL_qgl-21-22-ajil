@@ -7,11 +7,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value=Circle.class, name = "circle"),
-        @JsonSubTypes.Type(value=Rectangle.class, name = "rectangle"),
-        @JsonSubTypes.Type(value=Polygone.class, name = "polygon")
-})
+@JsonSubTypes({@JsonSubTypes.Type(value = Circle.class, name = "circle"), @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle"), @JsonSubTypes.Type(value = Polygone.class, name = "polygon")})
 
 /**
  * Classe mère Shape représentant une forme
@@ -28,9 +24,10 @@ public class Shape {
 
     private String type;
 
-    public Shape(){}
+    public Shape() {
+    }
 
-    public Shape(String type){
+    public Shape(String type) {
         this.type = type;
     }
 
@@ -43,6 +40,7 @@ public class Shape {
 
     /**
      * Modifie le type de la forme
+     *
      * @param type
      */
     void setType(String type) {
@@ -54,12 +52,10 @@ public class Shape {
      */
     @Override
     public String toString() {
-        return "Shape{" +
-                "type='" + type + '\'' +
-                '}';
+        return "Shape{" + "type='" + type + '\'' + '}';
     }
 
-    public double getOrientation(){
+    public double getOrientation() {
         return 0;
     }
 }

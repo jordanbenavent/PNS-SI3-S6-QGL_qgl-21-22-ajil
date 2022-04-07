@@ -9,7 +9,6 @@ package fr.unice.polytech.si3.qgl.ajil.actions;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Deplacement {
@@ -17,10 +16,10 @@ public class Deplacement {
     private double vitesse = 165.0;
     private double angle = 0.0;
 
-    public Deplacement(){
+    public Deplacement() {
     }
 
-    public Deplacement(double vitesse, double angle){
+    public Deplacement(double vitesse, double angle) {
         this.vitesse = vitesse;
         this.angle = angle;
     }
@@ -34,6 +33,7 @@ public class Deplacement {
 
     /**
      * Modifie la vitesse du déplacement
+     *
      * @param vitesse setter to set Ship speed
      */
     public void setVitesse(double vitesse) {
@@ -49,6 +49,7 @@ public class Deplacement {
 
     /**
      * Modifie l'angle du déplacement
+     *
      * @param angle setter to set ship angle
      */
     public void setAngle(double angle) {
@@ -58,7 +59,7 @@ public class Deplacement {
     /**
      * @return un string contenant la vitesse et l'angle du déplacement
      */
-    public String toString(){
+    public String toString() {
         return "" + this.vitesse + ", " + this.angle;
     }
 }
