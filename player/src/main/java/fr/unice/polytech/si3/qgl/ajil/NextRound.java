@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Stream;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.HashSet;
@@ -91,6 +92,7 @@ public class NextRound {
         game.setShip(this.ship);
         game.setWind(this.wind);
         game.setReefs(searchReef());
+        game.setStreams(searchStream());
     }
 
     public Set<Reef> searchReef() {
@@ -103,5 +105,17 @@ public class NextRound {
             }
         }
         return reefs;
+    }
+
+    public Set<Stream> searchStream() {
+        Set<Stream> streams = new HashSet<>();
+        LOGGER.add("size entities" + visibleEntities.size());
+
+        for (VisibleEntitie entities : visibleEntities) {
+            if (entities.getType().equals("stream")) {
+                streams.add((Stream) entities);
+            }
+        }
+        return streams;
     }
 }

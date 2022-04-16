@@ -375,4 +375,9 @@ class CalculDeplacementTest {
         distance_min = Math.sqrt(Math.pow((points.get(0).getX() - ship.getPosition().getX()), 2) + Math.pow((points.get(0).getY() - ship.getPosition().getY()), 2));
         Assertions.assertEquals(distance_min, calculDeplacement.getDistancePointIntersection(points, ship));
     }
+
+    @Test
+    void getStreamsTest(){
+        System.out.println(jeu.toString());
+    }
 }
