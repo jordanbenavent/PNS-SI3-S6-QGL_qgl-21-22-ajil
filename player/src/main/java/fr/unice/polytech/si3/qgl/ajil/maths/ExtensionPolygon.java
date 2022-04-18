@@ -4,28 +4,23 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Stream;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class ExtensionPolygon {
 
     public ExtensionPolygon(){};
 
-    int calculArea (Polygone polygone){
+    double calculArea (Polygone polygone){
         int size = polygone.getVertices().length;
-        Point[] points = polygone.getVertices();
+        List<Point> pointList = Arrays.asList(polygone.getVertices());
+        ArrayList<Point> test = new ArrayList<>(pointList);
+        test.add(test.get(0));
         int area = 0;
-        for( int i = 0; i < size-1; i++ ) {
-            /*if(i+1==size){
-                System.out.println(points[i] + "" + points[0]);
-                area += points[i].getX() * (points[0].getY()) - points[0].getX() * (points[i].getY());
-            } else {
-                System.out.println(points[i] + "" + points[i+1]);
-                area += (points[i].getX() * points[i + 1].getY()) - (points[i + 1].getX() * (points[i].getY()));
-            }*/
-            System.out.println(area);
-            area += (points[i].getX() * points[i + 1].getY()) - (points[i + 1].getX() * (points[i].getY()));
-            //area += x[i+1]*(y[i+2]-y[i]) + y[i+1]*(x[i]-x[i+2]);
+        for( int i = 0; i < size; i++ ) {
+            area += test.get(i).getX() * test.get(i + 1).getY() - (test.get(i).getY() * test.get(i + 1).getX());
         }
         return area;
     }
