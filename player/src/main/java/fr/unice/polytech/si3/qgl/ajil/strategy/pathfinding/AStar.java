@@ -97,16 +97,16 @@ public class AStar {
 
     }
 
-    public void process() {
+    public void process() throws ArrayIndexOutOfBoundsException {
         // on ajoute le placement de départ dans openCells
         System.out.println("coucou");
-        System.out.println("startI "+startI);
-        System.out.println("startJ "+startJ);
+        System.out.println("startI " + startI);
+        System.out.println("startJ " + startJ);
         System.out.println("Grid existe " + grid.toString());
-        System.out.println("on a "+ grid[startI][startJ]);
-        System.out.println("grid existe ? "+grid.length);
-        System.out.println("Lentgh Colonne i  ? "+grid[startI].length);
-        System.out.println("Length Colonne j  ? "+grid[startJ].length);
+        System.out.println("on a " + grid[startI][startJ]);
+        System.out.println("grid existe ? " + grid.length);
+        System.out.println("Lentgh Colonne i  ? " + grid[startI].length);
+        System.out.println("Length Colonne j  ? " + grid[startJ].length);
         openCells.add(grid[startI][startJ]);
         Cell current;
 
@@ -200,7 +200,11 @@ public class AStar {
     // Calcul et return une liste de Positions
     public ArrayList<Position> obtenirLeChemin() {
         chemin = new ArrayList<>();
-        process();
+        try {
+            process();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Can't get path " + e);
+        }
         if (closedCells[endI][endJ]) {
             Cell current = grid[endI][endJ];
             chemin.add(new Position(current.i, current.j, 0));
