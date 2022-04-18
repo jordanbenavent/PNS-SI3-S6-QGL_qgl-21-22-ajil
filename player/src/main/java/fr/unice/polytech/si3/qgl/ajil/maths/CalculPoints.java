@@ -59,8 +59,8 @@ public class CalculPoints {
         double cosinus = Math.cos(angle);
         points.add(new Point(la * cosinus + lo * sinus, -la * sinus + lo * cosinus).addPoint(centre));
         points.add(new Point(-la * cosinus + lo * sinus, la * sinus + lo * cosinus).addPoint(centre));
-        points.add(new Point(la * cosinus - lo * sinus, -la * sinus - lo * cosinus).addPoint(centre));
         points.add(new Point(-la * cosinus - lo * sinus, la * sinus - lo * cosinus).addPoint(centre));
+        points.add(new Point(la * cosinus - lo * sinus, -la * sinus - lo * cosinus).addPoint(centre));
         return points;
     }
 

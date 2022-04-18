@@ -172,8 +172,8 @@ public class AStar {
     // Affichage
     public void display(){
         System.out.println("Griille / Map :");
-        for (int i = 0; i< grid.length; i++){
-            for (int j = 0; j<grid[i].length; j++){
+        for (int j = 0; j< grid.length; j++){
+            for (int i = 0; i<grid[0].length; i++){
                 if (i == startI && j == startJ){
                     System.out.print(ANSI_WHITE_BACKGROUND +ANSI_CYAN + "O   " + ANSI_RESET); // Origine
                 }
