@@ -46,7 +46,7 @@ public class AStarDeployment {
         Position pos;
         Checkpoint nouv;
         Shape checkpointShape = new Circle("circle",sizeCell/20);
-        for(int i=0;i<listePos.size();i++){
+        for(int i=0;i<listePos.size();i+=2){
             pos = listePos.get(i);
             double a = (origine.getX()+ pos.getX()* sizeCell) +sizeCell/20;
             double b = (origine.getY()+ pos.getY()* sizeCell) +sizeCell/20;
