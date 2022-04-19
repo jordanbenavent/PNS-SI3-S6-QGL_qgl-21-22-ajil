@@ -8,14 +8,16 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
-class CalculDeplacementTest {
+class CalculPointsDeplacementTest {
 
     CalculDeplacement calculDeplacement;
     Strategy strategie;
@@ -374,5 +376,16 @@ class CalculDeplacementTest {
         points.add(new Point(17, 0));
         distance_min = Math.sqrt(Math.pow((points.get(0).getX() - ship.getPosition().getX()), 2) + Math.pow((points.get(0).getY() - ship.getPosition().getY()), 2));
         Assertions.assertEquals(distance_min, calculDeplacement.getDistancePointIntersection(points, ship));
+    }
+
+    @Test
+    void getStreamsTest(){
+        Set<Stream> streams = new HashSet<>();
+        Stream stream1 = new Stream("stream", new Position(0, 50, Math.PI/2), new Circle("circle", 2), 50);
+        Stream stream2 = new Stream("stream", new Position(0, -50, -Math.PI/2), new Circle("circle", 2), 60);
+        streams.add(stream1);
+        streams.add(stream2);
+        jeu.setStreams(streams);
+        System.out.println(jeu.getStreams());
     }
 }

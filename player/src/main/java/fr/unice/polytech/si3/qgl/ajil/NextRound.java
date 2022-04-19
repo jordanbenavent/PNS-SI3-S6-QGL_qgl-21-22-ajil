@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Stream;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.HashSet;
@@ -90,9 +91,13 @@ public class NextRound {
     public void updateGame(Game game) {
         game.setShip(this.ship);
         game.setWind(this.wind);
-        game.setReefs(searchReef());
+        game.setReefs(streamToReef(searchStream(), searchReef()));
+        game.setStreams(searchStream());
     }
 
+    /**
+     * @return tous les récifs dans visibleEntities
+     */
     public Set<Reef> searchReef() {
         Set<Reef> reefs = new HashSet<>();
         LOGGER.add("size entities" + visibleEntities.size());
@@ -103,5 +108,58 @@ public class NextRound {
             }
         }
         return reefs;
+    }
+
+    /**
+     * @return tous les courants présents dans visibleEntities
+     */
+    public Set<Stream> searchStream() {
+        Set<Stream> streams = new HashSet<>();
+        LOGGER.add("size entities" + visibleEntities.size());
+
+        for (VisibleEntitie entities : visibleEntities) {
+            if (entities.getType().equals("stream")) {
+                streams.add((Stream) entities);
+            }
+        }
+        return streams;
+    }
+
+    /**
+     * Les courants ayant une force supérieure ou égale à 82.5 et étant contre le bateau sont
+     * désormais comptés comme étant des récifs.
+     * @param streams
+     * @param reefs
+     * @return les nouveaux récifs
+     */
+    public Set<Reef> streamToReef(Set<Stream> streams, Set<Reef> reefs){
+        for(Stream stream: streams){
+            if(stream.getStrength() >= 82.5 && faceAuCourant(ship, stream)) {
+                Reef reef = new Reef("reef", stream.getPosition(), stream.getShape());
+                reefs.add(reef);
+            }
+        }
+        return reefs;
+    }
+
+    /**
+     * Permet de savoir si le bateau fait face au courant ou non
+     * @param ship
+     * @param stream
+     * @return true si le bateau est face au courant, false sinon
+     */
+    public boolean faceAuCourant(Ship ship, Stream stream) {
+        final Vector v_ship = new Vector(Math.cos(ship.getPosition().getOrientation()), Math.sin(ship.getPosition().getOrientation()));
+        final Vector v_stream = new Vector(Math.cos(stream.getPosition().getOrientation()), Math.sin(stream.getPosition().getOrientation()));
+        final double angle = v_stream.angleBetweenVectors(v_ship);
+        // Si l'orientation du bateau et du courant est la même alors on retourne false
+        if(ship.getPosition().getOrientation() == stream.getPosition().getOrientation()){
+            return false;
+        }
+        final double angle_final = Math.PI - Math.abs(angle);
+        if (angle_final >= Math.PI / 4) {
+            return false;
+        }
+        return true;
     }
 }

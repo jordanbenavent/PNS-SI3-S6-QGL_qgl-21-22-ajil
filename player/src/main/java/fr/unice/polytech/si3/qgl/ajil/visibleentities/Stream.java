@@ -25,7 +25,7 @@ public class Stream extends VisibleEntitie {
 
     @Override
     public String toString() {
-        return super.toString() + "Stream{" +
+        return super.toString() +
                 "strength=" + strength +
                 '}';
     }
