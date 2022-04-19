@@ -73,7 +73,7 @@ public class CalculPoints {
                 resultat.add(entitie);
                 continue;
             }
-            pointShape = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), widthShip);
+            pointShape = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 500);
             VisibleEntitie tmp = entitie.copy();
             tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[pointShape.size()])));
             resultat.add(tmp);
