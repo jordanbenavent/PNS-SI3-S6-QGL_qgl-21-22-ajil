@@ -81,7 +81,7 @@ public class CalculPoints {
         return resultat;
     }
 
-    private static ArrayList<Point> calculExtremityPointsBigger(Shape shape, Position position, double widthShip) {
+    public static ArrayList<Point> calculExtremityPointsBigger(Shape shape, Position position, double widthShip) {
         if (shape instanceof Polygone) {
             return calculPointPolygon(shape, position);
         }

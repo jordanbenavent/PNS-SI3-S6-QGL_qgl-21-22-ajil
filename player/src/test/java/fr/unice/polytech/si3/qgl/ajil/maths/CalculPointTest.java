@@ -79,4 +79,14 @@ public class CalculPointTest {
         Assertions.assertEquals(3.6, ((Polygone) resultat.get(0).getShape()).getVertices()[0].getX(), 0.05);
         Assertions.assertEquals(1.1, ((Polygone) resultat.get(0).getShape()).getVertices()[0].getY(), 0.05);
     }
+
+    @Test
+    void calculExtremityPointBiigerRectangle(){
+        Rectangle rectangle = new Rectangle("rectangle", 2 ,4,0);
+        ArrayList<Point> point = CalculPoints.calculExtremityPointsBigger(rectangle, new Position(2, 2, 0),4);
+        Assertions.assertEquals(new Point(4, 5), point.get(0));
+        Assertions.assertEquals(new Point(0, 5), point.get(1));
+        Assertions.assertEquals(new Point(0, -1), point.get(2));
+        Assertions.assertEquals(new Point(4, -1), point.get(3));
+    }
 }
