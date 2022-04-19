@@ -79,7 +79,7 @@ public class AStarDeployment {
 
         ArrayList<VisibleEntitie> mainList = new ArrayList<>(game.getReefs());
         LOGGER.add("on a nb recifs"+mainList.size());
-        ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList);
+        ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList, game.getShip().getDeck().getWidth());
 
         int[][] cellsB = pointsVersTableau( obstacleDetection.gridProcess(grid, visibleReefs));
 

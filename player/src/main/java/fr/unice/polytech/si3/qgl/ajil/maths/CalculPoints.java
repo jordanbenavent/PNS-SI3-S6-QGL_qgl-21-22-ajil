@@ -64,7 +64,8 @@ public class CalculPoints {
         return points;
     }
 
-    public static ArrayList<VisibleEntitie> entitiesToEntitiesPolygone(ArrayList<VisibleEntitie> entities){
+
+    public static ArrayList<VisibleEntitie> entitiesToEntitiesPolygone(ArrayList<VisibleEntitie> entities, int widthShip){
         ArrayList<VisibleEntitie> resultat = new ArrayList<>();
         ArrayList<Point> pointShape;
         for ( VisibleEntitie entitie : entities){
@@ -72,11 +73,25 @@ public class CalculPoints {
                 resultat.add(entitie);
                 continue;
             }
-            pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
+            pointShape = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), widthShip);
             VisibleEntitie tmp = entitie.copy();
             tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[pointShape.size()])));
             resultat.add(tmp);
         }
         return resultat;
+    }
+
+    private static ArrayList<Point> calculExtremityPointsBigger(Shape shape, Position position, double widthShip) {
+        if (shape instanceof Polygone) {
+            return calculPointPolygon(shape, position);
+        }
+        double largeur = 0;
+        double longueur = 0;
+        if (shape instanceof Rectangle) {
+            largeur = ((Rectangle) shape).getWidth()+ (widthShip/2);
+            longueur = ((Rectangle) shape).getHeight() + (widthShip/2);
+        }
+        double angle = CalculPoints.calculAngleTotal(shape, position);
+        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
     }
 }

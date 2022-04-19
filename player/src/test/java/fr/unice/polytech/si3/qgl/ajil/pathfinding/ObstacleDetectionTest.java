@@ -60,7 +60,7 @@ public class ObstacleDetectionTest {
                 new Rectangle("rectangle", 96.0, 180.0, 0.0)
         ));
 
-        ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(recif);
+        ArrayList<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(recif,0);
 
         System.out.println("Les vertices : " + visibleReefs.get(0).toString());
 
