@@ -66,6 +66,9 @@ public class CalculDeplacement {
      * @return la distance la plus petite entre le bateau et les points de la liste de points d'intersection
      */
     double getDistancePointIntersection(ArrayList<Point> points, Ship ship) {
+        if (points.size() == 0){
+            return 0; // Code temporaire, une erreur à gérer
+        }
         System.out.println("Ship: " + ship.getPosition());
         double distmin = Math.sqrt(Math.pow((points.get(0).getX() - ship.getPosition().getX()), 2) + Math.pow((points.get(0).getY() - ship.getPosition().getY()), 2));
         System.out.println("Point 1: " + points.get(0));

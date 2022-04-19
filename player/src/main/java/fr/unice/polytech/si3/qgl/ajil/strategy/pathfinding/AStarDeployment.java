@@ -37,7 +37,7 @@ public class AStarDeployment {
     public Point gridSizeXY(Point shipPosition, Point checkPointPosition, double sizeCell){
         double x = Math.abs(shipPosition.getX() - checkPointPosition.getX());
         double y = Math.abs(shipPosition.getY() - checkPointPosition.getY());
-        return new Point( Math.ceil(x/sizeCell)+5, Math.ceil(y/sizeCell)+3 );
+        return new Point( Math.ceil(x/sizeCell)+10, Math.ceil(y/sizeCell)+10 );
     }
 
     // Récupère la liste des points donnés par AStar et crée une liste des Checkpoints
