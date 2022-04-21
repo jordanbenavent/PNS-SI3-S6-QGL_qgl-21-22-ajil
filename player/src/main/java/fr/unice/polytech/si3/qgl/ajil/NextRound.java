@@ -27,6 +27,7 @@ public class NextRound {
     private List<VisibleEntitie> visibleEntities;
     private Wind wind;
     public List<String> LOGGER = Cockpit.LOGGER;
+    private static boolean newRecifAdded = false;
 
 
     public NextRound(){}
@@ -44,6 +45,10 @@ public class NextRound {
         return visibleEntities;
     }
 
+    public static boolean getNewRecifAdded(){
+        return newRecifAdded;
+    }
+
     /**
      * @return le bateau durant le tour jeu
      */
@@ -57,6 +62,8 @@ public class NextRound {
     public Wind getWind() {
         return wind;
     }
+
+    public boolean isNewRecifAdded() {return newRecifAdded;}
 
     /**
      * Modifie le bateau durant le tour de jeu
@@ -96,9 +103,12 @@ public class NextRound {
         Set<Reef> reefs = new HashSet<>();
         LOGGER.add("size entities"+visibleEntities.size());
 
+        this.newRecifAdded = false;
         for (VisibleEntitie entities : visibleEntities){
             if( entities.getType().equals("reef")){
+                System.out.println("On a essaye d'ajouter un recif, peut etre il y etait deja");
                 reefs.add((Reef)entities);
+                this.newRecifAdded = true;
             }
         }
         return reefs;
