@@ -8,6 +8,17 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
+/**
+ * Classe mère VisibleEntitie regroupant les méthodes de base d'une entité visible
+ *
+ * @author Alexis Roche
+ * @author Louis Hattiger
+ * @author Jordan Benavent
+ * @author Igor Melnyk
+ * @author Tobias Bonifay
+ *
+ */
+
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = OtherShip.class, name = "ship"),
@@ -29,38 +40,69 @@ public class VisibleEntitie {
         this.shape = shape;
     }
 
+    /**
+     * @return le type d'entité visible
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Modifie le type de l'entité visible
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * @return la position de l'entité visible
+     */
     public Position getPosition() {
         return position;
     }
 
+    /**
+     * Modifie la position de l'entité visible
+     * @param position
+     */
     public void setPosition(Position position) {
         this.position = position;
     }
 
+    /**
+     * @return la forme de l'entité visible
+     */
     public Shape getShape() {
         return shape;
     }
 
+    /**
+     * Modifie la forme de l'entité visible
+     * @param shape
+     */
     public void setShape(Shape shape) {
         this.shape = shape;
     }
 
+    /**
+     * @return le type de l'entité (format enum)
+     */
     public VisibleEntities getTypeEntity() {
         return typeEntity;
     }
 
+    /**
+     * Modifie le type de l'entité (format enum)
+     * @param typeEntity
+     */
     public void setTypeEntity(VisibleEntities typeEntity) {
         this.typeEntity = typeEntity;
     }
 
+    /**
+     * @return un string composé du type, de la position et de la forme de l'entité
+     */
     @Override
     public String toString() {
         return "VisibleEntitie{" +

@@ -32,7 +32,6 @@ public class Wind {
 
     /**
      * Modifie l'orientation du vent
-     *
      * @param orientation
      */
     public void setOrientation(double orientation) {
@@ -48,7 +47,6 @@ public class Wind {
 
     /**
      * Modifie la force du vent
-     *
      * @param strength
      */
     public void setStrength(double strength) {

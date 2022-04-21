@@ -41,6 +41,10 @@ public class Circle extends Shape {
         this.radius = radius;
     }
 
+    /**
+     * @param o
+     * @return true si les cercles sont égaux, false sinon
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,8 +61,6 @@ public class Circle extends Shape {
     /**
      * @return un string composé du rayon du cercle
      */
-
-
     @Override
     public String toString() {
         return super.toString() + "Circle{" + "radius=" + radius + '}';

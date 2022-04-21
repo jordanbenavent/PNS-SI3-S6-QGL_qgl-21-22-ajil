@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe Stratégie regroupant des méthodes qui s'occupent de coordonnées les différentes autre classes ce ce package
+ * Classe Stratégie regroupant des méthodes qui s'occupent de coordonnées les différentes autres classes de ce package
  * pour effectuer les actions (gestion des marins et des déplacements)
  *
  * @author Alexis Roche

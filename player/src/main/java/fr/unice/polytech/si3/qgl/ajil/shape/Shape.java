@@ -40,7 +40,6 @@ public class Shape {
 
     /**
      * Modifie le type de la forme
-     *
      * @param type
      */
     void setType(String type) {
@@ -55,6 +54,9 @@ public class Shape {
         return "Shape{" + "type='" + type + '\'' + '}';
     }
 
+    /**
+     * @return 0
+     */
     public double getOrientation() {
         return 0;
     }

@@ -6,6 +6,16 @@ import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe du package maths regroupant tous les calculs d'intersection entre tout type d'objet géométrique
+ *
+ * @author Alexis Roche
+ * @author Louis Hattiger
+ * @author Jordan Benavent
+ * @author Igor Melnyk
+ * @author Tobias Bonifay
+ */
+
 public class CalculIntersection {
 
     /**
@@ -37,8 +47,8 @@ public class CalculIntersection {
     }
 
     public static boolean intersectionCirclePolygone(Circle circle, Position position1, Polygone polygone, Position position2) {
-        List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(polygone, position2);
-        return intersectionCircleSegments(circle, position1, pointsRectangle);
+        List<Point> pointsPolygone = CalculPoints.calculExtremityPoints(polygone, position2);
+        return intersectionCircleSegments(circle, position1, pointsPolygone);
     }
 
     public static boolean intersectionCircleRectangle(Circle circle, Position position1, Rectangle rectangle, Position position2) {

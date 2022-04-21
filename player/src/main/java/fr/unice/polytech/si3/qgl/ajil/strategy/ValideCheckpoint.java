@@ -9,6 +9,17 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe ValideCheckpoint regroupant toutes les méthodes permettant de savoir si un checkpoint est validé ou non
+ *
+ * @author Alexis Roche
+ * @author Louis Hattiger
+ * @author Jordan Benavent
+ * @author Igor Melnyk
+ * @author Tobias Bonifay
+ *
+ */
+
 public class ValideCheckpoint {
 
     public List<String> LOGGER = Cockpit.LOGGER;
