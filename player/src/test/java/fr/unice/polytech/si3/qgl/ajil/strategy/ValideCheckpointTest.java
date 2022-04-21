@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
-import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 class ValideCheckpointTest {
@@ -58,7 +58,7 @@ class ValideCheckpointTest {
                 new Deck(2, 2),
                 new ArrayList<>(),
                 new Rectangle("rectangle", 2, 2, 0));
-        ArrayList<Point> point = valideCheckpoint.calculPointShip(ship);
+        List<Point> point = valideCheckpoint.calculPointShip(ship);
         Assertions.assertEquals(new Point(3, 3), point.get(0));
         Assertions.assertEquals(new Point(1, 3), point.get(1));
         Assertions.assertEquals(new Point(1, 1), point.get(2));
@@ -78,7 +78,7 @@ class ValideCheckpointTest {
                 new Deck(2, 2),
                 new ArrayList<>(),
                 new Rectangle("rectangle", 2, 2, -3.35));
-        ArrayList<Point> point2 = valideCheckpoint.calculPointShip(ship);
+        List<Point> point2 = valideCheckpoint.calculPointShip(ship);
         Assertions.assertEquals(7.5,point2.get(0).getX(), 0.3);
         Assertions.assertEquals(3,point2.get(0).getY(), 0.3);
         Assertions.assertEquals(9,point2.get(1).getX(), 0.3);
@@ -97,7 +97,7 @@ class ValideCheckpointTest {
                 new Deck(2, 3),
                 new ArrayList<>(),
                 new Rectangle("rectangle", 2.5, 2.5, 3 * Math.PI / 4));
-        ArrayList<Point> point2 = valideCheckpoint.calculPointShip(ship);
+        List<Point> point2 = valideCheckpoint.calculPointShip(ship);
         //Le bateau est loin du checkpoint
         Assertions.assertFalse(valideCheckpoint.dansLeCercle(point2, checkpoint));
         checkpoint = new Checkpoint(new Position(0, 4, 0), new Circle("circle", 4));

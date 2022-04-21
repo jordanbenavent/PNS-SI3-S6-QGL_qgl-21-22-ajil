@@ -2,10 +2,7 @@ package fr.unice.polytech.si3.qgl.ajil;
 
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
-import lombok.extern.java.Log;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +23,7 @@ public class NextRound {
     private Ship ship;
     private List<VisibleEntitie> visibleEntities;
     private Wind wind;
-    public List<String> LOGGER = Cockpit.LOGGER;
+    public static final List<String> LOGGER = Cockpit.LOGGER;
     private static boolean newRecifAdded = false;
 
 

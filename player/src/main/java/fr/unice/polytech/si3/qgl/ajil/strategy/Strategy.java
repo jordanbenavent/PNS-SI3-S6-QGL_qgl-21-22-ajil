@@ -7,7 +7,6 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.AStarDeployment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,15 +23,15 @@ import java.util.List;
 public class Strategy {
 
 
+    private static final List<String> LOGGER = Cockpit.LOGGER;
     private final ObjectMapper objectMapper;
     //Autre classes ayant chacune une responsabilite pour calculer et mettre en place la strategie
     private final ValideCheckpoint valideCheckpoint;
     private final GestionMarins gestionMarins;
     private final GestionSail gestionSail;
     private final CalculDeplacement calculDeplacement;
-    private final List<String> LOGGER = Cockpit.LOGGER;
+    private final List<Checkpoint> listeCheckpoints;
     protected StratData stratData;
-    private List<Checkpoint> listeCheckpoints;
     private int listCheckpointsSize;
 
 
@@ -85,7 +84,7 @@ public class Strategy {
     /**
      * @return une liste d'actions à effectuer
      */
-    public ArrayList<Action> getListActions() {
+    public List<Action> getListActions() {
         return stratData.actions;
     }
 
@@ -109,7 +108,10 @@ public class Strategy {
      */
     public void effectuerActions() {
 
-        if(listeCheckpoints.isEmpty()){LOGGER.add("Aucun Checkpoint");return;}
+        if (listeCheckpoints.isEmpty()) {
+            LOGGER.add("Aucun Checkpoint");
+            return;
+        }
 
         Deplacement deplacement;
         Checkpoint c;
@@ -141,9 +143,6 @@ public class Strategy {
         }
 
 
-
-
-
         //Validation Checkpoint et Deplacement
         c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
 
@@ -161,7 +160,7 @@ public class Strategy {
         LOGGER.add("Calcule A Star : Avant A star on a nbcheckpo = "+listeCheckpoints.size());
 
         AStarDeployment deploy = new AStarDeployment(this.stratData.jeu,150);
-        ArrayList<Checkpoint> fauxCheckpoints = deploy.deployment();
+        List<Checkpoint> fauxCheckpoints = deploy.deployment();
         valideCheckpoint.setFakeCheckpoint(fauxCheckpoints);
         LOGGER.add("On vient de set nb FauxCheck : "+fauxCheckpoints.size());
 
