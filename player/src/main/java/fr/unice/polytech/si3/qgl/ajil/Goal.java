@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.ajil;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

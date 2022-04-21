@@ -198,7 +198,6 @@ public class CalculIntersection {
     }
 
     public List<Point> equationSecondDegres(double a, double b, double c) { //ax^2+bx+c==0
-        List<Point> solution = new ArrayList<Point>();
-        return solution;
+        return new ArrayList<>();
     }
 }

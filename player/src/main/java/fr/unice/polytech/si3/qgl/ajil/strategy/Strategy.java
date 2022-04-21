@@ -31,8 +31,11 @@ public class Strategy {
     private final GestionSail gestionSail;
     private final CalculDeplacement calculDeplacement;
     private final List<Checkpoint> listeCheckpoints;
-    protected StratData stratData;
+    protected final StratData stratData;
     private int listCheckpointsSize;
+    private boolean premierCalculA;
+    private int tailleRecifAvant = 0;
+    private Checkpoint prochainVraiCheckpoint;
 
 
     public Strategy(Game jeu) {
@@ -44,6 +47,7 @@ public class Strategy {
         calculDeplacement = new CalculDeplacement(stratData);
         listeCheckpoints = stratData.jeu.getGoal().getCheckpoints();
         listCheckpointsSize = listeCheckpoints.size();
+        premierCalculA = false;
     }
 
     public ValideCheckpoint getValideCheckpoint() {
@@ -134,16 +138,35 @@ public class Strategy {
 
         //Test A Star
 
-        LOGGER.add("le jeu voit"+stratData.jeu.getReefs().size()+"recif");
-
-        if(NextRound.getNewRecifAdded()){
-            System.out.println("On calcule AStar");
-            LOGGER.add("Nouveau recif calcul aSTAR");
-            calculAStar();
+        if (!premierCalculA) {
+            LOGGER.add("Premier Calcul ASTAR");
+            premierCalculA = true;
+            calculAStar(true);
         }
 
+        LOGGER.add("le jeu voit" + stratData.jeu.getReefs().size() + "recif et avant on avait " + tailleRecifAvant);
 
-        //Validation Checkpoint et Deplacement
+        if (stratData.jeu.getReefs().size() != tailleRecifAvant) {
+            LOGGER.add("Nouveau recif calcul aSTAR");
+            calculAStar(false);
+        }
+
+        calculAStar(false);
+
+        //mesure size
+        //Actions deplacement
+
+        if (this.listCheckpointsSize != listeCheckpoints.size()) {
+            listCheckpointsSize--;
+            calculAStar(false);
+        }
+        /*
+        if(c.equals(prochainVraiCheckpoint)){
+            LOGGER.add("On recalcule tout car on a atteint un vrai Checkpoint");
+            calculAStar(true);
+        }
+        */
+
         c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
 
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
@@ -153,19 +176,37 @@ public class Strategy {
         Wind wind = stratData.jeu.getWind();
         gestionSail.putSail(ship, wind);
 
+
+        tailleRecifAvant = stratData.jeu.getReefs().size();
     }
 
 
-    void calculAStar(){
-        LOGGER.add("Calcule A Star : Avant A star on a nbcheckpo = "+listeCheckpoints.size());
+    void calculAStar(boolean doitChangerCheckpoint) {
+        LOGGER.add("Calcule ASTAR");
 
-        AStarDeployment deploy = new AStarDeployment(this.stratData.jeu,160);
+        if (doitChangerCheckpoint) {
+            changeCheckpointTarget();
+        }
+        LOGGER.add("Avant A star" + listeCheckpoints.size());
+
+        AStarDeployment deploy = new AStarDeployment(this.stratData.jeu, 150);
         List<Checkpoint> fauxCheckpoints = deploy.deployment();
+        //appelle astart deployement et ajoute nouveaux checkpojt au debut
+        //fauxCheckpoints.addAll(listeCheckpoints);
         valideCheckpoint.setFakeCheckpoint(fauxCheckpoints);
-        LOGGER.add("On vient de set nb FauxCheck : "+fauxCheckpoints.size());
+        //listeCheckpoints = (ArrayList<Checkpoint>) fauxCheckpoints.clone();
+        LOGGER.add("Apres A star" + listeCheckpoints.size());
+        LOGGER.add("Apres A star" + valideCheckpoint.getFakeCheckpoint().size());
+
+        //stratData.jeu.getGoal().setCheckpoints(fauxCheckpoints);
 
     }
 
+
+    void changeCheckpointTarget() {
+        LOGGER.add("On change de vrai checpoint cible");
+        prochainVraiCheckpoint = listeCheckpoints.get(0);
+    }
 
 
 }

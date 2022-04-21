@@ -1,13 +1,13 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.strategy.Strategy;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe Cockpit
@@ -26,7 +26,7 @@ public class Cockpit implements ICockpit {
 	private Game jeu;
 	private Strategy strategy;
 	private NextRound nextRound;
-	ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	public static final List<String> LOGGER = new ArrayList<>();
 
 	/**

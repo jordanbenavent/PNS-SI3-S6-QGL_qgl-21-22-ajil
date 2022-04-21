@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GridCell {
-    private Point center;
-    private double size;
+    private final Point center;
+    private final double size;
     private boolean blocked = false;
     private List<Segment> segments = new ArrayList<>();
 
