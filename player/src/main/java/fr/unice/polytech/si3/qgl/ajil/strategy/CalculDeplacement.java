@@ -12,9 +12,9 @@ import java.util.Set;
 
 public class CalculDeplacement {
 
-    final public List<String> LOGGER = Cockpit.LOGGER;
-    final protected Game jeu;
-    final protected StratData stratData;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
+    protected final Game jeu;
+    protected final StratData stratData;
 
     public CalculDeplacement(StratData stratData) {
         this.jeu = stratData.jeu;
@@ -36,23 +36,23 @@ public class CalculDeplacement {
             checkpoint = viseExtremiteCheckpoint(checkpoint);
         }
 
-        final Vector v_ship = calculVecteurBateau(ship);
-        final Vector v_check = calculVecteurCheckpoint(checkpoint, ship);
-        final double angle = v_ship.angleBetweenVectors(v_check);
+        final Vector shipVector = calculVecteurBateau(ship);
+        final Vector checkVector = calculVecteurCheckpoint(checkpoint, ship);
+        final double angle = shipVector.angleBetweenVectors(checkVector);
         System.out.println(checkpoint);
         // Si le bateau est aligné avec le checkpoint d'un angle inférieur à 1° sinon on aurait pas de points d'intersection
-        if(Math.abs(angle) < 0.01745329){
-            ArrayList<Point> points_dintersection = intersection(ship, v_ship, checkpoint);
-            System.out.println(points_dintersection);
-            distance = getDistancePointIntersection(points_dintersection, ship);
+        if (Math.abs(angle) < 0.01745329) {
+            List<Point> intersectionPoints = intersection(ship, shipVector, checkpoint);
+            System.out.println(intersectionPoints);
+            distance = getDistancePointIntersection(intersectionPoints, ship);
             System.out.println(distance);
         }
 
-        final ArrayList<Deplacement> futur_angle = predictionAngleTourSuivant(v_ship, checkpoint);
-        Set<Double> angles_possibles = ship.getTurnRange();
-        angles_possibles.remove(0.0);
-        final double angle_maximum = quelEstLangleMaximum(angles_possibles);
-        return getDeplacement(nbr_rames, distance, angle, futur_angle, angles_possibles, angle_maximum);
+        final List<Deplacement> nextAngle = predictionAngleTourSuivant(shipVector, checkpoint);
+        Set<Double> anglesAvailable = ship.getTurnRange();
+        anglesAvailable.remove(0.0);
+        final double angle_maximum = quelEstLangleMaximum(anglesAvailable);
+        return getMove(nbr_rames, distance, angle, nextAngle, anglesAvailable, angle_maximum);
     }
 
     private double getDistance(Ship ship, Checkpoint checkpoint){
@@ -61,29 +61,30 @@ public class CalculDeplacement {
 
     /**
      * Méthode calculant la distance la plus petite entre le bateau et le point d'intersection avec le checkpoint visé
+     *
      * @param points
      * @param ship
      * @return la distance la plus petite entre le bateau et les points de la liste de points d'intersection
      */
-    double getDistancePointIntersection(ArrayList<Point> points, Ship ship) {
-        if (points.size() == 0){
+    double getDistancePointIntersection(List<Point> points, Ship ship) {
+        if (points.isEmpty()) {
             return 0; // Code temporaire, une erreur à gérer
         }
         System.out.println("Ship: " + ship.getPosition());
         double distmin = Math.sqrt(Math.pow((points.get(0).getX() - ship.getPosition().getX()), 2) + Math.pow((points.get(0).getY() - ship.getPosition().getY()), 2));
         System.out.println("Point 1: " + points.get(0));
         points.remove(0);
-        for(Point point: points){
+        for (Point point : points) {
             System.out.println("Point 2: " + point);
             double distance = Math.sqrt(Math.pow((point.getX() - ship.getPosition().getX()), 2) + Math.pow((point.getY() - ship.getPosition().getY()), 2));
-            if(distmin > distance){
+            if (distmin > distance) {
                 distmin = distance;
             }
         }
         return distmin;
     }
 
-    private Deplacement getDeplacement(int nbr_rames, double distance, double angle, ArrayList<Deplacement> futur_angle, Set<Double> angles_possibles, double angle_maximum) {
+    private Deplacement getMove(int oarsNb, double distance, double angle, List<Deplacement> nextAngle, Set<Double> availableAngles, double maxAngle) {
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
         final Sailor barreur = stratData.getBarreur();
         // Stratégie de déplacement commune aux deux stratégies (avec et sans barreur)
@@ -93,51 +94,51 @@ public class CalculDeplacement {
             else deplacement.setAngle(Math.PI / 2);
             return deplacement;
         }
-        angles_possibles.remove(Math.PI / 2);
-        angles_possibles.remove(-Math.PI / 2);
+        availableAngles.remove(Math.PI / 2);
+        availableAngles.remove(-Math.PI / 2);
         if (barreur != null) {
             // Dans le cas ou l'angle est inférieur ou égale à la valeur absolue de PI/4 on renvoie l'angle précis car c'est le gouvernail qui se chargera de tourner
             if (Math.abs(angle) <= Math.PI / 4) {
                 deplacement = deplacementSiGouvernail(angle, deplacement);
-                if (distance < 165.0) deplacement.setVitesse(vitesseSelonDistance(distance, nbr_rames));
+                if (distance < 165.0) deplacement.setVitesse(vitesseSelonDistance(distance, oarsNb));
                 return deplacement;
             }
-            angles_possibles.removeIf(a -> Math.abs(a) < Math.PI / 4);
-            if (angles_possibles.size() == 0) return deplacement;
+            availableAngles.removeIf(a -> Math.abs(a) < Math.PI / 4);
+            if (availableAngles.size() == 0) return deplacement;
         }
-        while(angles_possibles.size() != 0) {
-            Double new_angle_maximum = quelEstLangleMaximum(angles_possibles);
-            if(Math.abs(angle) < angle_maximum && Math.abs(angle) >= new_angle_maximum){
+        while (!availableAngles.isEmpty()) {
+            Double newMaximumAngle = quelEstLangleMaximum(availableAngles);
+            if (Math.abs(angle) < maxAngle && Math.abs(angle) >= newMaximumAngle) {
                 // Faire une rotation du nouvel angle maximum
-                deplacement.setVitesse(vitesseAdapte(new_angle_maximum, nbr_rames)); // Faire une méthode qui calcule la vitesse minimum pour tourner d'un angle précis avec
+                deplacement.setVitesse(vitesseAdapte(newMaximumAngle, oarsNb)); // Faire une méthode qui calcule la vitesse minimum pour tourner d'un angle précis avec
                 // n'importe quel nombre de rames => on souhaite tourner à une vitesse minimale pour tourner "sec"
-                if (angle < 0) deplacement.setAngle(-new_angle_maximum);
-                else deplacement.setAngle(new_angle_maximum);
+                if (angle < 0) deplacement.setAngle(-newMaximumAngle);
+                else deplacement.setAngle(newMaximumAngle);
                 return deplacement;
             }
-            angles_possibles.remove(new_angle_maximum);
-            angles_possibles.remove(-new_angle_maximum);
-            angle_maximum = new_angle_maximum;
+            availableAngles.remove(newMaximumAngle);
+            availableAngles.remove(-newMaximumAngle);
+            maxAngle = newMaximumAngle;
         }
-        //deplacement = deplacementParmiAnglesPossibles(angle, angles_possibles, angle_maximum, deplacement, nbr_rames);
         // Si on sort de la boucle il nous reste un avant-dernier cas, celui ou l'angle est supérieur à 1° en radian et inférieur au plus petit
         // angle de rotation réalisable par le bateau on fait donc appel à la méthode qui prédit le futur angle et qui choisit la
         // meilleure option de déplacement pour que le bateau puisse avancer.
-        if (Math.abs(angle) < angle_maximum && Math.abs(angle) > 0.01745329) {
-            deplacement = deplacementSelonPrediction(angle_maximum, futur_angle, deplacement);
+        if (Math.abs(angle) < maxAngle && Math.abs(angle) > 0.01745329) {
+            deplacement = deplacementSelonPrediction(maxAngle, nextAngle, deplacement);
         }
         // Cas où lorsqu'on avance tout droit et qu'on est donc proche du checkpoint => on ralentit
-        if (distance < 165.0) deplacement.setVitesse(vitesseSelonDistance(distance, nbr_rames));
+        if (distance < 165.0) deplacement.setVitesse(vitesseSelonDistance(distance, oarsNb));
         return deplacement;
     }
 
     /**
      * Méthode calculant les points d'intersection entre la droite de la trajectoire du bateau et le checkpoint (un cercle)
+     *
      * @param ship
      * @param checkpoint
      * @return les points d'intersection
      */
-    public ArrayList<Point> intersection(Ship ship, Vector v_ship, Checkpoint checkpoint){
+    public List<Point> intersection(Ship ship, Vector v_ship, Checkpoint checkpoint) {
         // (1) équation cercle: (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
         double r = ((Circle) checkpoint.getShape()).getRadius();
         double xc = checkpoint.getPosition().getX();
@@ -194,7 +195,7 @@ public class CalculDeplacement {
      * @param checkpoint
      * @return true si le côté du bateau coupe le checkpoint
      */
-    public ArrayList<Point> intersectionDroiteVerticaleCircle(Ship ship, Checkpoint checkpoint) {
+    public List<Point> intersectionDroiteVerticaleCircle(Ship ship, Checkpoint checkpoint) {
         //Dans ce cas la droite du bateau est de la forme x = a;
         double a = ship.getPosition().getX();
         double xc = checkpoint.getPosition().getX();
@@ -292,75 +293,75 @@ public class CalculDeplacement {
     /**
      * Stratégie de déplacement selon la prédiction du futur angle que le bateau aura avec le checkpoint après son déplacement
      *
-     * @param angle_maximum
-     * @param futur_angle
-     * @param deplacement
+     * @param maxAngle
+     * @param nextAngle
+     * @param move
      * @return le déplacement à effectuer
      */
-    public Deplacement deplacementSelonPrediction(Double angle_maximum, ArrayList<Deplacement> futur_angle, Deplacement deplacement) {
-        double vitesse_opti = 0;
+    public Deplacement deplacementSelonPrediction(Double maxAngle, List<Deplacement> nextAngle, Deplacement move) {
+        double bestSpeed = 0;
         double diffMin = -1;
-        for (Deplacement d : futur_angle) {
+        for (Deplacement d : nextAngle) {
             double diff;
             if (d.getAngle() < 0) {
-                diff = Math.abs(angle_maximum + d.getAngle());
+                diff = Math.abs(maxAngle + d.getAngle());
             } else {
-                diff = Math.abs(angle_maximum - d.getAngle());
+                diff = Math.abs(maxAngle - d.getAngle());
             }
             if (diffMin == -1 || diffMin > diff) {
                 diffMin = diff;
-                vitesse_opti = d.getVitesse();
+                bestSpeed = d.getVitesse();
             }
         }
-        deplacement.setVitesse(vitesse_opti);
-        deplacement.setAngle(0);
-        return deplacement;
+        move.setVitesse(bestSpeed);
+        move.setAngle(0);
+        return move;
     }
 
     /**
      * Calcul de la vitesse minimum pour tourner d'un angle précis avec n'importe quel nombre de rames,
      * on souhaite tourner à une vitesse minimale pour tourner "sec"
      *
-     * @param angle_rotation Angle
-     * @param nbr_rames      nombre de Oars
+     * @param angleRotation Angle
+     * @param oars          nombre de Oars
      * @return une vitesse minimale
      */
-    public Double vitesseAdapte(Double angle_rotation, int nbr_rames) {
+    public Double vitesseAdapte(Double angleRotation, int oars) {
         Double angle_possible;
-        int rame_utile = 100;
-        for (int i = 0; i <= nbr_rames / 2; i++) {
-            angle_possible = Math.PI * i / nbr_rames;
-            if (angle_possible.equals(angle_rotation)) {
-                rame_utile = i;
+        int usefulOars = 100;
+        for (int i = 0; i <= oars / 2; i++) {
+            angle_possible = Math.PI * i / oars;
+            if (angle_possible.equals(angleRotation)) {
+                usefulOars = i;
                 break;
             }
         }
-        double vitesse_une_rame = (double) 165 / nbr_rames;
-        return vitesse_une_rame * rame_utile;
+        double speedPerOar = (double) 165 / oars;
+        return speedPerOar * usefulOars;
     }
 
     /**
      * Calcule la vitesse max que l'on peut faire en allant tout droit lorsqu'on se rapproche du checkpoint
      *
      * @param distance
-     * @param nbr_rames
+     * @param oars
      * @return la vitesse du bateau adapté
      */
-    public Double vitesseSelonDistance(Double distance, int nbr_rames) {
-        double vitesse_une_rame = (double) 165 / nbr_rames;
-        double vitesse_max = 165.0;
-        while (vitesse_max > 0) {
-            if (distance >= vitesse_max) {
+    public Double vitesseSelonDistance(Double distance, int oars) {
+        double speedPerOar = (double) 165 / oars;
+        double maxSpeed = 165.0;
+        while (maxSpeed > 0) {
+            if (distance >= maxSpeed) {
                 break;
             }
-            vitesse_max -= 2 * vitesse_une_rame;
+            maxSpeed -= 2 * speedPerOar;
         }
         // Si on obtient une vitesse valant 0 on avance le moins vite possible pour pouvoir faire une rotation
         // par la suite sans trop s'éloigner
-        if (vitesse_max <= 0) {
-            vitesse_max = 2 * vitesse_une_rame;
+        if (maxSpeed <= 0) {
+            maxSpeed = 2 * speedPerOar;
         }
-        return vitesse_max;
+        return maxSpeed;
     }
 
     /**
@@ -385,10 +386,10 @@ public class CalculDeplacement {
      * @param checkpoint checkpoint
      * @return une liste de liste de double où chaque sous-liste contient une vitesse associée à un angle
      */
-    public ArrayList<Deplacement> predictionAngleTourSuivant(Vector v_ship, Checkpoint checkpoint) {
-        int nbr_oars = jeu.getShip().getOars().size();
+    public List<Deplacement> predictionAngleTourSuivant(Vector v_ship, Checkpoint checkpoint) {
+        int oars = jeu.getShip().getOars().size();
         ArrayList<Deplacement> prediction = new ArrayList<>();
-        double vitesse_init = 165;
+        final double initialSpeed = 165;
         double vitesse;
         double angle_apres_deplacement;
         double positionX_init = jeu.getShip().getPosition().getX();
@@ -396,7 +397,7 @@ public class CalculDeplacement {
         double positionX_apres_deplacement;
         double positionY_apres_deplacement;
         for (int i = 0; i < jeu.getShip().getOars().size() / 2; i++) {
-            vitesse = (vitesse_init * (nbr_oars - 2 * i)) / nbr_oars;
+            vitesse = (initialSpeed * (oars - 2 * i)) / oars;
             positionX_apres_deplacement = positionX_init + (vitesse * Math.cos(jeu.getShip().getPosition().getOrientation()));
             positionY_apres_deplacement = positionY_init + (vitesse * Math.sin(jeu.getShip().getPosition().getOrientation()));
             Vector new_v_check = new Vector(checkpoint.getPosition().getX() - positionX_apres_deplacement, checkpoint.getPosition().getY() - positionY_apres_deplacement);

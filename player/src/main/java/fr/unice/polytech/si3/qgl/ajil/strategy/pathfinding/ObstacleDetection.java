@@ -59,7 +59,7 @@ public class ObstacleDetection {
 
     // Prend un ensemble de points du polygone et crée les segments correspondants
     public List<Segment> createSegments(Point[] points, int size) {
-        ArrayList<Segment> resolution = new ArrayList<Segment>();
+        ArrayList<Segment> resolution = new ArrayList<>();
         for (int i = 0; i < size - 1; i++) {
             resolution.add(new Segment(points[i].getX(), points[i].getY(), points[i + 1].getX(), points[i + 1].getY()));
         }
