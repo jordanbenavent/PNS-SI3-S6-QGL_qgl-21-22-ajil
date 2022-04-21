@@ -71,6 +71,7 @@ public class CalculPoints {
         List<VisibleEntitie> resultat = new ArrayList<>();
         List<Point> pointShape;
         List<Point> pointShape2;
+        List<Point> pointShape3;
         for (VisibleEntitie entitie : entities) {
             if (entitie.getShape() instanceof Circle) {
                 resultat.add(entitie);
@@ -78,12 +79,16 @@ public class CalculPoints {
             }
             pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
             pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 200);
+            pointShape3 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(),400 );
             VisibleEntitie tmp = entitie.copy();
             VisibleEntitie tmp2 = entitie.copy();
+            VisibleEntitie tmp3 = entitie.copy();
             tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[pointShape.size()])));
             tmp2.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape2.toArray(new Point[pointShape2.size()])));
+            tmp3.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape3.toArray(new Point[pointShape3.size()])));
             resultat.add(tmp);
             resultat.add(tmp2);
+            resultat.add(tmp3);
         }
         return resultat;
     }
