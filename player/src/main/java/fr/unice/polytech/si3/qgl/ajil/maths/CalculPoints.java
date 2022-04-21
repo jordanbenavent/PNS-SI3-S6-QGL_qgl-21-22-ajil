@@ -68,15 +68,20 @@ public class CalculPoints {
     public static ArrayList<VisibleEntitie> entitiesToEntitiesPolygone(ArrayList<VisibleEntitie> entities, int widthShip){
         ArrayList<VisibleEntitie> resultat = new ArrayList<>();
         ArrayList<Point> pointShape;
+        ArrayList<Point> pointShape2;
         for ( VisibleEntitie entitie : entities){
             if( entitie.getShape() instanceof Circle){
                 resultat.add(entitie);
                 continue;
             }
-            pointShape = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 500);
+            pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
+            pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(),150 );
             VisibleEntitie tmp = entitie.copy();
+            VisibleEntitie tmp2 = entitie.copy();
             tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[pointShape.size()])));
+            tmp2.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape2.toArray(new Point[pointShape2.size()])));
             resultat.add(tmp);
+            resultat.add(tmp2);
         }
         return resultat;
     }
