@@ -23,8 +23,7 @@ public class CalculPoints {
             longueur = ((Rectangle) shape).getHeight();
         }
         double angle = CalculPoints.calculAngleTotal(shape, position);
-        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
-    }
+        return calculPointGeneric(angle, position, longueur / 2, largeur / 2);    }
 
     private static double calculAngleTotal(Shape shape, Position pos) {
         if (shape instanceof Circle) {
@@ -54,16 +53,17 @@ public class CalculPoints {
         return points;
     }
 
-    private static List<Point> calculPointGeneric(double angle, Position position, double la, double lo) {
-        List<Point> points = new ArrayList<>();
+    private static ArrayList<Point> calculPointGeneric(double angle, Position position, double lo, double la) {
+        ArrayList<Point> points = new ArrayList<>();
         Point centre = new Point(position.getX(), position.getY());
-        double sinus = Math.sin(angle);
-        double cosinus = Math.cos(angle);
-        points.add(new Point(la * cosinus + lo * sinus, -la * sinus + lo * cosinus).addPoint(centre));
-        points.add(new Point(-la * cosinus + lo * sinus, la * sinus + lo * cosinus).addPoint(centre));
-        points.add(new Point(-la * cosinus - lo * sinus, la * sinus - lo * cosinus).addPoint(centre));
-        points.add(new Point(la * cosinus - lo * sinus, -la * sinus - lo * cosinus).addPoint(centre));
+        double sinus = Math.sin(-angle);
+        double cosinus = Math.cos(-angle);
+        points.add(new Point(lo * cosinus + la * sinus, -lo * sinus + la * cosinus).addPoint(centre));
+        points.add(new Point(-lo * cosinus + la * sinus, lo * sinus + la * cosinus).addPoint(centre));
+        points.add(new Point(-lo * cosinus - la * sinus, lo * sinus - la * cosinus).addPoint(centre));
+        points.add(new Point(lo * cosinus - la * sinus, -lo * sinus - la * cosinus).addPoint(centre));
         return points;
+
     }
 
 

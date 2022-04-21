@@ -39,24 +39,25 @@ class CalculPointTest {
     }
 
     @Test
-    void calculExtremityPointRectangle() {
+    void calculExtremityPointRectangle(){
         List<Point> point = CalculPoints.calculExtremityPoints(rectangle, new Position(2, 2, 0));
         List<Point> point3 = CalculPoints.calculExtremityPoints(circle, new Position(2, 2, 0));
-        System.out.println(point3);
         Assertions.assertEquals(new Point(3, 3), point.get(0));
         Assertions.assertEquals(new Point(1, 3), point.get(1));
         Assertions.assertEquals(new Point(1, 1), point.get(2));
         Assertions.assertEquals(new Point(3, 1), point.get(3));
-        rectangle = new Rectangle("rectangle", 2, 2, -3.35);
-        List<Point> point2 = CalculPoints.calculExtremityPoints(rectangle, new Position(9, 3, 1.04));
-        Assertions.assertEquals(7.5, point2.get(0).getX(), 0.3);
-        Assertions.assertEquals(3, point2.get(0).getY(), 0.3);
-        Assertions.assertEquals(9, point2.get(1).getX(), 0.3);
-        Assertions.assertEquals(1.5, point2.get(1).getY(), 0.3);
-        Assertions.assertEquals(9, point2.get(3).getX(), 0.3);
-        Assertions.assertEquals(4.5, point2.get(3).getY(), 0.3);
-        Assertions.assertEquals(10.5, point2.get(2).getX(), 0.3);
-        Assertions.assertEquals(3, point2.get(2).getY(), 0.3);
+        rectangle = new Rectangle("rectangle", 2, 3, 3.49066);
+        List<Point> point2 = CalculPoints.calculExtremityPoints(rectangle, new Position(4, 5, -1.23918));
+        Assertions.assertEquals(2.2,point2.get(0).getX(), 0.3);
+        Assertions.assertEquals(5.5,point2.get(0).getY(), 0.3);
+        Assertions.assertEquals(4,point2.get(1).getX(), 0.3);
+        Assertions.assertEquals(3.2,point2.get(1).getY(), 0.3);
+        Assertions.assertEquals(5.7,point2.get(2).getX(), 0.3);
+        Assertions.assertEquals(4.5,point2.get(2).getY(), 0.3);
+        Assertions.assertEquals(3.8,point2.get(3).getX(), 0.3);
+        Assertions.assertEquals(6.8,point2.get(3).getY(), 0.3);
+
+
     }
 
     @Test
