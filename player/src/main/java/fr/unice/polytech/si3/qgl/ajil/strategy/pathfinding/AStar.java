@@ -11,45 +11,45 @@ import java.util.PriorityQueue;
 public class AStar {
 
     private ArrayList<Position> chemin;
-    public List<String> LOGGER = Cockpit.LOGGER;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
 
     // les couts pour un déplacement Vertical / Horizontal / Diagonal
     public static final int DIAGONAL_COST = 11;
     public static final int V_H_COST = 10;
 
     // Cellules de la grille
-    public Cell[][] grid;
+    private static Cell[][] grid;
 
     //On définit une queue de priorité
     //Open Cells : l'ensemble des nœuds à évaluer
     // On place les cellules qui coutent moins en premier
-    private PriorityQueue<Cell> openCells;
+    private final PriorityQueue<Cell> openCells;
 
     // Closed Cells : L'ensemble de noeuds déjà évalués
-    private boolean[][] closedCells;
+    private final boolean[][] closedCells;
 
     //Start cell
-    private int startI, startJ;
+    private int startI;
+    private int startJ;
     //End cell
-    private int endI, endJ;
+    private int endI;
+    private int endJ;
 
-    public AStar(int width, int height, int si, int sj, int ei, int ej, int[][] obstacles){
+    public AStar(int width, int height, int si, int sj, int ei, int ej, int[][] obstacles) {
         grid = new Cell[width][height];
         closedCells = new boolean[width][height];
-        openCells = new PriorityQueue<Cell>(
-                (Cell c1, Cell c2) -> {
-                    return c1.finalCost < c2.finalCost ? -1 : c1.finalCost > c2.finalCost ? 1 : 0 ;
-                }
+        openCells = new PriorityQueue<>(
+                (Cell c1, Cell c2) -> Integer.compare(c1.finalCost, c2.finalCost)
         );
 
         startCell(si, sj);
-        endCell( ei, ej );
+        endCell(ei, ej);
 
         // init heuristic et cells
-        for (int i = 0; i < grid.length; i++){
-            for (int j = 0; j < grid[i].length ; j++){
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j] = new Cell(i, j);
-                grid[i][j].heuristicCost = Math.abs(i - endI) + Math.abs( j - endJ);
+                grid[i][j].heuristicCost = Math.abs(i - endI) + Math.abs(j - endJ);
                 grid[i][j].solution = false;
             }
         }
@@ -57,8 +57,8 @@ public class AStar {
         grid[startI][startJ].finalCost = 0;
 
         //On met les obstacles dans la grille
-        for (int i = 0; i < obstacles.length; i++){
-            addObstaclesSurCell(obstacles[i][0], obstacles[i][1]);
+        for (int[] obstacle : obstacles) {
+            addObstaclesSurCell(obstacle[0], obstacle[1]);
         }
 
     }
@@ -192,15 +192,14 @@ public class AStar {
         System.out.println();
     }
 
-    public void displayScores(){
+    public void displayScores() {
         System.out.println("Score de chaque cellule :");
-        for (int i = 0; i< grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                if (grid[i][j] != null){
-                    System.out.printf("%-3d ", grid[i][j].finalCost);
-                }
-                else {
-                    System.out.print(ANSI_RED_BACKGROUND +"BL  "+ ANSI_RESET);
+        for (Cell[] cells : grid) {
+            for (Cell cell : cells) {
+                if (cell != null) {
+                    System.out.printf("%-3d ", cell.finalCost);
+                } else {
+                    System.out.print(ANSI_RED_BACKGROUND + "BL  " + ANSI_RESET);
                 }
             }
             System.out.println();
@@ -214,10 +213,10 @@ public class AStar {
         process();
         if (closedCells[endI][endJ]){
             Cell current = grid[endI][endJ];
-            chemin.add(new Position((double) current.i, (double) current.j, 0));
+            chemin.add(new Position(current.i, current.j, 0));
             grid[current.i][current.j].solution = true;
             while (current.parent != null){
-                chemin.add(new Position((double) current.parent.i, (double) current.parent.j, 0));
+                chemin.add(new Position(current.parent.i, current.parent.j, 0));
                 grid[current.parent.i][current.parent.j].solution = true;
                 current = current.parent;
             }

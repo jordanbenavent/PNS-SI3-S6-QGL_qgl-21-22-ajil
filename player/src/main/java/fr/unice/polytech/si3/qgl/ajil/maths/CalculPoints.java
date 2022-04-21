@@ -31,10 +31,10 @@ public class CalculPoints {
             return pos.getOrientation();
         }
         if (shape instanceof Rectangle) {
-            return pos.getOrientation() + ((Rectangle) shape).getOrientation();
+            return pos.getOrientation() + shape.getOrientation();
         }
         if (shape instanceof Polygone) {
-            return pos.getOrientation() + ((Polygone) shape).getOrientation();
+            return pos.getOrientation() + shape.getOrientation();
         }
         return 0;
     }
@@ -79,13 +79,13 @@ public class CalculPoints {
             }
             pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
             pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 200);
-            pointShape3 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(),400 );
+            pointShape3 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 400);
             VisibleEntitie tmp = entitie.copy();
             VisibleEntitie tmp2 = entitie.copy();
             VisibleEntitie tmp3 = entitie.copy();
-            tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[pointShape.size()])));
-            tmp2.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape2.toArray(new Point[pointShape2.size()])));
-            tmp3.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape3.toArray(new Point[pointShape3.size()])));
+            tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[0])));
+            tmp2.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape2.toArray(new Point[0])));
+            tmp3.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape3.toArray(new Point[0])));
             resultat.add(tmp);
             resultat.add(tmp2);
             resultat.add(tmp3);

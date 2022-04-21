@@ -16,16 +16,16 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
         @JsonSubTypes.Type(value = Sail.class, name = "sail")
 })
 
-/**
- * Classe mère Entity regroupant les méthodes de base d'une entité, elle est déclarée abstract car on ne déclarera
- * jamais une entité "par défaut".
- *
- * @author Alexis Roche
+/*
+  Classe mère Entity regroupant les méthodes de base d'une entité, elle est déclarée abstract car on ne déclarera
+  jamais une entité "par défaut".
+
+  @author Alexis Roche
  * @author Louis Hattiger
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
+
  */
 
 public abstract class Entity {

@@ -1,6 +1,5 @@
 package fr.unice.polytech.si3.qgl.ajil;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.HashSet;
 import java.util.List;
