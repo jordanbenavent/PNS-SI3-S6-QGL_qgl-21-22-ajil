@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
+import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.AStarDeployment;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 
 import java.util.List;
 
@@ -103,6 +105,18 @@ public class Strategy {
         return "";
     }
 
+
+    public boolean wayDirect(){
+        System.out.println("calcule WayDirect");
+        boolean res = true;
+        for(Reef reef : stratData.jeu.getReefs()){
+            CalculPoints.entitiesToEntitiesPolygone(reef.getShape());
+
+
+
+        }
+    }
+
     /**
      * Effectue les actions dans l'ordre qu'il faut
      */
@@ -140,6 +154,7 @@ public class Strategy {
             System.out.println("On calcule AStar");
             LOGGER.add("Nouveau recif calcul aSTAR");
             calculAStar();
+            //si direct setfake a nnull
         }
 
 
