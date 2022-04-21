@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
-import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Rudder;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Sail;
@@ -32,8 +32,8 @@ public class Ship {
     private List<Entity> entities;
     private Shape shape;
 
-    List<Entity> leftOars = new ArrayList<>();
-    List<Entity> rightOars = new ArrayList<>();
+    final List<Entity> leftOars = new ArrayList<>();
+    final List<Entity> rightOars = new ArrayList<>();
 
     public Ship() {
     }

@@ -16,8 +16,8 @@ public class GestionMarins {
     private boolean placementInit = false;
     private boolean placementBarreur = false;
     private boolean placementSailManagers = false;
-    protected StratData stratData;
-    public List<String> LOGGER = Cockpit.LOGGER;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
+    protected final StratData stratData;
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -47,14 +47,14 @@ public class GestionMarins {
     /**
      * @return la liste des marins à gauche du bateau
      */
-    public ArrayList<Sailor> getLeftSailors() {
+    public List<Sailor> getLeftSailors() {
         return leftSailors;
     }
 
     /**
      * @return la liste des marins à droite du bateau
      */
-    public ArrayList<Sailor> getRightSailors() {
+    public List<Sailor> getRightSailors() {
         return rightSailors;
     }
 
@@ -161,7 +161,7 @@ public class GestionMarins {
         }
     }
 
-    public Sailor findSailorById(int id, ArrayList<Sailor> sailors){
+    public Sailor findSailorById(int id, List<Sailor> sailors) {
         for (Sailor sailor : sailors) {
             if (sailor.getId() == id) {
                 return sailor;
@@ -190,9 +190,9 @@ public class GestionMarins {
     void ramerSelonVitesse(Deplacement deplacement){
         double angle = deplacement.getAngle();
 
-        if(Math.abs(angle)< Math.PI / 4 && barreur!=null){
+        if (Math.abs(angle) < Math.PI / 4 && barreur != null) {
             LOGGER.add("On tourne avec le gouvernail : " + angle);
-            Turn tournerGouvernail = new Turn(barreur.getId(),angle);
+            Turn tournerGouvernail = new Turn(barreur.getId(), angle);
             stratData.actions.add(tournerGouvernail);
             for (Sailor sailor : stratData.jeu.getSailors()) {
                 stratData.actions.add(new Oar(sailor.getId()));
@@ -200,56 +200,57 @@ public class GestionMarins {
             return;
         }
 
-        int sailor_qui_rame = 0;
-        double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
+        int rowingSailor = 0;
+        double sailorsNb = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
         // Si le bateau doit avancer tout droit, l'angle vaut 0
         if (deplacement.getAngle() == 0.0) {
-            for(Sailor sailor : leftSailors){
-                if(sailor_qui_rame >= nbr_sailors/2){
+            for (Sailor sailor : leftSailors) {
+                if (rowingSailor >= sailorsNb / 2) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
-            sailor_qui_rame = 0;
+            rowingSailor = 0;
             for(Sailor sailor : rightSailors){
-                if(sailor_qui_rame >= nbr_sailors/2){
+                if (rowingSailor >= sailorsNb / 2) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
             return;
         }
         if (deplacement.getAngle() < 0) {
             for (Sailor sailor : leftSailors) {
-                if(sailor_qui_rame == nbr_sailors){
+                if (rowingSailor == sailorsNb) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
         }
         else {
             for (Sailor sailor : rightSailors) {
-                if(sailor_qui_rame == nbr_sailors){
+                if (rowingSailor == sailorsNb) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
         }
     }
 
     /**
-     * Calcul le nombre de marins nécessaire pour adopté la vitesse en paramètre
-     * @param nbr_rames nb rames
-     * @param vitesse vitesse
+     * Calcul le nombre de marins nécessaire pour adopté la speed en paramètre
+     *
+     * @param oars  nb rames
+     * @param speed speed
      * @return le nombre de marins
      */
-    public double nbrSailorsNecessaires(double nbr_rames, double vitesse){
-        double vitesse_une_rame = 165/nbr_rames;
-        return vitesse/vitesse_une_rame;
+    public double nbrSailorsNecessaires(double oars, double speed) {
+        double speedPerOar = 165 / oars;
+        return speed / speedPerOar;
     }
 
     /**
@@ -273,11 +274,11 @@ public class GestionMarins {
         this.placementInit = true;
     }
 
-    public boolean deplacerRameurs(List<Entity> oars, ArrayList<Sailor> targetSide){
+    public boolean deplacerRameurs(List<Entity> oars, List<Sailor> targetSide) {
         boolean allInRange;
         boolean bienplace = true;
 
-        for (Sailor s : targetSide){
+        for (Sailor s : targetSide) {
             int distMin = 0;
             int index = -1;
             for (int i = 0; i < oars.size(); i++) {
