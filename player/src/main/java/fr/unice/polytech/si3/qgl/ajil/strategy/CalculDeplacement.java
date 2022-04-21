@@ -10,6 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Classe regroupant tous les calculs de déplacement en fonction du checkpoint que l'on vise, de si on a un gouvernail ou non
+ *
+ * @author Alexis Roche
+ * @author Louis Hattiger
+ * @author Jordan Benavent
+ * @author Igor Melnyk
+ * @author Tobias Bonifay
+ */
+
 public class CalculDeplacement {
 
     final public List<String> LOGGER = Cockpit.LOGGER;
@@ -55,6 +65,11 @@ public class CalculDeplacement {
         return getDeplacement(nbr_rames, distance, angle, futur_angle, angles_possibles, angle_maximum);
     }
 
+    /**
+     * @param ship
+     * @param checkpoint
+     * @return la distance entre le bateau et un checkpoint
+     */
     private double getDistance(Ship ship, Checkpoint checkpoint) {
         return Math.sqrt(Math.pow((checkpoint.getPosition().getX() - ship.getPosition().getX()), 2) + Math.pow((checkpoint.getPosition().getY() - ship.getPosition().getY()), 2));
     }
@@ -81,6 +96,17 @@ public class CalculDeplacement {
         return distmin;
     }
 
+    /**
+     * Méthode calculant le déplacement à effectuer pour le tour en cours
+     *
+     * @param nbr_rames
+     * @param distance
+     * @param angle
+     * @param futur_angle
+     * @param angles_possibles
+     * @param angle_maximum
+     * @return le déplacement (composé d'une vitesse et d'un angle) à effectuer
+     */
     private Deplacement getDeplacement(int nbr_rames, double distance, double angle, ArrayList<Deplacement> futur_angle, Set<Double> angles_possibles, double angle_maximum) {
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
         final Sailor coxswain = stratData.getCoxswain();

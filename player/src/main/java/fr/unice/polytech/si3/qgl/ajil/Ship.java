@@ -133,7 +133,6 @@ public class Ship {
 
     /**
      * Modifie la liste des entités
-     *
      * @param entities set ship entities
      */
     public void setEntities(List<Entity> entities) {
@@ -149,7 +148,6 @@ public class Ship {
 
     /**
      * Modifie la forme du bateau
-     *
      * @param shape set ship shape
      */
     public void setShape(Shape shape) {
@@ -196,7 +194,6 @@ public class Ship {
 
     /**
      * Renvoie toutes les possibilités d'angle que le bateau peut adopter en tournant avec un certain nombre de rames
-     *
      * @return un Set<Double> regroupant tous les angles possiblement effectuables
      */
     public Set<Double> getTurnRange() {

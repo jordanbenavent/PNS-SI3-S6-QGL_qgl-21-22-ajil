@@ -11,6 +11,17 @@ import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe regroupant toutes les actions des marins durant le tour, ils doivent se déplacer sur le bateau, ramer, aller
+ * sur le gouvernail, se répartir sur les rames
+ *
+ * @author Alexis Roche
+ * @author Louis Hattiger
+ * @author Jordan Benavent
+ * @author Igor Melnyk
+ * @author Tobias Bonifay
+ */
+
 public class GestionMarins {
 
     private final ArrayList<Sailor> leftSailors = new ArrayList<>();
@@ -83,7 +94,10 @@ public class GestionMarins {
         return true;
     }
 
-
+    /**
+     * @param entity
+     * @return le marin le plus proche d'une entité
+     */
     public Sailor marinLePlusProche(Entity entity) {
         List<Sailor> sailors = stratData.jeu.getSailors();
         if (sailors.isEmpty()) {
@@ -103,7 +117,7 @@ public class GestionMarins {
         return plusProche;
     }
 
-    /*
+    /**
      * Trouve le marin le plus proche de la voile et le déplace vers celle-ci
      */
     public void attribuerSailManager() {
@@ -123,7 +137,7 @@ public class GestionMarins {
         placementSailManagers = deplacerMarin(sailManager, sail);
     }
 
-    /*
+    /**
      * Trouve le marin le plus proche du gouvernail et le déplace vers celui-ci
      */
     public void attribuerCoxswain() {
@@ -163,6 +177,12 @@ public class GestionMarins {
         }
     }
 
+    /**
+     * Cherche le marin d'id voulu parmi la liste de marins
+     * @param id
+     * @param sailors
+     * @return le marin d'id voulu
+     */
     public Sailor findSailorById(int id, ArrayList<Sailor> sailors) {
         for (Sailor sailor : sailors) {
             if (sailor.getId() == id) {
@@ -276,6 +296,12 @@ public class GestionMarins {
         this.placementInit = true;
     }
 
+    /**
+     * Vérifie si toutes les rames sont occupées
+     * @param oars
+     * @param targetSide
+     * @return true si toutes les rame sont occupées par des marins, false sinon
+     */
     public boolean deplacerRameurs(List<Entity> oars, ArrayList<Sailor> targetSide) {
         boolean allInRange;
         boolean bienplace = true;

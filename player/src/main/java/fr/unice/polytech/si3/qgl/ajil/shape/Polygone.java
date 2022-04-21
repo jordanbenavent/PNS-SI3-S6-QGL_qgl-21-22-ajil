@@ -61,6 +61,10 @@ public class Polygone extends Shape {
         this.vertices = vertices;
     }
 
+    /**
+     * @param o
+     * @return true si les polygones sont égaux, false sinon
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,6 +80,9 @@ public class Polygone extends Shape {
         return result;
     }
 
+    /**
+     * @return un string composé de l'orientation et des sommets du polygone
+     */
     @Override
     public String toString() {
         return "Polygone{" + "orientation=" + orientation + ", vertices=" + Arrays.toString(vertices) + '}';

@@ -78,7 +78,10 @@ public class Rectangle extends Shape {
         this.width = width;
     }
 
-
+    /**
+     * @param o
+     * @return true si les rectangles sont égaux, false sinon
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,8 +98,6 @@ public class Rectangle extends Shape {
     /**
      * @return un string composé de la largeur, la longueur ainsi que de l'orientation du rectangle
      */
-
-
     @Override
     public String toString() {
         return super.toString() + "Rectangle{" + "width=" + width + ", height=" + height + ", orientation=" + orientation + '}';
