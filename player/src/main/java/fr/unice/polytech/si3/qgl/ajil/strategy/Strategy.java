@@ -7,9 +7,15 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.AStarDeployment;
+import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.Intersection;
+import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.ObstacleDetection;
+import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.Segment;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListResourceBundle;
 
 /**
  * Classe Stratégie regroupant des méthodes qui s'occupent de coordonnées les différentes autre classes ce ce package
@@ -34,7 +40,6 @@ public class Strategy {
     private final CalculDeplacement calculDeplacement;
     private final List<Checkpoint> listeCheckpoints;
     protected StratData stratData;
-    private int listCheckpointsSize;
 
 
     public Strategy(Game jeu) {
@@ -45,7 +50,6 @@ public class Strategy {
         gestionSail = new GestionSail(stratData);
         calculDeplacement = new CalculDeplacement(stratData);
         listeCheckpoints = stratData.jeu.getGoal().getCheckpoints();
-        listCheckpointsSize = listeCheckpoints.size();
     }
 
     public ValideCheckpoint getValideCheckpoint() {
@@ -108,14 +112,30 @@ public class Strategy {
 
     public boolean wayDirect(){
         System.out.println("calcule WayDirect");
-        boolean res = true;
-        for(Reef reef : stratData.jeu.getReefs()){
-            CalculPoints.entitiesToEntitiesPolygone(reef.getShape());
+        Position checkpointCiblePosition = this.listeCheckpoints.get(0).getPosition();
+        Ship ship = stratData.jeu.getShip();
+        Segment bateauCheckpoint = new Segment(ship.getPosition().getX(),ship.getPosition().getY(),checkpointCiblePosition.getX(), checkpointCiblePosition.getY());
 
 
+        List<VisibleEntitie> listeReef = new ArrayList(stratData.jeu.getReefs());
+        List<VisibleEntitie> listePolygoneReef = CalculPoints.entitiesToEntitiesPolygone(listeReef,ship.getDeck().getWidth());
+        List<Segment> segments;
+        ObstacleDetection obstacleDetection = new ObstacleDetection();
 
+        for(int i=0;i<listePolygoneReef.size();i+=3) { //3 car les 2 autres on une marge, a changer !!
+            segments = obstacleDetection.reefToSegments(listePolygoneReef.get(i));
+            for (Segment s : segments) {
+                if (Intersection.SegIntersection(s, bateauCheckpoint) != null) {
+                    System.out.println("Intersection repere");
+                    return false;
+                }
+            }
         }
+        System.out.println("aucune inter repere");
+        return true; //si on est la c'est qu'on a croise aucune intersection
     }
+
+
 
     /**
      * Effectue les actions dans l'ordre qu'il faut
@@ -147,14 +167,22 @@ public class Strategy {
         //------------------Fin placement marin, début actions deplacement
 
         //Test A Star
-
         LOGGER.add("le jeu voit"+stratData.jeu.getReefs().size()+"recif");
 
-        if(NextRound.getNewRecifAdded()){
-            System.out.println("On calcule AStar");
-            LOGGER.add("Nouveau recif calcul aSTAR");
+
+        //si ligne touche => lance a Star (et met viggie)
+        //sinon on set fakechecpoint a rien
+        //plus besoin de boolean et truc static nextround
+        //manque cercle a checker
+
+        if(!wayDirect()){
+            System.out.println("On calcule AStar car non wayDirect");
             calculAStar();
             //si direct setfake a nnull
+        }
+        else{
+            System.out.println("on ne calcule pas a Star");
+            valideCheckpoint.setFakeCheckpoint(null);
         }
 
 
