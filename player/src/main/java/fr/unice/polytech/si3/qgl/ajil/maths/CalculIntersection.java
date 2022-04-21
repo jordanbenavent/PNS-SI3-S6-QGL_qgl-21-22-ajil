@@ -68,11 +68,6 @@ public class CalculIntersection {
                 }
                 double a = (yb2 - yb1) / (xb2 - xb1);
                 double b = (yb1 - a * xb1);
-                //Les points pour les résultats
-                double x1;
-                double y1;
-                double x2;
-                double y2;
 
                 //Après simplification on obtient une équation du deuxième degré et on obtient donc un delta.
                 //Equation : alpha x^2 + beta x + c = 0
