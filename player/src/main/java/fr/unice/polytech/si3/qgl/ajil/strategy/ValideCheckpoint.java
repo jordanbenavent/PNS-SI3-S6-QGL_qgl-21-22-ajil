@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.*;
+import fr.unice.polytech.si3.qgl.ajil.maths.CalculIntersection;
 import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
@@ -172,20 +173,7 @@ public class ValideCheckpoint {
                 double alpha = (a * a + 1);
                 double ceta = ((xc * xc) + ((b - yc) * (b - yc)) - (r * r));
                 double delta = beta * beta - (4 * alpha * ceta);
-                if (delta >= 0) {
-                    x1 = (-beta - Math.sqrt(delta)) / (2 * alpha);
-                    y1 = a * x1 + b;
-                    x2 = (-beta + Math.sqrt(delta)) / (2 * alpha);
-                    y2 = a * x2 + b;
-                    // x1 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y1 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
-                    if (((xb1 <= x1 && x1 <= xb2) || (xb1 >= x1 && x1 >= xb2)) && ((yb1 <= y1 && y1 <= yb2) || (yb1 >= y1 && y1 >= yb2))) {
-                        return true;
-                    }
-                    // x2 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y2 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
-                    if (((xb1 <= x2 && x2 <= xb2) || (xb1 >= x2 && x2 >= xb2)) && ((yb1 <= y2 && y2 <= yb2) || (yb1 >= y2 && y2 >= yb2))) {
-                        return true;
-                    }
-                }
+                if (CalculIntersection.calculRoots(xb1, yb1, xb2, yb2, a, b, beta, alpha, delta)) return true;
             }
         }
         return false;

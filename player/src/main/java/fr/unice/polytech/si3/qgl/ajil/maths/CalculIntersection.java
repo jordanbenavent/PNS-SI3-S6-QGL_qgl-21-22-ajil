@@ -10,26 +10,27 @@ public class CalculIntersection {
 
     /**
      * Méthode global pour calculer l'intersection entre deux formes
-     * @param shape1 première forme
+     *
+     * @param shape1    première forme
      * @param position1 position de la forme 1
-     * @param shape2 deuxième forme
+     * @param shape2    deuxième forme
      * @param position2 position de la forme 2
      * @return true s'il y a une intersection, false sinon
      */
-    public static boolean intersection(Shape shape1, Position position1, Shape shape2, Position position2){
-        if(shape1 instanceof Circle && shape2 instanceof Circle){
+    public static boolean intersection(Shape shape1, Position position1, Shape shape2, Position position2) {
+        if (shape1 instanceof Circle && shape2 instanceof Circle) {
             return intersectionCircleCircle((Circle) shape1, position1, (Circle) shape2, position2);
         }
-        if(shape1 instanceof Circle && shape2 instanceof Rectangle){
+        if (shape1 instanceof Circle && shape2 instanceof Rectangle) {
             return intersectionCircleRectangle((Circle) shape1, position1, (Rectangle) shape2, position2);
         }
-        if(shape1 instanceof Rectangle && shape2 instanceof Circle){
+        if (shape1 instanceof Rectangle && shape2 instanceof Circle) {
             return intersectionCircleRectangle((Circle) shape2, position2, (Rectangle) shape1, position1);
         }
-        if(shape1 instanceof Circle && shape2 instanceof Polygone){
+        if (shape1 instanceof Circle && shape2 instanceof Polygone) {
             return intersectionCirclePolygone((Circle) shape1, position1, (Polygone) shape2, position2);
         }
-        if(shape1 instanceof Polygone && shape2 instanceof Circle){
+        if (shape1 instanceof Polygone && shape2 instanceof Circle) {
             return intersectionCirclePolygone((Circle) shape2, position2, (Polygone) shape1, position1);
         }
         return intersectionSegmentsSegments(shape1, position1, shape2, position2);
@@ -78,20 +79,29 @@ public class CalculIntersection {
                 double beta = -2 * xc - 2 * a * b + 2 * a * yc;
                 double alpha = (a * a + 1);
                 double delta = beta * beta - 4 * alpha * (xc * xc + (b - yc) * (b - yc) - r * r);
-                if (delta >= 0) {
-                    x1 = (-beta - Math.sqrt(delta)) / (2 * alpha);
-                    y1 = a * x1 + b;
-                    x2 = (-beta + Math.sqrt(delta)) / (2 * alpha);
-                    y2 = a * x2 + b;
-                    // x1 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y1 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
-                    if (((xb1 <= x1 && x1 <= xb2) || (xb1 >= x1 && x1 >= xb2)) && ((yb1 <= y1 && y1 <= yb2) || (yb1 >= y1 && y1 >= yb2))) {
-                        return true;
-                    }
-                    // x2 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y2 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
-                    if (((xb1 <= x2 && x2 <= xb2) || (xb1 >= x2 && x2 >= xb2)) && ((yb1 <= y2 && y2 <= yb2) || (yb1 >= y2 && y2 >= yb2))) {
-                        return true;
-                    }
-                }
+                if (calculRoots(xb1, yb1, xb2, yb2, a, b, beta, alpha, delta)) return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean calculRoots(double xb1, double yb1, double xb2, double yb2, double a, double b, double beta, double alpha, double delta) {
+        double x1;
+        double y1;
+        double x2;
+        double y2;
+        if (delta >= 0) {
+            x1 = (-beta - Math.sqrt(delta)) / (2 * alpha);
+            y1 = a * x1 + b;
+            x2 = (-beta + Math.sqrt(delta)) / (2 * alpha);
+            y2 = a * x2 + b;
+            // x1 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y1 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
+            if (((xb1 <= x1 && x1 <= xb2) || (xb1 >= x1 && x1 >= xb2)) && ((yb1 <= y1 && y1 <= yb2) || (yb1 >= y1 && y1 >= yb2))) {
+                return true;
+            }
+            // x2 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y2 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
+            if (((xb1 <= x2 && x2 <= xb2) || (xb1 >= x2 && x2 >= xb2)) && ((yb1 <= y2 && y2 <= yb2) || (yb1 >= y2 && y2 >= yb2))) {
+                return true;
             }
         }
         return false;
@@ -154,39 +164,39 @@ public class CalculIntersection {
         double b;
         double c;
         double d;
-        if(x1==x2 && x2!=x3 && x3==x4){
+        if (x1 == x2 && x2 != x3 && x3 == x4) {
             return false;
         }
-        if(x1==x2 && x2==x3 && x3==x4){
-            return ((y1<=y4 && y1>=y3)) ||((y1>=y4) && (y1<=y3)) || ((y2<=y4) && (y2>=y3)) || ((y2>=y4) && (y2<=y3));
+        if (x1 == x2 && x2 == x3 && x3 == x4) {
+            return ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
         }
         double xtemp;
         double ytemp;
-        if(x1==x2 && x3!=x4){
-            c = (y4-y3)/(x4-x3);
+        if (x1 == x2 && x3 != x4) {
+            c = (y4 - y3) / (x4 - x3);
             d = (y3 - c * x3);
-            ytemp = c*x1 + d;
-            return (ytemp<=y4 && ytemp >= y3) || (ytemp>=y4 && ytemp <= y3);
+            ytemp = c * x1 + d;
+            return (ytemp <= y4 && ytemp >= y3) || (ytemp >= y4 && ytemp <= y3);
         }
-        if(x1!=x2 && x3==x4){
-            a = (y2-y1)/(x2-x1);
+        if (x1 != x2 && x3 == x4) {
+            a = (y2 - y1) / (x2 - x1);
             b = (y1 - a * x1);
-            ytemp = a*x3 + b;
-            return (ytemp<=y2 && ytemp >= y1) || (ytemp>=y2 && ytemp <= y1);
+            ytemp = a * x3 + b;
+            return (ytemp <= y2 && ytemp >= y1) || (ytemp >= y2 && ytemp <= y1);
         }
-        a = (y2-y1)/(x2-x1);
+        a = (y2 - y1) / (x2 - x1);
         b = (y1 - a * x1);
-        c = (y4-y3)/(x4-x3);
+        c = (y4 - y3) / (x4 - x3);
         d = (y3 - c * x3);
-        if(a==c && b==d){
-            return ((y1<=y4 && y1>=y3)) ||((y1>=y4) && (y1<=y3)) || ((y2<=y4) && (y2>=y3)) || ((y2>=y4) && (y2<=y3));
+        if (a == c && b == d) {
+            return ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
         }
-        if(a==c){
+        if (a == c) {
             return false;
         }
-        xtemp = (d-b)/(a-c);
-        ytemp = a*xtemp+b;
-        return ((ytemp<=y2 && ytemp>=y1) || (ytemp>=y2 && ytemp<=y1)) && ((ytemp<=y4 && ytemp>=y2) || (ytemp>=y4 && ytemp<=y2));
+        xtemp = (d - b) / (a - c);
+        ytemp = a * xtemp + b;
+        return ((ytemp <= y2 && ytemp >= y1) || (ytemp >= y2 && ytemp <= y1)) && ((ytemp <= y4 && ytemp >= y2) || (ytemp >= y4 && ytemp <= y2));
     }
 
     public static boolean intersectionCircleCircle(Circle circle1, Position position1, Circle circle2, Position position2) {
