@@ -4,18 +4,17 @@ import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
-import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ObstacleDetection {
     private int sX;
     private int sY;
     private int eX;
     private int eY;
-    public static final int margin = 250;
+    public static final int MARGIN = 250;
 
     public int getsX() {
         return sX;
@@ -34,14 +33,14 @@ public class ObstacleDetection {
     }
 
     // Pour des récifs de type Rectangle ou Polygone
-    public ArrayList<Segment> reefToSegments(VisibleEntitie reef){
-        if (reef.getShape().getType().equals("polygone")){
-            Point[] points = ((Polygone)reef.getShape()).getVertices();
+    public List<Segment> reefToSegments(VisibleEntitie reef) {
+        if (reef.getShape().getType().equals("polygone")) {
+            Point[] points = ((Polygone) reef.getShape()).getVertices();
             int size = points.length;
             return createSegments(points, size);
 
         } else { // Traitement des cercles
-            Point[] points = rectangleToPoints((Circle)reef.getShape(), reef.getPosition() );
+            Point[] points = rectangleToPoints((Circle) reef.getShape(), reef.getPosition());
             int size = points.length;
             return createSegments(points, size);
         }
@@ -59,12 +58,12 @@ public class ObstacleDetection {
     }
 
     // Prend un ensemble de points du polygone et crée les segments correspondants
-    public ArrayList<Segment> createSegments(Point[] points, int size){
+    public List<Segment> createSegments(Point[] points, int size) {
         ArrayList<Segment> resolution = new ArrayList<Segment>();
-        for ( int i = 0; i<size-1; i++){
-            resolution.add(new Segment(points[i].getX(),points[i].getY(),points[i+1].getX(),points[i+1].getY()));
+        for (int i = 0; i < size - 1; i++) {
+            resolution.add(new Segment(points[i].getX(), points[i].getY(), points[i + 1].getX(), points[i + 1].getY()));
         }
-        resolution.add(new Segment(points[size-1].getX(),points[size-1].getY(),points[0].getX(),points[0].getY()));
+        resolution.add(new Segment(points[size - 1].getX(), points[size - 1].getY(), points[0].getX(), points[0].getY()));
         return resolution;
     }
 
@@ -72,7 +71,7 @@ public class ObstacleDetection {
     public Point findOrigin(Point shipPosition, Point checkPointPosition){
         double minX = Math.min(shipPosition.getX(), checkPointPosition.getX());
         double minY = Math.min(shipPosition.getY(), checkPointPosition.getY());
-        return new Point(minX-margin,minY-margin);
+        return new Point(minX - MARGIN, minY - MARGIN);
     }
 
     // Création de la grille imaginaire
@@ -109,16 +108,16 @@ public class ObstacleDetection {
     }
 
     // Traitement de la grille = grisement des cellules bloquantes
-    public ArrayList<Point> gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs){
-        ArrayList<Segment> reefSegments = new ArrayList<Segment>();
-        ArrayList<Point> blockedCells = new ArrayList<Point>();
-        for (VisibleEntitie reef : reefs){
+    public List<Point> gridProcess(GridCell[][] grid, List<VisibleEntitie> reefs) {
+        ArrayList<Segment> reefSegments = new ArrayList<>();
+        ArrayList<Point> blockedCells = new ArrayList<>();
+        for (VisibleEntitie reef : reefs) {
             reefSegments.addAll(reefToSegments(reef));
         }
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j].intersection(reefSegments);
-                if (grid[i][j].isBlocked()){
+                if (grid[i][j].isBlocked()) {
                     blockedCells.add(new Point(i, j));
                 }
             }

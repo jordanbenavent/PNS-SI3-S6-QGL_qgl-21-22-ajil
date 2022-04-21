@@ -74,7 +74,7 @@ public class ValideCheckpoint {
      * @return ship in checkpoint boolean
      */
     private boolean isShipInCheckpoint(Ship ship, Checkpoint checkpointCurrent) {
-        ArrayList<Point> pointsDuBateau = calculPointShip(ship);
+        List<Point> pointsDuBateau = calculPointShip(ship);
         if (checkpointCurrent.getShape() instanceof Circle) {
             if ((ship.getShape() instanceof Circle)) {
                 return checkpointValideShipCircle(ship, checkpointCurrent);
@@ -106,7 +106,7 @@ public class ValideCheckpoint {
      * @param ship Our ship
      * @return Points
      */
-    public ArrayList<Point> calculPointShip(Ship ship) {
+    public List<Point> calculPointShip(Ship ship) {
         Position position = ship.getPosition();
         Shape shape = ship.getShape();
         return CalculPoints.calculExtremityPoints(shape, position);
@@ -120,7 +120,7 @@ public class ValideCheckpoint {
      * @param checkpoint     Checkpoints
      * @return true si l'un est dedans, false sinon
      */
-    public boolean dansLeCercle(ArrayList<Point> pointsDuBateau, Checkpoint checkpoint) {
+    public boolean dansLeCercle(List<Point> pointsDuBateau, Checkpoint checkpoint) {
         Point centreCheckpoint = new Point(checkpoint.getPosition().getX(), checkpoint.getPosition().getY());
         for (Point point : pointsDuBateau) {
             if (point.distance(centreCheckpoint) <= ((Circle) (checkpoint.getShape())).getRadius()) {
@@ -137,7 +137,7 @@ public class ValideCheckpoint {
      * @param checkpoint    Checkpoint
      * @return If ship intersects
      */
-    public boolean intersectionCircleShip(ArrayList<Point> pointDuBateau, Checkpoint checkpoint) {
+    public boolean intersectionCircleShip(List<Point> pointDuBateau, Checkpoint checkpoint) {
         int size = pointDuBateau.size();
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
@@ -228,7 +228,7 @@ public class ValideCheckpoint {
      * @param checkpoint Checkpoint
      * @return true si validé, false sinon
      */
-    boolean checkpointValide(ArrayList<Point> points, Checkpoint checkpoint) {
+    boolean checkpointValide(List<Point> points, Checkpoint checkpoint) {
         return dansLeCercle(points, checkpoint) || intersectionCircleShip(points, checkpoint);
     }
 

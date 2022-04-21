@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CalculIntersection {
 
@@ -35,16 +36,16 @@ public class CalculIntersection {
     }
 
     public static boolean intersectionCirclePolygone(Circle circle, Position position1, Polygone polygone, Position position2) {
-        ArrayList<Point> pointsRectangle = CalculPoints.calculExtremityPoints(polygone,position2);
+        List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(polygone, position2);
         return intersectionCircleSegments(circle, position1, pointsRectangle);
     }
 
     public static boolean intersectionCircleRectangle(Circle circle, Position position1, Rectangle rectangle, Position position2) {
-        ArrayList<Point> pointsRectangle = CalculPoints.calculExtremityPoints(rectangle,position2);
+        List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(rectangle, position2);
         return intersectionCircleSegments(circle, position1, pointsRectangle);
     }
 
-    public static boolean intersectionCircleSegments(Circle circle, Position position, ArrayList<Point> points) {
+    public static boolean intersectionCircleSegments(Circle circle, Position position, List<Point> points) {
         int size = points.size();
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
@@ -120,16 +121,16 @@ public class CalculIntersection {
         return (yb1 <= y2 && y2 <= yb2) || (yb2 <= y2 && y2 <= yb1);
     }
 
-    public static boolean intersectionSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2){
-        ArrayList<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
-        ArrayList<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
+    public static boolean intersectionSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2) {
+        List<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
+        List<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
         int sizePoint1 = pointsShape1.size();
         int sizePoint2 = pointsShape2.size();
-        for (int i = 0; i<sizePoint1; i++){
-            for (int j = i; j<sizePoint1; j++){
-                for (int k = 0; k<sizePoint2; k++){
-                    for (int l = k; l< sizePoint2; l++){
-                        if(intersectionSegmentSegment(pointsShape1.get(i), pointsShape1.get(j), pointsShape2.get(k), pointsShape2.get(l))){
+        for (int i = 0; i < sizePoint1; i++) {
+            for (int j = i; j < sizePoint1; j++) {
+                for (int k = 0; k < sizePoint2; k++) {
+                    for (int l = k; l < sizePoint2; l++) {
+                        if (intersectionSegmentSegment(pointsShape1.get(i), pointsShape1.get(j), pointsShape2.get(k), pointsShape2.get(l))) {
                             return true;
                         }
                     }
@@ -196,8 +197,8 @@ public class CalculIntersection {
         return pointCircle1.distance(pointCircle2) <= (rs + rc);
     }
 
-    public ArrayList<Point> equationSecondDegres(double a, double b, double c){ //ax^2+bx+c==0
-        ArrayList<Point> solution = new ArrayList<Point>();
+    public List<Point> equationSecondDegres(double a, double b, double c) { //ax^2+bx+c==0
+        List<Point> solution = new ArrayList<Point>();
         return solution;
     }
 }

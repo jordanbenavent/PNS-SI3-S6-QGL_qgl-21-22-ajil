@@ -4,12 +4,13 @@ import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GridCell {
     private Point center;
     private double size;
     private boolean blocked = false;
-    private ArrayList<Segment> segments = new ArrayList<>();
+    private List<Segment> segments = new ArrayList<>();
 
     public GridCell(Point center, double size) {
         this.center = center;
@@ -17,22 +18,22 @@ public class GridCell {
         this.segments = createGridSegments();
     }
 
-    public ArrayList<Segment> createGridSegments(){
+    public List<Segment> createGridSegments() {
         Point[] points = new Point[4];
-        double delta = size/2;
+        double delta = size / 2;
         ObstacleDetection obstacleDetection = new ObstacleDetection();
-        points[0] = new Point(center.getX() - delta, center.getY() - delta );
-        points[1] = new Point(center.getX() - delta,center.getY() + delta );
-        points[2] = new Point(center.getX() + delta,center.getY() + delta );
-        points[3] = new Point(center.getX() + delta,center.getY() - delta );
+        points[0] = new Point(center.getX() - delta, center.getY() - delta);
+        points[1] = new Point(center.getX() - delta, center.getY() + delta);
+        points[2] = new Point(center.getX() + delta, center.getY() + delta);
+        points[3] = new Point(center.getX() + delta, center.getY() - delta);
 
         return obstacleDetection.createSegments(points, points.length);
     }
 
-    public void intersection(ArrayList<Segment> segmentsToCheck){
-        for (Segment seg : segments){
-            for ( Segment segToCheck : segmentsToCheck ){
-                if (Intersection.SegIntersection(seg, segToCheck) != null){
+    public void intersection(List<Segment> segmentsToCheck) {
+        for (Segment seg : segments) {
+            for (Segment segToCheck : segmentsToCheck) {
+                if (Intersection.SegIntersection(seg, segToCheck) != null) {
                     this.blocked = true;
                     return;
                 }
@@ -40,7 +41,7 @@ public class GridCell {
         }
     }
 
-    public ArrayList<Segment> getSegments() {
+    public List<Segment> getSegments() {
         return segments;
     }
 
