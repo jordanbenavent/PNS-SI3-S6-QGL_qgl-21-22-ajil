@@ -166,8 +166,6 @@ public class Strategy {
 
         //------------------Fin placement marin, début actions deplacement
 
-        //Test A Star
-        LOGGER.add("le jeu voit"+stratData.jeu.getReefs().size()+"recif");
 
 
         //si ligne touche => lance a Star (et met viggie)
