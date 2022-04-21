@@ -61,12 +61,15 @@ class ObstacleDetectionTest {
         ));
 
         List<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(recif, 0);
+        List<VisibleEntitie> reefToCheck = new ArrayList<>();
+        reefToCheck.add(visibleReefs.get(0));
 
         System.out.println("Les vertices : " + visibleReefs.get(0).toString());
 
-        List<Point> cellsB = obstacleDetection.gridProcess(grid, visibleReefs);
+        List<Point> cellsB = obstacleDetection.gridProcess(grid, reefToCheck);
 
-        int[][] cellB = aStarDeployment.pointsVersTableau( obstacleDetection.gridProcess(grid, visibleReefs));
+        // Affichage
+        int[][] cellB = aStarDeployment.pointsVersTableau( obstacleDetection.gridProcess(grid, reefToCheck));
 
         AStar aStar = new AStar(8,8,0,0,6,3, cellB);
         aStar.display();
