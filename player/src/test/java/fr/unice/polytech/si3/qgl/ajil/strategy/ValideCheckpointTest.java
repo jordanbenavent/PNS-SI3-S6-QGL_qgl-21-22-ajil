@@ -79,14 +79,14 @@ class ValideCheckpointTest {
                 new ArrayList<>(),
                 new Rectangle("rectangle", 2, 2, -3.35));
         List<Point> point2 = valideCheckpoint.calculPointShip(ship);
-        Assertions.assertEquals(7.5,point2.get(0).getX(), 0.3);
-        Assertions.assertEquals(3,point2.get(0).getY(), 0.3);
-        Assertions.assertEquals(9,point2.get(1).getX(), 0.3);
-        Assertions.assertEquals(1.5,point2.get(1).getY(), 0.3);
-        Assertions.assertEquals(9,point2.get(3).getX(), 0.3);
-        Assertions.assertEquals(4.5,point2.get(3).getY(), 0.3);
-        Assertions.assertEquals(10.5,point2.get(2).getX(), 0.3);
-        Assertions.assertEquals(3,point2.get(2).getY(), 0.3);
+        Assertions.assertEquals(9,point2.get(0).getX(), 0.3);
+        Assertions.assertEquals(1.5,point2.get(0).getY(), 0.3);
+        Assertions.assertEquals(10.5,point2.get(1).getX(), 0.3);
+        Assertions.assertEquals(3,point2.get(1).getY(), 0.3);
+        Assertions.assertEquals(7.5,point2.get(3).getX(), 0.3);
+        Assertions.assertEquals(3,point2.get(3).getY(), 0.3);
+        Assertions.assertEquals(9,point2.get(2).getX(), 0.3);
+        Assertions.assertEquals(4.5,point2.get(2).getY(), 0.3);
     }
 
     @Test
@@ -129,6 +129,7 @@ class ValideCheckpointTest {
         checkpoints.add(checkpoint2);
         strategy = new Strategy(jeu);
         valideCheckpoint = strategy.getValideCheckpoint();
+        System.out.println(checkpoints);
         // Le bateau est loin donc le checkpoint reste le même
         Assertions.assertEquals(checkpoint, valideCheckpoint.nextCheckpointTarget(checkpoints));
         //Le bateau a avancé
