@@ -78,17 +78,13 @@ public class CalculPoints {
                 continue;
             }
             pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
-            pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 100);
-            pointShape3 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 200);
+            pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 200);
             VisibleEntitie tmp = entitie.copy();
             VisibleEntitie tmp2 = entitie.copy();
-            VisibleEntitie tmp3 = entitie.copy();
             tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[0])));
             tmp2.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape2.toArray(new Point[0])));
-            tmp3.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape3.toArray(new Point[0])));
             resultat.add(tmp);
             resultat.add(tmp2);
-            resultat.add(tmp3);
         }
         return resultat;
     }

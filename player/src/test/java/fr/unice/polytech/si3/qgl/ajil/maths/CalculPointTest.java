@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class CalculPointTest {
@@ -64,7 +65,7 @@ class CalculPointTest {
     void entitiesToPolygoneEntitiesTest(){
         Point[] pointpolygone = {new Point(1,2), new Point(0,1), new Point(2,1)};
         polygone = new Polygone("circle",-2.94961, pointpolygone);
-        rectangle = new Rectangle("rectangle", 1,2,2.67035);
+        rectangle = new Rectangle("rectangle", 1,2,1.15192);
         circle = new Circle("circle", 1);
         ArrayList<VisibleEntitie> list = new ArrayList<>();
         list.add(new Stream("stream",new Position(3,2,-0.558505),  rectangle, 100));
@@ -73,11 +74,14 @@ class CalculPointTest {
         List<VisibleEntitie> resultat = CalculPoints.entitiesToEntitiesPolygone(list, 0);
         Assertions.assertTrue(resultat.get(0).getShape() instanceof Polygone);
         Assertions.assertTrue(resultat.get(1).getShape() instanceof Polygone);
-        Assertions.assertTrue(resultat.get(2).getShape() instanceof Circle);
-        Assertions.assertEquals(3.2, ((Polygone) resultat.get(1).getShape()).getVertices()[0].getX(), 0.05);
-        Assertions.assertEquals(0.75, ((Polygone) resultat.get(1).getShape()).getVertices()[0].getY(), 0.05);
-        Assertions.assertEquals(3.6, ((Polygone) resultat.get(0).getShape()).getVertices()[0].getX(), 0.05);
-        Assertions.assertEquals(1.1, ((Polygone) resultat.get(0).getShape()).getVertices()[0].getY(), 0.05);
+        Assertions.assertTrue(resultat.get(2).getShape() instanceof Polygone);
+        Assertions.assertTrue(resultat.get(3).getShape() instanceof Polygone);
+        Assertions.assertTrue(resultat.get(4).getShape() instanceof Circle);
+        System.out.println(Arrays.asList(((Polygone) resultat.get(0).getShape()).getVertices()));
+        Assertions.assertEquals(3.2, ((Polygone) resultat.get(2).getShape()).getVertices()[0].getX(), 0.05);
+        Assertions.assertEquals(0.75, ((Polygone) resultat.get(2).getShape()).getVertices()[0].getY(), 0.05);
+        Assertions.assertEquals(2.4, ((Polygone) resultat.get(0).getShape()).getVertices()[2].getX(), 0.1);
+        Assertions.assertEquals(1.1, ((Polygone) resultat.get(0).getShape()).getVertices()[2].getY(), 0.1);
     }
 
     @Test
