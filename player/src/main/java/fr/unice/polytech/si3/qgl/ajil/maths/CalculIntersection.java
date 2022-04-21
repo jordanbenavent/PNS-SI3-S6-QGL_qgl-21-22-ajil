@@ -200,4 +200,53 @@ public class CalculIntersection {
         ArrayList<Point> solution = new ArrayList<Point>();
         return solution;
     }
+
+    public static Point intersectionDroite(Point point1, Point point2, Point point3, Point point4) {
+        //équation de droite y = ax+b et y = cx+d
+        double x1 = point1.getX();
+        double x2 = point2.getX();
+        double x3 = point3.getX();
+        double x4 = point4.getX();
+        double y1 = point1.getY();
+        double y2 = point2.getY();
+        double y3 = point3.getY();
+        double y4 = point4.getY();
+        double a;
+        double b;
+        double c;
+        double d;
+        if(x1==x2 && x2!=x3 && x3==x4){
+            return null;
+        }
+        if(x1==x2 && x2==x3 && x3==x4){
+            return point1;
+        }
+        double xtemp;
+        double ytemp;
+        if(x1==x2 && x3!=x4){
+            c = (y4-y3)/(x4-x3);
+            d = (y3 - c * x3);
+            ytemp = c*x1 + d;
+            return new Point(x1, ytemp);
+        }
+        if(x1!=x2 && x3==x4){
+            a = (y2-y1)/(x2-x1);
+            b = (y1 - a * x1);
+            ytemp = a*x3 + b;
+            return new Point(x3, ytemp);
+        }
+        a = (y2-y1)/(x2-x1);
+        b = (y1 - a * x1);
+        c = (y4-y3)/(x4-x3);
+        d = (y3 - c * x3);
+        if(a==c && b==d){
+            return  new Point(x1, y1);
+        }
+        if(a==c){
+            return null;
+        }
+        xtemp = (d-b)/(a-c);
+        ytemp = a*xtemp+b;
+        return  new Point(xtemp, ytemp);
+    }
 }

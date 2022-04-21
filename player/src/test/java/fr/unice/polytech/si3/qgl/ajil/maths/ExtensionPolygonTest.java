@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ExtensionPolygonTest {
@@ -17,7 +18,9 @@ public class ExtensionPolygonTest {
         Point point4 = new Point(0,-1);
         Point point5 = new Point(2,-2);
         Point point6 = new Point(-2,-2);
-        points.add(point4); points.add(point3); points.add(point2);
+        points.add(point4);
+        points.add(point3);
+        points.add(point2);
         points.add(point1);
         Polygone polygone = new Polygone("polytech", 0 , points.toArray(new Point[points.size()]));
         ExtensionPolygon extensionPolygon = new ExtensionPolygon();
@@ -30,5 +33,6 @@ public class ExtensionPolygonTest {
         polygone = new Polygone("polytech", 0 , points.toArray(new Point[points.size()]));
         extensionPolygon = new ExtensionPolygon();
         System.out.println(extensionPolygon.calculArea(polygone));
+        Polygon polygon = new Polygon();
     }
 }
