@@ -246,7 +246,7 @@ public class ValideCheckpoint {
     }
 
     private List<Checkpoint> realOrFakeCheckpoint(List<Checkpoint> checkpoints) {
-        if(this.fakeCheckpoint == null || fakeCheckpoint.isEmpty()){
+        if(this.fakeCheckpoint == null && (fakeCheckpoint==null || fakeCheckpoint.isEmpty())){
             System.out.println("REAL");
             if (checkpoints.isEmpty()) return Collections.emptyList();
             return checkpoints;
