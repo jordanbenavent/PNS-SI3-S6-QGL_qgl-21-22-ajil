@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
@@ -14,10 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CalculDeplacementTest {
 
@@ -326,7 +323,7 @@ class CalculDeplacementTest {
         Vector v_ship = calculDeplacement.calculVecteurBateau(ship);
         // Exemple d'un checkpoint aligné à l'horizontale
         Checkpoint checkpoint_en_face = new Checkpoint(new Position(15, 0, 0), new Circle("circle", 2));
-        ArrayList<Point> point_intersection = calculDeplacement.intersection(ship, v_ship, checkpoint_en_face);
+        List<Point> point_intersection = calculDeplacement.intersection(ship, v_ship, checkpoint_en_face);
         Assertions.assertEquals(13, point_intersection.get(0).getX());
         Assertions.assertEquals(0, point_intersection.get(0).getY());
         Assertions.assertEquals(17, point_intersection.get(1).getX());
@@ -336,7 +333,7 @@ class CalculDeplacementTest {
         ship.setPosition(new Position(0, -2, Math.PI/4));
         v_ship = calculDeplacement.calculVecteurBateau(ship);
         Checkpoint internet = new Checkpoint(new Position(5, 4, 0), new Circle("circle", Math.sqrt(8)));
-        ArrayList<Point> point_intersection2 = calculDeplacement.intersection(ship, v_ship, internet);
+        List<Point> point_intersection2 = calculDeplacement.intersection(ship, v_ship, internet);
         Assertions.assertEquals(3.56, point_intersection2.get(0).getX(), 0.01);
         Assertions.assertEquals(1.56, point_intersection2.get(0).getY(), 0.01);
         Assertions.assertEquals(7.44, point_intersection2.get(1).getX(), 0.01);
@@ -346,7 +343,7 @@ class CalculDeplacementTest {
         ship.setPosition(new Position(0, -2, -3*Math.PI/4));
         v_ship = calculDeplacement.calculVecteurBateau(ship);
         Checkpoint internet_symetrique = new Checkpoint(new Position(-5, -8, 0), new Circle("circle", Math.sqrt(8)));
-        ArrayList<Point> point_intersection3 = calculDeplacement.intersection(ship, v_ship, internet_symetrique);
+        List<Point> point_intersection3 = calculDeplacement.intersection(ship, v_ship, internet_symetrique);
         Assertions.assertEquals(-7.44, point_intersection3.get(0).getX(), 0.01);
         Assertions.assertEquals(-9.44, point_intersection3.get(0).getY(), 0.01);
         Assertions.assertEquals(-3.56, point_intersection3.get(1).getX(), 0.01);
@@ -356,7 +353,7 @@ class CalculDeplacementTest {
         ship.setPosition(new Position(0, 2, Math.PI/2));
         v_ship = calculDeplacement.calculVecteurBateau(ship);
         Checkpoint checkpoint_vertical = new Checkpoint(new Position(0, 15, 0), new Circle("circle", 2));
-        ArrayList<Point> point_intersection4 = calculDeplacement.intersection(ship, v_ship, checkpoint_vertical);
+        List<Point> point_intersection4 = calculDeplacement.intersection(ship, v_ship, checkpoint_vertical);
         Assertions.assertEquals(0, point_intersection4.get(0).getX());
         Assertions.assertEquals(13, point_intersection4.get(0).getY());
         Assertions.assertEquals(0, point_intersection4.get(1).getX());
