@@ -18,20 +18,20 @@ public class CalculIntersection {
      * @return true s'il y a une intersection, false sinon
      */
     public static boolean intersection(Shape shape1, Position position1, Shape shape2, Position position2) {
-        if (shape1 instanceof Circle && shape2 instanceof Circle) {
-            return intersectionCircleCircle((Circle) shape1, position1, (Circle) shape2, position2);
+        if (shape1 instanceof Circle circle1 && shape2 instanceof Circle circle2) {
+            return intersectionCircleCircle(circle1, position1, circle2, position2);
         }
-        if (shape1 instanceof Circle && shape2 instanceof Rectangle) {
-            return intersectionCircleRectangle((Circle) shape1, position1, (Rectangle) shape2, position2);
+        if (shape1 instanceof Circle circle && shape2 instanceof Rectangle rectangle) {
+            return intersectionCircleRectangle(circle, position1, rectangle, position2);
         }
-        if (shape1 instanceof Rectangle && shape2 instanceof Circle) {
-            return intersectionCircleRectangle((Circle) shape2, position2, (Rectangle) shape1, position1);
+        if (shape1 instanceof Rectangle rectangle2 && shape2 instanceof Circle circle2) {
+            return intersectionCircleRectangle(circle2, position2, rectangle2, position1);
         }
-        if (shape1 instanceof Circle && shape2 instanceof Polygone) {
-            return intersectionCirclePolygone((Circle) shape1, position1, (Polygone) shape2, position2);
+        if (shape1 instanceof Circle circle && shape2 instanceof Polygone polygone) {
+            return intersectionCirclePolygone(circle, position1, polygone, position2);
         }
-        if (shape1 instanceof Polygone && shape2 instanceof Circle) {
-            return intersectionCirclePolygone((Circle) shape2, position2, (Polygone) shape1, position1);
+        if (shape1 instanceof Polygone polygone && shape2 instanceof Circle circle2) {
+            return intersectionCirclePolygone(circle2, position2, polygone, position1);
         }
         return intersectionSegmentsSegments(shape1, position1, shape2, position2);
     }
