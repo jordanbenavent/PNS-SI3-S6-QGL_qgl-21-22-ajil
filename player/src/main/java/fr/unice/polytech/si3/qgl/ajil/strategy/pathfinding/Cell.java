@@ -4,18 +4,19 @@ package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 public class Cell {
 
     // coordonnées
-    public int i, j;
+    final int i;
+    final int j;
     // Cellule parent
-    public Cell parent;
+    Cell parent;
     // cout heuristique de la cellule actuelle
-    public int heuristicCost;
+    int heuristicCost;
     // cout final
-    public int finalCost; // G + H avec
+    int finalCost; // G + H avec
     // G(n) le cout du chemin à partir de début de chemin
     // H(n) estime le cout heuristique du chemin le moins couteux à partir de n vers la cible
 
     // Dit si la cellule fait partie de la solution finale
-    public boolean solution;
+    boolean solution;
 
     public Cell(int i, int j) {
         this.i = i;

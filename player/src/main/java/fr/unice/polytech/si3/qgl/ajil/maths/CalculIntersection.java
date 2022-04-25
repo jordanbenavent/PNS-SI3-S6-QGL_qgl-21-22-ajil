@@ -4,17 +4,6 @@ import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Classe du package maths regroupant tous les calculs d'intersection entre tout type d'objet géométrique
- *
- * @author Alexis Roche
- * @author Louis Hattiger
- * @author Jordan Benavent
- * @author Igor Melnyk
- * @author Tobias Bonifay
- */
 
 public class CalculIntersection {
 
@@ -28,27 +17,27 @@ public class CalculIntersection {
      * @return true s'il y a une intersection, false sinon
      */
     public static boolean intersection(Shape shape1, Position position1, Shape shape2, Position position2) {
-        if (shape1 instanceof Circle && shape2 instanceof Circle) {
-            return intersectionCircleCircle((Circle) shape1, position1, (Circle) shape2, position2);
+        if (shape1 instanceof Circle circle1 && shape2 instanceof Circle circle2) {
+            return intersectionCircleCircle(circle1, position1, circle2, position2);
         }
-        if (shape1 instanceof Circle && shape2 instanceof Rectangle) {
-            return intersectionCircleRectangle((Circle) shape1, position1, (Rectangle) shape2, position2);
+        if (shape1 instanceof Circle circle && shape2 instanceof Rectangle rectangle) {
+            return intersectionCircleRectangle(circle, position1, rectangle, position2);
         }
-        if (shape1 instanceof Rectangle && shape2 instanceof Circle) {
-            return intersectionCircleRectangle((Circle) shape2, position2, (Rectangle) shape1, position1);
+        if (shape1 instanceof Rectangle rectangle2 && shape2 instanceof Circle circle2) {
+            return intersectionCircleRectangle(circle2, position2, rectangle2, position1);
         }
-        if (shape1 instanceof Circle && shape2 instanceof Polygone) {
-            return intersectionCirclePolygone((Circle) shape1, position1, (Polygone) shape2, position2);
+        if (shape1 instanceof Circle circle && shape2 instanceof Polygone polygone) {
+            return intersectionCirclePolygone(circle, position1, polygone, position2);
         }
-        if (shape1 instanceof Polygone && shape2 instanceof Circle) {
-            return intersectionCirclePolygone((Circle) shape2, position2, (Polygone) shape1, position1);
+        if (shape1 instanceof Polygone polygone && shape2 instanceof Circle circle2) {
+            return intersectionCirclePolygone(circle2, position2, polygone, position1);
         }
         return intersectionSegmentsSegments(shape1, position1, shape2, position2);
     }
 
     public static boolean intersectionCirclePolygone(Circle circle, Position position1, Polygone polygone, Position position2) {
-        List<Point> pointsPolygone = CalculPoints.calculExtremityPoints(polygone, position2);
-        return intersectionCircleSegments(circle, position1, pointsPolygone);
+        List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(polygone, position2);
+        return intersectionCircleSegments(circle, position1, pointsRectangle);
     }
 
     public static boolean intersectionCircleRectangle(Circle circle, Position position1, Rectangle rectangle, Position position2) {
@@ -78,31 +67,35 @@ public class CalculIntersection {
                 }
                 double a = (yb2 - yb1) / (xb2 - xb1);
                 double b = (yb1 - a * xb1);
-                //Les points pour les résultats
-                double x1;
-                double y1;
-                double x2;
-                double y2;
 
                 //Après simplification on obtient une équation du deuxième degré et on obtient donc un delta.
                 //Equation : alpha x^2 + beta x + c = 0
                 double beta = -2 * xc - 2 * a * b + 2 * a * yc;
                 double alpha = (a * a + 1);
                 double delta = beta * beta - 4 * alpha * (xc * xc + (b - yc) * (b - yc) - r * r);
-                if (delta >= 0) {
-                    x1 = (-beta - Math.sqrt(delta)) / (2 * alpha);
-                    y1 = a * x1 + b;
-                    x2 = (-beta + Math.sqrt(delta)) / (2 * alpha);
-                    y2 = a * x2 + b;
-                    // x1 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y1 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
-                    if (((xb1 <= x1 && x1 <= xb2) || (xb1 >= x1 && x1 >= xb2)) && ((yb1 <= y1 && y1 <= yb2) || (yb1 >= y1 && y1 >= yb2))) {
-                        return true;
-                    }
-                    // x2 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y2 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
-                    if (((xb1 <= x2 && x2 <= xb2) || (xb1 >= x2 && x2 >= xb2)) && ((yb1 <= y2 && y2 <= yb2) || (yb1 >= y2 && y2 >= yb2))) {
-                        return true;
-                    }
-                }
+                if (calculRoots(xb1, yb1, xb2, yb2, a, b, beta, alpha, delta)) return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean calculRoots(double xb1, double yb1, double xb2, double yb2, double a, double b, double beta, double alpha, double delta) {
+        double x1;
+        double y1;
+        double x2;
+        double y2;
+        if (delta >= 0) {
+            x1 = (-beta - Math.sqrt(delta)) / (2 * alpha);
+            y1 = a * x1 + b;
+            x2 = (-beta + Math.sqrt(delta)) / (2 * alpha);
+            y2 = a * x2 + b;
+            // x1 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y1 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
+            if (((xb1 <= x1 && x1 <= xb2) || (xb1 >= x1 && x1 >= xb2)) && ((yb1 <= y1 && y1 <= yb2) || (yb1 >= y1 && y1 >= yb2))) {
+                return true;
+            }
+            // x2 appartient à [xb1 ; xb2] ou [xb2 ; xb1] et y2 appartient à [yb1 ; yb2] ou [yb2 ; yb1]
+            if (((xb1 <= x2 && x2 <= xb2) || (xb1 >= x2 && x2 >= xb2)) && ((yb1 <= y2 && y2 <= yb2) || (yb1 >= y2 && y2 >= yb2))) {
+                return true;
             }
         }
         return false;
@@ -135,8 +128,8 @@ public class CalculIntersection {
     public static boolean intersectionSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2) {
         List<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
         List<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
-        final int sizePoint1 = pointsShape1.size();
-        final int sizePoint2 = pointsShape2.size();
+        int sizePoint1 = pointsShape1.size();
+        int sizePoint2 = pointsShape2.size();
         for (int i = 0; i < sizePoint1; i++) {
             for (int j = i; j < sizePoint1; j++) {
                 for (int k = 0; k < sizePoint2; k++) {
@@ -168,9 +161,8 @@ public class CalculIntersection {
         if (x1 == x2 && x2 != x3 && x3 == x4) {
             return false;
         }
-        boolean condition_b1 = ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
         if (x1 == x2 && x2 == x3 && x3 == x4) {
-            return condition_b1;
+            return ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
         }
         double xtemp;
         double ytemp;
@@ -191,7 +183,7 @@ public class CalculIntersection {
         c = (y4 - y3) / (x4 - x3);
         d = (y3 - c * x3);
         if (a == c && b == d) {
-            return condition_b1;
+            return ((y1 <= y4 && y1 >= y3)) || ((y1 >= y4) && (y1 <= y3)) || ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
         }
         if (a == c) {
             return false;

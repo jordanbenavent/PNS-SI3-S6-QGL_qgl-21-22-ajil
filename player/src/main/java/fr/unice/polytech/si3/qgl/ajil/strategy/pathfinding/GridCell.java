@@ -35,7 +35,7 @@ public class GridCell {
     public void intersection(List<Segment> segmentsToCheck) {
         for (Segment seg : segments) {
             for (Segment segToCheck : segmentsToCheck) {
-                if (Intersection.segmentIntersection(seg, segToCheck) != null) {
+                if (Intersection.SegIntersection(seg, segToCheck) != null) {
                     this.blocked = true;
                     return;
                 }

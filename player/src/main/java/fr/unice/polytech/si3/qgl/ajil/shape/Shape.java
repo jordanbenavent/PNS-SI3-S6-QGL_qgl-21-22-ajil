@@ -9,15 +9,15 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
 @JsonSubTypes({@JsonSubTypes.Type(value = Circle.class, name = "circle"), @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle"), @JsonSubTypes.Type(value = Polygone.class, name = "polygon")})
 
-/**
- * Classe mère Shape représentant une forme
- *
- * @author Alexis Roche
+/*
+  Classe mère Shape représentant une forme
+
+  @author Alexis Roche
  * @author Louis Hattiger
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
+
  */
 
 public class Shape {

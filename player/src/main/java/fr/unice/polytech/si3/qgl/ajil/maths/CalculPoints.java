@@ -58,21 +58,43 @@ public class CalculPoints {
         points.add(new Point(la * cosinus - lo * sinus, -la * sinus - lo * cosinus).addPoint(centre));
         points.add(new Point(-la * cosinus - lo * sinus, la * sinus - lo * cosinus).addPoint(centre));
         return points;
+
     }
 
-    public static List<VisibleEntitie> entitiesToEntitiesPolygone(List<VisibleEntitie> entities) {
+
+    public static List<VisibleEntitie> entitiesToEntitiesPolygone(List<VisibleEntitie> entities, int widthShip) {
         List<VisibleEntitie> resultat = new ArrayList<>();
         List<Point> pointShape;
+        List<Point> pointShape2;
+        List<Point> pointShape3;
         for (VisibleEntitie entitie : entities) {
             if (entitie.getShape() instanceof Circle) {
                 resultat.add(entitie);
                 continue;
             }
             pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
+            pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 200);
             VisibleEntitie tmp = entitie.copy();
-            tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[pointShape.size()])));
+            VisibleEntitie tmp2 = entitie.copy();
+            tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[0])));
+            tmp2.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape2.toArray(new Point[0])));
             resultat.add(tmp);
+            resultat.add(tmp2);
         }
         return resultat;
+    }
+
+    public static List<Point> calculExtremityPointsBigger(Shape shape, Position position, double widthShip) {
+        if (shape instanceof Polygone) {
+            return calculPointPolygon(shape, position);
+        }
+        double largeur = 0;
+        double longueur = 0;
+        if (shape instanceof Rectangle) {
+            largeur = ((Rectangle) shape).getWidth() + (widthShip / 2);
+            longueur = ((Rectangle) shape).getHeight() + (widthShip / 2);
+        }
+        double angle = CalculPoints.calculAngleTotal(shape, position);
+        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
     }
 }

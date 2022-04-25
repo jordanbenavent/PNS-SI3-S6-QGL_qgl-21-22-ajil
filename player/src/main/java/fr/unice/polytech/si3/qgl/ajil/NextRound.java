@@ -20,10 +20,11 @@ import java.util.Set;
 
 public class NextRound {
 
-    public List<String> LOGGER = Cockpit.LOGGER;
     private Ship ship;
     private List<VisibleEntitie> visibleEntities;
     private Wind wind;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
+    private static boolean newRecifAdded = false;
 
 
     public NextRound() {
@@ -42,13 +43,8 @@ public class NextRound {
         return visibleEntities;
     }
 
-    /**
-     * Modifie les entités visibles durant le tour de jeu
-     *
-     * @param visibleEntities entités visibles
-     */
-    public void setVisibleEntities(List<VisibleEntitie> visibleEntities) {
-        this.visibleEntities = visibleEntities;
+    public static boolean getNewRecifAdded(){
+        return newRecifAdded;
     }
 
     /**
@@ -57,6 +53,15 @@ public class NextRound {
     public Ship getShip() {
         return ship;
     }
+
+    /**
+     * @return le vent durant le tour de jeu
+     */
+    public Wind getWind() {
+        return wind;
+    }
+
+    public boolean isNewRecifAdded() {return newRecifAdded;}
 
     /**
      * Modifie le bateau durant le tour de jeu
@@ -68,7 +73,17 @@ public class NextRound {
     }
 
     /**
-     * @return le vent durant le tour de jeu
+     * Modifie les entités visibles durant le tour de jeu
+     * @param visibleEntities entités visibles
+     */
+    public void setVisibleEntities(List<VisibleEntitie> visibleEntities) {
+        this.visibleEntities = visibleEntities;
+    }
+
+    /**
+     * @param i
+     * @param j
+     * @return un élément spécifique de la matrice à la ième colonne et la jème ligne
      */
     public Wind getWind() {
         return wind;
@@ -102,9 +117,12 @@ public class NextRound {
         Set<Reef> reefs = new HashSet<>();
         LOGGER.add("size entities" + visibleEntities.size());
 
-        for (VisibleEntitie entities : visibleEntities) {
-            if (entities.getType().equals("reef")) {
-                reefs.add((Reef) entities);
+        this.newRecifAdded = false;
+        for (VisibleEntitie entities : visibleEntities){
+            if( entities.getType().equals("reef")){
+                System.out.println("On a essaye d'ajouter un recif, peut etre il y etait deja");
+                reefs.add((Reef)entities);
+                this.newRecifAdded = true;
             }
         }
         return reefs;

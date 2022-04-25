@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObstacleDetection {
-    public static final int margin = 250;
     private int sX;
     private int sY;
     private int eX;
     private int eY;
+    public static final int MARGIN = 250;
 
     public int getsX() {
         System.out.println("passe get ObstacelDetec X" );
@@ -61,6 +61,7 @@ public class ObstacleDetection {
     }
 
     // Prend un ensemble de points du polygone et crée les segments correspondants
+
     public List<Segment> createSegments(Point[] points, int size) {
         List<Segment> resolution = new ArrayList<Segment>();
         for (int i = 0; i < size - 1; i++) {
@@ -69,12 +70,11 @@ public class ObstacleDetection {
         resolution.add(new Segment(points[size - 1], points[0]));
         return resolution;
     }
-
     // Trouve l'origine pour le repère de la grille
     public Point findOrigin(Point shipPosition, Point checkPointPosition) {
         double minX = Math.min(shipPosition.getX(), checkPointPosition.getX());
         double minY = Math.min(shipPosition.getY(), checkPointPosition.getY());
-        return new Point(minX - margin, minY - margin);
+        return new Point(minX - MARGIN, minY - MARGIN);
     }
 
     // Création de la grille imaginaire

@@ -3,40 +3,43 @@ package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class AStar {
+
+    private ArrayList<Position> chemin;
+    public List<String> LOGGER = Cockpit.LOGGER;
 
     // les couts pour un déplacement Vertical / Horizontal / Diagonal
     public static final int DIAGONAL_COST = 11;
     public static final int V_H_COST = 10;
-    // Visualisation
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
-    public static final String ANSI_RESET = "\u001B[0m";
+
+    // Cellules de la grille
+    public Cell[][] grid;
+
     //On définit une queue de priorité
     //Open Cells : l'ensemble des nœuds à évaluer
     // On place les cellules qui coutent moins en premier
-    private final PriorityQueue<Cell> openCells;
+    private PriorityQueue<Cell> openCells;
+
     // Closed Cells : L'ensemble de noeuds déjà évalués
-    private final boolean[][] closedCells;
-    public List<String> LOGGER = Cockpit.LOGGER;
-    // Cellules de la grille
-    public Cell[][] grid;
-    private ArrayList<Position> chemin;
+    private boolean[][] closedCells;
+
     //Start cell
-    private int startI, startJ;
+    private int startI;
+    private int startJ;
     //End cell
-    private int endI, endJ;
+    private int endI;
+    private int endJ;
 
     public AStar(int width, int height, int si, int sj, int ei, int ej, int[][] obstacles) {
         grid = new Cell[width][height];
         closedCells = new boolean[width][height];
         openCells = new PriorityQueue<>(
-                Comparator.comparingInt((Cell c) -> c.finalCost)
+                (Cell c1, Cell c2) -> Integer.compare(c1.finalCost, c2.finalCost)
         );
 
         startCell(si, sj);
@@ -54,8 +57,8 @@ public class AStar {
         grid[startI][startJ].finalCost = 0;
 
         //On met les obstacles dans la grille
-        for (int i = 0; i < obstacles.length; i++) {
-            addObstaclesSurCell(obstacles[i][0], obstacles[i][1]);
+        for (int[] obstacle : obstacles) {
+            addObstaclesSurCell(obstacle[0], obstacle[1]);
         }
 
     }
@@ -99,14 +102,6 @@ public class AStar {
 
     public void process() throws ArrayIndexOutOfBoundsException {
         // on ajoute le placement de départ dans openCells
-        System.out.println("coucou");
-        System.out.println("startI " + startI);
-        System.out.println("startJ " + startJ);
-        System.out.println("Grid existe " + grid.toString());
-        System.out.println("on a " + grid[startI][startJ]);
-        System.out.println("grid existe ? " + grid.length);
-        System.out.println("Lentgh Colonne i  ? " + grid[startI].length);
-        System.out.println("Length Colonne j  ? " + grid[startJ].length);
         openCells.add(grid[startI][startJ]);
         Cell current;
 
@@ -162,14 +157,23 @@ public class AStar {
         }
     }
 
+    // Visualisation
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    public static final String ANSI_RESET = "\u001B[0m";
+
     // Affichage
-    public void display() {
+    public void display(){
         System.out.println("Griille / Map :");
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                if (i == startI && j == startJ) {
-                    System.out.print(ANSI_WHITE_BACKGROUND + ANSI_CYAN + "O   " + ANSI_RESET); // Origine
-                } else if (i == endI && j == endJ) {
+        for (int j = 0; j< grid.length; j++){
+            for (int i = 0; i<grid[0].length; i++){
+                if (i == startI && j == startJ){
+                    System.out.print(ANSI_WHITE_BACKGROUND +ANSI_CYAN + "O   " + ANSI_RESET); // Origine
+                }
+                else if ( i == endI && j == endJ ){
                     System.out.print(ANSI_YELLOW_BACKGROUND + "TA  " + ANSI_RESET); // Target
                 } else if (grid[i][j] != null) {
                     System.out.printf(ANSI_BLUE_BACKGROUND + "%-3d " + ANSI_RESET, 0);
@@ -209,7 +213,7 @@ public class AStar {
             Cell current = grid[endI][endJ];
             chemin.add(new Position(current.i, current.j, 0));
             grid[current.i][current.j].solution = true;
-            while (current.parent != null) {
+            while (current.parent != null){
                 chemin.add(new Position(current.parent.i, current.parent.j, 0));
                 grid[current.parent.i][current.parent.j].solution = true;
                 current = current.parent;

@@ -27,8 +27,8 @@ class AStarDeploymentTest {
         Point shipPosition = new Point(0,0);
         Point targetPosition = new Point(420,420);
         Point result = aStarDeployment.gridSizeXY(shipPosition, targetPosition, 100);
-        Assertions.assertEquals(10 ,result.getX());
-        Assertions.assertEquals(8 ,result.getY());
+        Assertions.assertEquals(20 ,result.getX());
+        Assertions.assertEquals(20 ,result.getY());
     }
 
     @Test
@@ -37,7 +37,7 @@ class AStarDeploymentTest {
         Point shipPosition = new Point(300,300);
         Point targetPosition = new Point(-100,-100);
         Point result = aStarDeployment.gridSizeXY(shipPosition, targetPosition, 100);
-        Assertions.assertEquals(9 ,result.getX());
-        Assertions.assertEquals(7 ,result.getY());
+        Assertions.assertEquals(19 ,result.getX());
+        Assertions.assertEquals(19 ,result.getY());
     }
 }

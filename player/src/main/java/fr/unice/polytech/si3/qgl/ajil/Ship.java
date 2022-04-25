@@ -19,6 +19,7 @@ import java.util.Set;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
+ *
  */
 
 public class Ship {
@@ -30,6 +31,9 @@ public class Ship {
     private Deck deck;
     private List<Entity> entities;
     private Shape shape;
+
+    final List<Entity> leftOars = new ArrayList<>();
+    final List<Entity> rightOars = new ArrayList<>();
 
     public Ship() {
     }
