@@ -61,8 +61,8 @@ class ValideCheckpointTest {
         List<Point> point = valideCheckpoint.calculPointShip(ship);
         Assertions.assertEquals(new Point(3, 3), point.get(0));
         Assertions.assertEquals(new Point(1, 3), point.get(1));
-        Assertions.assertEquals(new Point(1, 1), point.get(2));
-        Assertions.assertEquals(new Point(3, 1), point.get(3));
+        Assertions.assertEquals(new Point(3, 1), point.get(2));
+        Assertions.assertEquals(new Point(1, 1), point.get(3));
 
         Point[] pointpolygone = {new Point(1,2), new Point(0,1), new Point(0,3)};
         ship = new Ship("ship", 100,
@@ -79,14 +79,14 @@ class ValideCheckpointTest {
                 new ArrayList<>(),
                 new Rectangle("rectangle", 2, 2, -3.35));
         List<Point> point2 = valideCheckpoint.calculPointShip(ship);
-        Assertions.assertEquals(9,point2.get(0).getX(), 0.3);
-        Assertions.assertEquals(1.5,point2.get(0).getY(), 0.3);
-        Assertions.assertEquals(10.5,point2.get(1).getX(), 0.3);
-        Assertions.assertEquals(3,point2.get(1).getY(), 0.3);
-        Assertions.assertEquals(7.5,point2.get(3).getX(), 0.3);
-        Assertions.assertEquals(3,point2.get(3).getY(), 0.3);
+        Assertions.assertEquals(7.5,point2.get(0).getX(), 0.3);
+        Assertions.assertEquals(3,point2.get(0).getY(), 0.3);
+        Assertions.assertEquals(9,point2.get(1).getX(), 0.3);
+        Assertions.assertEquals(1.5,point2.get(1).getY(), 0.3);
         Assertions.assertEquals(9,point2.get(2).getX(), 0.3);
         Assertions.assertEquals(4.5,point2.get(2).getY(), 0.3);
+        Assertions.assertEquals(10.5,point2.get(3).getX(), 0.3);
+        Assertions.assertEquals(3,point2.get(3).getY(), 0.3);
     }
 
     @Test
@@ -129,7 +129,6 @@ class ValideCheckpointTest {
         checkpoints.add(checkpoint2);
         strategy = new Strategy(jeu);
         valideCheckpoint = strategy.getValideCheckpoint();
-        System.out.println(checkpoints);
         // Le bateau est loin donc le checkpoint reste le même
         Assertions.assertEquals(checkpoint, valideCheckpoint.nextCheckpointTarget(checkpoints));
         //Le bateau a avancé
@@ -177,16 +176,16 @@ class ValideCheckpointTest {
         );
         valideCheckpoint = new ValideCheckpoint(jeu);
         valideCheckpoint.setFakeCheckpoint(fakeCheckpoints);
-        //Assertions.assertEquals(fakeCheckpoint1, valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertEquals(fakeCheckpoint1, valideCheckpoint.nextCheckpointTarget(checkpoints));
         ship.setPosition(new Position(1,3, Math.PI/4));
         System.out.println("SECOND TEST");
-        //Assertions.assertEquals(fakeCheckpoint2, valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertEquals(fakeCheckpoint2, valideCheckpoint.nextCheckpointTarget(checkpoints));
         ship.setPosition(new Position(0,5, Math.PI/4));
-        //Assertions.assertEquals(fakeCheckpoint3, valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertEquals(fakeCheckpoint3, valideCheckpoint.nextCheckpointTarget(checkpoints));
         ship.setPosition(new Position(5.5,6, 0));
-        //Assertions.assertEquals(checkpoint, valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertEquals(checkpoint, valideCheckpoint.nextCheckpointTarget(checkpoints));
         ship.setPosition(new Position(6.5,6, Math.PI/4));
-        //Assertions.assertNull(valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertNull(valideCheckpoint.nextCheckpointTarget(checkpoints));
     }
 
     @Test

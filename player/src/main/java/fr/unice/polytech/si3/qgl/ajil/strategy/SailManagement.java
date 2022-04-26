@@ -8,11 +8,11 @@ import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
 
 import java.util.List;
 
-public class GestionSail {
-    private static final double RANGE = Math.PI / 2;
-    private static final List<String> LOGGER = Cockpit.LOGGER;
-    protected final StratData stratData;
-    private boolean lifted;
+public class SailManagement {
+    final double RANGE = Math.PI / 2;
+    private final List<String> LOGGER = Cockpit.LOGGER;
+    protected StratData stratData;
+    private boolean isLifted;
 
     public SailManagement(StratData stratData) {
         this.stratData = stratData;
@@ -45,8 +45,9 @@ public class GestionSail {
                 isLifted = false;
                 //LOGGER.add("Voile DOWN");
             }
-        }  //LOGGER.add("Pas de Sailer Manager");
-
+        } else {
+            //LOGGER.add("Pas de Sailer Manager");
+        }
     }
 
     /**

@@ -1,8 +1,8 @@
 package fr.unice.polytech.si3.qgl.ajil.actions;
 
 /**
- * Classe mère Action regroupant les méthodes de base d'une action, elle est déclarée abstract,
- * car on ne déclarera jamais une action "par défaut".
+ * Classe mère Action regroupant les méthodes de base d'une action, elle est déclarée abstract car on ne déclarera
+ * jamais une action "par défaut".
  *
  * @author Alexis Roche
  * @author Louis Hattiger

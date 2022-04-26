@@ -18,23 +18,23 @@ public class Matrice<AnyType> {
     private final List<List<AnyType>> matrice;
 
     public Matrice() {
-        matrix = new ArrayList<>();
-        matrix.add(new ArrayList<>());
+        matrice = new ArrayList<>();
+        matrice.add(new ArrayList<>());
     }
 
     /**
      * @return la matrice
      */
-    public List<List<AnyType>> getMatrix() {
-        return matrix;
+    public List<List<AnyType>> getMatrice() {
+        return matrice;
     }
 
     /**
      * @param i
      * @return la ième colonne de la matrice
      */
-    public List<AnyType> getComlumn(int i) {
-        return matrix.get(i);
+    public List<AnyType> getColumn(int i) {
+        return matrice.get(i);
     }
 
     /**
@@ -43,7 +43,7 @@ public class Matrice<AnyType> {
      * @return un élément spécifique de la matrice à la ième colonne et la jème ligne
      */
     public AnyType getElement(int i, int j) {
-        return matrix.get(i).get(j);
+        return matrice.get(i).get(j);
     }
 
     /**
@@ -53,8 +53,8 @@ public class Matrice<AnyType> {
      * @param element
      */
     public void addElement(int i, int j, AnyType element) {
-        while (i >= matrix.size()) matrix.add(new ArrayList<>());
-        matrix.get(i).add(j, element);
+        while (i >= matrice.size()) matrice.add(new ArrayList<>());
+        matrice.get(i).add(j, element);
     }
 
     /**
@@ -63,13 +63,13 @@ public class Matrice<AnyType> {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        for (List<AnyType> anyTypes : matrix) {
+        for (List<AnyType> anyTypes : matrice) {
             System.out.println(anyTypes);
             for (AnyType element : anyTypes) {
                 string.append(element).append(" ");
             }
         }
         string.append("\n");
-        return "";
+        return string.toString();
     }
 }

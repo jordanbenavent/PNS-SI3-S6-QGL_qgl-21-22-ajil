@@ -20,7 +20,11 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
  */
 
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
-@JsonSubTypes({@JsonSubTypes.Type(value = OtherShip.class, name = "ship"), @JsonSubTypes.Type(value = Reef.class, name = "reef"), @JsonSubTypes.Type(value = Stream.class, name = "stream")})
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = OtherShip.class, name = "ship"),
+        @JsonSubTypes.Type(value = Reef.class, name = "reef"),
+        @JsonSubTypes.Type(value = Stream.class, name = "stream")
+})
 public class VisibleEntitie {
     private String type;
     private Position position;
@@ -66,8 +70,11 @@ public class VisibleEntitie {
         this.position = position;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    /**
+     * @return la forme de l'entité visible
+     */
+    public Shape getShape() {
+        return shape;
     }
 
     /**
@@ -98,7 +105,11 @@ public class VisibleEntitie {
      */
     @Override
     public String toString() {
-        return "VisibleEntitie{" + "type='" + type + '\'' + ", position=" + position + ", shape=" + shape + '}';
+        return "VisibleEntitie{" +
+                "type='" + type + '\'' +
+                ", position=" + position +
+                ", shape=" + shape +
+                '}';
     }
 
     public VisibleEntitie copy() {
