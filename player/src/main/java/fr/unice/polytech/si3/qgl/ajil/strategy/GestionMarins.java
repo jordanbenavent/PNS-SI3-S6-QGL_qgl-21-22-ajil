@@ -29,6 +29,11 @@ public class GestionMarins {
     private boolean placementSailManagers = false;
     private static final List<String> LOGGER = Cockpit.LOGGER;
     protected final StratData stratData;
+
+    public GestionMarins(StratData stratData) {
+        this.stratData = stratData;
+    }
+
     // marins
     private Sailor coxswain; // celui qui gère le gouvernail
     private Sailor sailManager; // celui qui gère la voile
@@ -184,7 +189,7 @@ public class GestionMarins {
      * @param sailors
      * @return le marin d'id voulu
      */
-    public Sailor findSailorById(int id, List<Sailor> sailors) {
+    public Sailor findSailorById(int id, ArrayList<Sailor> sailors) {
         for (Sailor sailor : sailors) {
             if (sailor.getId() == id) {
                 return sailor;

@@ -16,6 +16,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
+ *
  */
 
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
@@ -42,6 +43,10 @@ public class VisibleEntitie {
         return type;
     }
 
+    /**
+     * Modifie le type de l'entité visible
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }
@@ -55,16 +60,18 @@ public class VisibleEntitie {
 
     /**
      * Modifie la position de l'entité visible
-     *
      * @param position
      */
     public void setPosition(Position position) {
         this.position = position;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     /**
      * Modifie la forme de l'entité visible
-     *
      * @param shape
      */
     public void setShape(Shape shape) {
@@ -80,7 +87,6 @@ public class VisibleEntitie {
 
     /**
      * Modifie le type de l'entité (format enum)
-     *
      * @param typeEntity
      */
     public void setTypeEntity(VisibleEntities typeEntity) {

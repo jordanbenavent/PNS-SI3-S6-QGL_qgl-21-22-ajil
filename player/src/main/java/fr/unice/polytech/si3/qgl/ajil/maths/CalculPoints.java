@@ -9,9 +9,6 @@ import java.util.List;
 
 public class CalculPoints {
 
-    private CalculPoints() {
-    }
-
     public static List<Point> calculExtremityPoints(Shape shape, Position position) {
         double longueur = 0;
         double largeur = 0;

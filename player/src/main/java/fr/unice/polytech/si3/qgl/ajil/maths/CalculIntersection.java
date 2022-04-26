@@ -4,7 +4,6 @@ import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CalculIntersection {
 
