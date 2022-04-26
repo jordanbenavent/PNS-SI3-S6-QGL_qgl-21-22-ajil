@@ -8,11 +8,11 @@ import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
 
 import java.util.List;
 
-public class GestionSail {
+public class SailManagement {
     private static final double RANGE = Math.PI / 2;
     private static final List<String> LOGGER = Cockpit.LOGGER;
     protected final StratData stratData;
-    private boolean lifted;
+    private boolean isLifted;
 
     public SailManagement(StratData stratData) {
         this.stratData = stratData;
