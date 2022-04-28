@@ -38,7 +38,6 @@ public class Strategy {
     private final CalculDeplacement calculDeplacement;
     private final List<Checkpoint> listeCheckpoints;
     protected StratData stratData;
-    private final List<Checkpoint> listeCheckpoints;
     private int listCheckpointsSize;
     private boolean premierCalculA;
     private int tailleRecifAvant = 0;
@@ -152,8 +151,8 @@ public class Strategy {
         Deplacement deplacement;
         Checkpoint c;
         // d'abord on place le Barreur
-        if (!gestionMarins.isPlacementBarreur()) {
-            gestionMarins.attribuerBarreur();
+        if (!gestionMarins.isPlacementCoxswain()) {
+            gestionMarins.attribuerCoxswain();
         }
         // ensuite on place le marin responsable de la voile
         if (!gestionMarins.isPlacementSailManagers()) {
@@ -163,7 +162,7 @@ public class Strategy {
         gestionMarins.repartirLesMarins();
 
         if (!gestionMarins.isPlacementInit()) {
-            gestionMarins.placerSurRames();
+            gestionMarins.placeOnOars();
         }
 
         //------------------Fin placement marin, début actions deplacement
