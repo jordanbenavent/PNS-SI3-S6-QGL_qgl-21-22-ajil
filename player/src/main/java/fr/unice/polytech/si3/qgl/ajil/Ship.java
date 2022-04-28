@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
-import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
+import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Rudder;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Sail;
@@ -19,7 +19,6 @@ import java.util.Set;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Ship {
@@ -57,6 +56,7 @@ public class Ship {
 
     /**
      * Modifie le type du bateau
+     *
      * @param type setter, to set a type
      */
     public void setType(String type) {
@@ -72,6 +72,7 @@ public class Ship {
 
     /**
      * Modifie les points de vie du bateau
+     *
      * @param life set Life to a ship
      */
     public void setLife(int life) {
@@ -87,6 +88,7 @@ public class Ship {
 
     /**
      * Modifie la position du bateau
+     *
      * @param position set ship position
      */
     public void setPosition(Position position) {
@@ -102,6 +104,7 @@ public class Ship {
 
     /**
      * Modifie le nom du bateau
+     *
      * @param name set ship name
      */
     public void setName(String name) {
@@ -117,6 +120,7 @@ public class Ship {
 
     /**
      * Modifie le deck du bateau
+     *
      * @param deck set ship deck
      */
     public void setDeck(Deck deck) {
@@ -132,6 +136,7 @@ public class Ship {
 
     /**
      * Modifie la liste des entités
+     *
      * @param entities set ship entities
      */
     public void setEntities(List<Entity> entities) {
@@ -147,6 +152,7 @@ public class Ship {
 
     /**
      * Modifie la forme du bateau
+     *
      * @param shape set ship shape
      */
     public void setShape(Shape shape) {
@@ -190,24 +196,10 @@ public class Ship {
         return null;
     }
 
-    /**
-     * Ajoute les rames dans les listes leftOars et rightOars en fonction de leur position dans le bateau
-     */
-    public void placeOars() {
-        List<Entity> oars = getOars();
-        for (Entity oar : oars) {
-            if (oar.getType().equals("oar")) {
-                if (oar.getY() == 0) {
-                    leftOars.add(oar);
-                } else {
-                    rightOars.add(oar);
-                }
-            }
-        }
-    }
 
     /**
      * Renvoie toutes les possibilités d'angle que le bateau peut adopter en tournant avec un certain nombre de rames
+     *
      * @return un Set<Double> regroupant tous les angles possiblement effectuables
      */
     public Set<Double> getTurnRange() {

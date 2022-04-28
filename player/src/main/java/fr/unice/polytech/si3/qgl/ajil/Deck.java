@@ -8,7 +8,6 @@ package fr.unice.polytech.si3.qgl.ajil;
  * @author Jordan Benavent
  * @author Igor Melnyk
  * @author Tobias Bonifay
- *
  */
 
 public class Deck {
@@ -16,8 +15,10 @@ public class Deck {
     private int width;
     private int length;
 
-    public Deck(){}
-    public Deck(int width, int length){
+    public Deck() {
+    }
+
+    public Deck(int width, int length) {
         this.length = length;
         this.width = width;
     }
@@ -31,6 +32,7 @@ public class Deck {
 
     /**
      * Modifie la largeur du bateau
+     *
      * @param width
      */
     void setWidth(int width) {
@@ -46,6 +48,7 @@ public class Deck {
 
     /**
      * Modifie la longueur du bateau
+     *
      * @param length
      */
     void setLength(int length) {
