@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SailManagementTest {
+public class GestionSailTest {
     StratData stratData;
     Game jeu;
     Wind wind;
     Ship ship;
-    SailManagement sailManagement;
+    GestionSail gestionSail;
 
     @BeforeEach
     void setUp() {
@@ -24,7 +24,7 @@ public class SailManagementTest {
         stratData = new StratData(jeu);
         stratData.setSailorsManager(new Sailor());
         wind = stratData.jeu.getWind();
-        sailManagement = new SailManagement(stratData);
+        gestionSail = new GestionSail(stratData);
     }
 
     @Test
@@ -32,8 +32,8 @@ public class SailManagementTest {
         wind.setOrientation(0);
         wind.setStrength(50);
         ship.getPosition().setOrientation(0.0);
-        sailManagement.putSail(ship, wind);
-        assertTrue(sailManagement.isSailLifted());
+        gestionSail.putSail(ship, wind);
+        assertTrue(gestionSail.isSailLifted());
     }
 
     @Test
@@ -41,8 +41,8 @@ public class SailManagementTest {
         wind.setOrientation(Math.PI);
         wind.setStrength(50);
         ship.getPosition().setOrientation(0.0);
-        sailManagement.putSail(ship, wind);
-        assertFalse(sailManagement.isSailLifted());
+        gestionSail.putSail(ship, wind);
+        assertFalse(gestionSail.isSailLifted());
     }
 
     @Test
@@ -50,8 +50,8 @@ public class SailManagementTest {
         wind.setOrientation(-Math.PI / 2);
         wind.setStrength(100);
         ship.getPosition().setOrientation(-4);
-        sailManagement.putSail(ship, wind);
-        assertFalse(sailManagement.isSailLifted());
+        gestionSail.putSail(ship, wind);
+        assertFalse(gestionSail.isSailLifted());
     }
 
     @Test
@@ -59,8 +59,8 @@ public class SailManagementTest {
         wind.setOrientation(3 * Math.PI / 4); // 3 PI /4
         wind.setStrength(100);
         ship.getPosition().setOrientation(3 * Math.PI); // pi
-        sailManagement.putSail(ship, wind);
-        assertTrue(sailManagement.isSailLifted());
+        gestionSail.putSail(ship, wind);
+        assertTrue(gestionSail.isSailLifted());
     }
 
     @Test
@@ -68,8 +68,8 @@ public class SailManagementTest {
         wind.setOrientation(0.00); // 3 PI /4
         wind.setStrength(100);
         ship.getPosition().setOrientation(1.99 * Math.PI); // pi
-        sailManagement.putSail(ship, wind);
-        assertTrue(sailManagement.isSailLifted());
+        gestionSail.putSail(ship, wind);
+        assertTrue(gestionSail.isSailLifted());
     }
 
     @Test
@@ -77,8 +77,8 @@ public class SailManagementTest {
         wind.setOrientation(0.00); // 3 PI /4
         wind.setStrength(0.1);
         ship.getPosition().setOrientation(10000 * 1.99 * Math.PI); // pi
-        sailManagement.putSail(ship, wind);
-        assertTrue(sailManagement.isSailLifted());
+        gestionSail.putSail(ship, wind);
+        assertTrue(gestionSail.isSailLifted());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class SailManagementTest {
         wind.setOrientation(0.00); // 3 PI /4
         wind.setStrength(0.1);
         ship.getPosition().setOrientation(10000000 * 1.99 * Math.PI); // pi
-        sailManagement.putSail(ship, wind);
-        assertFalse(sailManagement.isSailLifted());
+        gestionSail.putSail(ship, wind);
+        assertFalse(gestionSail.isSailLifted());
     }
 }
