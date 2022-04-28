@@ -13,7 +13,7 @@ public class AStarDeploymentTest {
 
     @Test
     void positionToCheckpointTest(){
-        ArrayList<Position> positions = new ArrayList<>();
+        List<Position> positions = new ArrayList<>();
         positions.add(new Position(1, 1,0));
         positions.add(new Position(1, 8,1));
         positions.add(new Position(7, 6, 2));
