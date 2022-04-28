@@ -14,7 +14,7 @@ import java.util.List;
 
 class GridProcessTest {
     private ObstacleDetection obstacleDetection;
-    private ArrayList<VisibleEntitie> reeefs;
+    private List<VisibleEntitie> reeefs;
 
     @BeforeEach
     void setUp() {
