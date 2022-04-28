@@ -78,7 +78,7 @@ public class AStarDeployment {
         LOGGER.add("on a nb recifs" + mainList.size());
         List<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList, 0);
 
-        int[][] cellsB = pointsVersTableau(obstacleDetection.gridProcess(grid, (ArrayList<VisibleEntitie>) visibleReefs));
+        int[][] cellsB = pointsVersTableau(obstacleDetection.gridProcess(grid, visibleReefs));
 
         LOGGER.add("" + cellsB.length);
         System.out.println((int) sizeXY.getX());

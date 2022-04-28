@@ -2,8 +2,6 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 
-import fr.unice.polytech.si3.qgl.ajil.shape.Point;
-
 public class Segment {
     private double startX;
     private double startY;

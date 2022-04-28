@@ -2,11 +2,9 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.Stream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class ExtensionPolygon {
