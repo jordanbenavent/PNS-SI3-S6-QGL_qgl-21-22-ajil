@@ -18,6 +18,8 @@ import java.util.List;
 
 public class CalculIntersection {
 
+    //backup
+
     /**
      * Méthode global pour calculer l'intersection entre deux formes
      *
