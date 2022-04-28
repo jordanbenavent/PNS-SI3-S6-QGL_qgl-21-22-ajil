@@ -25,12 +25,13 @@ public class CalculPoints {
         }
         double largeur = 0;
         double longueur = 0;
-        if (shape instanceof Rectangle) {
-            largeur = ((Rectangle) shape).getWidth();
-            longueur = ((Rectangle) shape).getHeight();
+        if (shape instanceof Rectangle rectangle) {
+            largeur = rectangle.getWidth();
+            longueur = rectangle.getHeight();
         }
         double angle = CalculPoints.calculAngleTotal(shape, position);
-        return calculPointGeneric(angle, position, longueur / 2, largeur / 2);    }
+        return calculPointGeneric(angle, position, longueur / 2, largeur / 2);
+    }
 
     /**
      * @param shape Shape orientation is needed for polygone shape
@@ -60,8 +61,8 @@ public class CalculPoints {
         return points;
     }
 
-    private static ArrayList<Point> calculPointGeneric(double angle, Position position, double lo, double la) {
-        ArrayList<Point> points = new ArrayList<>();
+    private static List<Point> calculPointGeneric(double angle, Position position, double lo, double la) {
+        List<Point> points = new ArrayList<>();
         Point centre = new Point(position.getX(), position.getY());
         double sinus = Math.sin(-angle);
         double cosinus = Math.cos(-angle);
@@ -102,9 +103,9 @@ public class CalculPoints {
         }
         double largeur = 0;
         double longueur = 0;
-        if (shape instanceof Rectangle) {
-            largeur = ((Rectangle) shape).getWidth() + (widthShip / 2);
-            longueur = ((Rectangle) shape).getHeight() + (widthShip / 2);
+        if (shape instanceof Rectangle rectangle) {
+            largeur = rectangle.getWidth() + (widthShip / 2);
+            longueur = rectangle.getHeight() + (widthShip / 2);
         }
         double angle = CalculPoints.calculAngleTotal(shape, position);
         return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
