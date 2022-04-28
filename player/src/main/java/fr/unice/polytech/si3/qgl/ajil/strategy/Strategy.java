@@ -6,10 +6,10 @@ import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
+import fr.unice.polytech.si3.qgl.ajil.maths.Intersection;
 import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.AStarDeployment;
-import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.Intersection;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.ObstacleDetection;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
@@ -130,7 +130,7 @@ public class Strategy {
         for (int i = 0; i < listePolygoneReef.size(); i += 3) { //3 car les 2 autres on une marge, a changer !!
             segments = obstacleDetection.reefToSegments(listePolygoneReef.get(i));
             for (Segment s : segments) {
-                if (Intersection.SegIntersection(s, bateauCheckpoint) != null) {
+                if (Intersection.segmentIntersection(s, bateauCheckpoint) != null) {
                     System.out.println("Intersection repere");
                     return false;
                 }
