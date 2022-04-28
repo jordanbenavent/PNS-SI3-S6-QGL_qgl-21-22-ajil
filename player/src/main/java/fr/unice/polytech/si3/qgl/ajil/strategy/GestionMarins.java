@@ -23,6 +23,7 @@ public class GestionMarins {
     // marins
     private Sailor coxswain; // celui qui gère le gouvernail
     private Sailor sailManager; // celui qui gère la voile
+    private Sailor vigie; // la vigie
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
