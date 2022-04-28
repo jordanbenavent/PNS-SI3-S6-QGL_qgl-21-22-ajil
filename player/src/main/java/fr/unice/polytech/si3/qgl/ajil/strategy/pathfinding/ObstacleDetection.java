@@ -59,8 +59,8 @@ public class ObstacleDetection {
     }
 
     // Prend un ensemble de points du polygone et crée les segments correspondants
-    public ArrayList<Segment> createSegments(Point[] points, int size) {
-        ArrayList<Segment> resolution = new ArrayList<Segment>();
+    public List<Segment> createSegments(Point[] points, int size) {
+        List<Segment> resolution = new ArrayList<>();
         for (int i = 0; i < size - 1; i++) {
             Point a = new Point(points[i].getX(), points[i].getY());
             Point b = new Point(points[i + 1].getX(), points[i + 1].getY());
@@ -111,9 +111,9 @@ public class ObstacleDetection {
     }
 
     // Traitement de la grille = grisement des cellules bloquantes
-    public ArrayList<Point> gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs) {
-        ArrayList<Segment> reefSegments = new ArrayList<Segment>();
-        ArrayList<Point> blockedCells = new ArrayList<Point>();
+    public List<Point> gridProcess(GridCell[][] grid, List<VisibleEntitie> reefs) {
+        List<Segment> reefSegments = new ArrayList<>();
+        List<Point> blockedCells = new ArrayList<>();
         for (VisibleEntitie reef : reefs) {
             reefSegments.addAll(reefToSegments(reef));
         }

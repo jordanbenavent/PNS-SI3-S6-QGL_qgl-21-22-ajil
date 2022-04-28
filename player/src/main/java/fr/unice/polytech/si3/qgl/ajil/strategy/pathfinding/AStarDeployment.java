@@ -35,7 +35,7 @@ public class AStarDeployment {
     public Point gridSizeXY(Point shipPosition, Point checkPointPosition, double sizeCell) {
         double x = Math.abs(shipPosition.getX() - checkPointPosition.getX());
         double y = Math.abs(shipPosition.getY() - checkPointPosition.getY());
-        return new Point(Math.ceil(x / sizeCell) + 5, Math.ceil(y / sizeCell) + 3);
+        return new Point(Math.ceil(x / sizeCell) + 15, Math.ceil(y / sizeCell) + 15);
     }
 
     // Récupère la liste des points donnés par AStar et crée une liste des Checkpoints
@@ -43,11 +43,11 @@ public class AStarDeployment {
         List<Checkpoint> res = new ArrayList<>();
         Position pos;
         Checkpoint nouv;
-        Shape checkpointShape = new Circle("circle", sizeCell / 2);
+        Shape checkpointShape = new Circle("circle", sizeCell / 20);
         for (int i = 0; i < listePos.size(); i += 2) {
             pos = listePos.get(i);
-            double a = (origine.getX() + pos.getX() * sizeCell) + sizeCell / 2;
-            double b = (origine.getY() + pos.getY() * sizeCell) + sizeCell / 2;
+            double a = (origine.getX() + pos.getX() * sizeCell) + sizeCell / 20;
+            double b = (origine.getY() + pos.getY() * sizeCell) + sizeCell / 20;
             pos = new Position(a, b, 0);
             nouv = new Checkpoint(pos, checkpointShape);
             res.add(nouv);
@@ -78,7 +78,7 @@ public class AStarDeployment {
         LOGGER.add("on a nb recifs" + mainList.size());
         List<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList, 0);
 
-        int[][] cellsB = pointsVersTableau(obstacleDetection.gridProcess(grid, (ArrayList<VisibleEntitie>) visibleReefs));
+        int[][] cellsB = pointsVersTableau(obstacleDetection.gridProcess(grid, visibleReefs));
 
         LOGGER.add("" + cellsB.length);
         System.out.println((int) sizeXY.getX());

@@ -5,18 +5,16 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 class GridProcessTest {
     private ObstacleDetection obstacleDetection;
-    private ArrayList<VisibleEntitie> reeefs;
+    private List<VisibleEntitie> reeefs;
 
     @BeforeEach
     void setUp() {
@@ -47,7 +45,7 @@ class GridProcessTest {
                         new Point[]{new Point(270.4,40), new Point(372.0, 42.7),
                                 new Point(269.1, 75.0), new Point(370.7, 75.2)})
         ));
-        ArrayList<Point> cellsBlocked = obstacleDetection.gridProcess(grid, reeefs);
+        List<Point> cellsBlocked = obstacleDetection.gridProcess(grid, reeefs);
         Assertions.assertEquals(2,cellsBlocked.get(0).getX());
         Assertions.assertEquals(1,cellsBlocked.get(0).getY());
         Assertions.assertEquals(3,cellsBlocked.get(1).getX());

@@ -48,7 +48,7 @@ public class NextRoundTest {
 
     @Test
     void streamToReefTest(){
-        Set<Reef> reefs = new HashSet<>();
+        Set<Reef> fakeReefs = new HashSet<>();
         Set<Stream> streams = new HashSet<>();
         // Cas 1 le courant n'est pas dans la trajectoire du bateau
         Stream stream1 = new Stream("stream", new Position(0, 50, 0), new Circle("circle", 2), 50);
@@ -63,10 +63,9 @@ public class NextRoundTest {
         streams.add(stream3);
         streams.add(stream4);
         // Récifs crée
-        Reef reef1 = new Reef("reef", stream4.getPosition(), stream4.getShape());
-        nextRound.streamToReef(streams, reefs);
-        Assertions.assertEquals(1, reefs.size());
-        Iterator<Reef> i = reefs.iterator();
+        fakeReefs = nextRound.streamToReef(streams);
+        Assertions.assertEquals(1, fakeReefs.size());
+        Iterator<Reef> i = fakeReefs.iterator();
         Assertions.assertEquals(stream4.getPosition().getOrientation(), i.next().getPosition().getOrientation());
     }
 

@@ -406,4 +406,12 @@ public class CalculDeplacement {
         LOGGER.add("Prédiction :" + prediction);
         return prediction;
     }
+
+    /**
+     * @param angles Une liste comportant des angles sous forme décimal / radian
+     * @return l'angle avec la valeur la plus élevée
+     */
+    public Double getMaxAngle(Set<Double> angles) {
+        return angles.stream().mapToDouble(Double::doubleValue).max().isPresent() ? angles.stream().mapToDouble(Double::doubleValue).max().getAsDouble() : 0.0;
+    }
 }

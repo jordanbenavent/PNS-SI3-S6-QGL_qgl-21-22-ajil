@@ -57,14 +57,14 @@ public class GestionMarins {
     /**
      * @return la liste des marins à gauche du bateau
      */
-    public ArrayList<Sailor> getLeftSailors() {
+    public List<Sailor> getLeftSailors() {
         return leftSailors;
     }
 
     /**
      * @return la liste des marins à droite du bateau
      */
-    public ArrayList<Sailor> getRightSailors() {
+    public List<Sailor> getRightSailors() {
         return rightSailors;
     }
 
@@ -178,18 +178,19 @@ public class GestionMarins {
     }
 
     /**
-     * Cherche le marin d'id voulu parmi la liste de marins
-     * @param id
-     * @param sailors
-     * @return le marin d'id voulu
+     * Find a sailor by id in a list of sailors
+     *
+     * @param id      Sailor id to find
+     * @param sailors Sailors List
+     * @return Sailor according to his id
      */
-    public Sailor findSailorById(int id, ArrayList<Sailor> sailors) {
+    public Sailor findSailorById(int id, List<Sailor> sailors) {
         for (Sailor sailor : sailors) {
             if (sailor.getId() == id) {
                 return sailor;
             }
         }
-        LOGGER.add("Sailor n'a pas été trouvé");
+        LOGGER.add("No sailor found");
         return null;
     }
 

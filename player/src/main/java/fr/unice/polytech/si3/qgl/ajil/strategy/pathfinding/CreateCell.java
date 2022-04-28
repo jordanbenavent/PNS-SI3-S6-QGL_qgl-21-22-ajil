@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CreateCell {
 
-    private static final double MARGE = 1.1;
+    private static final double MARGIN = 1.1;
     private Game game;
     private Position positionShip;
     private Checkpoint checkpoint;
