@@ -127,8 +127,8 @@ public class CalculIntersection {
     }
 
     public static boolean intersectionSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2) {
-        ArrayList<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
-        ArrayList<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
+        ArrayList<Point> pointsShape1 = (ArrayList<Point>) CalculPoints.calculExtremityPoints(shape1, position1);
+        ArrayList<Point> pointsShape2 = (ArrayList<Point>) CalculPoints.calculExtremityPoints(shape2, position2);
         int sizePoint1 = pointsShape1.size();
         int sizePoint2 = pointsShape2.size();
         for (int i = 0; i < sizePoint1; i++) {
