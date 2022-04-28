@@ -16,6 +16,7 @@ public class Wind {
     private double strength;
 
     public Wind() {
+        // test
     }
 
     public Wind(double orientation, double strength) {
