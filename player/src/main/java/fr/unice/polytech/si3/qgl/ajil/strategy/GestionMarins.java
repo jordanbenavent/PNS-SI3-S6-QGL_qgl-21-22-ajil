@@ -45,7 +45,14 @@ public class GestionMarins {
      * @return le marin attribué au gouvernail
      */
     public Sailor getCoxswain() {
-        return stratData.coxswain;
+        return coxswain;
+    }
+
+    /**
+     * @return le marin attribué à la vigie
+     */
+    public Sailor getVigie() {
+        return vigie;
     }
 
     /**
@@ -156,7 +163,7 @@ public class GestionMarins {
             sailors.remove(vigie);
             LOGGER.add("Vigie est : " + vigie.getId());
         }
-        placementSailManagers = deplacerMarin(vigie, watch);
+        placementVigie = deplacerMarin(vigie, watch);
     }
 
     /**
@@ -227,6 +234,8 @@ public class GestionMarins {
     public boolean isPlacementSailManagers() {
         return placementSailManagers;
     }
+
+    public boolean isPlacementVigie() { return placementVigie; }
 
     /**
      * Rame selon la vitesse indiquée dans le déplacement

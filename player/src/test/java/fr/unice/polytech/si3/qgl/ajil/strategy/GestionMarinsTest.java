@@ -7,10 +7,7 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.Rudder;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.Sail;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -304,5 +301,57 @@ class GestionMarinsTest {
         jeu.setShip(ship);
         gestionMarins.attribuerSailManager();
         Assertions.assertNotNull(gestionMarins.stratData.getSailorsManager());
+    }
+
+    @DisplayName("Attribuer Marin qui est dans range de 5")
+    @Test
+    void attribuerVigieTest1() {
+
+        List<Sailor> sailors = new ArrayList<>();
+        sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
+        sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
+        sailors.add(new Sailor(0, 1, 2, "Sailor 2"));
+        sailors.add(new Sailor(0, 2, 3, "Sailor 3"));
+        sailors.add(new Sailor(1, 1, 4, "Sailor 4"));
+        sailors.add(new Sailor(1, 3, 5, "Sailor 5"));
+        sailors.add(new Sailor(2, 1, 6, "Sailor 6"));
+        jeu.setSailors(sailors);
+        List<Entity> entities = new ArrayList<>();
+        entities.add(new Watch(3, 4, "watch"));
+        entities.add(new OarEntity(0, 0, "oar"));
+        entities.add(new OarEntity(1, 0, "oar"));
+        entities.add(new OarEntity(2, 0, "oar"));
+        entities.add(new OarEntity(0, 4, "oar"));
+        entities.add(new OarEntity(1, 4, "oar"));
+        entities.add(new OarEntity(2, 4, "oar"));
+        ship.setEntities(entities);
+
+        gestionMarins.attribuerVigie();
+        System.out.println(gestionMarins.isPlacementVigie());
+
+        gestionMarins.repartirLesMarins();
+
+        Assertions.assertEquals(0, gestionMarins.getVigie().getId());
+        Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
+        Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
+        Assertions.assertEquals(3, gestionMarins.getLeftSailors().size());
+        Assertions.assertEquals(3, gestionMarins.getRightSailors().size());
+        Assertions.assertTrue(gestionMarins.isPlacementVigie());
+    }
+
+    @DisplayName("Attribuer Marin qui est hors son range de 5")
+    @Test
+    void attribuerVigieTest2() {
+        List<Sailor> sailors = new ArrayList<>();
+        sailors.add(new Sailor(0, 4, 0, "Sailor 0")); // ( 0 , 4 )
+        jeu.setSailors(sailors);
+        List<Entity> entities = new ArrayList<>();
+        entities.add(new Watch(6, 4, "watch"));
+        ship.setEntities(entities);
+        gestionMarins.attribuerVigie();
+        Assertions.assertEquals(0, gestionMarins.getVigie().getId());
+        Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
+        Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(0)).getXdistance());
+        Assertions.assertFalse(gestionMarins.isPlacementVigie());
     }
 }
