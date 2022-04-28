@@ -1,10 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
-import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.*;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.Rudder;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.Sail;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -170,7 +167,7 @@ public class Ship {
     }
 
     /**
-     * @return le gouvernail présent sur le bateau
+     * @return le gouvernail présent sur le bateau, null s'il n'y en a pas
      */
     public Entity getRudder() {
         for (Entity e : entities) {
@@ -182,11 +179,23 @@ public class Ship {
     }
 
     /**
-     * @return la voile présente sur le bateau
+     * @return la voile présente sur le bateau, null s'il n'y en a pas
      */
     public Entity getSail() {
         for (Entity e : entities) {
             if (e instanceof Sail) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return la vigie présente sur le bateau, null s'il n'y en a pas
+     */
+    public Entity getWatch() {
+        for (Entity e : entities){
+            if (e instanceof Watch) {
                 return e;
             }
         }
