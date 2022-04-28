@@ -86,7 +86,7 @@ public class CalculDeplacement {
 
     private Deplacement getMove(int oarsNb, double distance, double angle, List<Deplacement> nextAngle, Set<Double> availableAngles, double maxAngle) {
         Deplacement deplacement = new Deplacement(); //vitesse en premier, angle en deuxième
-        final Sailor barreur = stratData.getBarreur();
+        final Sailor barreur = stratData.getCoxswain();
         // Stratégie de déplacement commune aux deux stratégies (avec et sans barreur)
         if (Math.abs(angle) >= Math.PI / 2) {
             deplacement.setVitesse(82.5);

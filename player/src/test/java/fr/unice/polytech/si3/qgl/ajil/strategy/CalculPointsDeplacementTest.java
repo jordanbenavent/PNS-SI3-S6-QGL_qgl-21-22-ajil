@@ -211,7 +211,7 @@ class CalculDeplacementTest {
         jeu.getShip().getEntities().add(new OarEntity(1, 2, "oar"));
         strategie = new Strategy(jeu);
         Sailor barreur = new Sailor(0, 0, 1, "Jean");
-        strategie.stratData.setBarreur(barreur);
+        strategie.stratData.setCoxswain(barreur);
         Checkpoint checkpoint_angle_positif = new Checkpoint(new Position(10, 242.5, 0), new Circle("circle", 1));
         ship.getPosition().setOrientation(Math.PI/3);
         // déplacement pour un angle inférieur à PI/4 entre le bateau et le checkpoint

@@ -181,13 +181,14 @@ public class Ship {
     /**
      * @return la voile présente sur le bateau
      */
-    public Entity getSail() {
+    public List<Entity> getSails() {
+        ArrayList<Entity> res = new ArrayList<>();
         for (Entity e : entities) {
             if (e instanceof Sail) {
-                return e;
+                res.add(e);
             }
         }
-        return null;
+        return res;
     }
 
     /**

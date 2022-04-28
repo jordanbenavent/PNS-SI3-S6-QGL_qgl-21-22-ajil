@@ -127,7 +127,7 @@ class GestionMarinsTest {
 
         gestionMarins.repartirLesMarins();
 
-        Assertions.assertEquals(0, gestionMarins.getBarreur().getId());
+        Assertions.assertEquals(0, gestionMarins.getCoxswain().getId());
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
         Assertions.assertEquals(3, gestionMarins.getLeftSailors().size());
@@ -145,7 +145,7 @@ class GestionMarinsTest {
         entities.add(new Rudder(6, 4, "rudder"));
         ship.setEntities(entities);
         gestionMarins.attribuerBarreur();
-        Assertions.assertEquals(0, gestionMarins.getBarreur().getId());
+        Assertions.assertEquals(0, gestionMarins.getCoxswain().getId());
         Assertions.assertEquals(0, strategy.getListActions().get(0).getSailorId());
         Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(0)).getXdistance());
         Assertions.assertFalse(gestionMarins.isPlacementBarreur());
@@ -168,7 +168,7 @@ class GestionMarinsTest {
         List<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
         tmp.add(rudder);
         gestionMarins.stratData.jeu.getShip().setEntities(tmp);
-        Sailor res = gestionMarins.marinLePlusProche(rudder);
+        Sailor res = gestionMarins.nearestSailor(rudder);
         Assertions.assertEquals(res, sailors.get(1));
     }
 
@@ -178,7 +178,7 @@ class GestionMarinsTest {
         List<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
         tmp.add(sail);
         gestionMarins.stratData.jeu.getShip().setEntities(tmp);
-        Sailor res = gestionMarins.marinLePlusProche(sail);
+        Sailor res = gestionMarins.nearestSailor(sail);
         Assertions.assertEquals(res, sailors.get(2));
     }
 
@@ -196,13 +196,13 @@ class GestionMarinsTest {
         entities.add(new OarEntity(5, 0, "oar"));
         ship.setEntities(entities);
 
-        Assertions.assertTrue(gestionMarins.deplacerMarin(sailors.get(0), entities.get(0)));
+        Assertions.assertTrue(gestionMarins.hasSailorMoved(sailors.get(0), entities.get(0)));
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getXdistance());
         Assertions.assertEquals(1, ((Moving) strategy.getListActions().get(0)).getYdistance());
-        Assertions.assertFalse(gestionMarins.deplacerMarin(sailors.get(1), entities.get(1)));
+        Assertions.assertFalse(gestionMarins.hasSailorMoved(sailors.get(1), entities.get(1)));
         Assertions.assertEquals(2, ((Moving) strategy.getListActions().get(1)).getXdistance());
         Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(1)).getYdistance());
-        Assertions.assertTrue(gestionMarins.deplacerMarin(sailors.get(2), entities.get(2)));
+        Assertions.assertTrue(gestionMarins.hasSailorMoved(sailors.get(2), entities.get(2)));
         Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(2)).getXdistance());
         Assertions.assertEquals(-2, ((Moving) strategy.getListActions().get(2)).getYdistance());
         Assertions.assertEquals(4, sailors.get(0).getX());
@@ -215,13 +215,13 @@ class GestionMarinsTest {
     void deplacerMarinTest2() {
         Sailor sailor = new Sailor(3, 3, 0, "Sailor 0"); // ( 3 , 3 )
         Entity entity = new OarEntity(3, 3, "oar");
-        Assertions.assertTrue(gestionMarins.deplacerMarin(sailor, entity));
+        Assertions.assertTrue(gestionMarins.hasSailorMoved(sailor, entity));
         Sailor sailor1 = new Sailor(0, 0, 0, "Sailor 0"); // ( 0 , 0 )
         Entity entity1 = new OarEntity(6, 0, "oar");
-        Assertions.assertFalse(gestionMarins.deplacerMarin(sailor1, entity1));
+        Assertions.assertFalse(gestionMarins.hasSailorMoved(sailor1, entity1));
         Sailor sailor2 = new Sailor(0, 0, 0, "Sailor 0"); // ( 0 , 0 )
         Entity entity2 = new OarEntity(0, 4, "oar");
-        Assertions.assertTrue(gestionMarins.deplacerMarin(sailor2, entity2));
+        Assertions.assertTrue(gestionMarins.hasSailorMoved(sailor2, entity2));
         Assertions.assertEquals(2, sailor1.getX());
         Assertions.assertEquals(0, sailor1.getY());
     }
