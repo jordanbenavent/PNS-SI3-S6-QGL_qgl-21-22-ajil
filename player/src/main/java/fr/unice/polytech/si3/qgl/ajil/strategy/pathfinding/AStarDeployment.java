@@ -15,7 +15,7 @@ public class AStarDeployment {
     private final double sizeCell;
     private final Goal goal;
     private final Ship ship;
-    public List<String> LOGGER = Cockpit.LOGGER;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
     private Point origine;
 
 
@@ -39,8 +39,8 @@ public class AStarDeployment {
     }
 
     // Récupère la liste des points donnés par AStar et crée une liste des Checkpoints
-    public ArrayList<Checkpoint> convertPositionToCheckpoint(ArrayList<Position> listePos) {
-        ArrayList<Checkpoint> res = new ArrayList<>();
+    public List<Checkpoint> convertPositionToCheckpoint(List<Position> listePos) {
+        List<Checkpoint> res = new ArrayList<>();
         Position pos;
         Checkpoint nouv;
         Shape checkpointShape = new Circle("circle", sizeCell / 2);
@@ -62,7 +62,7 @@ public class AStarDeployment {
         return new Point(pos.getX(), pos.getY());
     }
 
-    public ArrayList<Checkpoint> deployment() {
+    public List<Checkpoint> deployment() {
         Point shipPoint = posToPoint(ship.getPosition());
         Point checkPoint = posToPoint(goal.getCheckpoints().get(0).getPosition());
 
@@ -96,7 +96,7 @@ public class AStarDeployment {
     }
 
 
-    public int[][] pointsVersTableau(ArrayList<Point> listPoints) {
+    public int[][] pointsVersTableau(List<Point> listPoints) {
         int[][] res = new int[listPoints.size()][2];
 
         for (int i = 0; i < listPoints.size(); i++) {
