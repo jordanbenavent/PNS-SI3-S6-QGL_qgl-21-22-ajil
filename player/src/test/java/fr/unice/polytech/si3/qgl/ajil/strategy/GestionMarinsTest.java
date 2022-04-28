@@ -31,23 +31,13 @@ class GestionMarinsTest {
 
     @BeforeEach
     void setUp() {
-        ship = new Ship("ship", 100,
-                new Position(0.0, 0.0, 0.0), "name",
-                new Deck(2, 5),
-                new ArrayList<>(),
-                new Rectangle("rectangle", 5, 5, 5));
-        ArrayList<Checkpoint> checkpoints = new ArrayList<>();
+        ship = new Ship("ship", 100, new Position(0.0, 0.0, 0.0), "name", new Deck(2, 5), new ArrayList<>(), new Rectangle("rectangle", 5, 5, 5));
+        List<Checkpoint> checkpoints = new ArrayList<>();
         checkpoint = new Checkpoint(new Position(5, 5, 0), new Circle("circle", 1));
         checkpoints.add(checkpoint);
 
         sailors = new ArrayList<>();
-        jeu = new Game(
-                new Goal("regatte", checkpoints),
-                ship,
-                sailors,
-                4,
-                new Wind(0, 50)
-        );
+        jeu = new Game(new Goal("regatte", checkpoints), ship, sailors, 4, new Wind(0, 50));
         Sailor sailor = new Sailor(1, 1, 1, "sailor1");
         Sailor sailor2 = new Sailor(1, 2, 2, "sailor2");
         Sailor sailor3 = new Sailor(3, 3, 3, "sailor3");
@@ -62,11 +52,11 @@ class GestionMarinsTest {
     @Test
     void placerSurRamesTest() {
         ship.setDeck(new Deck(3, 4));
-        ArrayList<Sailor> sailors = new ArrayList<>();
+        List<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(0, 1, 0, "Sailor 0")); // ( 0 , 1 ) LEFT SAILOR
         sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 ) RIGHT SAILOR
         jeu.setSailors(sailors);
-        ArrayList<Entity> entities = new ArrayList<>();
+        List<Entity> entities = new ArrayList<>();
         entities.add(new OarEntity(3, 0, "oar")); // ( 3 , 0 ) LEFT OAR
         entities.add(new OarEntity(0, 2, "oar")); // ( 0 , 2 ) RIGHT OAR
         ship.setEntities(entities);
@@ -82,11 +72,11 @@ class GestionMarinsTest {
     @Test
     void placerSurRamesTest2() {
         ship.setDeck(new Deck(3, 10));
-        ArrayList<Sailor> sailors = new ArrayList<>();
+        List<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(3, 0, 0, "Sailor 0")); // ( 3 , 0 ) LEFT SAILOR
         sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 ) RIGHT SAILOR
         jeu.setSailors(sailors);
-        ArrayList<Entity> entities = new ArrayList<>();
+        List<Entity> entities = new ArrayList<>();
         entities.add(new OarEntity(3, 0, "oar")); // ( 3 , 0 ) LEFT OAR
         entities.add(new OarEntity(7, 2, "oar")); // ( 7 , 2 ) RIGHT OAR
         ship.setEntities(entities);
@@ -99,7 +89,7 @@ class GestionMarinsTest {
     @Test
     void repartirLesMarins() {
         ship.setDeck(new Deck(2, 5));
-        ArrayList<Sailor> sailors = new ArrayList<>();
+        List<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(0, 0, 0, "Sailor 0")); // ( 0 , 0 )
         sailors.add(new Sailor(1, 1, 1, "Sailor 1")); // ( 1 , 2 )
         jeu.setSailors(sailors);
@@ -113,7 +103,7 @@ class GestionMarinsTest {
     @Test
     void attribuerCoxswainTest1() {
 
-        ArrayList<Sailor> sailors = new ArrayList<>();
+        List<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
         sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
         sailors.add(new Sailor(0, 1, 2, "Sailor 2"));
@@ -122,7 +112,7 @@ class GestionMarinsTest {
         sailors.add(new Sailor(1, 3, 5, "Sailor 5"));
         sailors.add(new Sailor(2, 1, 6, "Sailor 6"));
         jeu.setSailors(sailors);
-        ArrayList<Entity> entities = new ArrayList<>();
+        List<Entity> entities = new ArrayList<>();
         entities.add(new Rudder(3, 4, "rudder"));
         entities.add(new OarEntity(0, 0, "oar"));
         entities.add(new OarEntity(1, 0, "oar"));
@@ -148,10 +138,10 @@ class GestionMarinsTest {
     @DisplayName("Attribuer Marin qui est hors son range de 5")
     @Test
     void attribuerCoxswainTest2() {
-        ArrayList<Sailor> sailors = new ArrayList<>();
+        List<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(0, 4, 0, "Sailor 0")); // ( 0 , 4 )
         jeu.setSailors(sailors);
-        ArrayList<Entity> entities = new ArrayList<>();
+        List<Entity> entities = new ArrayList<>();
         entities.add(new Rudder(6, 4, "rudder"));
         ship.setEntities(entities);
         gestionMarins.attribuerCoxswain();
@@ -162,48 +152,48 @@ class GestionMarinsTest {
     }
 
     @Test
-    void findSailorByIdTest(){
-        ArrayList<Sailor> sailors = new ArrayList<>();
-        ArrayList<Sailor> sailorsVide = new ArrayList<>();
+    void findSailorByIdTest() {
+        List<Sailor> sailors = new ArrayList<>();
+        List<Sailor> sailorsVide = new ArrayList<>();
         Sailor s = new Sailor(1, 4, 0, "Sailor 0"); // ( 1 , 4 )
         sailors.add(s);
-        Assertions.assertEquals(s, gestionMarins.findSailorById(s.getId(),sailors));
+        Assertions.assertEquals(s, gestionMarins.findSailorById(s.getId(), sailors));
         Assertions.assertNull(gestionMarins.findSailorById(10, sailors));
         Assertions.assertNull(gestionMarins.findSailorById(0, sailorsVide));
     }
 
     @Test
-    void findMarinLePlusProche(){
-        Rudder rudder = new Rudder(1,2,"Rudder");
+    void findMarinLePlusProche() {
+        Rudder rudder = new Rudder(1, 2, "Rudder");
         List<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
         tmp.add(rudder);
         gestionMarins.stratData.jeu.getShip().setEntities(tmp);
         Sailor res = gestionMarins.marinLePlusProche(rudder);
-        Assertions.assertEquals(res,sailors.get(1));
+        Assertions.assertEquals(res, sailors.get(1));
     }
 
     @Test
-    void findMarinLePlusProcheDuSail(){
-        Sail sail = new Sail(2,4,"Sail",false);
+    void findMarinLePlusProcheDuSail() {
+        Sail sail = new Sail(2, 4, "Sail", false);
         List<Entity> tmp = gestionMarins.stratData.jeu.getShip().getEntities();
         tmp.add(sail);
         gestionMarins.stratData.jeu.getShip().setEntities(tmp);
         Sailor res = gestionMarins.marinLePlusProche(sail);
-        Assertions.assertEquals(res,sailors.get(2));
+        Assertions.assertEquals(res, sailors.get(2));
     }
 
     @Test
     void deplacerMarinTest() {
-        ArrayList<Sailor> sailors = new ArrayList<>();
+        List<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(3, 3, 0, "Sailor 0")); // ( 3 , 3 )
         sailors.add(new Sailor(1, 2, 1, "Sailor 1")); // ( 1 , 2 )
         sailors.add(new Sailor(7, 2, 1, "Sailor 1")); // ( 7 , 2 )
         jeu.setSailors(sailors);
 
-        ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new Rudder(4,4,"rudder"));
-        entities.add(new OarEntity(7,0,"oar"));
-        entities.add(new OarEntity(5,0,"oar"));
+        List<Entity> entities = new ArrayList<>();
+        entities.add(new Rudder(4, 4, "rudder"));
+        entities.add(new OarEntity(7, 0, "oar"));
+        entities.add(new OarEntity(5, 0, "oar"));
         ship.setEntities(entities);
 
         Assertions.assertTrue(gestionMarins.deplacerMarin(sailors.get(0), entities.get(0)));
@@ -222,24 +212,24 @@ class GestionMarinsTest {
     }
 
     @Test
-    void deplacerMarinTest2(){
+    void deplacerMarinTest2() {
         Sailor sailor = new Sailor(3, 3, 0, "Sailor 0"); // ( 3 , 3 )
-        Entity entity = new OarEntity(3,3,"oar");
+        Entity entity = new OarEntity(3, 3, "oar");
         Assertions.assertTrue(gestionMarins.deplacerMarin(sailor, entity));
         Sailor sailor1 = new Sailor(0, 0, 0, "Sailor 0"); // ( 0 , 0 )
-        Entity entity1 = new OarEntity(6,0,"oar");
+        Entity entity1 = new OarEntity(6, 0, "oar");
         Assertions.assertFalse(gestionMarins.deplacerMarin(sailor1, entity1));
         Sailor sailor2 = new Sailor(0, 0, 0, "Sailor 0"); // ( 0 , 0 )
-        Entity entity2 = new OarEntity(0,4,"oar");
+        Entity entity2 = new OarEntity(0, 4, "oar");
         Assertions.assertTrue(gestionMarins.deplacerMarin(sailor2, entity2));
         Assertions.assertEquals(2, sailor1.getX());
         Assertions.assertEquals(0, sailor1.getY());
     }
 
     @Test
-    void ramerSelonVitesseTest(){
-        ArrayList<Action> actions = new ArrayList<Action>();
-        ArrayList<Sailor> sailors = new ArrayList<>();
+    void ramerSelonVitesseTest() {
+        List<Action> actions = new ArrayList<Action>();
+        List<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(0, 0, 0, "Sailor 0")); // ( 0 , 0 )
         sailors.add(new Sailor(1, 0, 1, "Sailor 1")); // ( 1 , 0 )
         sailors.add(new Sailor(2, 0, 2, "Sailor 2"));
@@ -248,17 +238,17 @@ class GestionMarinsTest {
         sailors.add(new Sailor(2, 4, 5, "Sailor 5"));
         jeu.setSailors(sailors);
         strategy.getGestionMarins().repartirLesMarins();
-        ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new OarEntity(0,0,"oar"));
-        entities.add(new OarEntity(1,0,"oar"));
-        entities.add(new OarEntity(2,0,"oar"));
-        entities.add(new OarEntity(0,4,"oar"));
-        entities.add(new OarEntity(1,4,"oar"));
-        entities.add(new OarEntity(2,4,"oar"));
+        List<Entity> entities = new ArrayList<>();
+        entities.add(new OarEntity(0, 0, "oar"));
+        entities.add(new OarEntity(1, 0, "oar"));
+        entities.add(new OarEntity(2, 0, "oar"));
+        entities.add(new OarEntity(0, 4, "oar"));
+        entities.add(new OarEntity(1, 4, "oar"));
+        entities.add(new OarEntity(2, 4, "oar"));
         ship.setEntities(entities);
         // Déplacement tout droit à vitesse maximale
         Deplacement deplacement_tout_droit = new Deplacement(165.0, 0.0);
-        for(Sailor s: sailors){
+        for (Sailor s : sailors) {
             actions.add(new Oar(s.getId()));
         }
         strategy.getGestionMarins().ramerSelonVitesse(deplacement_tout_droit);
@@ -278,8 +268,8 @@ class GestionMarinsTest {
         strategy.getStratData().actions.clear();
         actions.clear();
         // Déplacement à -PI/2
-        Deplacement deplacement_angle_droit_negatif = new Deplacement(82.5, -Math.PI/2);
-        for(Sailor s: strategy.getGestionMarins().getLeftSailors()){
+        Deplacement deplacement_angle_droit_negatif = new Deplacement(82.5, -Math.PI / 2);
+        for (Sailor s : strategy.getGestionMarins().getLeftSailors()) {
             actions.add(new Oar(s.getId()));
         }
         strategy.getGestionMarins().ramerSelonVitesse(deplacement_angle_droit_negatif);
@@ -289,8 +279,8 @@ class GestionMarinsTest {
         strategy.getStratData().actions.clear();
         actions.clear();
         // Déplacement à PI/2
-        Deplacement deplacement_angle_droit_positif = new Deplacement(82.5, Math.PI/2);
-        for(Sailor s: strategy.getGestionMarins().getRightSailors()){
+        Deplacement deplacement_angle_droit_positif = new Deplacement(82.5, Math.PI / 2);
+        for (Sailor s : strategy.getGestionMarins().getRightSailors()) {
             actions.add(new Oar(s.getId()));
         }
         strategy.getGestionMarins().ramerSelonVitesse(deplacement_angle_droit_positif);
@@ -302,13 +292,13 @@ class GestionMarinsTest {
     }
 
     @Test
-    void setSailManagerTest(){
+    void setSailManagerTest() {
         gestionMarins.setSailorsManager(null);
         Assertions.assertNull(gestionMarins.stratData.getSailorsManager());
-        ArrayList<Sailor> sailors = new ArrayList<>();
+        List<Sailor> sailors = new ArrayList<>();
         sailors.add(new Sailor(0, 4, 0, "Sailor 0")); // ( 0 , 4 )
         jeu.setSailors(sailors);
-        ArrayList<Entity> entities = new ArrayList<>();
+        List<Entity> entities = new ArrayList<>();
         entities.add(new Sail(3, 0, "sail", false)); // ( 3 , 0 ) SAIL
         ship.setEntities(entities);
         jeu.setShip(ship);
