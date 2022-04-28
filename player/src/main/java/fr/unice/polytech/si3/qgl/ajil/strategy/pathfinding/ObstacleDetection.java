@@ -47,14 +47,19 @@ public class ObstacleDetection {
         }
     }
 
-    // Crée une forme de type losange (substitution temporaire pour le cercle)
+    // Crée une forme de type octogone (simplification de circle)
     public Point[] rectangleToPoints(Circle circle, Position pos) {
-        Point[] points = new Point[4];
+        Point[] points = new Point[8];
         double r = circle.getRadius();
+        double r45 = 0.7 * r;
         points[0] = new Point(pos.getX() - r, pos.getY() - r);
-        points[1] = new Point(pos.getX() - r, pos.getY() + r);
-        points[2] = new Point(pos.getX() + r, pos.getY() + r);
-        points[3] = new Point(pos.getX() + r, pos.getY() - r);
+        points[1] = new Point(pos.getX() - r45, pos.getY() - r45);
+        points[2] = new Point(pos.getX() - r, pos.getY() + r);
+        points[3] = new Point(pos.getX() - r45, pos.getY() + r45);
+        points[4] = new Point(pos.getX() + r, pos.getY() + r);
+        points[5] = new Point(pos.getX() + r45, pos.getY() + r45);
+        points[6] = new Point(pos.getX() + r, pos.getY() - r);
+        points[7] = new Point(pos.getX() + r45, pos.getY() - r45);
         return points;
     }
 
