@@ -178,11 +178,11 @@ public class GestionMarins {
     }
 
     /**
-     * Cherche le marin d'id voulu parmi la liste de marins
+     * Find a sailor by id in a list of sailors
      *
-     * @param id
-     * @param sailors
-     * @return le marin d'id voulu
+     * @param id      Sailor id to find
+     * @param sailors Sailors List
+     * @return Sailor according to his id
      */
     public Sailor findSailorById(int id, List<Sailor> sailors) {
         for (Sailor sailor : sailors) {
@@ -190,7 +190,7 @@ public class GestionMarins {
                 return sailor;
             }
         }
-        LOGGER.add("Sailor n'a pas été trouvé");
+        LOGGER.add("No sailor found");
         return null;
     }
 
