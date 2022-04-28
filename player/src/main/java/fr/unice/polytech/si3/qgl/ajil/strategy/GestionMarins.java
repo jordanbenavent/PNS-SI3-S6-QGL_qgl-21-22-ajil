@@ -31,9 +31,11 @@ public class GestionMarins {
     private boolean placementInit = false;
     private boolean placementCoxswain = false;
     private boolean placementSailManagers = false;
+    private boolean placementVigie = false;
     // marins
     private Sailor coxswain; // celui qui gère le gouvernail
     private Sailor sailManager; // celui qui gère la voile
+    private Sailor vigie; // celui qui gère la vigie
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -43,7 +45,14 @@ public class GestionMarins {
      * @return le marin attribué au gouvernail
      */
     public Sailor getCoxswain() {
-        return stratData.coxswain;
+        return coxswain;
+    }
+
+    /**
+     * @return le marin attribué à la vigie
+     */
+    public Sailor getVigie() {
+        return vigie;
     }
 
     /**
@@ -138,6 +147,26 @@ public class GestionMarins {
     }
 
     /**
+     * Trouve le marin le plus proche de la vigie et le déplace vers celle-ci
+     */
+    public void attribuerVigie() {
+        List<Sailor> sailors = stratData.jeu.getSailors();
+        Entity watch = stratData.jeu.getShip().getWatch();
+        if (watch == null) {
+            LOGGER.add("Il n'y a pas de Vigie.");
+            placementVigie = true;
+            return;
+        }
+        if (vigie == null) {
+            vigie = marinLePlusProche(watch);
+            setSailorsManager(vigie);
+            sailors.remove(vigie);
+            LOGGER.add("Vigie est : " + vigie.getId());
+        }
+        placementVigie = deplacerMarin(vigie, watch);
+    }
+
+    /**
      * Trouve le marin le plus proche du gouvernail et le déplace vers celui-ci
      */
     public void attribuerCoxswain() {
@@ -205,6 +234,8 @@ public class GestionMarins {
     public boolean isPlacementSailManagers() {
         return placementSailManagers;
     }
+
+    public boolean isPlacementVigie() { return placementVigie; }
 
     /**
      * Rame selon la vitesse indiquée dans le déplacement
