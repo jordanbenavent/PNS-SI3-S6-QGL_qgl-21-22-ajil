@@ -30,7 +30,7 @@ public class  WayDirect {
             segments = obstacleDetection.reefToSegments(listePolygoneReef.get(i));
             for (Segment s : segments) {
                 if (Intersection.segmentIntersection(s, bateauCheckpoint) != null) {
-                    System.out.println("Intersection repere");
+                    System.out.println("Intersection repere cord" + Intersection.segmentIntersection(s,bateauCheckpoint).getX()+" y:"+Intersection.segmentIntersection(s,bateauCheckpoint).getY());
                     return false;
                 }
             }
