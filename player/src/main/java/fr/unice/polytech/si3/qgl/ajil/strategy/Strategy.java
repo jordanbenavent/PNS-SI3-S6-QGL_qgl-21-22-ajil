@@ -6,10 +6,11 @@ import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
+import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
+import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.AStarDeployment;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.Intersection;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.ObstacleDetection;
-import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.Segment;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.ArrayList;
@@ -116,7 +117,9 @@ public class Strategy {
         System.out.println("calcule WayDirect");
         Position checkpointCiblePosition = this.listeCheckpoints.get(0).getPosition();
         Ship ship = stratData.jeu.getShip();
-        Segment bateauCheckpoint = new Segment(ship.getPosition().getX(), ship.getPosition().getY(), checkpointCiblePosition.getX(), checkpointCiblePosition.getY());
+        Point shipPoint = new Point(ship.getPosition().getX(), ship.getPosition().getY());
+        Point checkpointPoint = new Point(checkpointCiblePosition.getX(), checkpointCiblePosition.getY());
+        Segment bateauCheckpoint = new Segment(shipPoint, checkpointPoint);
 
 
         List<VisibleEntitie> listeReef = new ArrayList(stratData.jeu.getReefs());

@@ -1,12 +1,14 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
+import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ObstacleDetection {
     private int sX;
@@ -32,7 +34,7 @@ public class ObstacleDetection {
     }
 
     // Pour des récifs de type Rectangle ou Polygone
-    public ArrayList<Segment> reefToSegments(VisibleEntitie reef) {
+    public List<Segment> reefToSegments(VisibleEntitie reef) {
         if (reef.getShape().getType().equals("polygone")) {
             Point[] points = ((Polygone) reef.getShape()).getVertices();
             int size = points.length;
@@ -60,9 +62,13 @@ public class ObstacleDetection {
     public ArrayList<Segment> createSegments(Point[] points, int size) {
         ArrayList<Segment> resolution = new ArrayList<Segment>();
         for (int i = 0; i < size - 1; i++) {
-            resolution.add(new Segment(points[i].getX(), points[i].getY(), points[i + 1].getX(), points[i + 1].getY()));
+            Point a = new Point(points[i].getX(), points[i].getY());
+            Point b = new Point(points[i + 1].getX(), points[i + 1].getY());
+            resolution.add(new Segment(a, b));
         }
-        resolution.add(new Segment(points[size - 1].getX(), points[size - 1].getY(), points[0].getX(), points[0].getY()));
+        Point oldA = new Point(points[size - 1].getX(), points[size - 1].getY());
+        Point oldB = new Point(points[0].getX(), points[0].getY());
+        resolution.add(new Segment(oldA, oldB));
         return resolution;
     }
 
@@ -70,7 +76,7 @@ public class ObstacleDetection {
     public Point findOrigin(Point shipPosition, Point checkPointPosition) {
         double minX = Math.min(shipPosition.getX(), checkPointPosition.getX());
         double minY = Math.min(shipPosition.getY(), checkPointPosition.getY());
-        return new Point(minX - margin, minY - margin);
+        return new Point(minX - MARGIN, minY - MARGIN);
     }
 
     // Création de la grille imaginaire
