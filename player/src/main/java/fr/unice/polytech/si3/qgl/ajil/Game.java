@@ -25,6 +25,7 @@ public class Game {
     private List<Sailor> sailors;
     private int shipCount;
     private Set<Reef> reefs;
+    private Set<Reef> fakeReefs;
     private Set<Stream> streams;
 
     public Game() {
@@ -37,6 +38,7 @@ public class Game {
         this.shipCount = shipCount;
         this.wind = wind;
         this.reefs = new HashSet<>();
+        this.fakeReefs = new HashSet<>();
         this.streams = new HashSet<>();
     }
 
@@ -122,18 +124,47 @@ public class Game {
         this.shipCount = shipCount;
     }
 
+    /**
+     * @return les faux récifs (les courants considérés comme des checkpoints)
+     */
+    public Set<Reef> getFakeReefs() {
+        return new HashSet<>(fakeReefs);
+    }
+
+    /**
+     * Modifie le set de faux récifs
+     * @param fakeReefs
+     */
+    public void setFakeReefs(Set<Reef> fakeReefs) {
+        this.fakeReefs = fakeReefs;
+    }
+
+    /**
+     * @return les récifs
+     */
     public Set<Reef> getReefs() {
         return new HashSet<>(reefs);
     }
 
+    /**
+     * Modifie le set de récifs
+     * @param reefs
+     */
     public void setReefs(Set<Reef> reefs) {
         this.reefs = reefs;
     }
 
+    /**
+     * @return les courants
+     */
     public Set<Stream> getStreams(){
         return new HashSet<>(streams);
     }
 
+    /**
+     * Modifie les courants
+     * @param streams
+     */
     public void setStreams(Set<Stream> streams){
         this.streams = streams;
     }

@@ -91,8 +91,9 @@ public class NextRound {
     public void updateGame(Game game) {
         game.setShip(this.ship);
         game.setWind(this.wind);
-        game.setReefs(streamToReef(searchStream(), searchReef()));
+        game.setReefs(searchReef());
         game.setStreams(searchStream());
+        game.setFakeReefs(streamToReef(searchStream()));
     }
 
     /**
@@ -127,19 +128,19 @@ public class NextRound {
 
     /**
      * Les courants ayant une force supérieure ou égale à 82.5 et étant contre le bateau sont
-     * désormais comptés comme étant des récifs.
+     * désormais comptés comme étant des faux récifs.
      * @param streams
-     * @param reefs
      * @return les nouveaux récifs
      */
-    public Set<Reef> streamToReef(Set<Stream> streams, Set<Reef> reefs){
+    public Set<Reef> streamToReef(Set<Stream> streams){
+        Set<Reef> fakeReefs = new HashSet<>();
         for(Stream stream: streams){
             if(stream.getStrength() >= 82.5 && faceAuCourant(ship, stream)) {
                 Reef reef = new Reef("reef", stream.getPosition(), stream.getShape());
-                reefs.add(reef);
+                fakeReefs.add(reef);
             }
         }
-        return reefs;
+        return fakeReefs;
     }
 
     /**
