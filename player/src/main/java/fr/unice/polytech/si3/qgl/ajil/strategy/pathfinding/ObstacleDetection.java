@@ -111,7 +111,7 @@ public class ObstacleDetection {
     }
 
     // Traitement de la grille = grisement des cellules bloquantes
-    public ArrayList<Point> gridProcess(GridCell[][] grid, ArrayList<VisibleEntitie> reefs) {
+    public ArrayList<Point> gridProcess(GridCell[][] grid, List<VisibleEntitie> reefs) {
         ArrayList<Segment> reefSegments = new ArrayList<Segment>();
         ArrayList<Point> blockedCells = new ArrayList<Point>();
         for (VisibleEntitie reef : reefs) {

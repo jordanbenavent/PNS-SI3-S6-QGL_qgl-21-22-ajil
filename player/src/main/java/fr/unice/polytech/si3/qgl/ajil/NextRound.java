@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class NextRound {
 
-    public List<String> LOGGER = Cockpit.LOGGER;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
     private Ship ship;
     private List<VisibleEntitie> visibleEntities;
     private Wind wind;

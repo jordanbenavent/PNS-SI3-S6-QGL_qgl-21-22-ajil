@@ -69,7 +69,7 @@ public class CalculPointTest {
         list.add(new Stream("stream",new Position(3,2,-0.558505),  rectangle, 100));
         list.add(new Reef("reef",new Position(3,3,0.3665), polygone));
         list.add(new OtherShip("ship",new Position(0,0,0),  circle, 100));
-        List<VisibleEntitie> resultat = CalculPoints.entitiesToEntitiesPolygone(list);
+        List<VisibleEntitie> resultat = CalculPoints.entitiesToEntitiesPolygone(list, 10);
         Assertions.assertTrue(resultat.get(0).getShape() instanceof Polygone);
         Assertions.assertTrue(resultat.get(1).getShape() instanceof Polygone);
         Assertions.assertTrue(resultat.get(2).getShape() instanceof Circle);

@@ -15,7 +15,7 @@ public class AStarDeployment {
     private final double sizeCell;
     private final Goal goal;
     private final Ship ship;
-    public List<String> LOGGER = Cockpit.LOGGER;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
     private Point origine;
 
 
@@ -35,19 +35,19 @@ public class AStarDeployment {
     public Point gridSizeXY(Point shipPosition, Point checkPointPosition, double sizeCell) {
         double x = Math.abs(shipPosition.getX() - checkPointPosition.getX());
         double y = Math.abs(shipPosition.getY() - checkPointPosition.getY());
-        return new Point(Math.ceil(x / sizeCell) + 5, Math.ceil(y / sizeCell) + 3);
+        return new Point(Math.ceil(x / sizeCell) + 15, Math.ceil(y / sizeCell) + 15);
     }
 
     // Récupère la liste des points donnés par AStar et crée une liste des Checkpoints
-    public ArrayList<Checkpoint> convertPositionToCheckpoint(ArrayList<Position> listePos) {
-        ArrayList<Checkpoint> res = new ArrayList<>();
+    public List<Checkpoint> convertPositionToCheckpoint(List<Position> listePos) {
+        List<Checkpoint> res = new ArrayList<>();
         Position pos;
         Checkpoint nouv;
-        Shape checkpointShape = new Circle("circle", sizeCell / 2);
+        Shape checkpointShape = new Circle("circle", sizeCell / 20);
         for (int i = 0; i < listePos.size(); i += 2) {
             pos = listePos.get(i);
-            double a = (origine.getX() + pos.getX() * sizeCell) + sizeCell / 2;
-            double b = (origine.getY() + pos.getY() * sizeCell) + sizeCell / 2;
+            double a = (origine.getX() + pos.getX() * sizeCell) + sizeCell / 20;
+            double b = (origine.getY() + pos.getY() * sizeCell) + sizeCell / 20;
             pos = new Position(a, b, 0);
             nouv = new Checkpoint(pos, checkpointShape);
             res.add(nouv);
@@ -62,7 +62,7 @@ public class AStarDeployment {
         return new Point(pos.getX(), pos.getY());
     }
 
-    public ArrayList<Checkpoint> deployment() {
+    public List<Checkpoint> deployment() {
         Point shipPoint = posToPoint(ship.getPosition());
         Point checkPoint = posToPoint(goal.getCheckpoints().get(0).getPosition());
 
@@ -76,9 +76,9 @@ public class AStarDeployment {
 
         List<VisibleEntitie> mainList = new ArrayList<>(game.getReefs());
         LOGGER.add("on a nb recifs" + mainList.size());
-        List<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList);
+        List<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList, 0);
 
-        int[][] cellsB = pointsVersTableau(obstacleDetection.gridProcess(grid, visibleReefs));
+        int[][] cellsB = pointsVersTableau(obstacleDetection.gridProcess(grid, (ArrayList<VisibleEntitie>) visibleReefs));
 
         LOGGER.add("" + cellsB.length);
         System.out.println((int) sizeXY.getX());
@@ -96,7 +96,7 @@ public class AStarDeployment {
     }
 
 
-    public int[][] pointsVersTableau(ArrayList<Point> listPoints) {
+    public int[][] pointsVersTableau(List<Point> listPoints) {
         int[][] res = new int[listPoints.size()][2];
 
         for (int i = 0; i < listPoints.size(); i++) {
