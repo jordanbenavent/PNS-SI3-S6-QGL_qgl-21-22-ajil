@@ -63,6 +63,10 @@ public class GestionMarins {
         else LOGGER.add("Il n'y a pas de SailManager.");
     }
 
+    void setVigie(Sailor vigie) {
+        this.vigie = vigie;
+    }
+
     /**
      * @return la liste des marins à gauche du bateau
      */
@@ -159,7 +163,7 @@ public class GestionMarins {
         }
         if (vigie == null) {
             vigie = marinLePlusProche(watch);
-            setSailorsManager(vigie);
+            setVigie(vigie);
             sailors.remove(vigie);
             LOGGER.add("Vigie est : " + vigie.getId());
         }
