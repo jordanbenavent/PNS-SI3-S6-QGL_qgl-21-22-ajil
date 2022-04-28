@@ -31,9 +31,11 @@ public class GestionMarins {
     private boolean placementInit = false;
     private boolean placementCoxswain = false;
     private boolean placementSailManagers = false;
+    private boolean placementVigie = false;
     // marins
     private Sailor coxswain; // celui qui gère le gouvernail
     private Sailor sailManager; // celui qui gère la voile
+    private Sailor vigie; // celui qui gère la vigie
 
     public GestionMarins(StratData stratData) {
         this.stratData = stratData;
@@ -135,6 +137,26 @@ public class GestionMarins {
             LOGGER.add("Sail Manager est : " + sailManager.getId());
         }
         placementSailManagers = deplacerMarin(sailManager, sail);
+    }
+
+    /**
+     * Trouve le marin le plus proche de la vigie et le déplace vers celle-ci
+     */
+    public void attribuerVigie() {
+        List<Sailor> sailors = stratData.jeu.getSailors();
+        Entity watch = stratData.jeu.getShip().getWatch();
+        if (watch == null) {
+            LOGGER.add("Il n'y a pas de Vigie.");
+            placementVigie = true;
+            return;
+        }
+        if (vigie == null) {
+            vigie = marinLePlusProche(watch);
+            setSailorsManager(vigie);
+            sailors.remove(vigie);
+            LOGGER.add("Vigie est : " + vigie.getId());
+        }
+        placementSailManagers = deplacerMarin(vigie, watch);
     }
 
     /**
