@@ -164,7 +164,7 @@ public class AStar {
 
     // Affichage
     public void display() {
-        System.out.println("Griille / Map :");
+        System.out.println("Grille / Map :");
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (i == startI && j == startJ) {

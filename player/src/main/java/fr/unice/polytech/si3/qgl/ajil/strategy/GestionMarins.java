@@ -37,6 +37,13 @@ public class GestionMarins {
     }
 
     /**
+     * @return la vigie
+     */
+    public Sailor getVigie() {
+        return vigie;
+    }
+
+    /**
      * set SailorsManager for wind management using StratData class
      */
     void setSailorsManager(Sailor sailManager) {
