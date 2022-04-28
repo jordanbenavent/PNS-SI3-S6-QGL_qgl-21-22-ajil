@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
 import fr.unice.polytech.si3.qgl.ajil.maths.Intersection;
 import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
+import fr.unice.polytech.si3.qgl.ajil.maths.WayDirect;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.AStarDeployment;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.ObstacleDetection;
@@ -113,32 +114,7 @@ public class Strategy {
     }
 
 
-    public boolean wayDirect() {
-        System.out.println("calcule WayDirect");
-        Position checkpointCiblePosition = this.listeCheckpoints.get(0).getPosition();
-        Ship ship = stratData.jeu.getShip();
-        Point shipPoint = new Point(ship.getPosition().getX(), ship.getPosition().getY());
-        Point checkpointPoint = new Point(checkpointCiblePosition.getX(), checkpointCiblePosition.getY());
-        Segment bateauCheckpoint = new Segment(shipPoint, checkpointPoint);
 
-
-        List<VisibleEntitie> listeReef = new ArrayList(stratData.jeu.getReefs());
-        List<VisibleEntitie> listePolygoneReef = CalculPoints.entitiesToEntitiesPolygone(listeReef, ship.getDeck().getWidth());
-        List<Segment> segments;
-        ObstacleDetection obstacleDetection = new ObstacleDetection();
-
-        for (int i = 0; i < listePolygoneReef.size(); i += 3) { //3 car les 2 autres on une marge, a changer !!
-            segments = obstacleDetection.reefToSegments(listePolygoneReef.get(i));
-            for (Segment s : segments) {
-                if (Intersection.segmentIntersection(s, bateauCheckpoint) != null) {
-                    System.out.println("Intersection repere");
-                    return false;
-                }
-            }
-        }
-        System.out.println("aucune inter repere");
-        return true; //si on est la c'est qu'on a croise aucune intersection
-    }
 
 
     /**
@@ -175,7 +151,7 @@ public class Strategy {
         //plus besoin de boolean et truc static nextround
         //manque cercle a checker
 
-        if (!wayDirect()) {
+        if (!WayDirect.wayDirect(listeCheckpoints.get(0).getPosition(),stratData.jeu.getShip(),stratData.jeu.getReefs())) {
             System.out.println("On calcule AStar car non wayDirect");
             calculAStar();
             //si direct setfake a nnull
