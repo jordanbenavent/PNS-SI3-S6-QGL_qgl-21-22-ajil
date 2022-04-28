@@ -14,16 +14,16 @@ public class ObstacleDetectionTest {
         Point positionShip = new Point(55,55);
         Point positionCheckpoint = new Point(100,100);
         Point point = obstacleDetection.findOrigin(positionShip, positionCheckpoint);
-        Assertions.assertEquals(new Point(-obstacleDetection.margin + positionShip.getX(), -obstacleDetection.margin + positionShip.getY()), point);
+        Assertions.assertEquals(new Point(-ObstacleDetection.MARGIN + positionShip.getX(), -ObstacleDetection.MARGIN + positionShip.getY()), point);
         positionCheckpoint = new Point(100,-100);
         point = obstacleDetection.findOrigin(positionShip, positionCheckpoint);
-        Assertions.assertEquals(new Point(-obstacleDetection.margin + positionShip.getX(), -obstacleDetection.margin + positionCheckpoint.getY()), point);
+        Assertions.assertEquals(new Point(-ObstacleDetection.MARGIN + positionShip.getX(), -obstacleDetection.MARGIN + positionCheckpoint.getY()), point);
         positionCheckpoint = new Point(-100,-100);
         point = obstacleDetection.findOrigin(positionShip, positionCheckpoint);
-        Assertions.assertEquals(new Point(-obstacleDetection.margin + positionCheckpoint.getX(), -obstacleDetection.margin + positionCheckpoint.getY()), point);
+        Assertions.assertEquals(new Point(-ObstacleDetection.MARGIN + positionCheckpoint.getX(), -obstacleDetection.MARGIN + positionCheckpoint.getY()), point);
         positionCheckpoint = new Point(-100,100);
         point = obstacleDetection.findOrigin(positionShip, positionCheckpoint);
-        Assertions.assertEquals(new Point(-obstacleDetection.margin - positionCheckpoint.getY(), -obstacleDetection.margin + positionShip.getY()), point);
+        Assertions.assertEquals(new Point(-ObstacleDetection.MARGIN - positionCheckpoint.getY(), -obstacleDetection.MARGIN + positionShip.getY()), point);
     }
 
 
