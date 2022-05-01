@@ -12,6 +12,7 @@ public class StratData {
     protected Game jeu;
     protected Sailor sailorsManager;
     protected Sailor coxswain;
+    protected Sailor vigie;
 
     public StratData(Game jeu) {
         this.jeu = jeu;
@@ -33,4 +34,8 @@ public class StratData {
     public void setCoxswain(Sailor coxswain) {
         this.coxswain = coxswain;
     }
+
+    public Sailor getVigie() { return vigie; }
+
+    public void setVigie(Sailor vigie) { this.vigie = vigie; }
 }

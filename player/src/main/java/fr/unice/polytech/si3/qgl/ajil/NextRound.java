@@ -91,6 +91,7 @@ public class NextRound {
     public void updateGame(Game game) {
         game.setShip(this.ship);
         game.setWind(this.wind);
+
         game.setReefs(searchReef());
         game.setStreams(searchStream());
         game.setFakeReefs(streamToReef(searchStream()));

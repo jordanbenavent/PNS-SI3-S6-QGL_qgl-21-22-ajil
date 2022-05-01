@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
+import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
+import fr.unice.polytech.si3.qgl.ajil.actions.UseWatch;
 import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
 import fr.unice.polytech.si3.qgl.ajil.maths.Intersection;
 import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
@@ -136,6 +138,13 @@ public class Strategy {
         if (!gestionMarins.isPlacementSailManagers()) {
             gestionMarins.attribuerSailManager();
         }
+        // ensuite on place la vigie
+        if (!gestionMarins.isPlacementVigie()) {
+            gestionMarins.attribuerVigie();
+        }
+        UseWatch regarder = new UseWatch(gestionMarins.getVigie().getId());
+        stratData.actions.add(regarder);
+
 
         gestionMarins.repartirLesMarins();
 
