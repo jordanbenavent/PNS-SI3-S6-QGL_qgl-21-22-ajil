@@ -242,12 +242,28 @@ public class GestionMarins {
 
     public boolean isPlacementVigie() { return placementVigie; }
 
+    void suppSailor(int n) { //n = 0 si gauche et 1 si droite
+        for(Sailor s :stratData.jeu.getSailors()){
+            if(n==0 && estAGauche(s)){ stratData.jeu.getSailors().remove(s);}
+            else if(n==1 && !estAGauche(s)){ stratData.jeu.getSailors().remove(s);}
+        }
+
+    }
+
+
+
+
     /**
      * Rame selon la vitesse indiquée dans le déplacement
      *
      * @param deplacement deplacement
      */
     void ramerSelonVitesse(Deplacement deplacement) {
+
+        if(leftSailors.size()>rightSailors.size()){suppSailor(0);}
+        else if(rightSailors.size()>leftSailors.size()){suppSailor(1);}
+
+
         double angle = deplacement.getAngle();
 
         if (Math.abs(angle) < Math.PI / 4 && coxswain != null) {
@@ -310,6 +326,10 @@ public class GestionMarins {
     public double nbrSailorsNecessaires(double nbr_rames, double vitesse) {
         double vitesse_une_rame = 165 / nbr_rames;
         return vitesse / vitesse_une_rame;
+    }
+
+    public boolean estAGauche(Sailor s) {
+        return (s.getY()==0);
     }
 
     /**
