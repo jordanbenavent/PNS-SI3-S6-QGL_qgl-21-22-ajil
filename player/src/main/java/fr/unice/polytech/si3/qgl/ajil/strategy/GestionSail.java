@@ -25,9 +25,6 @@ public class GestionSail {
      * @param wind le vent
      */
     public void putSail(Ship ship, Wind wind) {
-        double shipOrientation = ship.getPosition().getOrientation();
-        double windOrientation = wind.getOrientation();
-
         if (stratData.getSailorsManager() != null) {
             int coxswain = stratData.getSailorsManager().getId();
             LiftSail lift = new LiftSail(coxswain);
@@ -35,8 +32,7 @@ public class GestionSail {
             stratData.actions.remove(lift);
             stratData.actions.remove(lower);
 
-            final double result = simplifyAngle(shipOrientation, windOrientation);
-            if (result <= RANGE && result >= -RANGE) {
+            if (isWindStraight(ship, wind)) {
                 stratData.actions.add(lift);
                 isLifted = true;
                 //LOGGER.add("Voile UP");
@@ -45,9 +41,21 @@ public class GestionSail {
                 isLifted = false;
                 //LOGGER.add("Voile DOWN");
             }
-        } else {
-            //LOGGER.add("Pas de Sailer Manager");
         }
+    }
+
+    /**
+     * Check if ship orientation === wind direction
+     *
+     * @param ship ship to get ship orientation
+     * @param wind wind to get wind direction
+     * @return true if alignement is ok
+     */
+    private boolean isWindStraight(Ship ship, Wind wind) {
+        double shipOrientation = ship.getPosition().getOrientation();
+        double windOrientation = wind.getOrientation();
+        final double result = simplifyAngle(shipOrientation, windOrientation);
+        return result <= RANGE && result >= -RANGE;
     }
 
     /**
