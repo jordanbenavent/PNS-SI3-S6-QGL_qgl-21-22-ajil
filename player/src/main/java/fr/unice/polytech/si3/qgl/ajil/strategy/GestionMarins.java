@@ -34,7 +34,7 @@ public class GestionMarins {
     private boolean placementVigie = false;
     // marins
     private Sailor coxswain; // celui qui gère le gouvernail
-    private Sailor sailManager; // celui qui gère la voile
+    private List<Sailor> sailManager; // celui qui gère la voile
     private Sailor vigie; // celui qui gère la vigie
 
     public GestionMarins(StratData stratData) {
@@ -58,7 +58,7 @@ public class GestionMarins {
     /**
      * set SailorsManager for wind management using StratData class
      */
-    void setSailorsManager(Sailor sailManager) {
+    void setSailorsManager(List<Sailor> sailManager) {
         if (sailManager != null) this.stratData.sailorsManager = sailManager;
         else LOGGER.add("Il n'y a pas de SailManager.");
     }
@@ -142,12 +142,13 @@ public class GestionMarins {
             return;
         }
         if (sailManager == null) {
-            sailManager = marinLePlusProche(sail);
+            sailManager = new ArrayList<>();
+            sailManager.add(marinLePlusProche(sail));
             setSailorsManager(sailManager);
-            sailors.remove(sailManager);
-            LOGGER.add("Sail Manager est : " + sailManager.getId());
+            sailors.removeAll(sailManager);
+            LOGGER.add("Sail Manager 0 est : " + sailManager.get(0));
         }
-        placementSailManagers = deplacerMarin(sailManager, sail);
+        placementSailManagers = deplacerMarin(sailManager.get(0), sail);
     }
 
     /**
