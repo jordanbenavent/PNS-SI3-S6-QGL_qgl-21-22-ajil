@@ -201,17 +201,21 @@ public class GestionMarins {
         leftSailors.clear();
         rightSailors.clear();
         List<Sailor> sailors = stratData.jeu.getSailors();
-        for (Sailor s : sailors) {
-            if (leftSailors.size() < sailors.size() / 2) {
-                leftSailors.add(s);
-                continue;
-            }
-            if (rightSailors.size() < sailors.size() / 2) {
-                rightSailors.add(s);
-                continue;
-            }
-            break;
+        System.out.println("sailors size vaut"+sailors.size());
+        int mid = sailors.size()/2;
+        System.out.println("mid est "+mid);
+        for (int i=0;i<mid;i++){
+            leftSailors.add(sailors.get(i));
         }
+        System.out.println("a gauche on a mis x marin,  x = "+leftSailors.size());
+        for(int i=mid;i<sailors.size();i++) {
+            leftSailors.add(sailors.get(i));
+        }
+        System.out.println("a droite on a mis x marin,  x = "+rightSailors.size());
+
+
+
+
     }
 
     /**
