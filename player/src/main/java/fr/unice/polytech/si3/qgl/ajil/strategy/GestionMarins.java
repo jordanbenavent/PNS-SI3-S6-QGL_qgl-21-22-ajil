@@ -243,9 +243,13 @@ public class GestionMarins {
     public boolean isPlacementVigie() { return placementVigie; }
 
     void suppSailor(int n) { //n = 0 si gauche et 1 si droite
+        System.out.println("on appele supSailor");
         for(Sailor s :stratData.jeu.getSailors()){
-            if(n==0 && estAGauche(s)){ stratData.jeu.getSailors().remove(s);}
-            else if(n==1 && !estAGauche(s)){ stratData.jeu.getSailors().remove(s);}
+            if(n==0 && estAGauche(s)){
+                System.out.println("on remove un gars a gauche");stratData.jeu.getSailors().remove(s);}
+            else if(n==1 && !estAGauche(s)){
+                System.out.println("on remove gars droite");
+                stratData.jeu.getSailors().remove(s);}
         }
 
     }
