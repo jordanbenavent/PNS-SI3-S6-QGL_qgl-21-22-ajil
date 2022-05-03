@@ -264,6 +264,7 @@ public class GestionMarins {
      */
     void ramerSelonVitesse(Deplacement deplacement) {
 
+        System.out.println("taille marin gauche "+leftSailors.size()+" et droite "+rightSailors.size());
         if(leftSailors.size()>rightSailors.size()){suppSailor(0);}
         else if(rightSailors.size()>leftSailors.size()){suppSailor(1);}
 
