@@ -35,6 +35,7 @@ public class  WayDirect {
             for (Segment s : segments) {
                 if (Intersection.segmentIntersection(s, bateauCheckpoint) != null) {
                     System.out.println("Intersection repere cord" + Intersection.segmentIntersection(s,bateauCheckpoint).getX()+" y:"+Intersection.segmentIntersection(s,bateauCheckpoint).getY());
+                    LOGGER.add("collision x: "+ Intersection.segmentIntersection(s,bateauCheckpoint).getX()+" y:"+Intersection.segmentIntersection(s,bateauCheckpoint).getY());
                     return false;
                 }
             }

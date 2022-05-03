@@ -76,12 +76,12 @@ public class AStarDeployment {
                 origine, ship.getPosition(), goal.getCheckpoints().get(0).getPosition());
 
         List<VisibleEntitie> mainList = new ArrayList<>(game.getReefs());
-        LOGGER.add("on a nb recifs" + mainList.size());
+        //LOGGER.add("on a nb recifs" + mainList.size());
         List<VisibleEntitie> visibleReefs = CalculPoints.entitiesToEntitiesPolygone(mainList, 0);
 
         int[][] cellsB = pointsVersTableau(obstacleDetection.gridProcess(grid, visibleReefs));
 
-        LOGGER.add("" + cellsB.length);
+        //LOGGER.add("" + cellsB.length);
         System.out.println((int) sizeXY.getX());
         System.out.println((int) sizeXY.getY());
 
@@ -91,7 +91,7 @@ public class AStarDeployment {
         System.out.println("StartX: " + obstacleDetection.getsX() + ", StartY: " + obstacleDetection.getsY());
         System.out.println("EndX: " + obstacleDetection.geteX() + ", EndY: " + obstacleDetection.geteY());
 
-        LOGGER.add("" + convertPositionToCheckpoint(astar.obtenirLeChemin()).size());
+        //LOGGER.add("" + convertPositionToCheckpoint(astar.obtenirLeChemin()).size());
 
         return convertPositionToCheckpoint(astar.obtenirLeChemin());
     }
