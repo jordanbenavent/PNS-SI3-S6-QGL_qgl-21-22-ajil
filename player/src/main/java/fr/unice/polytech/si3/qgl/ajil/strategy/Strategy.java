@@ -179,7 +179,7 @@ public class Strategy {
     void calculAStar() {
         LOGGER.add("Calcule A Star : Avant A star on a nbcheckpo = " + listeCheckpoints.size());
 
-        AStarDeployment deploy = new AStarDeployment(this.stratData.jeu, 150);
+        AStarDeployment deploy = new AStarDeployment(this.stratData.jeu, 140);
         List<Checkpoint> fauxCheckpoints = deploy.deployment();
         valideCheckpoint.setFakeCheckpoint(fauxCheckpoints);
         LOGGER.add("On vient de set nb FauxCheck : " + fauxCheckpoints.size());

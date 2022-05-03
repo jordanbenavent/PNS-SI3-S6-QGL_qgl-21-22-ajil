@@ -17,7 +17,7 @@ public class AStarDeployment {
     private final Ship ship;
     private static final List<String> LOGGER = Cockpit.LOGGER;
     private Point origine;
-    public int MARGIN = 30;
+    public int MARGIN = 200;
 
 
     public AStarDeployment(Game game, double sizeCell) {
