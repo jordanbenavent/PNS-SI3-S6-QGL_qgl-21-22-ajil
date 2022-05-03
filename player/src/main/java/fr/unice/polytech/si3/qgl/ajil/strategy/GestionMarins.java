@@ -146,6 +146,7 @@ public class GestionMarins {
             sailManager.add(marinLePlusProche(sail));
             setSailorsManager(sailManager);
             sailors.removeAll(sailManager);
+            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
             LOGGER.add("Sail Manager 0 est : " + sailManager.get(0));
         }
         placementSailManagers = deplacerMarin(sailManager.get(0), sail);
@@ -166,6 +167,7 @@ public class GestionMarins {
             vigie = marinLePlusProche(watch);
             setVigie(vigie);
             sailors.remove(vigie);
+            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
             LOGGER.add("Vigie est : " + vigie.getId());
         }
         placementVigie = deplacerMarin(vigie, watch);
@@ -186,6 +188,7 @@ public class GestionMarins {
             coxswain = marinLePlusProche(rudder);
             stratData.coxswain = coxswain;
             sailors.remove(coxswain);
+            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
             LOGGER.add("CoxswainManageur est : " + coxswain.getId());
         }
         placementCoxswain = deplacerMarin(coxswain, rudder);
