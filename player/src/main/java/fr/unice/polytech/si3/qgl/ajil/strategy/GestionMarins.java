@@ -209,7 +209,7 @@ public class GestionMarins {
         }
         System.out.println("a gauche on a mis x marin,  x = "+leftSailors.size());
         for(int i=mid;i<sailors.size();i++) {
-            leftSailors.add(sailors.get(i));
+            rightSailors.add(sailors.get(i));
         }
         System.out.println("a droite on a mis x marin,  x = "+rightSailors.size());
 
