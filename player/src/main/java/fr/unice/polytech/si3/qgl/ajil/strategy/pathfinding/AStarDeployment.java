@@ -17,6 +17,7 @@ public class AStarDeployment {
     private final Ship ship;
     private static final List<String> LOGGER = Cockpit.LOGGER;
     private Point origine;
+    public int MARGIN = 30;
 
 
     public AStarDeployment(Game game, double sizeCell) {
@@ -35,7 +36,7 @@ public class AStarDeployment {
     public Point gridSizeXY(Point shipPosition, Point checkPointPosition, double sizeCell) {
         double x = Math.abs(shipPosition.getX() - checkPointPosition.getX());
         double y = Math.abs(shipPosition.getY() - checkPointPosition.getY());
-        return new Point(Math.ceil(x / sizeCell) + 15, Math.ceil(y / sizeCell) + 15);
+        return new Point(Math.ceil(x / sizeCell) + MARGIN, Math.ceil(y / sizeCell) + MARGIN);
     }
 
     // Récupère la liste des points donnés par AStar et crée une liste des Checkpoints
