@@ -1,9 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.maths;
 
-import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
 import fr.unice.polytech.si3.qgl.ajil.Position;
-import fr.unice.polytech.si3.qgl.ajil.Ship;
-import fr.unice.polytech.si3.qgl.ajil.Vector;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
 import java.util.ArrayList;
@@ -221,16 +218,16 @@ public class CalculIntersection {
         if (shape1 instanceof Rectangle rectangle2 && shape2 instanceof Circle circle2) {
             return intersectionPointCircleRectangle(circle2, position2, rectangle2, position1);
         }
-        /*
+
         if (shape1 instanceof Circle circle && shape2 instanceof Polygone polygone) {
-            return intersectionCirclePolygone(circle, position1, polygone, position2);
+            return intersectionPointCirclePolygone(circle, position1, polygone, position2);
         }
         if (shape1 instanceof Polygone polygone && shape2 instanceof Circle circle2) {
-            return intersectionCirclePolygone(circle2, position2, polygone, position1);
+            return intersectionPointCirclePolygone(circle2, position2, polygone, position1);
         }
-        */
 
-        return new ArrayList<>();//intersectionSegmentsSegments(shape1, position1, shape2, position2);
+
+        return intersectionPointSegmentsSegments(shape1, position1, shape2, position2);
     }
 
 
@@ -396,14 +393,131 @@ public class CalculIntersection {
         return result;
     }
 
+    public static List<Point> intersectionPointCirclePolygone(Circle circle, Position position1, Polygone polygone, Position position2) {
+        List<Point> result = new ArrayList<>();
+        List<Point> pointsPoygone = CalculPoints.calculExtremityPoints(polygone, position2);
+        System.out.println(pointsPoygone);
+        int size = pointsPoygone.size();
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = i + 1; j < size; j++) {
+                result.addAll(intersectionCircleSegment(circle, position1, pointsPoygone.get(i), pointsPoygone.get(j)));
+            }
+        }
+        return result;
+    }
 
-    /**
-     * Méthode calculant les points d'intersection entre la droite de la trajectoire du bateau et le checkpoint (un cercle)
-     *
-     * @param ship
-     * @param checkpoint
-     * @return les points d'intersection
-     */
+    public static List<Point> intersectionPointSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2) {
+        List<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
+        List<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
+        List<Point> result = new ArrayList<>();
+        int sizePoint1 = pointsShape1.size();
+        int sizePoint2 = pointsShape2.size();
+        for (int i = 0; i < sizePoint1; i++) {
+            for (int j = i; j < sizePoint1; j++) {
+                for (int k = 0; k < sizePoint2; k++) {
+                    for (int l = k; l < sizePoint2; l++) {
+                        result.addAll(intersectionPointSegmentSegment(pointsShape1.get(i), pointsShape1.get(j), pointsShape2.get(k), pointsShape2.get(l)));
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static  List<Point> intersectionPointSegmentSegment(Point point1, Point point2, Point point3, Point point4){
+        //équation de droite y = ax+b et y = cx+d
+        double x1 = point1.getX();
+        double x2 = point2.getX();
+        double x3 = point3.getX();
+        double x4 = point4.getX();
+        double y1 = point1.getY();
+        double y2 = point2.getY();
+        double y3 = point3.getY();
+        double y4 = point4.getY();
+        double a;
+        double b;
+        double c;
+        double d;
+        List<Point> result = new ArrayList<>();
+        //Deux segments parallèles et verticaux n'ayant pas le même X
+        if (x1 == x2 && x2 != x3 && x3 == x4) {
+            return result;
+        }
+        //Deux segments parallèles et verticaux ayant le même X
+        if (x1 == x2 && x2 == x3 && x3 == x4) {
+            // y1 appartient au segment entre p3 et p4
+            if((y1 <= y4 && y1 >= y3) || ((y1 >= y4) && (y1 <= y3))){
+                result.add(point1);
+            }
+            // y2 appartient au segment entre p3 et p4
+            if(((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3))){
+                result.add(point2);
+            }
+            return result;
+        }
+        double xtemp;
+        double ytemp;
+        if (x1 == x2 && x3 != x4) {
+            c = (y4 - y3) / (x4 - x3);
+            d = (y3 - c * x3);
+            ytemp = c * x1 + d;
+            //une segment vertical et l'autre non. Vérifions si l'image de x1 par la droite passant par le segment 2
+            // appartient au deux segments
+            if((((x1<= x3) && (x1 >= x4)) || ((x1 >= x3) && (x1 <= x4)))){
+                if((ytemp <= y1 && ytemp >= y2) || (ytemp >= y1 && ytemp <= y2)){
+                    result.add(new Point(x1, ytemp));
+                }
+            }
+            return result;
+        }
+        if (x1 != x2 && x3 == x4) {
+            a = (y2 - y1) / (x2 - x1);
+            b = (y1 - a * x1);
+            ytemp = a * x3 + b;
+            //une segment vertical et l'autre non. Vérifions si l'image de x1 par la droite passant par le segment 1
+            // appartient au deux segments
+            if((((x3<= x1) && (x3 >= x2)) || ((x3 >= x1) && (x3 <= x2)))){
+                if((ytemp <= y4 && ytemp >= y3) || (ytemp >= y4 && ytemp <= y3)){
+                    result.add(new Point(x3, ytemp));
+                }
+            }
+            return result;
+        }
+        a = (y2 - y1) / (x2 - x1);
+        b = (y1 - a * x1);
+        c = (y4 - y3) / (x4 - x3);
+        d = (y3 - c * x3);
+        if (a == c && b == d) {
+            if((((x1<= x3) && (x1 >= x4)) || ((x1 >= x3) && (x1 <= x4)))){
+                result.add(point1);
+            }
+            if((((x2<= x3) && (x2 >= x4)) || ((x2 >= x3) && (x2 <= x4)))){
+                result.add(point2);
+            }
+            if((((x3<= x1) && (x3 >= x2)) || ((x3 >= x1) && (x3 <= x2)))){
+                result.add(point3);
+            }
+            if((((x4<= x1) && (x4 >= x2)) || ((x4 >= x1) && (x4 <= x2)))){
+                result.add(point4);
+            }
+            return result;
+        }
+        if (a == c) {
+            return result;
+        }
+        xtemp = (d - b) / (a - c);
+        ytemp = a * xtemp + b;
+        if(((ytemp <= y2 && ytemp >= y1) || (ytemp >= y2 && ytemp <= y1)) && ((ytemp <= y4 && ytemp >= y3) || (ytemp >= y4 && ytemp <= y3))){
+            if(((xtemp <= x2 && xtemp >= x1) || (xtemp >= x2 && xtemp <= x1)) && ((xtemp <= x4 && xtemp >= x3) || (xtemp >= x4 && xtemp <= x3))){
+                result.add(new Point(xtemp, ytemp));
+            }
+        }
+        return result;
+
+    }
+
+
+    /*
     public List<Point> intersection(Ship ship, Vector v_ship, Checkpoint checkpoint) {
         // (1) équation cercle: (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
         double r = ((Circle) checkpoint.getShape()).getRadius();
@@ -454,13 +568,6 @@ public class CalculIntersection {
         return points_intersection;
     }
 
-    /**
-     * Lors d'une droite verticale, l'équation de droite change
-     *
-     * @param ship
-     * @param checkpoint
-     * @return true si le côté du bateau coupe le checkpoint
-     */
     public List<Point> intersectionDroiteVerticaleCircle(Ship ship, Checkpoint checkpoint) {
         //Dans ce cas la droite du bateau est de la forme x = a;
         double a = ship.getPosition().getX();
@@ -493,6 +600,6 @@ public class CalculIntersection {
         }
         return points_intersection;
     }
-
+    */
 
 }
