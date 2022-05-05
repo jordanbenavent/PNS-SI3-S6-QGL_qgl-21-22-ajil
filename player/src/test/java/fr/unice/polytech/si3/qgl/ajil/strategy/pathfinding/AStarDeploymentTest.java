@@ -10,8 +10,6 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class AStarDeploymentTest {
     private ObstacleDetection obstacleDetection;
     private AStarDeployment aStarDeployment;
@@ -28,21 +26,21 @@ class AStarDeploymentTest {
     @Test
     void gridSizeXYTestSimple() {
         aStarDeployment = new AStarDeployment(game, 100);
-        Point shipPosition = new Point(0,0);
-        Point targetPosition = new Point(420,420);
+        Point shipPosition = new Point(0, 0);
+        Point targetPosition = new Point(420, 420);
         Point result = aStarDeployment.gridSizeXY(shipPosition, targetPosition, 100);
-        Assertions.assertEquals(5 + aStarDeployment.MARGIN ,result.getX());
-        Assertions.assertEquals(5 + aStarDeployment.MARGIN ,result.getY());
+        Assertions.assertEquals(5 + AStarDeployment.MARGIN, result.getX());
+        Assertions.assertEquals(5 + AStarDeployment.MARGIN, result.getY());
     }
 
     @Test
     void gridSizeXYTestNegativ() {
         aStarDeployment = new AStarDeployment(game, 100);
-        Point shipPosition = new Point(300,300);
-        Point targetPosition = new Point(-100,-100);
+        Point shipPosition = new Point(300, 300);
+        Point targetPosition = new Point(-100, -100);
         Point result = aStarDeployment.gridSizeXY(shipPosition, targetPosition, 100);
-        Assertions.assertEquals(4 + aStarDeployment.MARGIN ,result.getX());
-        Assertions.assertEquals(4 + aStarDeployment.MARGIN ,result.getY());
+        Assertions.assertEquals(4 + AStarDeployment.MARGIN, result.getX());
+        Assertions.assertEquals(4 + AStarDeployment.MARGIN, result.getY());
     }
 
     @Test

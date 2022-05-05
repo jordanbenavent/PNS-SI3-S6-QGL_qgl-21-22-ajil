@@ -7,7 +7,6 @@ import java.util.*;
 
 public class AStar {
 
-    private ArrayList<Position> chemin;
     private static final List<String> LOGGER = Cockpit.LOGGER;
 
     // les couts pour un déplacement Vertical / Horizontal / Diagonal
@@ -15,7 +14,7 @@ public class AStar {
     public static final int V_H_COST = 10;
 
     // Cellules de la grille
-    private static Cell[][] grid;
+    private final Cell[][] grid;
 
     //On définit une queue de priorité
     //Open Cells : l'ensemble des nœuds à évaluer
@@ -205,14 +204,14 @@ public class AStar {
     }
 
     // Calcul et return une liste de Positions
-    public ArrayList<Position> obtenirLeChemin(){
-        chemin = new ArrayList<>();
+    public List<Position> obtenirLeChemin() {
+        List<Position> chemin = new ArrayList<>();
         process();
-        if (closedCells[endI][endJ]){
+        if (closedCells[endI][endJ]) {
             Cell current = grid[endI][endJ];
             chemin.add(new Position(current.i, current.j, 0));
             grid[current.i][current.j].solution = true;
-            while (current.parent != null){
+            while (current.parent != null) {
                 chemin.add(new Position(current.parent.i, current.parent.j, 0));
                 grid[current.parent.i][current.parent.j].solution = true;
                 current = current.parent;
