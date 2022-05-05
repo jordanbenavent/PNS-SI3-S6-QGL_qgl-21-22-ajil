@@ -5,18 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
-import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.actions.UseWatch;
-import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
-import fr.unice.polytech.si3.qgl.ajil.maths.Intersection;
-import fr.unice.polytech.si3.qgl.ajil.maths.Segment;
 import fr.unice.polytech.si3.qgl.ajil.maths.WayDirect;
-import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.AStarDeployment;
-import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.ObstacleDetection;
-import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -142,9 +134,10 @@ public class Strategy {
         if (!gestionMarins.isPlacementVigie()) {
             gestionMarins.attribuerVigie();
         }
-        UseWatch regarder = new UseWatch(gestionMarins.getVigie().getId());
-        stratData.actions.add(regarder);
-
+        if (gestionMarins.getVigie() != null) {
+            UseWatch regarder = new UseWatch(gestionMarins.getVigie().getId());
+            stratData.actions.add(regarder);
+        }
 
         gestionMarins.repartirLesMarins();
 
@@ -184,12 +177,11 @@ public class Strategy {
 
 
     void calculAStar() {
-        LOGGER.add("Calcule A Star : Avant A star on a nbcheckpo = " + listeCheckpoints.size());
 
-        AStarDeployment deploy = new AStarDeployment(this.stratData.jeu, 150);
+        AStarDeployment deploy = new AStarDeployment(this.stratData.jeu, 140);
         List<Checkpoint> fauxCheckpoints = deploy.deployment();
         valideCheckpoint.setFakeCheckpoint(fauxCheckpoints);
-        LOGGER.add("On vient de set nb FauxCheck : " + fauxCheckpoints.size());
+        //LOGGER.add("AStar : Avant " + listeCheckpoints.size()+"apres "+fauxCheckpoints.size());
 
     }
 

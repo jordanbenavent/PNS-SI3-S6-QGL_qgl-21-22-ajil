@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +23,9 @@ public class GestionSailTest {
         ship = new Ship("ship", 100, new Position(0.0, 0.0, 0.0), "name", new Deck(2, 5), new ArrayList<>(), new Rectangle("rectangle", 5, 5, 5));
         jeu = new Game(new Goal("regatte", null), ship, null, 4, new Wind(0, 50));
         stratData = new StratData(jeu);
-        stratData.setSailorsManager(new Sailor());
+        List<Sailor> sailors = new ArrayList<>();
+        sailors.add(new Sailor());
+        stratData.setSailorsManager(sailors);
         wind = stratData.jeu.getWind();
         gestionSail = new GestionSail(stratData);
     }

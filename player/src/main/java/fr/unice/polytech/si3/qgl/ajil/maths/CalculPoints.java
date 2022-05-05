@@ -79,7 +79,7 @@ public class CalculPoints {
                 continue;
             }
             pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
-            pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 200);
+            pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 80);
             VisibleEntitie tmp = entitie.copy();
             VisibleEntitie tmp2 = entitie.copy();
             tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[0])));
@@ -101,6 +101,6 @@ public class CalculPoints {
             longueur = ((Rectangle) shape).getHeight() + (widthShip / 2);
         }
         double angle = CalculPoints.calculAngleTotal(shape, position);
-        return calculPointGeneric(angle, position, largeur / 2, longueur / 2);
+        return calculPointGeneric(angle, position, longueur / 2, largeur / 2);
     }
 }

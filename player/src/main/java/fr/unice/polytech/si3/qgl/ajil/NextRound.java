@@ -101,7 +101,7 @@ public class NextRound {
      */
     public Set<Reef> searchReef() {
         Set<Reef> reefs = new HashSet<>();
-        LOGGER.add("size entities" + visibleEntities.size());
+        //LOGGER.add("size entities" + visibleEntities.size());
 
         for (VisibleEntitie entities : visibleEntities) {
             if (entities.getType().equals("reef")) {
@@ -116,7 +116,7 @@ public class NextRound {
      */
     public Set<Stream> searchStream() {
         Set<Stream> streams = new HashSet<>();
-        LOGGER.add("size entities" + visibleEntities.size());
+        //LOGGER.add("size entities" + visibleEntities.size());
 
         for (VisibleEntitie entities : visibleEntities) {
             if (entities.getType().equals("stream")) {

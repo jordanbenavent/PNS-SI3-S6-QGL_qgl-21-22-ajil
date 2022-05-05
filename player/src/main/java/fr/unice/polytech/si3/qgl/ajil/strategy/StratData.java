@@ -5,12 +5,13 @@ import fr.unice.polytech.si3.qgl.ajil.Sailor;
 import fr.unice.polytech.si3.qgl.ajil.actions.Action;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StratData {
 
     protected final ArrayList<Action> actions;
     protected Game jeu;
-    protected Sailor sailorsManager;
+    protected List<Sailor> sailorsManager;
     protected Sailor coxswain;
     protected Sailor vigie;
 
@@ -19,11 +20,11 @@ public class StratData {
         this.actions = new ArrayList<>();
     }
 
-    public Sailor getSailorsManager() {
+    public List<Sailor> getSailorsManager() {
         return this.sailorsManager;
     }
 
-    public void setSailorsManager(Sailor sailManager) {
+    public void setSailorsManager(List<Sailor> sailManager) {
         this.sailorsManager = sailManager;
     }
 

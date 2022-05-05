@@ -1,11 +1,13 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
 import fr.unice.polytech.si3.qgl.ajil.Cockpit;
+import fr.unice.polytech.si3.qgl.ajil.Sailor;
 import fr.unice.polytech.si3.qgl.ajil.Ship;
 import fr.unice.polytech.si3.qgl.ajil.Wind;
 import fr.unice.polytech.si3.qgl.ajil.actions.LiftSail;
 import fr.unice.polytech.si3.qgl.ajil.actions.LowerSail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GestionSail {
@@ -25,29 +27,45 @@ public class GestionSail {
      * @param wind le vent
      */
     public void putSail(Ship ship, Wind wind) {
-        double shipOrientation = ship.getPosition().getOrientation();
-        double windOrientation = wind.getOrientation();
-
         if (stratData.getSailorsManager() != null) {
-            int coxswain = stratData.getSailorsManager().getId();
-            LiftSail lift = new LiftSail(coxswain);
-            LowerSail lower = new LowerSail(coxswain);
-            stratData.actions.remove(lift);
-            stratData.actions.remove(lower);
 
-            final double result = simplifyAngle(shipOrientation, windOrientation);
-            if (result <= RANGE && result >= -RANGE) {
-                stratData.actions.add(lift);
+            List<LiftSail> sailsLifts = new ArrayList<>();
+            List<LowerSail> sailsLowers = new ArrayList<>();
+
+            int currentCoxswain;
+            for (Sailor s : stratData.getSailorsManager()) {
+                currentCoxswain = s.getId();
+                sailsLifts.add(new LiftSail(currentCoxswain));
+                sailsLowers.add(new LowerSail(currentCoxswain));
+            }
+
+            stratData.actions.removeAll(sailsLifts);
+            stratData.actions.removeAll(sailsLowers);
+
+            if (isWindStraight(ship, wind)) {
+                stratData.actions.addAll(sailsLifts);
                 isLifted = true;
                 //LOGGER.add("Voile UP");
             } else {
-                stratData.actions.add(lower);
+                stratData.actions.addAll(sailsLowers);
                 isLifted = false;
                 //LOGGER.add("Voile DOWN");
             }
-        } else {
-            //LOGGER.add("Pas de Sailer Manager");
         }
+    }
+
+    /**
+     * Check if ship orientation === wind direction
+     *
+     * @param ship ship to get ship orientation
+     * @param wind wind to get wind direction
+     * @return true if alignement is ok
+     */
+    private boolean isWindStraight(Ship ship, Wind wind) {
+        double shipOrientation = ship.getPosition().getOrientation();
+        double windOrientation = wind.getOrientation();
+        final double result = simplifyAngle(shipOrientation, windOrientation);
+        return result <= RANGE && result >= -RANGE;
     }
 
     /**

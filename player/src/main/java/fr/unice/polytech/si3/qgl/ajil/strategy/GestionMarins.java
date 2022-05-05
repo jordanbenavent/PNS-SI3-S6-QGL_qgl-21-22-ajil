@@ -34,7 +34,7 @@ public class GestionMarins {
     private boolean placementVigie = false;
     // marins
     private Sailor coxswain; // celui qui gère le gouvernail
-    private Sailor sailManager; // celui qui gère la voile
+    private List<Sailor> sailManager; // celui qui gère la voile
     private Sailor vigie; // celui qui gère la vigie
 
     public GestionMarins(StratData stratData) {
@@ -58,7 +58,7 @@ public class GestionMarins {
     /**
      * set SailorsManager for wind management using StratData class
      */
-    void setSailorsManager(Sailor sailManager) {
+    void setSailorsManager(List<Sailor> sailManager) {
         if (sailManager != null) this.stratData.sailorsManager = sailManager;
         else LOGGER.add("Il n'y a pas de SailManager.");
     }
@@ -85,7 +85,7 @@ public class GestionMarins {
      * @return boolean qui dit si oui ou non le marin a atteint la position fixée
      */
     public boolean deplacerMarin(Sailor s, Entity entity) {
-        LOGGER.add("Marin :  " + s.getId() + "veut aller vers " + entity.toString());
+        //LOGGER.add("Marin :  " + s.getId() + "veut aller vers " + entity.toString());
         int dist = entity.getDist(s);
         int movX = entity.getX() - s.getX();
         int movY = entity.getY() - s.getY();
@@ -94,14 +94,14 @@ public class GestionMarins {
             return true;
         }
         if (dist > 5) {
-            LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
+            //LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
             int depX = (movX < -2) ? -2 : Math.min(movX, 2);
             int depY = (movY < -2) ? -2 : Math.min(movY, 2);
             s.updatePos(depX, depY); // met à jour les (x , y) de ce sailor
             stratData.actions.add(new Moving(s.getId(), depX, depY));
             return false;
         }
-        LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
+        //LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
         s.updatePos(movX, movY);
         stratData.actions.add(new Moving(s.getId(), movX, movY));
         return true;
@@ -142,12 +142,14 @@ public class GestionMarins {
             return;
         }
         if (sailManager == null) {
-            sailManager = marinLePlusProche(sail);
+            sailManager = new ArrayList<>();
+            sailManager.add(marinLePlusProche(sail));
             setSailorsManager(sailManager);
-            sailors.remove(sailManager);
-            LOGGER.add("Sail Manager est : " + sailManager.getId());
+            sailors.removeAll(sailManager);
+            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
+            LOGGER.add("Sail Manager 0 est : " + sailManager.get(0));
         }
-        placementSailManagers = deplacerMarin(sailManager, sail);
+        placementSailManagers = deplacerMarin(sailManager.get(0), sail);
     }
 
     /**
@@ -165,6 +167,7 @@ public class GestionMarins {
             vigie = marinLePlusProche(watch);
             setVigie(vigie);
             sailors.remove(vigie);
+            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
             LOGGER.add("Vigie est : " + vigie.getId());
         }
         placementVigie = deplacerMarin(vigie, watch);
@@ -185,6 +188,7 @@ public class GestionMarins {
             coxswain = marinLePlusProche(rudder);
             stratData.coxswain = coxswain;
             sailors.remove(coxswain);
+            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
             LOGGER.add("CoxswainManageur est : " + coxswain.getId());
         }
         placementCoxswain = deplacerMarin(coxswain, rudder);
@@ -197,17 +201,21 @@ public class GestionMarins {
         leftSailors.clear();
         rightSailors.clear();
         List<Sailor> sailors = stratData.jeu.getSailors();
-        for (Sailor s : sailors) {
-            if (leftSailors.size() < sailors.size() / 2) {
-                leftSailors.add(s);
-                continue;
-            }
-            if (rightSailors.size() < sailors.size() / 2) {
-                rightSailors.add(s);
-                continue;
-            }
-            break;
+        System.out.println("sailors size vaut"+sailors.size());
+        int mid = sailors.size()/2;
+        System.out.println("mid est "+mid);
+        for (int i=0;i<mid;i++){
+            leftSailors.add(sailors.get(i));
         }
+        System.out.println("a gauche on a mis x marin,  x = "+leftSailors.size());
+        for(int i=mid;i<sailors.size();i++) {
+            rightSailors.add(sailors.get(i));
+        }
+        System.out.println("a droite on a mis x marin,  x = "+rightSailors.size());
+
+
+
+
     }
 
     /**
@@ -241,16 +249,37 @@ public class GestionMarins {
 
     public boolean isPlacementVigie() { return placementVigie; }
 
+    void suppSailor(int n) { //n = 0 si gauche et 1 si droite
+        System.out.println("on appele supSailor");
+        for(Sailor s :stratData.jeu.getSailors()){
+            if(n==0 && estAGauche(s)){
+                System.out.println("on remove un gars a gauche");stratData.jeu.getSailors().remove(s);}
+            else if(n==1 && !estAGauche(s)){
+                System.out.println("on remove gars droite");
+                stratData.jeu.getSailors().remove(s);}
+        }
+
+    }
+
+
+
+
     /**
      * Rame selon la vitesse indiquée dans le déplacement
      *
      * @param deplacement deplacement
      */
     void ramerSelonVitesse(Deplacement deplacement) {
+
+        System.out.println("taille marin gauche "+leftSailors.size()+" et droite "+rightSailors.size());
+        if(leftSailors.size()>rightSailors.size()){suppSailor(0);}
+        else if(rightSailors.size()>leftSailors.size()){suppSailor(1);}
+
+
         double angle = deplacement.getAngle();
 
         if (Math.abs(angle) < Math.PI / 4 && coxswain != null) {
-            LOGGER.add("On tourne avec le gouvernail : " + angle);
+            //LOGGER.add("On tourne avec le gouvernail : " + angle);
             Turn tournerGouvernail = new Turn(coxswain.getId(), angle);
             stratData.actions.add(tournerGouvernail);
             for (Sailor sailor : stratData.jeu.getSailors()) {
@@ -309,6 +338,10 @@ public class GestionMarins {
     public double nbrSailorsNecessaires(double nbr_rames, double vitesse) {
         double vitesse_une_rame = 165 / nbr_rames;
         return vitesse / vitesse_une_rame;
+    }
+
+    public boolean estAGauche(Sailor s) {
+        return (s.getY()==0);
     }
 
     /**

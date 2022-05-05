@@ -1,12 +1,17 @@
 package fr.unice.polytech.si3.qgl.ajil.pathfinding;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
+import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding.ObstacleDetection;
+import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ObstacleDetectionTest {
     private ObstacleDetection obstacleDetection;
