@@ -7,10 +7,10 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Moving;
 import fr.unice.polytech.si3.qgl.ajil.actions.Oar;
 import fr.unice.polytech.si3.qgl.ajil.actions.Turn;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
-import fr.unice.polytech.si3.qgl.ajil.shipentities.Sail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Classe regroupant toutes les actions des marins durant le tour, ils doivent se déplacer sur le bateau, ramer, aller
@@ -88,6 +88,12 @@ public class GestionMarins {
         return rightSailors;
     }
 
+    public boolean deplacerMarins(List<Sailor> crew, List<Entity> entities) {
+        AtomicBoolean isOk = new AtomicBoolean(false);
+        entities.forEach(e -> isOk.set(deplacerMarin(crew.get(0), e)));
+        return isOk.get();
+    }
+
     /**
      * @return boolean qui dit si oui ou non le marin a atteint la position fixée
      */
@@ -142,21 +148,22 @@ public class GestionMarins {
      */
     public void attribuerSailManager() {
         List<Sailor> sailors = stratData.jeu.getSailors();
-        Entity sail = stratData.jeu.getShip().getSail();
-        if (sail == null) {
+        List<Entity> sails = stratData.jeu.getShip().getSails();
+        if (sails.isEmpty()) {
             LOGGER.add("Il n'y a pas de Voile.");
             placementSailManagers = true;
             return;
         }
         if (sailManager == null) {
             sailManager = new ArrayList<>();
-            sailManager.add(marinLePlusProche(sail));
+            sails.forEach(sail -> sailManager.add(marinLePlusProche(sail)));
             setSailorsManager(sailManager);
             sailors.removeAll(sailManager);
-            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
-            LOGGER.add("Sail Manager 0 est : " + sailManager.get(0));
+            System.out.println("Sail Manager on a enlever un gars la taille vaut " + sailors.size() + " == " + stratData.jeu.getSailors().size());
+            if (!sailManager.isEmpty()) System.out.println("Sail Manager 0 est : " + sailManager.get(0));
+            if (sailManager.size() > 1) System.out.println("Sail Manager 1 est : " + sailManager.get(1));
         }
-        placementSailManagers = deplacerMarin(sailManager.get(0), sail);
+        placementSailManagers = deplacerMarins(sailManager, sails);
     }
 
     /**
@@ -221,9 +228,7 @@ public class GestionMarins {
             rightSailors.add(sailors.get(i));
         }
         System.out.println("a droite on a mis x marin,  x = "+rightSailors.size());
-
         this.marinRepartie = true;
-
     }
 
     /**
@@ -318,15 +323,15 @@ public class GestionMarins {
     }
 
     /**
-     * Calcul le nombre de marins nécessaire pour adopté la vitesse en paramètre
+     * Calcul le nombre de marins nécessaire pour adopté la speed en paramètre
      *
-     * @param nbr_rames nb rames
-     * @param vitesse   vitesse
+     * @param oars  nb rames
+     * @param speed speed
      * @return le nombre de marins
      */
-    public double nbrSailorsNecessaires(double nbr_rames, double vitesse) {
-        double vitesse_une_rame = 165 / nbr_rames;
-        return vitesse / vitesse_une_rame;
+    public double nbrSailorsNecessaires(double oars, double speed) {
+        double speedPerOar = 165 / oars;
+        return speed / speedPerOar;
     }
 
     public boolean estAGauche(Sailor s) {
@@ -389,6 +394,10 @@ public class GestionMarins {
             int index = -1;
             for (int i = 0; i < oars.size(); i++) {
                 int dist = oars.get(i).getDist(s);
+                if (index >= 0 && dist == 0) {
+                    oars.remove(index);
+                    continue;
+                }
                 if (dist >= distMin) {
                     distMin = dist;
                     index = i;

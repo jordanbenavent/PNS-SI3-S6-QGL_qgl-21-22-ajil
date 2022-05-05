@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
-import fr.unice.polytech.si3.qgl.ajil.shipentities.*;
 import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -181,13 +181,8 @@ public class Ship {
     /**
      * @return la voile présente sur le bateau, null s'il n'y en a pas
      */
-    public Entity getSail() {
-        for (Entity e : entities) {
-            if (e instanceof Sail) {
-                return e;
-            }
-        }
-        return null;
+    public List<Entity> getSails() {
+        return entities.stream().filter(Sail.class::isInstance).toList();
     }
 
     /**

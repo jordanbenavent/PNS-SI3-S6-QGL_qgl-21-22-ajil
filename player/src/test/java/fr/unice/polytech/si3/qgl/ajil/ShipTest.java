@@ -4,6 +4,7 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.Entity;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
+import fr.unice.polytech.si3.qgl.ajil.shipentities.Sail;
 import fr.unice.polytech.si3.qgl.ajil.strategy.Strategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,28 +14,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ShipTest {
+class ShipTest {
     Ship ship;
     Game jeu;
     Strategy strategy;
 
     @BeforeEach
     void setUp() {
-        ship = new Ship("ship", 100,
-                new Position(0.0, 0.0, 0.0), "name",
-                new Deck(2, 5),
-                new ArrayList<>(),
-                new Rectangle("rectangle", 5, 5, 5));
+        ship = new Ship("ship", 100, new Position(0.0, 0.0, 0.0), "name", new Deck(2, 5), new ArrayList<>(), new Rectangle("rectangle", 5, 5, 5));
         ArrayList<Checkpoint> checkpoints = new ArrayList<>();
         ArrayList<Sailor> sailors = new ArrayList<>();
-        jeu = new Game(
-                new Goal("regatte", checkpoints),
-                ship,
-                sailors,
-                4,
-                new Wind(0, 50)
-        );
+        jeu = new Game(new Goal("regatte", checkpoints), ship, sailors, 4, new Wind(0, 50));
         strategy = new Strategy(jeu);
         Checkpoint checkpoint = new Checkpoint(new Position(5, 5, 0), new Circle("circle", 1));
         checkpoints.add(checkpoint);
@@ -42,6 +34,43 @@ public class ShipTest {
         Sailor sailor2 = new Sailor(1, 1, 0, "sailor2");
         sailors.add(sailor);
         sailors.add(sailor2);
+    }
+
+    @Test
+    void testGetSailsOneItem() {
+        ArrayList<Entity> entities = new ArrayList<>();
+        Sail s1 = new Sail(2, 2, "sail", false);
+        Entity o1 = new OarEntity();
+        Entity o2 = new OarEntity();
+        entities.add(s1);
+        entities.add(o1);
+        entities.add(o2);
+        ship.setEntities(entities);
+        assertEquals(1, ship.getSails().size());
+        assertNotNull(ship.getSails().get(0));
+    }
+
+    @Test
+    void testGetSailsTwoItems() {
+        ArrayList<Entity> entities = new ArrayList<>();
+        Sail s1 = new Sail(2, 2, "sail", false);
+        Sail s2 = new Sail(2, 3, "sail", true);
+        Entity o1 = new OarEntity();
+        Entity o2 = new OarEntity();
+        entities.add(s1);
+        entities.add(o1);
+        entities.add(s2);
+        entities.add(o2);
+        ship.setEntities(entities);
+        assertEquals(2, ship.getSails().size());
+        assertNotNull(ship.getSails().get(0));
+        assertNotNull(ship.getSails().get(1));
+    }
+
+    @Test
+    void testGetSailsNoItem() {
+        ship.setEntities(new ArrayList<Entity>());
+        assertEquals(0, ship.getSails().size());
     }
 
     @Test
