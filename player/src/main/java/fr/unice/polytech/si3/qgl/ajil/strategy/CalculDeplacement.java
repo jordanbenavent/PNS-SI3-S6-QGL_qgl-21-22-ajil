@@ -138,7 +138,7 @@ public class CalculDeplacement {
      * @param checkpoint
      * @return les points d'intersection
      */
-    public List<Point> intersection(Ship ship, Vector vShip, Checkpoint checkpoint) {
+    public List<Point> intersection(Ship ship, Vector v_ship, Checkpoint checkpoint) {
         // (1) équation cercle: (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
         double r = ((Circle) checkpoint.getShape()).getRadius();
         double xc = checkpoint.getPosition().getX();
@@ -148,8 +148,8 @@ public class CalculDeplacement {
         // Etape 1: On prend d'abord deux points (à partir du vecteur bateau) pour pouvoir calculer la droite
         double x1 = ship.getPosition().getX();
         double y1 = ship.getPosition().getY();
-        double x2 = ship.getPosition().getX() + vShip.getX();
-        double y2 = ship.getPosition().getY() + vShip.getY();
+        double x2 = ship.getPosition().getX() + v_ship.getX();
+        double y2 = ship.getPosition().getY() + v_ship.getY();
         if (Math.abs(x2 - x1) < 0.0001) {
             return intersectionDroiteVerticaleCircle(ship, checkpoint);
         }
@@ -165,21 +165,21 @@ public class CalculDeplacement {
         // x²(1 + a²) + x(−2*xc + 2*a*b − 2*a*yc) + (xc² + yc² + b²− 2*b*yc − R²) = 0
         // On a donc du second degré de la forme ax² + bx + c = 0 avec:
         ArrayList<Point> intersectionPoints = new ArrayList<>();
-        double a = 1 + a * a;
-        double b = 2 * (-xc + a * b - a * yc);
-        double c = xc * xc + yc * yc + b * b - 2 * b * yc - r * r;
-        double delta = b * b - 4 * a * c;
+        double A = 1 + a * a;
+        double B = 2 * (-xc + a * b - a * yc);
+        double C = xc * xc + yc * yc + b * b - 2 * b * yc - r * r;
+        double delta = B * B - 4 * A * C;
 
         if (delta > 0) {
-            double x = (-b - Math.sqrt(delta)) / (2 * a);
+            double x = (-B - Math.sqrt(delta)) / (2 * A);
             double y = a * x + b;
             intersectionPoints.add(new Point(x, y));
 
-            x = (-b + Math.sqrt(delta)) / (2 * a);
+            x = (-B + Math.sqrt(delta)) / (2 * A);
             y = a * x + b;
             intersectionPoints.add(new Point(x, y));
         } else if (delta == 0) {
-            double x = -b / (2 * a);
+            double x = -B / (2 * A);
             double y = a * x + b;
             intersectionPoints.add(new Point(x, y));
         }
@@ -206,21 +206,21 @@ public class CalculDeplacement {
         // y² + y(−2*yc) + (a² - 2*a*xc + xc² + yc² − R²) = 0
         // On a donc du second degré de la forme ax² + bx + c = 0 avec:
         ArrayList<Point> intersectionPoints = new ArrayList<>();
-        double a = 1;
-        double b = -2 * yc;
-        double c = a * a - 2 * a * xc + xc * xc + yc * yc - r * r;
-        double delta = b * b - 4 * a * c;
+        double A = 1;
+        double B = -2 * yc;
+        double C = a * a - 2 * a * xc + xc * xc + yc * yc - r * r;
+        double delta = B * B - 4 * A * C;
 
         if (delta > 0) {
             double x = a;
-            double y = (-b - Math.sqrt(delta)) / (2 * a);
+            double y = (-B - Math.sqrt(delta)) / (2 * A);
             intersectionPoints.add(new Point(x, y));
 
             x = a;
-            y = (-b + Math.sqrt(delta)) / (2 * a);
+            y = (-B + Math.sqrt(delta)) / (2 * A);
             intersectionPoints.add(new Point(x, y));
         } else if (delta == 0) {
-            double y = -b / (2 * a);
+            double y = -B / (2 * A);
             intersectionPoints.add(new Point(a, y));
         }
         return intersectionPoints;
