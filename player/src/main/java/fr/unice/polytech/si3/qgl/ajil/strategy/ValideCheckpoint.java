@@ -76,15 +76,7 @@ public class ValideCheckpoint {
      * @return ship in checkpoint boolean
      */
     private boolean isShipInCheckpoint(Ship ship, Checkpoint checkpointCurrent) {
-        List<Point> pointsDuBateau = calculPointShip(ship);
-        if (checkpointCurrent.getShape() instanceof Circle) {
-            if ((ship.getShape() instanceof Circle)) {
-                return checkpointValideShipCircle(ship, checkpointCurrent);
-            } else {
-                return checkpointValide(pointsDuBateau, checkpointCurrent);
-            }
-        }
-        return false;
+        return CalculIntersection.intersectionShapes(ship.getShape(), ship.getPosition(), checkpointCurrent.getShape(), checkpointCurrent.getPosition());
     }
 
 

@@ -3,6 +3,8 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,6 +198,7 @@ public class CalculIntersection {
         return ((ytemp <= y2 && ytemp >= y1) || (ytemp >= y2 && ytemp <= y1)) && ((ytemp <= y4 && ytemp >= y2) || (ytemp >= y4 && ytemp <= y2));
     }
 
+
     public static boolean intersectionCircleCircle(Circle circle1, Position position1, Circle circle2, Position position2) {
         Point pointCircle1 = new Point(position1.getX(), position1.getY());
         Point pointCircle2 = new Point(position2.getX(), position2.getY());
@@ -239,7 +242,7 @@ public class CalculIntersection {
         //cercle 1 (x-xc1) ^2 + (y-yc1) = r^2
         //cercle 2 (x-xc2) ^2 + (y-yc2) = R^2
         List<Point> result = new ArrayList<>();
-        if(!intersection(circle1, position1, circle2, position2)) return result;
+        if(!intersectionCircleCircle(circle1, position1, circle2, position2)) return result;
         double xb = position2.getX();
         double yb = position2.getY();
         double xa = position1.getX();
@@ -420,7 +423,6 @@ public class CalculIntersection {
     public static List<Point> intersectionPointSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2) {
         List<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
         List<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
-        System.out.println("in segments");
         List<Point> result = new ArrayList<>();
         int sizePoint1 = pointsShape1.size();
         int sizePoint2 = pointsShape2.size();
@@ -530,91 +532,5 @@ public class CalculIntersection {
         return result;
 
     }
-
-
-    /*
-    public List<Point> intersection(Ship ship, Vector v_ship, Checkpoint checkpoint) {
-        // (1) équation cercle: (x-checkpoint.x)^2 + (y-checkpoint.y)^2 = R^2
-        double r = ((Circle) checkpoint.getShape()).getRadius();
-        double xc = checkpoint.getPosition().getX();
-        double yc = checkpoint.getPosition().getY();
-
-        // (2) équation de la droite du bateau: y = ax+b
-        // Etape 1: On prend d'abord deux points (à partir du vecteur bateau) pour pouvoir calculer la droite
-        double x1 = ship.getPosition().getX();
-        double y1 = ship.getPosition().getY();
-        double x2 = ship.getPosition().getX() + v_ship.getX();
-        double y2 = ship.getPosition().getY() + v_ship.getY();
-        if(Math.abs(x2 - x1) < 0.0001){
-            return intersectionDroiteVerticaleCircle(ship, checkpoint);
-        }
-
-        // Etape 2: on calcule la pente si x1 != x2
-        double a = (y2 - y1)/(x2 - x1);
-        // Etape 3: On remplace dans l'équation a par la pente et x et y par un point pour trouver b
-        double b = y1 - a*x1;
-
-        // Maintenant on remplace (2) dans (1)
-        // (x − xc)² + (a*x + b −yc)² = R²
-        // x² − 2*x*xc + xc² + a²*x² + b² + yc² + 2(a*x*b − a*x*yc − b*yc) − R² = 0
-        // x²(1 + a²) + x(−2*xc + 2*a*b − 2*a*yc) + (xc² + yc² + b²− 2*b*yc − R²) = 0
-        // On a donc du second degré de la forme ax² + bx + c = 0 avec:
-        ArrayList<Point> points_intersection = new ArrayList<>();
-        double A = 1 + a*a;
-        double B = 2 * (-xc + a*b - a*yc);
-        double C = xc*xc + yc*yc + b*b - 2*b*yc - r*r;
-        double delta = B*B - 4*A*C;
-
-        if (delta > 0) {
-            double x = (-B - Math.sqrt(delta)) / (2*A);
-            double y = a*x + b;
-            points_intersection.add(new Point(x, y));
-
-            x = (-B + Math.sqrt(delta)) / (2*A);
-            y = a*x + b;
-            points_intersection.add(new Point(x, y));
-        }
-        else if (delta == 0) {
-            double x = -B / (2*A);
-            double y = a*x + b;
-            points_intersection.add(new Point(x, y));
-        }
-
-        return points_intersection;
-    }
-
-    public List<Point> intersectionDroiteVerticaleCircle(Ship ship, Checkpoint checkpoint) {
-        //Dans ce cas la droite du bateau est de la forme x = a;
-        double a = ship.getPosition().getX();
-        double xc = checkpoint.getPosition().getX();
-        double yc = checkpoint.getPosition().getY();
-        double r = ((Circle) checkpoint.getShape()).getRadius();
-
-        // (a − xc)² + (y − yc)² = R²
-        // a² − 2*a*xc + xc² + y² -2*y*yc + yc² − R² = 0
-        // y² + y(−2*yc) + (a² - 2*a*xc + xc² + yc² − R²) = 0
-        // On a donc du second degré de la forme ax² + bx + c = 0 avec:
-        ArrayList<Point> points_intersection = new ArrayList<>();
-        double A = 1;
-        double B = -2*yc;
-        double C = a*a - 2*a*xc + xc*xc + yc*yc - r*r;
-        double delta = B*B - 4*A*C;
-
-        if (delta > 0) {
-            double x = a;
-            double y = (-B - Math.sqrt(delta)) / (2*A);
-            points_intersection.add(new Point(x, y));
-
-            x = a;
-            y = (-B + Math.sqrt(delta)) / (2*A);
-            points_intersection.add(new Point(x, y));
-        }
-        else if (delta == 0) {
-            double y = -B / (2*A);
-            points_intersection.add(new Point(a, y));
-        }
-        return points_intersection;
-    }
-    */
 
 }
