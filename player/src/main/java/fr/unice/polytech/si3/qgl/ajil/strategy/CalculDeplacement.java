@@ -33,7 +33,7 @@ public class CalculDeplacement {
 
         double distance = getDistance(ship, checkpoint);
         if (stratData.jeu.getGoal().getCheckpoints().size() > 1) {
-            checkpoint = viseExtremiteCheckpoint(checkpoint);
+            checkpoint = targetCheckpointBorder(checkpoint);
         }
 
         final Vector shipVector = calculVecteurBateau(ship);
@@ -55,7 +55,7 @@ public class CalculDeplacement {
         return getMove(nbr_rames, distance, angle, nextAngle, anglesAvailable, angle_maximum);
     }
 
-    private double getDistance(Ship ship, Checkpoint checkpoint){
+    private double getDistance(Ship ship, Checkpoint checkpoint) {
         return Math.sqrt(Math.pow((checkpoint.getPosition().getX() - ship.getPosition().getX()), 2) + Math.pow((checkpoint.getPosition().getY() - ship.getPosition().getY()), 2));
     }
 
@@ -104,7 +104,7 @@ public class CalculDeplacement {
                 return deplacement;
             }
             availableAngles.removeIf(a -> Math.abs(a) < Math.PI / 4);
-            if (availableAngles.size() == 0) return deplacement;
+            if (availableAngles.isEmpty()) return deplacement;
         }
         while (!availableAngles.isEmpty()) {
             Double newMaximumAngle = quelEstLangleMaximum(availableAngles);
@@ -150,42 +150,41 @@ public class CalculDeplacement {
         double y1 = ship.getPosition().getY();
         double x2 = ship.getPosition().getX() + v_ship.getX();
         double y2 = ship.getPosition().getY() + v_ship.getY();
-        if(Math.abs(x2 - x1) < 0.0001){
+        if (Math.abs(x2 - x1) < 0.0001) {
             return intersectionDroiteVerticaleCircle(ship, checkpoint);
         }
 
         // Etape 2: on calcule la pente si x1 != x2
-        double a = (y2 - y1)/(x2 - x1);
+        double a = (y2 - y1) / (x2 - x1);
         // Etape 3: On remplace dans l'équation a par la pente et x et y par un point pour trouver b
-        double b = y1 - a*x1;
+        double b = y1 - a * x1;
 
         // Maintenant on remplace (2) dans (1)
         // (x − xc)² + (a*x + b −yc)² = R²
         // x² − 2*x*xc + xc² + a²*x² + b² + yc² + 2(a*x*b − a*x*yc − b*yc) − R² = 0
         // x²(1 + a²) + x(−2*xc + 2*a*b − 2*a*yc) + (xc² + yc² + b²− 2*b*yc − R²) = 0
         // On a donc du second degré de la forme ax² + bx + c = 0 avec:
-        ArrayList<Point> points_intersection = new ArrayList<>();
-        double A = 1 + a*a;
-        double B = 2 * (-xc + a*b - a*yc);
-        double C = xc*xc + yc*yc + b*b - 2*b*yc - r*r;
-        double delta = B*B - 4*A*C;
+        ArrayList<Point> intersectionPoints = new ArrayList<>();
+        double A = 1 + a * a;
+        double B = 2 * (-xc + a * b - a * yc);
+        double C = xc * xc + yc * yc + b * b - 2 * b * yc - r * r;
+        double delta = B * B - 4 * A * C;
 
         if (delta > 0) {
-            double x = (-B - Math.sqrt(delta)) / (2*A);
-            double y = a*x + b;
-            points_intersection.add(new Point(x, y));
+            double x = (-B - Math.sqrt(delta)) / (2 * A);
+            double y = a * x + b;
+            intersectionPoints.add(new Point(x, y));
 
-            x = (-B + Math.sqrt(delta)) / (2*A);
-            y = a*x + b;
-            points_intersection.add(new Point(x, y));
-        }
-        else if (delta == 0) {
-            double x = -B / (2*A);
-            double y = a*x + b;
-            points_intersection.add(new Point(x, y));
+            x = (-B + Math.sqrt(delta)) / (2 * A);
+            y = a * x + b;
+            intersectionPoints.add(new Point(x, y));
+        } else if (delta == 0) {
+            double x = -B / (2 * A);
+            double y = a * x + b;
+            intersectionPoints.add(new Point(x, y));
         }
 
-        return points_intersection;
+        return intersectionPoints;
     }
 
     /**
@@ -206,26 +205,25 @@ public class CalculDeplacement {
         // a² − 2*a*xc + xc² + y² -2*y*yc + yc² − R² = 0
         // y² + y(−2*yc) + (a² - 2*a*xc + xc² + yc² − R²) = 0
         // On a donc du second degré de la forme ax² + bx + c = 0 avec:
-        ArrayList<Point> points_intersection = new ArrayList<>();
+        ArrayList<Point> intersectionPoints = new ArrayList<>();
         double A = 1;
-        double B = -2*yc;
-        double C = a*a - 2*a*xc + xc*xc + yc*yc - r*r;
-        double delta = B*B - 4*A*C;
+        double B = -2 * yc;
+        double C = a * a - 2 * a * xc + xc * xc + yc * yc - r * r;
+        double delta = B * B - 4 * A * C;
 
         if (delta > 0) {
             double x = a;
-            double y = (-B - Math.sqrt(delta)) / (2*A);
-            points_intersection.add(new Point(x, y));
+            double y = (-B - Math.sqrt(delta)) / (2 * A);
+            intersectionPoints.add(new Point(x, y));
 
             x = a;
-            y = (-B + Math.sqrt(delta)) / (2*A);
-            points_intersection.add(new Point(x, y));
+            y = (-B + Math.sqrt(delta)) / (2 * A);
+            intersectionPoints.add(new Point(x, y));
+        } else if (delta == 0) {
+            double y = -B / (2 * A);
+            intersectionPoints.add(new Point(a, y));
         }
-        else if (delta == 0) {
-            double y = -B / (2*A);
-            points_intersection.add(new Point(a, y));
-        }
-        return points_intersection;
+        return intersectionPoints;
     }
 
     /**
@@ -235,23 +233,23 @@ public class CalculDeplacement {
      * @param checkpoint
      * @return le nouveau checkpoint se basant sur l'extrémité de celui passé en paramètre
      */
-    public Checkpoint viseExtremiteCheckpoint(Checkpoint checkpoint) {
-        Checkpoint checkpoint_suivant = stratData.jeu.getGoal().getCheckpoints().get(1);
-        Vector v_check = new Vector(1.0, 0.0); //vecteur unitaire du checkpoint suivant l'axe des abscisses
-        Vector v_suivant = new Vector(checkpoint_suivant.getPosition().getX() - checkpoint.getPosition().getX(), checkpoint_suivant.getPosition().getY() - checkpoint.getPosition().getY());
-        double angle = v_check.angleBetweenVectors(v_suivant);
-        Checkpoint new_checkpoint = new Checkpoint();
-        Shape shape_checkpoint = checkpoint.getShape();
-        if (shape_checkpoint.getType().equals("circle")) {
-            Circle shape = (Circle) shape_checkpoint;
+    public Checkpoint targetCheckpointBorder(Checkpoint checkpoint) {
+        Checkpoint nextCheckpoint = stratData.jeu.getGoal().getCheckpoints().get(1);
+        Vector vCheckpoint = new Vector(1.0, 0.0); //vecteur unitaire du checkpoint suivant l'axe des abscisses
+        Vector vNext = new Vector(nextCheckpoint.getPosition().getX() - checkpoint.getPosition().getX(), nextCheckpoint.getPosition().getY() - checkpoint.getPosition().getY());
+        double angle = vCheckpoint.angleBetweenVectors(vNext);
+        Checkpoint newCheckpoint = new Checkpoint();
+        Shape checkpointShape = checkpoint.getShape();
+        if (checkpointShape.getType().equals("circle")) {
+            Circle shape = (Circle) checkpointShape;
             double radius = shape.getRadius();
             // On multiplie par 0.75 pour ne pas être totalement à l'extrémité du checkpoint pour éviter de le rater
-            double new_x = checkpoint.getPosition().getX() + (radius * 0.9 * Math.cos(angle));
-            double new_y = checkpoint.getPosition().getY() + (radius * 0.9 * Math.sin(angle));
-            new_checkpoint.setPosition(new Position(new_x, new_y, 0.0));
-            new_checkpoint.setShape(shape);
+            double newX = checkpoint.getPosition().getX() + (radius * 0.9 * Math.cos(angle));
+            double newY = checkpoint.getPosition().getY() + (radius * 0.9 * Math.sin(angle));
+            newCheckpoint.setPosition(new Position(newX, newY, 0.0));
+            newCheckpoint.setShape(shape);
         }
-        return new_checkpoint;
+        return newCheckpoint;
     }
 
     /**
@@ -326,11 +324,11 @@ public class CalculDeplacement {
      * @return une vitesse minimale
      */
     public Double vitesseAdapte(Double angleRotation, int oars) {
-        Double angle_possible;
+        Double availableAngles;
         int usefulOars = 100;
         for (int i = 0; i <= oars / 2; i++) {
-            angle_possible = Math.PI * i / oars;
-            if (angle_possible.equals(angleRotation)) {
+            availableAngles = Math.PI * i / oars;
+            if (availableAngles.equals(angleRotation)) {
                 usefulOars = i;
                 break;
             }
@@ -381,29 +379,25 @@ public class CalculDeplacement {
      * Le bateau avance droit, on calcule les différents angles qu'on obtiendra en fonction de la vitesse du bateau qu'on peut appliquer
      * au bateau
      *
-     * @param v_ship     Vecteur bateau
+     * @param vShip      Vecteur bateau
      * @param checkpoint checkpoint
      * @return une liste de liste de double où chaque sous-liste contient une vitesse associée à un angle
      */
-    public List<Deplacement> predictionAngleTourSuivant(Vector v_ship, Checkpoint checkpoint) {
-        int oars = jeu.getShip().getOars().size();
-        ArrayList<Deplacement> prediction = new ArrayList<>();
+    public List<Deplacement> predictionAngleTourSuivant(Vector vShip, Checkpoint checkpoint) {
+        final int oars = jeu.getShip().getOars().size();
+        final ArrayList<Deplacement> prediction = new ArrayList<>();
         final double initialSpeed = 165;
-        double vitesse;
-        double angle_apres_deplacement;
-        double positionX_init = jeu.getShip().getPosition().getX();
-        double positionY_init = jeu.getShip().getPosition().getY();
-        double positionX_apres_deplacement;
-        double positionY_apres_deplacement;
+        final double posXInit = jeu.getShip().getPosition().getX();
+        final double posYInit = jeu.getShip().getPosition().getY();
+
         for (int i = 0; i < jeu.getShip().getOars().size() / 2; i++) {
-            vitesse = (initialSpeed * (oars - 2 * i)) / oars;
-            positionX_apres_deplacement = positionX_init + (vitesse * Math.cos(jeu.getShip().getPosition().getOrientation()));
-            positionY_apres_deplacement = positionY_init + (vitesse * Math.sin(jeu.getShip().getPosition().getOrientation()));
-            Vector new_v_check = new Vector(checkpoint.getPosition().getX() - positionX_apres_deplacement, checkpoint.getPosition().getY() - positionY_apres_deplacement);
-            angle_apres_deplacement = v_ship.angleBetweenVectors(new_v_check);
-            prediction.add(new Deplacement(vitesse, angle_apres_deplacement));
+            double speed = (initialSpeed * (oars - 2 * i)) / oars;
+            double posXResult = posXInit + (speed * Math.cos(jeu.getShip().getPosition().getOrientation()));
+            double posYResult = posYInit + (speed * Math.sin(jeu.getShip().getPosition().getOrientation()));
+            Vector newVCheck = new Vector(checkpoint.getPosition().getX() - posXResult, checkpoint.getPosition().getY() - posYResult);
+            double nextAngleAfterMovement = vShip.angleBetweenVectors(newVCheck);
+            prediction.add(new Deplacement(speed, nextAngleAfterMovement));
         }
-        //LOGGER.add("Prédiction :" + prediction);
         return prediction;
     }
 
