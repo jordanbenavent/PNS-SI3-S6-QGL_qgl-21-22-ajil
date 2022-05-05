@@ -52,22 +52,21 @@ public class ObstacleDetectionTest {
         Assertions.assertTrue(points[1].getY() < -r45 + 0.1);
         Assertions.assertEquals(0, points[2].getX());
         Assertions.assertEquals(-61, points[2].getY());
-        /*
-        Assertions.assertTrue(points[3].getX() < 0.71);
-        Assertions.assertTrue(points[3].getX() > 0.69);
-        Assertions.assertTrue(points[3].getY() > -0.71);
-        Assertions.assertTrue(points[3].getY() < -0.69);
+        Assertions.assertTrue(points[3].getX() < r45 + 0.1);
+        Assertions.assertTrue(points[3].getX() > r45 - 0.1);
+        Assertions.assertTrue(points[3].getY() > -r45 - 0.1);
+        Assertions.assertTrue(points[3].getY() < -r45 + 0.1);
         Assertions.assertEquals(61, points[4].getX());
         Assertions.assertEquals(0, points[4].getY());
-        Assertions.assertTrue(points[5].getX() < 0.71);
-        Assertions.assertTrue(points[5].getX() > 0.69);
-        Assertions.assertTrue(points[5].getY() < 0.71);
-        Assertions.assertTrue(points[5].getY() > 0.69);
+        Assertions.assertTrue(points[5].getX() < r45 + 0.1);
+        Assertions.assertTrue(points[5].getX() > r45 - 0.1);
+        Assertions.assertTrue(points[5].getY() < r45 + 0.1);
+        Assertions.assertTrue(points[5].getY() > r45 - 0.1);
         Assertions.assertEquals(0, points[6].getX());
         Assertions.assertEquals(61, points[6].getY());
-        Assertions.assertTrue(points[7].getX() > -0.71);
-        Assertions.assertTrue(points[7].getX() < -0.69);
-        Assertions.assertTrue(points[7].getY() < 0.71);
-        Assertions.assertTrue(points[7].getY() > 0.69);*/
+        Assertions.assertTrue(points[7].getX() > -r45 - 0.1);
+        Assertions.assertTrue(points[7].getX() < -r45 + 0.1);
+        Assertions.assertTrue(points[7].getY() < r45 + 0.1);
+        Assertions.assertTrue(points[7].getY() > r45 - 0.1);
     }
 }
