@@ -212,10 +212,6 @@ public class GestionMarins {
             rightSailors.add(sailors.get(i));
         }
         System.out.println("a droite on a mis x marin,  x = "+rightSailors.size());
-
-
-
-
     }
 
     /**

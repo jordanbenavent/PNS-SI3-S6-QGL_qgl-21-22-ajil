@@ -40,8 +40,8 @@ public class CalculDeplacement {
         final Vector checkVector = calculVecteurCheckpoint(checkpoint, ship);
         final double angle = shipVector.angleBetweenVectors(checkVector);
         System.out.println(checkpoint);
-        // Si le bateau est aligné avec le checkpoint d'un angle inférieur à 1° sinon on aurait pas de points d'intersection
-        if (Math.abs(angle) < 0.01745329) {
+        // Si le bateau est aligné avec le checkpoint d'un angle inférieur ou égal à 1° sinon on aurait pas de points d'intersection
+        if (Math.abs(angle) <= 0.01745329) {
             List<Point> intersectionPoints = intersection(ship, shipVector, checkpoint);
             System.out.println(intersectionPoints);
             distance = getDistancePointIntersection(intersectionPoints, ship);
@@ -55,7 +55,7 @@ public class CalculDeplacement {
         return getMove(nbr_rames, distance, angle, nextAngle, anglesAvailable, angle_maximum);
     }
 
-    private double getDistance(Ship ship, Checkpoint checkpoint){
+    double getDistance(Ship ship, Checkpoint checkpoint){
         return Math.sqrt(Math.pow((checkpoint.getPosition().getX() - ship.getPosition().getX()), 2) + Math.pow((checkpoint.getPosition().getY() - ship.getPosition().getY()), 2));
     }
 
@@ -77,7 +77,7 @@ public class CalculDeplacement {
         for (Point point : points) {
             System.out.println("Point 2: " + point);
             double distance = Math.sqrt(Math.pow((point.getX() - ship.getPosition().getX()), 2) + Math.pow((point.getY() - ship.getPosition().getY()), 2));
-            if (distmin > distance) {
+            if (distmin >= distance) {
                 distmin = distance;
             }
         }
@@ -245,7 +245,7 @@ public class CalculDeplacement {
         if (shape_checkpoint.getType().equals("circle")) {
             Circle shape = (Circle) shape_checkpoint;
             double radius = shape.getRadius();
-            // On multiplie par 0.75 pour ne pas être totalement à l'extrémité du checkpoint pour éviter de le rater
+            // On multiplie par 0.9 pour ne pas être totalement à l'extrémité du checkpoint pour éviter de le rater
             double new_x = checkpoint.getPosition().getX() + (radius * 0.9 * Math.cos(angle));
             double new_y = checkpoint.getPosition().getY() + (radius * 0.9 * Math.sin(angle));
             new_checkpoint.setPosition(new Position(new_x, new_y, 0.0));
@@ -328,7 +328,7 @@ public class CalculDeplacement {
     public Double vitesseAdapte(Double angleRotation, int oars) {
         Double angle_possible;
         int usefulOars = 100;
-        for (int i = 0; i <= oars / 2; i++) {
+        for (int i = 0; i <= oars / 2 && i >= 0; i++) {
             angle_possible = Math.PI * i / oars;
             if (angle_possible.equals(angleRotation)) {
                 usefulOars = i;
@@ -349,7 +349,7 @@ public class CalculDeplacement {
     public Double vitesseSelonDistance(Double distance, int oars) {
         double speedPerOar = (double) 165 / oars;
         double maxSpeed = 165.0;
-        while (maxSpeed > 0) {
+        while (maxSpeed > 0 && maxSpeed <= 165) {
             if (distance >= maxSpeed) {
                 break;
             }
@@ -370,7 +370,7 @@ public class CalculDeplacement {
     public Double quelEstLangleMaximum(Set<Double> angles) {
         double max = -1;
         for (Double a : angles) {
-            if (Math.abs(a) > max) {
+            if (Math.abs(a) >= max) {
                 max = a;
             }
         }

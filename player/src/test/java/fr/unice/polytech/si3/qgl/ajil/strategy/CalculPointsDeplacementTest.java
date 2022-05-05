@@ -7,6 +7,7 @@ import fr.unice.polytech.si3.qgl.ajil.actions.Deplacement;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 import fr.unice.polytech.si3.qgl.ajil.shipentities.OarEntity;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Stream;
 import org.junit.jupiter.api.Assertions;
@@ -101,6 +102,11 @@ class CalculPointsDeplacementTest {
         angles.remove(Math.PI / 2);
         angles.remove(-Math.PI / 2);
         Assertions.assertEquals(Math.PI / 4, strategie.getCalculDeplacement().getMaxAngle(angles));
+        // On supprime l'angle PI/4 et -PI/4
+        angles.remove(Math.PI / 4);
+        angles.remove(-Math.PI / 4);
+        // Si on a pas de rame on ne peut pas tourner et donc changer notre angle, l'angle maximum est donc 0
+        Assertions.assertEquals(0, strategie.getCalculDeplacement().getMaxAngle(angles));
     }
 
     @Test
@@ -284,6 +290,7 @@ class CalculPointsDeplacementTest {
     @Test
     void viseExtremiteCheckpointTest(){
         Checkpoint checkpoint1 = new Checkpoint(new Position(0, 10, 0), new Circle("circle", 2));
+        Circle shape_checkpoint1 = (Circle) checkpoint1.getShape();
         Checkpoint checkpoint2 = new Checkpoint(new Position(15, 10, 0), new Circle("circle", 2));
         Checkpoint checkpoint3 = new Checkpoint(new Position(5, 15, 0), new Circle("circle", 2));
         Checkpoint checkpoint4 = new Checkpoint(new Position(0, 15, 0), new Circle("circle", 2));
@@ -302,6 +309,8 @@ class CalculPointsDeplacementTest {
         Checkpoint test2 = new Checkpoint(new Position(2, 10, 0), new Circle("circle", 2));
         Assertions.assertEquals(test2.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 1);
         Assertions.assertEquals(test2.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 1);
+        Assertions.assertEquals(test2.getPosition().getX(), checkpoint1.getPosition().getX() + (shape_checkpoint1.getRadius() * 0.9 * Math.cos(0)), 0.5);
+        Assertions.assertEquals(test2.getPosition().getY(), checkpoint1.getPosition().getY() + (shape_checkpoint1.getRadius() * 0.9 * Math.sin(0)), 0.5);
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint2);
 
         // Cas où le prochain checkpoint est à 45° sur la droite
@@ -388,5 +397,15 @@ class CalculPointsDeplacementTest {
         streams.add(stream2);
         jeu.setStreams(streams);
         System.out.println(jeu.getStreams());
+    }
+
+    @Test
+    void getDistance(){
+        Checkpoint checkpoint1 = new Checkpoint(new Position(0, 10, 0), new Circle("circle", 2));
+        Checkpoint checkpoint2 = new Checkpoint(new Position(10, 10, 0), new Circle("circle", 2));
+        ship.setPosition(new Position(0, 0, 0));
+        Assertions.assertEquals(10, calculDeplacement.getDistance(ship, checkpoint1));
+        ship.setPosition(new Position(10, 10, 0));
+        Assertions.assertEquals(0, calculDeplacement.getDistance(ship, checkpoint2));
     }
 }
