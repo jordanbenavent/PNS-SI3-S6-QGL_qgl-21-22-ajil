@@ -139,7 +139,9 @@ public class Strategy {
             stratData.actions.add(regarder);
         }
 
-        gestionMarins.repartirLesMarins();
+        if(!gestionMarins.isMarinRepartie()){
+            gestionMarins.repartirLesMarins();
+        }
 
         if (!gestionMarins.isPlacementInit()) {
             gestionMarins.placeOnOars();
