@@ -16,6 +16,7 @@ public class ObstacleDetection {
     private int eX;
     private int eY;
     public static final int MARGIN = 2800;
+    public static final int MARGIN_CIRCLE = 60;
 
     public int getsX() {
         return sX;
@@ -50,7 +51,7 @@ public class ObstacleDetection {
     // Crée une forme de type octogone (simplification de circle)
     public Point[] rectangleToPoints(Circle circle, Position pos) {
         Point[] points = new Point[8];
-        double r = circle.getRadius() + 60 ; // 60 de marge
+        double r = circle.getRadius() + MARGIN_CIRCLE ;
         double r45 = 0.7 * r;
         points[0] = new Point(pos.getX() - r, pos.getY());
         points[1] = new Point(pos.getX() - r45, pos.getY() - r45);

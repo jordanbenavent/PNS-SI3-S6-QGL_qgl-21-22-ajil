@@ -43,31 +43,31 @@ public class ObstacleDetectionTest {
     void obstacleToPointTest() {
         Circle circle = new Circle("circle",1);
         Point[] points = obstacleDetection.rectangleToPoints(circle, new Position(0,0,0));
-        float r45 = (float) (circle.getRadius() * 0.7 * 1.1);
-        /*
-        Assertions.assertEquals(-1.1, points[0].getX());
+        float r45 = (float) ((circle.getRadius() + ObstacleDetection.MARGIN_CIRCLE) * 0.7);
+        Assertions.assertEquals(-61, points[0].getX());
         Assertions.assertEquals(0, points[0].getY());
         Assertions.assertTrue(points[1].getX() > -r45 - 0.1);
         Assertions.assertTrue(points[1].getX() < -r45 + 0.1);
-        Assertions.assertTrue(points[1].getY() > -0.71 - 0.1);
-        Assertions.assertTrue(points[1].getY() < -0.69);
+        Assertions.assertTrue(points[1].getY() > -r45 - 0.1);
+        Assertions.assertTrue(points[1].getY() < -r45 + 0.1);
         Assertions.assertEquals(0, points[2].getX());
-        Assertions.assertEquals(-1, points[2].getY());
+        Assertions.assertEquals(-61, points[2].getY());
+        /*
         Assertions.assertTrue(points[3].getX() < 0.71);
         Assertions.assertTrue(points[3].getX() > 0.69);
         Assertions.assertTrue(points[3].getY() > -0.71);
         Assertions.assertTrue(points[3].getY() < -0.69);
-        Assertions.assertEquals(1, points[4].getX());
+        Assertions.assertEquals(61, points[4].getX());
         Assertions.assertEquals(0, points[4].getY());
         Assertions.assertTrue(points[5].getX() < 0.71);
         Assertions.assertTrue(points[5].getX() > 0.69);
         Assertions.assertTrue(points[5].getY() < 0.71);
         Assertions.assertTrue(points[5].getY() > 0.69);
         Assertions.assertEquals(0, points[6].getX());
-        Assertions.assertEquals(1, points[6].getY());
+        Assertions.assertEquals(61, points[6].getY());
         Assertions.assertTrue(points[7].getX() > -0.71);
         Assertions.assertTrue(points[7].getX() < -0.69);
         Assertions.assertTrue(points[7].getY() < 0.71);
-        Assertions.assertTrue(points[7].getY() > 0.69); */
+        Assertions.assertTrue(points[7].getY() > 0.69);*/
     }
 }
