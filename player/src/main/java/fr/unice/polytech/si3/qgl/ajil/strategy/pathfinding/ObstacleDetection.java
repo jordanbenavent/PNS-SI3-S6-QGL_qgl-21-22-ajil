@@ -15,7 +15,7 @@ public class ObstacleDetection {
     private int sY;
     private int eX;
     private int eY;
-    public static final int MARGIN = 1000;
+    public static final int MARGIN = 2800;
 
     public int getsX() {
         return sX;
