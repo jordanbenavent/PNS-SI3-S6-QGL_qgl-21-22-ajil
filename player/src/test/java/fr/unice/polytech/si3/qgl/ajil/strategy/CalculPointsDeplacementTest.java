@@ -300,24 +300,25 @@ class CalculPointsDeplacementTest {
         // Cas où le prochain checkpoint est tout droit
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint4);
         Checkpoint test = new Checkpoint(new Position(0, 12, 0), new Circle("circle", 2));
-        Assertions.assertEquals(test.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 1);
-        Assertions.assertEquals(test.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 1);
+        Assertions.assertEquals(test.getPosition().getX(), calculDeplacement.targetCheckpointBorder(checkpoint1).getPosition().getX(), 1);
+        Assertions.assertEquals(test.getPosition().getY(), calculDeplacement.targetCheckpointBorder(checkpoint1).getPosition().getY(), 1);
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint4);
 
         // Cas où le prochain checkpoint est à 90° sur la droite
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint2);
         Checkpoint test2 = new Checkpoint(new Position(2, 10, 0), new Circle("circle", 2));
-        Assertions.assertEquals(test2.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 1);
-        Assertions.assertEquals(test2.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 1);
+
         Assertions.assertEquals(test2.getPosition().getX(), checkpoint1.getPosition().getX() + (shape_checkpoint1.getRadius() * 0.9 * Math.cos(0)), 0.5);
         Assertions.assertEquals(test2.getPosition().getY(), checkpoint1.getPosition().getY() + (shape_checkpoint1.getRadius() * 0.9 * Math.sin(0)), 0.5);
+        Assertions.assertEquals(test2.getPosition().getX(), calculDeplacement.targetCheckpointBorder(checkpoint1).getPosition().getX(), 1);
+        Assertions.assertEquals(test2.getPosition().getY(), calculDeplacement.targetCheckpointBorder(checkpoint1).getPosition().getY(), 1);
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint2);
 
         // Cas où le prochain checkpoint est à 45° sur la droite
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().add(checkpoint3);
         Checkpoint test3 = new Checkpoint(new Position(Math.sqrt(2), 10 + Math.sqrt(2), 0), new Circle("circle", 2));
-        Assertions.assertEquals(test3.getPosition().getX(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getX(), 1);
-        Assertions.assertEquals(test3.getPosition().getY(), calculDeplacement.viseExtremiteCheckpoint(checkpoint1).getPosition().getY(), 1);
+        Assertions.assertEquals(test3.getPosition().getX(), calculDeplacement.targetCheckpointBorder(checkpoint1).getPosition().getX(), 1);
+        Assertions.assertEquals(test3.getPosition().getY(), calculDeplacement.targetCheckpointBorder(checkpoint1).getPosition().getY(), 1);
         calculDeplacement.stratData.jeu.getGoal().getCheckpoints().remove(checkpoint3);
     }
 
