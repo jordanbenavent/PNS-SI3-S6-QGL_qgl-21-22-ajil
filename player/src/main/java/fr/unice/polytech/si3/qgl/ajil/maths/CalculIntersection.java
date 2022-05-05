@@ -368,12 +368,10 @@ public class CalculIntersection {
         double y1 = point1.getY();
         double x2 = point2.getX();
         double y2 = point2.getY();
-        double x;
-        double y;
         for(Point point : intersectionDroite){
-            x=point.getX();
-            y=point.getY();
-            if( ((x1 <= x && x <= x2) || (x1 >= x && x >= x2)) && ((y1 <= y && y <= y2) || (y1 >= y && y >= y2))){
+            double x = point.getX();
+            double y = point.getY();
+            if (((x1 <= x && x <= x2) || (x1 >= x && x >= x2)) && ((y1 <= y && y <= y2) || (y1 >= y && y >= y2))) {
                 result.add(point);
             }
         }
@@ -395,12 +393,12 @@ public class CalculIntersection {
 
     public static List<Point> intersectionPointCirclePolygone(Circle circle, Position position1, Polygone polygone, Position position2) {
         List<Point> result = new ArrayList<>();
-        List<Point> pointsPoygone = CalculPoints.calculExtremityPoints(polygone, position2);
-        System.out.println(pointsPoygone);
-        int size = pointsPoygone.size();
+        List<Point> pointsPolygone = CalculPoints.calculExtremityPoints(polygone, position2);
+        System.out.println(pointsPolygone);
+        int size = pointsPolygone.size();
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
-                result.addAll(intersectionCircleSegment(circle, position1, pointsPoygone.get(i), pointsPoygone.get(j)));
+                result.addAll(intersectionCircleSegment(circle, position1, pointsPolygone.get(i), pointsPolygone.get(j)));
             }
         }
         return result;
