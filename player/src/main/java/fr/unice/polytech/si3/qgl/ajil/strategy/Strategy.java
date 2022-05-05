@@ -122,11 +122,12 @@ public class Strategy {
 
         Deplacement deplacement;
         Checkpoint c;
+        UseWatch watch;
         // d'abord on place le Barreur
         if (!gestionMarins.isPlacementCoxswain()) {
             gestionMarins.attribuerCoxswain();
         }
-        // ensuite on place le marin responsable de la voile
+        // ensuite on place le/les marins responsable de la voile
         if (!gestionMarins.isPlacementSailManagers()) {
             gestionMarins.attribuerSailManager();
         }
@@ -135,8 +136,8 @@ public class Strategy {
             gestionMarins.attribuerVigie();
         }
         if (gestionMarins.getVigie() != null) {
-            UseWatch regarder = new UseWatch(gestionMarins.getVigie().getId());
-            stratData.actions.add(regarder);
+            watch = new UseWatch(gestionMarins.getVigie().getId());
+            stratData.actions.add(watch);
         }
 
         if(!gestionMarins.isMarinRepartie()){
