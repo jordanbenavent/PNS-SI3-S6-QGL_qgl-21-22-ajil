@@ -62,7 +62,6 @@ public class CalculIntersection {
                 double xb2 = points.get(j).getX();
                 double yb2 = points.get(j).getY();
                 if (xb1 == xb2) {
-                    System.out.println("vertical");
                     if (intersectionDroiteVerticaleSegments(new Point(xb1, yb1), new Point(xb2, yb2), circle, position)) {
                         return true;
                     }
@@ -207,6 +206,10 @@ public class CalculIntersection {
 
     // Nouvelle version
 
+    public static boolean intersectionShapes(Shape shape1, Position position1, Shape shape2, Position position2){
+        return !intersection2(shape1, position1, shape2, position2).isEmpty();
+    }
+
     public static List<Point> intersection2(Shape shape1, Position position1, Shape shape2, Position position2) {
         if (shape1 instanceof Circle circle1 && shape2 instanceof Circle circle2) {
             return intersectionPointCircleCircle(circle1, position1, circle2, position2);
@@ -295,7 +298,6 @@ public class CalculIntersection {
         double xb2 = point2.getX();
         double yb2 = point2.getY();
         if (xb1 == xb2) {
-            System.out.println("vertical");
             return intersectionPointDroiteVerticaleCircle(point1, point2, circle, positionCircle);
         }
         double a = (yb2 - yb1) / (xb2 - xb1);
@@ -381,24 +383,35 @@ public class CalculIntersection {
     public static List<Point> intersectionPointCircleRectangle(Circle circle, Position position1, Rectangle rectangle, Position position2) {
         List<Point> result = new ArrayList<>();
         List<Point> pointsRectangle = CalculPoints.calculExtremityPoints(rectangle, position2);
-        System.out.println(pointsRectangle);
+        Point pointCircle = new Point(position1.getX(), position1.getY());
         int size = pointsRectangle.size();
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
+                if(pointInCircle(circle, position1, pointsRectangle.get(i))){
+                    result.add(pointCircle);
+                }
                 result.addAll(intersectionCircleSegment(circle, position1, pointsRectangle.get(i), pointsRectangle.get(j)));
             }
         }
         return result;
     }
 
+    public static boolean pointInCircle(Circle circle, Position position, Point point){
+        Point pointCircle = new Point(position.getX(), position.getY());
+        return point.distance(pointCircle) <= circle.getRadius();
+    }
+
     public static List<Point> intersectionPointCirclePolygone(Circle circle, Position position1, Polygone polygone, Position position2) {
         List<Point> result = new ArrayList<>();
-        List<Point> pointsPolygone = CalculPoints.calculExtremityPoints(polygone, position2);
-        System.out.println(pointsPolygone);
-        int size = pointsPolygone.size();
+        List<Point> pointsPoygone = CalculPoints.calculExtremityPoints(polygone, position2);
+        Point pointCircle = new Point(position1.getX(), position1.getY());
+        int size = pointsPoygone.size();
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
-                result.addAll(intersectionCircleSegment(circle, position1, pointsPolygone.get(i), pointsPolygone.get(j)));
+                result.addAll(intersectionCircleSegment(circle, position1, pointsPoygone.get(i), pointsPoygone.get(j)));
+                if(pointInCircle(circle, position1, pointsPoygone.get(i))){
+                    result.add(pointCircle);
+                }
             }
         }
         return result;
@@ -407,6 +420,7 @@ public class CalculIntersection {
     public static List<Point> intersectionPointSegmentsSegments(Shape shape1, Position position1, Shape shape2, Position position2) {
         List<Point> pointsShape1 = CalculPoints.calculExtremityPoints(shape1, position1);
         List<Point> pointsShape2 = CalculPoints.calculExtremityPoints(shape2, position2);
+        System.out.println("in segments");
         List<Point> result = new ArrayList<>();
         int sizePoint1 = pointsShape1.size();
         int sizePoint2 = pointsShape2.size();
@@ -414,6 +428,7 @@ public class CalculIntersection {
             for (int j = i; j < sizePoint1; j++) {
                 for (int k = 0; k < sizePoint2; k++) {
                     for (int l = k; l < sizePoint2; l++) {
+                        //result.add(Intersection.segmentIntersection(new Segment(pointsShape1.get(i), pointsShape1.get(j)),new Segment(pointsShape2.get(k), pointsShape2.get(l))));
                         result.addAll(intersectionPointSegmentSegment(pointsShape1.get(i), pointsShape1.get(j), pointsShape2.get(k), pointsShape2.get(l)));
                     }
                 }
@@ -474,8 +489,10 @@ public class CalculIntersection {
             ytemp = a * x3 + b;
             //une segment vertical et l'autre non. Vérifions si l'image de x1 par la droite passant par le segment 1
             // appartient au deux segments
-            if((((x3<= x1) && (x3 >= x2)) || ((x3 >= x1) && (x3 <= x2)))){
-                if((ytemp <= y4 && ytemp >= y3) || (ytemp >= y4 && ytemp <= y3)){
+            boolean x3isInBorneX1X2 = ((x3<= x1) && (x3 >= x2)) || ((x3 >= x1) && (x3 <= x2));
+            boolean yTempIsInBorneY3Y4 = (ytemp <= y4 && ytemp >= y3) || (ytemp >= y4 && ytemp <= y3);
+            if(x3isInBorneX1X2){
+                if(yTempIsInBorneY3Y4){
                     result.add(new Point(x3, ytemp));
                 }
             }

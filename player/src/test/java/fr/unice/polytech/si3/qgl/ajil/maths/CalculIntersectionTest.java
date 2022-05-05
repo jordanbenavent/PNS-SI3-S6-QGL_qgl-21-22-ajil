@@ -2,10 +2,8 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.Position;
-import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
-import fr.unice.polytech.si3.qgl.ajil.shape.Point;
-import fr.unice.polytech.si3.qgl.ajil.shape.Polygone;
-import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.ajil.Ship;
+import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -96,10 +94,11 @@ public class CalculIntersectionTest {
         Rectangle rectangle = new Rectangle("rectangle",2.27,4.86,2.25);
         Position position2 = new Position(2.03,1.58,0);
         List<Point> result = CalculIntersection.intersectionPointCircleRectangle(circle1,position1, rectangle, position2);
-        Assertions.assertEquals(1.39, result.get(0).getX(), 0.01);
-        Assertions.assertEquals(0.56, result.get(0).getY(), 0.01);
-        Assertions.assertEquals(0.9, result.get(2).getX(), 0.01);
-        Assertions.assertEquals(3.79, result.get(2).getY(), 0.01);
+        System.out.println(result);
+        Assertions.assertEquals(1.39, result.get(1).getX(), 0.01);
+        Assertions.assertEquals(0.56, result.get(1).getY(), 0.01);
+        Assertions.assertEquals(0.9, result.get(5).getX(), 0.01);
+        Assertions.assertEquals(3.79, result.get(5).getY(), 0.01);
 
 
 
@@ -117,12 +116,12 @@ public class CalculIntersectionTest {
 
         Assertions.assertEquals(1.41, result.get(0).getX(), 0.01);
         Assertions.assertEquals(3.41, result.get(0).getY(), 0.01);
-        Assertions.assertEquals(2, result.get(3).getX(), 0.01);
-        Assertions.assertEquals(2, result.get(3).getY(), 0.02);
-        Assertions.assertEquals(1.54, result.get(1).getX(), 0.01);
-        Assertions.assertEquals(3.27, result.get(1).getY(), 0.01);
-        Assertions.assertEquals(1.73, result.get(2).getX(), 0.01);
-        Assertions.assertEquals(3, result.get(2).getY(), 0.01);
+        Assertions.assertEquals(2, result.get(6).getX(), 0.01);
+        Assertions.assertEquals(2, result.get(6).getY(), 0.02);
+        Assertions.assertEquals(1.54, result.get(2).getX(), 0.01);
+        Assertions.assertEquals(3.27, result.get(2).getY(), 0.01);
+        Assertions.assertEquals(1.73, result.get(4).getX(), 0.01);
+        Assertions.assertEquals(3, result.get(4).getY(), 0.01);
     }
 
 
@@ -223,6 +222,62 @@ public class CalculIntersectionTest {
         Assertions.assertEquals(2.25,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(0).getY(),0.01);
         Assertions.assertEquals(-1.75,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getX(),0.01);
         Assertions.assertEquals(2.25,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getY(),0.01);
+
+    }
+
+
+    @Test
+    void intersectionShapesTest(){
+        Circle circle = new Circle("circle", 1);
+        Position position = new Position(1,4, 2.765);
+        Circle circle2 = new Circle("circle", 3);
+        Position position2 = new Position(4,4, 0.765);
+        System.out.println(CalculIntersection.intersectionShapes(circle, position, circle2, position2));
+
+        circle = new Circle("circle", 1);
+        position = new Position(1,4, 2.765);
+        circle2 = new Circle("circle", 0.1);
+        position2 = new Position(4,4, 0.765);
+        System.out.println(CalculIntersection.intersectionShapes(circle, position, circle2, position2));
+
+        Rectangle rectangle = new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
+        position = new Position(2,2,2.35619);
+        circle2 = new Circle("circle", 3);
+        position2 = new Position(3,3, 0.765);
+        System.out.println("carre dans le cercle");
+        System.out.println(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
+
+        rectangle = new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
+        position = new Position(2,2,2.35619);
+        circle2 = new Circle("circle", 3);
+        position2 = new Position(5,3, 0.765);
+        System.out.println(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
+
+        rectangle = new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
+        position = new Position(2,2,2.35619);
+        circle2 = new Circle("circle", 0.1);
+        position2 = new Position(5,3, 0.765);
+        System.out.println(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
+
+        Point[] pointpolygone = {new Point(-1, 0), new Point(1, 1), new Point(2, 0), new Point(1, -1), new Point(0, -1)};
+        Polygone polygone = new Polygone("polygon", 0, pointpolygone);
+        position = new Position(2,2,0);
+        circle2 = new Circle("circle", 5);
+        position2 = new Position(5,3, 0);
+        System.out.println(CalculIntersection.intersectionShapes(polygone, position, circle2, position2));
+
+        Shape shape1= new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
+        position = new Position(2,2,2.35619);
+        Shape shape2 =new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
+        position2 = new Position(3,2,2.35619);
+        System.out.println((CalculIntersection.intersectionShapes(shape1, position, shape2, position2)));
+
+        shape1= new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
+        position = new Position(2,2,2.35619);
+        shape2 =new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
+        position2 = new Position(133,2,2.35619);
+        System.out.println("ici");
+        System.out.println((CalculIntersection.intersectionShapes(shape1, position, shape2, position2)));
 
     }
 
