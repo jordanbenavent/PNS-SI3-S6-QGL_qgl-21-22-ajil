@@ -370,12 +370,19 @@ public class GestionMarins {
             int index = -1;
             for (int i = 0; i < oars.size(); i++) {
                 int dist = oars.get(i).getDist(s);
-                if(dist==0){oars.remove(index);continue;}
+                if(dist==0){oars.remove(i);continue;}
                 if (dist >= distMin) {
                     distMin = dist;
                     index = i;
                 }
+
             }
+
+
+            System.out.println("ID Salor "+s.getId());
+            System.out.println("Index "+index+" DisMin"+distMin);
+            System.out.println("Nb rames dispo"+ oars.size()+" et nb marin"+targetSide.size());
+
 
             allInRange = deplacerMarin(findSailorById(s.getId(), targetSide), oars.get(index));
             if (!allInRange) {
