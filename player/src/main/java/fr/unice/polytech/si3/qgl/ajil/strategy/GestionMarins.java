@@ -362,21 +362,45 @@ public class GestionMarins {
      * @return true si toutes les rame sont occupées par des marins, false sinon
      */
     public boolean deplacerRameurs(List<Entity> oars, List<Sailor> targetSide) {
+
         boolean allInRange;
         boolean bienplace = true;
 
+        List<Sailor> tmpTargetSide = new ArrayList<Sailor>(targetSide);
 
-        for (Sailor s : targetSide) {
+
+        for (int j =0;j<tmpTargetSide.size();j++) {
+            Sailor s = targetSide.get(j);
+            System.out.println("PT1");
+
+            for (int i = 0; i < oars.size(); i++) {
+                int dist = oars.get(i).getDist(s);
+                if(dist==0){
+                    System.out.println("Marin "+s.getId()+" est sur une rame");
+                    oars.remove(i);
+                    tmpTargetSide.remove(s);
+                    System.out.println("On l'a donc supprimé");
+                }
+            }
+        }
+
+            for (Sailor s : tmpTargetSide) {
             int distMin = 0;
             int index = -1;
             for (int i = 0; i < oars.size(); i++) {
                 int dist = oars.get(i).getDist(s);
-                if(dist==0){oars.remove(index);continue;}
                 if (dist >= distMin) {
                     distMin = dist;
                     index = i;
                 }
+
             }
+
+
+            System.out.println("ID Salor "+s.getId());
+            System.out.println("Index "+index+" DisMin"+distMin);
+            System.out.println("Nb rames dispo"+ oars.size()+" et nb marin"+targetSide.size());
+
 
             allInRange = deplacerMarin(findSailorById(s.getId(), targetSide), oars.get(index));
             if (!allInRange) {
