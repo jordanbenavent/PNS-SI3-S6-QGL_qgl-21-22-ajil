@@ -5,6 +5,7 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.VisibleEntitie;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,35 +15,33 @@ public class CalculPoints {
     }
 
     public static List<Point> calculExtremityPoints(Shape shape, Position position) {
-        if (shape instanceof Polygone) {
-            return calculPointPolygon(shape, position);
+        if (shape instanceof Polygone polygone) {
+            return calculPointPolygon(polygone, position);
         }
         double largeur = 0;
         double longueur = 0;
-        if (shape instanceof Rectangle) {
-            largeur = ((Rectangle) shape).getWidth();
-            longueur = ((Rectangle) shape).getHeight();
+        if (shape instanceof Rectangle rectangle) {
+            largeur = rectangle.getWidth();
+            longueur = rectangle.getHeight();
         }
         double angle = CalculPoints.calculAngleTotal(shape, position);
-        return calculPointGeneric(angle, position, longueur / 2, largeur / 2);    }
+        return calculPointGeneric(angle, position, longueur / 2, largeur / 2);
+    }
 
     private static double calculAngleTotal(Shape shape, Position pos) {
         if (shape instanceof Circle) {
             return pos.getOrientation();
         }
-        if (shape instanceof Rectangle) {
-            return pos.getOrientation() + shape.getOrientation();
-        }
-        if (shape instanceof Polygone) {
+        if (shape instanceof Rectangle || shape instanceof Polygone) {
             return pos.getOrientation() + shape.getOrientation();
         }
         return 0;
     }
 
-    private static List<Point> calculPointPolygon(Shape shape, Position pos) {
+    private static List<Point> calculPointPolygon(Polygone polygone, Position pos) {
         List<Point> points = new ArrayList<>();
-        Point[] pointPolygone = ((Polygone) shape).getVertices();
-        double angleRotation = -calculAngleTotal(shape, pos);
+        Point[] pointPolygone = polygone.getVertices();
+        double angleRotation = -calculAngleTotal(polygone, pos);
         double cosAngle = Math.cos(angleRotation);
         double sinAngle = Math.sin(angleRotation);
         for (Point point : pointPolygone) {
@@ -69,36 +68,35 @@ public class CalculPoints {
 
 
     public static List<VisibleEntitie> entitiesToEntitiesPolygone(List<VisibleEntitie> entities, int widthShip) {
-        List<VisibleEntitie> resultat = new ArrayList<>();
-        List<Point> pointShape;
-        List<Point> pointShape2;
-        List<Point> pointShape3;
-        for (VisibleEntitie entitie : entities) {
-            if (entitie.getShape() instanceof Circle) {
-                resultat.add(entitie);
+        List<VisibleEntitie> result = new ArrayList<>();
+        for (VisibleEntitie entity : entities) {
+            if (entity.getShape() instanceof Circle) {
+                result.add(entity);
                 continue;
             }
-            pointShape = calculExtremityPoints(entitie.getShape(), entitie.getPosition());
-            pointShape2 = calculExtremityPointsBigger(entitie.getShape(), entitie.getPosition(), 80);
-            VisibleEntitie tmp = entitie.copy();
-            VisibleEntitie tmp2 = entitie.copy();
-            tmp.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape.toArray(new Point[0])));
-            tmp2.setShape(new Polygone("polygone", entitie.getShape().getOrientation(), pointShape2.toArray(new Point[0])));
-            resultat.add(tmp);
-            resultat.add(tmp2);
+            Shape shape = entity.getShape();
+            Position position = entity.getPosition();
+            List<Point> pointShape = calculExtremityPoints(shape, position);
+            List<Point> pointShapePadded = calculExtremityPointsBigger(shape, position, 80);
+            VisibleEntitie tmp = entity.copy();
+            VisibleEntitie tmpPadded = entity.copy();
+            tmp.setShape(new Polygone("polygone", shape.getOrientation(), pointShape.toArray(new Point[0])));
+            tmpPadded.setShape(new Polygone("polygone", shape.getOrientation(), pointShapePadded.toArray(new Point[0])));
+            result.add(tmp);
+            result.add(tmpPadded);
         }
-        return resultat;
+        return result;
     }
 
     public static List<Point> calculExtremityPointsBigger(Shape shape, Position position, double widthShip) {
-        if (shape instanceof Polygone) {
-            return calculPointPolygon(shape, position);
+        if (shape instanceof Polygone polygone) {
+            return calculPointPolygon(polygone, position);
         }
         double largeur = 0;
         double longueur = 0;
-        if (shape instanceof Rectangle) {
-            largeur = ((Rectangle) shape).getWidth() + (widthShip / 2);
-            longueur = ((Rectangle) shape).getHeight() + (widthShip / 2);
+        if (shape instanceof Rectangle rectangle) {
+            largeur = rectangle.getWidth() + (widthShip / 2);
+            longueur = rectangle.getHeight() + (widthShip / 2);
         }
         double angle = CalculPoints.calculAngleTotal(shape, position);
         return calculPointGeneric(angle, position, longueur / 2, largeur / 2);

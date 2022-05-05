@@ -356,11 +356,12 @@ public class GestionMarins {
 
     /**
      * Vérifie si toutes les rames sont occupées
+     *
      * @param oars
      * @param targetSide
      * @return true si toutes les rame sont occupées par des marins, false sinon
      */
-    public boolean deplacerRameurs(List<Entity> oars, ArrayList<Sailor> targetSide) {
+    public boolean deplacerRameurs(List<Entity> oars, List<Sailor> targetSide) {
         boolean allInRange;
         boolean bienplace = true;
 
