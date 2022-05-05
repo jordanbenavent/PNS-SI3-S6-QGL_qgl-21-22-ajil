@@ -394,10 +394,6 @@ public class GestionMarins {
             int index = -1;
             for (int i = 0; i < oars.size(); i++) {
                 int dist = oars.get(i).getDist(s);
-                if (index >= 0 && dist == 0) {
-                    oars.remove(index);
-                    continue;
-                }
                 if (dist >= distMin) {
                     distMin = dist;
                     index = i;
@@ -405,13 +401,17 @@ public class GestionMarins {
 
             }
 
+            if(index==-1){
+                System.out.println("On a un index de -1 ICI !!!!!!");
+            }
+
 
             System.out.println("ID Salor "+s.getId());
             System.out.println("Index "+index+" DisMin"+distMin);
-            System.out.println("Nb rames dispo"+ oars.size()+" et nb marin"+targetSide.size());
+            System.out.println("Nb rames dispo"+ oars.size()+" et nb marin"+tmpTargetSide.size());
 
 
-            allInRange = deplacerMarin(findSailorById(s.getId(), targetSide), oars.get(index));
+            allInRange = deplacerMarin(findSailorById(s.getId(), tmpTargetSide), oars.get(index));
             if (!allInRange) {
                 bienplace = false;
             }
