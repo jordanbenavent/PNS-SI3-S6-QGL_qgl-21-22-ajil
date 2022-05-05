@@ -362,16 +362,29 @@ public class GestionMarins {
      * @return true si toutes les rame sont occupées par des marins, false sinon
      */
     public boolean deplacerRameurs(List<Entity> oars, List<Sailor> targetSide) {
+
         boolean allInRange;
         boolean bienplace = true;
 
+        List<Sailor> tmpTargetSide = new ArrayList<Sailor>(targetSide);
 
-        for (Sailor s : targetSide) {
+
+        for (Sailor s : tmpTargetSide) {
+            for (int i = 0; i < oars.size(); i++) {
+                int dist = oars.get(i).getDist(s);
+                if(dist==0){
+                    System.out.println("Marin "+s.getId()+" est sur une rame");
+                    oars.remove(i);
+                    tmpTargetSide.remove(s);
+                }
+            }
+        }
+
+            for (Sailor s : tmpTargetSide) {
             int distMin = 0;
             int index = -1;
             for (int i = 0; i < oars.size(); i++) {
                 int dist = oars.get(i).getDist(s);
-                if(dist==0){oars.remove(i);continue;}
                 if (dist >= distMin) {
                     distMin = dist;
                     index = i;
