@@ -57,11 +57,11 @@ class GridProcessTest {
     @Test
     void AStartestSimple() {
         // On utilise la config du haut
-        AStar aStar = new AStar(6,3,1,1,5,1,
+        AStar aStar = new AStar(6, 3, 1, 1, 5, 1,
                 new int[][]{
-                        {2,1},{3,1},{3,2},{4,1}
+                        {2, 1}, {3, 1}, {3, 2}, {4, 1}
                 });
-        ArrayList<Position> chemin = aStar.obtenirLeChemin();
+        List<Position> chemin = aStar.obtenirLeChemin();
         Assertions.assertEquals(1,chemin.get(0).getX());
         Assertions.assertEquals(1,chemin.get(0).getY());
         Assertions.assertEquals(2,chemin.get(1).getX());

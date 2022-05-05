@@ -1,14 +1,12 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
-import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 class AStarTest {
     AStar aStar;
@@ -23,7 +21,7 @@ class AStarTest {
 
     @Test
     void obtenirLeChemin() {
-        ArrayList<Position> chemin = new ArrayList<>();
+        List<Position> chemin = new ArrayList<>();
         chemin = aStar.obtenirLeChemin();
         Assertions.assertEquals(0, chemin.get(0).getX());
         Assertions.assertEquals(0, chemin.get(0).getY());
