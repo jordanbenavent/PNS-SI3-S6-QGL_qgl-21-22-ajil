@@ -58,9 +58,24 @@ public class CalculIntersectionTest {
 
         point1 = new Point(2, 4);
         point2 = new Point(2, -1);
-        result = CalculIntersection.intersectionPointDroiteCircle(circle, position1, point1, point2);
+        result = CalculIntersection.intersectionCircleSegment(circle, position1, point1, point2);
         Assertions.assertEquals( 2, result.get(0).getX(), 0.1);
         Assertions.assertEquals( 2, result.get(0).getY(), 0.1);
+
+        circle = new Circle("circle", 3);
+        position1 = new Position(-3, 2, 0);
+        point1 = new Point(0, 2);
+        point2 = new Point(-3, 5);
+        result = CalculIntersection.intersectionCircleSegment(circle, position1, point1, point2);
+        Assertions.assertEquals( 0, result.get(1).getX(), 0.1);
+        Assertions.assertEquals( 2, result.get(1).getY(), 0.1);
+        Assertions.assertEquals( -3, result.get(0).getX(), 0.1);
+        Assertions.assertEquals( 5, result.get(0).getY(), 0.1);
+        result = CalculIntersection.intersectionCircleSegment(circle, position1, point2, point1);
+        Assertions.assertEquals( 0, result.get(1).getX(), 0.1);
+        Assertions.assertEquals( 2, result.get(1).getY(), 0.1);
+        Assertions.assertEquals( -3, result.get(0).getX(), 0.1);
+        Assertions.assertEquals( 5, result.get(0).getY(), 0.1);
     }
 
     @Test
@@ -125,6 +140,14 @@ public class CalculIntersectionTest {
         Assertions.assertEquals(-3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getX(),0.01);
         Assertions.assertEquals(2.46,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getY(),0.01);
 
+        point3 = new Point(-3, 3);
+        point4 = new Point(-3, 4);
+        // deux segments verticaux de x identique avec chevauchement
+        Assertions.assertEquals(-3,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(0).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(0).getY(),0.01);
+        Assertions.assertEquals(-3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getY(),0.01);
+
         point3 = new Point(-3.92, 2.26);
         point4 = new Point(-2.91, 3.64);
         // Un segment vertical et l'autre non sans croisement
@@ -166,6 +189,30 @@ public class CalculIntersectionTest {
         Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getY(),0.01);
         Assertions.assertEquals(-2,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(1).getX(),0.01);
         Assertions.assertEquals(2,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(1).getY(),0.01);
+
+        point1 = new Point(-4,3);
+        point2 = new Point(-2,2);
+        point3 = new Point(-4,3);
+        point4 = new Point(-6,4);
+        //deux segments parallèles non verticaux et avec croisements
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(0).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(0).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(1).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(1).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(1).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(1).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point2, point1).get(0).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point2, point1).get(0).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point2, point1).get(1).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point2, point1).get(1).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point4, point3,point1, point2).get(0).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point4, point3,point1, point2).get(0).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point4, point3,point1, point2).get(1).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point4, point3,point1, point2).get(1).getY(),0.01);
+
+
 
         point1 = new Point(-7,7);
         point2 = new Point(-3,5);
@@ -257,6 +304,17 @@ public class CalculIntersectionTest {
 
     }
 
+    @Test
+    void pointInCircleTest(){
+        Circle circle = new Circle("",3);
+        Position position = new Position(2,3,0);
+        Point point = new Point(1,3);
+        Point point1 = new Point(5,3);
+        Assertions.assertTrue(CalculIntersection.pointInCircle(circle, position, point));
+        Assertions.assertTrue(CalculIntersection.pointInCircle(circle, position, point1));
+        Assertions.assertFalse(CalculIntersection.pointInCircle(circle, position, new Point(8,8)));
+
+    }
 
 
 }
