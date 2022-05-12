@@ -9,9 +9,10 @@ public class TestAStarVisuel {
                 new int[][]{
                         {0,4},{2,2},{3,1},{3,3},{2,1},{2,3}
                 });
-        astar.display();
+        VisualisationAStar visualisationAStar = new VisualisationAStar(astar);
+        visualisationAStar.display();
         astar.process();
-        astar.displayScores();
-        astar.displaySolution();
+        visualisationAStar.displayScores();
+        visualisationAStar.displaySolution();
     }
 }
