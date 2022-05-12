@@ -9,7 +9,8 @@ import java.util.List;
 
 public class ExtensionPolygon {
 
-    public ExtensionPolygon(){};
+    public ExtensionPolygon() {
+    }
 
     double calculArea (Polygone polygone){
         int size = polygone.getVertices().length;

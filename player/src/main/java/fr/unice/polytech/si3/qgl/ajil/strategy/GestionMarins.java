@@ -33,10 +33,6 @@ public class GestionMarins {
     private boolean placementCoxswain = false;
     private boolean placementSailManagers = false;
     private boolean placementVigie = false;
-    private Sailor marinNeFaitRien;
-
-
-
     private boolean marinRepartie = false;
 
     // marins
@@ -98,7 +94,6 @@ public class GestionMarins {
      * @return boolean qui dit si oui ou non le marin a atteint la position fixée
      */
     public boolean deplacerMarin(Sailor s, Entity entity) {
-        //LOGGER.add("Marin :  " + s.getId() + "veut aller vers " + entity.toString());
         int dist = entity.getDist(s);
         int movX = entity.getX() - s.getX();
         int movY = entity.getY() - s.getY();
@@ -107,14 +102,12 @@ public class GestionMarins {
             return true;
         }
         if (dist > 5) {
-            //LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
             int depX = (movX < -2) ? -2 : Math.min(movX, 2);
             int depY = (movY < -2) ? -2 : Math.min(movY, 2);
             s.updatePos(depX, depY); // met à jour les (x , y) de ce sailor
             stratData.actions.add(new Moving(s.getId(), depX, depY));
             return false;
         }
-        //LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
         s.updatePos(movX, movY);
         stratData.actions.add(new Moving(s.getId(), movX, movY));
         return true;
@@ -209,7 +202,7 @@ public class GestionMarins {
     public void repartirLesMarins() {
         List<Sailor> sailors = stratData.jeu.getSailors();
         if(sailors.size()%2!=0){
-            marinNeFaitRien = sailors.remove(0);
+            Sailor marinNeFaitRien = sailors.remove(0);
         }
 
         int mid = sailors.size()/2;
@@ -264,7 +257,6 @@ public class GestionMarins {
         double angle = deplacement.getAngle();
 
         if (Math.abs(angle) < Math.PI / 4 && coxswain != null) {
-            //LOGGER.add("On tourne avec le gouvernail : " + angle);
             Turn tournerGouvernail = new Turn(coxswain.getId(), angle);
             stratData.actions.add(tournerGouvernail);
             for (Sailor sailor : stratData.jeu.getSailors()) {
@@ -362,7 +354,7 @@ public class GestionMarins {
         boolean allInRange;
         boolean bienplace = true;
 
-        List<Sailor> tmpTargetSide = new ArrayList<Sailor>(targetSide);
+        List<Sailor> tmpTargetSide = new ArrayList<>(targetSide);
 
 
         for (int j =0;j<tmpTargetSide.size();j++) {

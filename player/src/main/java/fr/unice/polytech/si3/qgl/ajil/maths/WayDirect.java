@@ -25,7 +25,7 @@ public class  WayDirect {
         Segment bateauCheckpoint = new Segment(shipPoint, checkpointPoint);
 
 
-        List<VisibleEntitie> listeReef = new ArrayList(setReef);
+        List<VisibleEntitie> listeReef = new ArrayList<>(setReef);
         List<VisibleEntitie> listePolygoneReef = CalculPoints.entitiesToEntitiesPolygone(listeReef, ship.getDeck().getWidth());
         List<Segment> segments;
         ObstacleDetection obstacleDetection = new ObstacleDetection();

@@ -4,6 +4,10 @@ import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 
 public class Intersection {
 
+    private Intersection() {
+
+    }
+
     public static Point segmentIntersection(Segment s1, Segment s2) {
 
         double dx1 = s1.getEndX() - s1.getStartX();
@@ -12,7 +16,9 @@ public class Intersection {
         double dy2 = s2.getEndY() - s2.getStartY();
         double dxx = s1.getStartX() - s2.getStartX();
         double dyy = s1.getStartY() - s2.getStartY();
-        double div, t, s;
+        double div;
+        double t;
+        double s;
 
         div = dy2 * dx1 - dx2 * dy1;
         if (Math.abs(div) < 1.0e-10)  //better to compare abs(div) with small Eps
