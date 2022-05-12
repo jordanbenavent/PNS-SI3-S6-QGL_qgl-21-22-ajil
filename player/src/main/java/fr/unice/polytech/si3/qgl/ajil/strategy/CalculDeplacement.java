@@ -70,12 +70,9 @@ public class CalculDeplacement {
         if (points.isEmpty()) {
             return 0; // Code temporaire, une erreur à gérer
         }
-        System.out.println("Ship: " + ship.getPosition());
         double distmin = Math.sqrt(Math.pow((points.get(0).getX() - ship.getPosition().getX()), 2) + Math.pow((points.get(0).getY() - ship.getPosition().getY()), 2));
-        System.out.println("Point 1: " + points.get(0));
         points.remove(0);
         for (Point point : points) {
-            System.out.println("Point 2: " + point);
             double distance = Math.sqrt(Math.pow((point.getX() - ship.getPosition().getX()), 2) + Math.pow((point.getY() - ship.getPosition().getY()), 2));
             if (distmin >= distance) {
                 distmin = distance;
