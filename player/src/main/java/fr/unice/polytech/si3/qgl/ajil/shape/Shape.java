@@ -40,6 +40,7 @@ public class Shape {
 
     /**
      * Modifie le type de la forme
+     *
      * @param type
      */
     void setType(String type) {

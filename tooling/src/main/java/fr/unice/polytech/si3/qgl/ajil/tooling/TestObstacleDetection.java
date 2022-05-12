@@ -46,7 +46,6 @@ public class TestObstacleDetection {
                 } else System.out.print(ANSI_GREEN_BACKGROUND + "  " + ANSI_RESET);
             }
             System.out.println(" ");
-            //System.out.println(grid);
         }
     }
 }

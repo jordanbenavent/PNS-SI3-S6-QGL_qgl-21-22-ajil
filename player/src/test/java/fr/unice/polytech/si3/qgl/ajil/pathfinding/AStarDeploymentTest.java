@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AStarDeploymentTest {
+class AStarDeploymentTest {
 
     @Test
-    void positionToCheckpointTest(){
+    void positionToCheckpointTest() {
         List<Position> positions = new ArrayList<>();
-        positions.add(new Position(1, 1,0));
-        positions.add(new Position(1, 8,1));
+        positions.add(new Position(1, 1, 0));
+        positions.add(new Position(1, 8, 1));
         positions.add(new Position(7, 6, 2));
         positions.add(new Position(12, 5, 3));
         AStarDeployment aStar = new AStarDeployment(new Game(), 100);

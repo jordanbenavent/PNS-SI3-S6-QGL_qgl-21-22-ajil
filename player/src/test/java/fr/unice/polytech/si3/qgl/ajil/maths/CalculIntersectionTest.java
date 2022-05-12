@@ -1,24 +1,22 @@
 package fr.unice.polytech.si3.qgl.ajil.maths;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.Position;
-import fr.unice.polytech.si3.qgl.ajil.Ship;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class CalculIntersectionTest {
-    
+class CalculIntersectionTest {
+
     //Nouvelle version
 
     @Test
     void intersectionPointCircleCircle() {
         Circle circle = new Circle("circle", 2);
-        Position position1 = new Position(0,2,0);
-        Circle circle2 = new Circle("circle",3);
-        Position position2 = new Position(4,1,0);
+        Position position1 = new Position(0, 2, 0);
+        Circle circle2 = new Circle("circle", 3);
+        Position position2 = new Position(4, 1, 0);
         System.out.println(CalculIntersection.intersectionPointCircleCircle(circle, position1, circle2, position2));
     }
 

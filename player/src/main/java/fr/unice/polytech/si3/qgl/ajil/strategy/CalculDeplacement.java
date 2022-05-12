@@ -12,7 +12,6 @@ import java.util.Set;
 
 public class CalculDeplacement {
 
-    private static final List<String> LOGGER = Cockpit.LOGGER;
     protected final Game jeu;
     protected final StratData stratData;
 
@@ -195,8 +194,7 @@ public class CalculDeplacement {
      * @return true si le côté du bateau coupe le checkpoint
      */
     public List<Point> intersectionDroiteVerticaleCircle(Ship ship, Checkpoint checkpoint) {
-        //Dans ce cas la droite du bateau est de la forme x = a;
-        double a = ship.getPosition().getX();
+        double a = ship.getPosition().getX();  //Dans ce cas la droite du bateau est de la forme x = a;
         double xc = checkpoint.getPosition().getX();
         double yc = checkpoint.getPosition().getY();
         double r = ((Circle) checkpoint.getShape()).getRadius();

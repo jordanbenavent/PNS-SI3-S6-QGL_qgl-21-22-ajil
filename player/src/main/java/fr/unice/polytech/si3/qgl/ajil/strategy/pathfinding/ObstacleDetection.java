@@ -51,7 +51,7 @@ public class ObstacleDetection {
     // Crée une forme de type octogone (simplification de circle)
     public Point[] rectangleToPoints(Circle circle, Position pos) {
         Point[] points = new Point[8];
-        double r = circle.getRadius() + MARGIN_CIRCLE ;
+        double r = circle.getRadius() + MARGIN_CIRCLE;
         double r45 = 0.7 * r;
         points[0] = new Point(pos.getX() - r, pos.getY());
         points[1] = new Point(pos.getX() - r45, pos.getY() - r45);

@@ -53,7 +53,7 @@ class VectorTest {
     @Test
     void magnitudeVectorNul() {
         double k = v5.magnitude();
-        assertEquals(k, 0);
+        assertEquals(0, k);
     }
 
     //On vérifie que seul v1 est modifié
@@ -101,8 +101,8 @@ class VectorTest {
     void scalarMultiplyingBy0() {
         double p = 0;
         v4.scalerMultypling(p);
-        assertEquals(v4.getX(), 0);
-        assertEquals(v4.getY(), 0);
+        assertEquals(0, v4.getX());
+        assertEquals(0, v4.getY());
     }
 
     @Test
@@ -150,7 +150,7 @@ class VectorTest {
         Vector v6 = new Vector(2, 2);
         Vector v7 = new Vector(-2, 2);
 
-        assertEquals(v6.dotProduct(v7), 0);
+        assertEquals(0, v6.dotProduct(v7));
         assertTrue(v6.isPerpendicular(v7));
         assertTrue(v7.isPerpendicular(v6));
     }
@@ -172,7 +172,7 @@ class VectorTest {
 
         Vector v6 = new Vector(0, 1);
         Vector v7 = new Vector(0, 1);
-        assertEquals(v6.angleBetweenVectors(v7), 0);
+        assertEquals(0, v6.angleBetweenVectors(v7));
 
         v6 = new Vector(0, 1);
         v7 = new Vector(1, 0);

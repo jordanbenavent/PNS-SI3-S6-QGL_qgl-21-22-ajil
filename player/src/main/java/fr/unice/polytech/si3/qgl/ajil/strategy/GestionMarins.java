@@ -27,7 +27,7 @@ public class GestionMarins {
 
     private final ArrayList<Sailor> leftSailors = new ArrayList<>();
     private final ArrayList<Sailor> rightSailors = new ArrayList<>();
-    public List<String> LOGGER = Cockpit.LOGGER;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
     private boolean placementInit = false;
     private boolean placementCoxswain = false;
@@ -267,42 +267,42 @@ public class GestionMarins {
             return;
         }
 
-        int sailor_qui_rame = 0;
-        double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
+        int rowingSailor = 0;
+        double sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
         // Si le bateau doit avancer tout droit, l'angle vaut 0
         if (deplacement.getAngle() == 0.0) {
             for (Sailor sailor : leftSailors) {
-                if (sailor_qui_rame >= nbr_sailors / 2) {
+                if (rowingSailor >= sailors / 2) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
-            sailor_qui_rame = 0;
+            rowingSailor = 0;
             for (Sailor sailor : rightSailors) {
-                if (sailor_qui_rame >= nbr_sailors / 2) {
+                if (rowingSailor >= sailors / 2) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
             return;
         }
         if (deplacement.getAngle() < 0) {
             for (Sailor sailor : leftSailors) {
-                if (sailor_qui_rame == nbr_sailors) {
+                if (rowingSailor == sailors) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
         } else {
             for (Sailor sailor : rightSailors) {
-                if (sailor_qui_rame == nbr_sailors) {
+                if (rowingSailor == sailors) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
         }
     }

@@ -1,6 +1,5 @@
 package fr.unice.polytech.si3.qgl.ajil;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.ajil.visibleentities.Reef;
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-public class NextRoundTest {
+class NextRoundTest {
 
     Ship ship;
     Wind wind;
@@ -20,18 +19,14 @@ public class NextRoundTest {
     NextRound nextRound;
 
     @BeforeEach
-    void setUp(){
-        ship = new Ship("ship", 100,
-                new Position(0.0, 0.0, 0.0), "name",
-                new Deck(2, 5),
-                new ArrayList<>(),
-                new Rectangle("rectangle", 5, 5, 5));
-        wind = new Wind(Math.PI/2, 40);
+    void setUp() {
+        ship = new Ship("ship", 100, new Position(0.0, 0.0, 0.0), "name", new Deck(2, 5), new ArrayList<>(), new Rectangle("rectangle", 5, 5, 5));
+        wind = new Wind(Math.PI / 2, 40);
         nextRound = new NextRound(ship, wind, visibleEntities);
     }
 
     @Test
-    void faceAuCourantTest(){
+    void faceAuCourantTest() {
         // Cas 1 le courant n'est pas dans la trajectoire du bateau
         Stream stream1 = new Stream("stream", new Position(0, 50, 0), new Circle("circle", 2), 50);
         Assertions.assertEquals(false, nextRound.faceAuCourant(ship, stream1));
@@ -42,12 +37,12 @@ public class NextRoundTest {
         Stream stream3 = new Stream("stream", new Position(10, 0, -0.2), new Circle("circle", 2), 50);
         Assertions.assertEquals(false, nextRound.faceAuCourant(ship, stream3));
         // Cas 4 cas limite à PI/4 (environ)
-        Stream stream4 = new Stream("stream", new Position(10, 0, -3.1*Math.PI/4), new Circle("circle", 2), 50);
+        Stream stream4 = new Stream("stream", new Position(10, 0, -3.1 * Math.PI / 4), new Circle("circle", 2), 50);
         Assertions.assertEquals(true, nextRound.faceAuCourant(ship, stream4));
     }
 
     @Test
-    void streamToReefTest(){
+    void streamToReefTest() {
         Set<Reef> fakeReefs = new HashSet<>();
         Set<Stream> streams = new HashSet<>();
         // Cas 1 le courant n'est pas dans la trajectoire du bateau
@@ -57,7 +52,7 @@ public class NextRoundTest {
         // Cas 3 le courant est en face du bateau mais pas opposé au bateau avec une force maximum
         Stream stream3 = new Stream("stream", new Position(10, 0, -0.2), new Circle("circle", 2), 165);
         // Cas 4 cas limite à PI/4 (environ) avec force limite
-        Stream stream4 = new Stream("stream", new Position(10, 0, -3.1*Math.PI/4), new Circle("circle", 2), 82.5);
+        Stream stream4 = new Stream("stream", new Position(10, 0, -3.1 * Math.PI / 4), new Circle("circle", 2), 82.5);
         streams.add(stream1);
         streams.add(stream2);
         streams.add(stream3);
