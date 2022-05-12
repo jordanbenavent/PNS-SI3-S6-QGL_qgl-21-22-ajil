@@ -159,9 +159,6 @@ public class GestionMarins {
             sails.forEach(sail -> sailManager.add(marinLePlusProche(sail)));
             setSailorsManager(sailManager);
             sailors.removeAll(sailManager);
-            System.out.println("Sail Manager on a enlever un gars la taille vaut " + sailors.size() + " == " + stratData.jeu.getSailors().size());
-            if (!sailManager.isEmpty()) System.out.println("Sail Manager 0 est : " + sailManager.get(0));
-            if (sailManager.size() > 1) System.out.println("Sail Manager 1 est : " + sailManager.get(1));
         }
         placementSailManagers = deplacerMarins(sailManager, sails);
     }
@@ -181,7 +178,6 @@ public class GestionMarins {
             vigie = marinLePlusProche(watch);
             setVigie(vigie);
             sailors.remove(vigie);
-            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
             LOGGER.add("Vigie est : " + vigie.getId());
         }
         placementVigie = deplacerMarin(vigie, watch);
@@ -202,7 +198,6 @@ public class GestionMarins {
             coxswain = marinLePlusProche(rudder);
             stratData.coxswain = coxswain;
             sailors.remove(coxswain);
-            System.out.println("on a enelver un gars la taille vaut"+sailors.size()+" ==" + stratData.jeu.getSailors().size());
             LOGGER.add("CoxswainManageur est : " + coxswain.getId());
         }
         placementCoxswain = deplacerMarin(coxswain, rudder);
@@ -213,21 +208,17 @@ public class GestionMarins {
      */
     public void repartirLesMarins() {
         List<Sailor> sailors = stratData.jeu.getSailors();
-        System.out.println("sailors size vaut"+sailors.size());
         if(sailors.size()%2!=0){
             marinNeFaitRien = sailors.remove(0);
         }
 
         int mid = sailors.size()/2;
-        System.out.println("mid est "+mid);
         for (int i=0;i<mid;i++){
             leftSailors.add(sailors.get(i));
         }
-        System.out.println("a gauche on a mis x marin,  x = "+leftSailors.size());
         for(int i=mid;i<sailors.size();i++) {
             rightSailors.add(sailors.get(i));
         }
-        System.out.println("a droite on a mis x marin,  x = "+rightSailors.size());
         this.marinRepartie = true;
     }
 
@@ -376,15 +367,12 @@ public class GestionMarins {
 
         for (int j =0;j<tmpTargetSide.size();j++) {
             Sailor s = targetSide.get(j);
-            System.out.println("PT1");
 
             for (int i = 0; i < oars.size(); i++) {
                 int dist = oars.get(i).getDist(s);
                 if(dist==0){
-                    System.out.println("Marin "+s.getId()+" est sur une rame");
                     oars.remove(i);
                     tmpTargetSide.remove(s);
-                    System.out.println("On l'a donc supprimé");
                 }
             }
         }
@@ -400,16 +388,6 @@ public class GestionMarins {
                 }
 
             }
-
-            if(index==-1){
-                System.out.println("On a un index de -1 ICI !!!!!!");
-            }
-
-
-            System.out.println("ID Salor "+s.getId());
-            System.out.println("Index "+index+" DisMin"+distMin);
-            System.out.println("Nb rames dispo"+ oars.size()+" et nb marin"+tmpTargetSide.size());
-
 
             allInRange = deplacerMarin(findSailorById(s.getId(), tmpTargetSide), oars.get(index));
             if (!allInRange) {

@@ -80,29 +80,6 @@ public class ValideCheckpoint {
     }
 
 
-    public Checkpoint fakeOrRealCheckpoint(List<Checkpoint> real) {
-        if (fakeCheckpoint.isEmpty()) {
-            if (real.isEmpty()) return null;
-            return real.get(0);
-        } else {
-            return fakeCheckpoint.get(0);
-        }
-    }
-
-    public Checkpoint nextCheckpointTarget2(List<Checkpoint> checkpoints) {
-        Ship ship = jeu.getShip();
-        List<Checkpoint> realOrFalse = realOrFakeCheckpoint(checkpoints);
-        if (realOrFalse == null || realOrFalse.isEmpty()) return null;
-        Checkpoint checkpointCurrent = realOrFalse.get(0);
-        while (isShipInCheckpoint(ship, checkpointCurrent)) {
-            realOrFalse.remove(checkpointCurrent);
-            realOrFalse = realOrFakeCheckpoint(checkpoints);
-            if (realOrFalse == null || realOrFalse.isEmpty()) return null;
-            checkpointCurrent = realOrFalse.get(0);
-        }
-        return checkpointCurrent;
-    }
-
     private List<Checkpoint> realOrFakeCheckpoint(List<Checkpoint> checkpoints) {
         if(fakeCheckpoint==null || fakeCheckpoint.isEmpty()){
             if (checkpoints.isEmpty()) return Collections.emptyList();
