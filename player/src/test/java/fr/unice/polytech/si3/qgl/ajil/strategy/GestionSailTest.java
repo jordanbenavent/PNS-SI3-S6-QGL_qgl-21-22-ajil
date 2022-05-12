@@ -8,10 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class GestionSailTest {
+class GestionSailTest {
     StratData stratData;
     Game jeu;
     Wind wind;
@@ -30,6 +29,83 @@ public class GestionSailTest {
         gestionSail = new GestionSail(stratData);
     }
 
+    /**
+     * Simplify angle calculation
+     **/
+    @Test
+    void simplifyAngleTestNoSimplification() {
+        final double shipOrientation = 0.0;
+        final double windOrientation = 0.0;
+        double result = gestionSail.simplifyAngle(shipOrientation, windOrientation);
+        assertEquals(0.0, result);
+    }
+
+    @Test
+    void simplifyAngleTestRangeLimits() {
+        double res1 = gestionSail.simplifyAngle(Math.PI, 0.0);
+        double res2 = gestionSail.simplifyAngle(0.0, Math.PI);
+        assertEquals(Math.PI, res1);
+        assertEquals(-Math.PI, res2);
+    }
+
+    @Test
+    void simplifyAngleTestRange() {
+        double res1 = gestionSail.simplifyAngle(Math.PI, Math.PI / 2);
+        double res2 = gestionSail.simplifyAngle(-Math.PI / 2, 0);
+        assertEquals(Math.PI / 2, res1);
+        assertEquals(-Math.PI / 2, res2);
+    }
+
+    @Test
+    void simplifyAngleTestOutOfRange() {
+        final double COEFF = 501;
+        double res1 = gestionSail.simplifyAngle(COEFF * Math.PI, Math.PI / 2);
+        double res2 = gestionSail.simplifyAngle(-COEFF * Math.PI / 2, 0);
+        double res3 = gestionSail.simplifyAngle(Math.PI, COEFF * Math.PI / 2);
+        assertEquals(Math.PI / 2, res1, 0.0000001);
+        assertEquals(-Math.PI / 2, res2, 0.0000001);
+        assertEquals(Math.PI / 2, res3, 0.0000001);
+    }
+
+    @Test
+    void simplifyAngleTestOutOfRangeAbuse() {
+        final double COEFF = 5000001;
+        double res1 = gestionSail.simplifyAngle(COEFF * Math.PI, Math.PI / 2);
+        double res2 = gestionSail.simplifyAngle(-COEFF * Math.PI / 2, 0);
+        assertEquals(Math.PI / 2, res1, 0.001);
+        assertEquals(-Math.PI / 2, res2, 0.001);
+    }
+
+    /**
+     * Is wind straight
+     */
+    @Test
+    void isWindStraightTest() {
+        wind.setOrientation(0);
+        ship.getPosition().setOrientation(0.0);
+        boolean res1 = gestionSail.isWindStraight(ship, wind);
+
+        wind.setOrientation(Math.PI / 2);
+        ship.getPosition().setOrientation(-Math.PI / 2);
+        boolean res2 = gestionSail.isWindStraight(ship, wind);
+
+        wind.setOrientation(0);
+        ship.getPosition().setOrientation(-(Math.PI / 2 + 0.00000001));
+        boolean res3 = gestionSail.isWindStraight(ship, wind);
+
+        wind.setOrientation(0);
+        ship.getPosition().setOrientation(-Math.PI / 2 - 0.00000001);
+        boolean res4 = gestionSail.isWindStraight(ship, wind);
+
+        assertTrue(res1);
+        assertFalse(res2);
+        assertFalse(res3);
+        assertFalse(res4);
+    }
+
+    /**
+     * Put sail when needed
+     */
     @Test
     void putSailTestPerfectAlignment() {
         wind.setOrientation(0);
@@ -82,15 +158,5 @@ public class GestionSailTest {
         ship.getPosition().setOrientation(10000 * 1.99 * Math.PI); // pi
         gestionSail.putSail(ship, wind);
         assertTrue(gestionSail.isSailLifted());
-    }
-
-    @Test
-    void putSailTimeOutCase() {
-        // if timeout -> no sail
-        wind.setOrientation(0.00); // 3 PI /4
-        wind.setStrength(0.1);
-        ship.getPosition().setOrientation(10000000 * 1.99 * Math.PI); // pi
-        gestionSail.putSail(ship, wind);
-        assertFalse(gestionSail.isSailLifted());
     }
 }
