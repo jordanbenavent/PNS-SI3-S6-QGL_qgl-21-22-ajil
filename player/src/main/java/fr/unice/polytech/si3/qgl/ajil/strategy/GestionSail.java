@@ -76,11 +76,9 @@ public class GestionSail {
      * @return a [-pi : pi] angle between vectors
      */
     double simplifyAngle(double s, double w) {
-        int timeOut = 99999;
         double result = s - w;
-        while (result < -Math.PI && timeOut-- > 0) result = result + 2 * Math.PI;
-        while (result > Math.PI && timeOut-- > 0) result = result - 2 * Math.PI;
-        if (timeOut <= 0) System.out.println("Err infinite while during simplifying angle");
+        while (result < -Math.PI) result = result + 2 * Math.PI;
+        while (result > Math.PI) result = result - 2 * Math.PI;
         return result % (2 * Math.PI);
     }
 
