@@ -125,38 +125,40 @@ class ValideCheckpointTest {
         );
         valideCheckpoint = new ValideCheckpoint(jeu);
         valideCheckpoint.setFakeCheckpoint(fakeCheckpoints);
-        //Assertions.assertEquals(fakeCheckpoint1, valideCheckpoint.nextCheckpointTarget(checkpoints));
+        System.out.println(checkpoints);
+        System.out.println(fakeCheckpoints);
+        Assertions.assertEquals(fakeCheckpoint2, valideCheckpoint.nextCheckpointTarget(checkpoints));
         ship.setPosition(new Position(1,3, Math.PI/4));
         System.out.println("SECOND TEST");
-        //Assertions.assertEquals(fakeCheckpoint2, valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertEquals(fakeCheckpoint3, valideCheckpoint.nextCheckpointTarget(checkpoints));
         ship.setPosition(new Position(0,5, Math.PI/4));
-        //Assertions.assertEquals(fakeCheckpoint3, valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertEquals(checkpoint, valideCheckpoint.nextCheckpointTarget(checkpoints));
         ship.setPosition(new Position(5.5,6, 0));
-        //Assertions.assertEquals(checkpoint, valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertEquals(checkpoint2, valideCheckpoint.nextCheckpointTarget(checkpoints));
         ship.setPosition(new Position(6.5,6, Math.PI/4));
-        //Assertions.assertNull(valideCheckpoint.nextCheckpointTarget(checkpoints));
+        Assertions.assertNull(valideCheckpoint.nextCheckpointTarget(checkpoints));
     }
 
-
-    /*
     @Test
-    void pointShipPolygoneTest(){
-        Point[] point = new Point[3];
-        Point point1 = new Point(1,2);
-        Point point2 = new Point(0,3);
-        Point point3 = new Point(0,1);
-        point[0] = point1; point[1] = point2; point[2]= point3;
-        ship = new Ship("ship", 100,
-                new Position(4, 4, Math.PI/4), "BateauCarre",
-                new Deck(2, 2),
-                new ArrayList<>(),
-                new Polygone("polygone", Math.PI/4,point));
-
-        Assertions.assertEquals(new Point(2,5), Calcul.calculExtremityPoints(ship.getShape(), ship.getPosition());
-        Assertions.assertEquals(new Point(1,4), valideCheckpoint.pointShipPolygone(ship).get(1));
-        Assertions.assertEquals(new Point(3,4), valideCheckpoint.pointShipPolygone(ship).get(2));
+    void realOrFakeTest(){
+        Checkpoint fakeCheckpoint1 =  new Checkpoint(new Position(1, 4, 0), new Circle("circle", 1));
+        Checkpoint fakeCheckpoint2 =  new Checkpoint(new Position(1, 6, 0), new Circle("circle", 1));
+        Checkpoint fakeCheckpoint3 =  new Checkpoint(new Position(7, 6, 0), new Circle("circle", 1));
+        ArrayList<Checkpoint> fakeCheckpoints = new ArrayList<>();
+        fakeCheckpoints.add(fakeCheckpoint1); fakeCheckpoints.add(fakeCheckpoint2); fakeCheckpoints.add(fakeCheckpoint3);
+        ArrayList<Checkpoint> checkpoints = new ArrayList<>();
+        checkpoint = new Checkpoint(new Position(5, 5, 0), new Circle("circle", 1));
+        checkpoint2 = new Checkpoint(new Position(1, 7, 0), new Circle("circle", 4));
+        checkpoint3 = new Checkpoint(new Position(-1, 0, 1), new Circle("circle", 1));
+        valideCheckpoint.setFakeCheckpoint(fakeCheckpoints);
+        Assertions.assertEquals(fakeCheckpoints, valideCheckpoint.realOrFakeCheckpoint(checkpoints));
+        Assertions.assertEquals(fakeCheckpoints, valideCheckpoint.realOrFakeCheckpoint(null));
+        valideCheckpoint.setFakeCheckpoint(new ArrayList<>());
+        Assertions.assertEquals(checkpoints, valideCheckpoint.realOrFakeCheckpoint(checkpoints));
+        valideCheckpoint.setFakeCheckpoint(null);
+        Assertions.assertEquals(checkpoints, valideCheckpoint.realOrFakeCheckpoint(checkpoints));
     }
-     */
+
 
 }
 

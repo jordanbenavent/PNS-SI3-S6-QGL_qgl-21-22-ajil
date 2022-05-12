@@ -50,19 +50,7 @@ public class ValideCheckpoint {
             checkpointCurrent = realOrFalse.get(0);
         }
         return checkpointCurrent;
-    }
 
-    public void checkRealCheckpoint(List<Checkpoint> checkpoints, Ship ship) {
-        if (checkpoints.isEmpty()) return;
-        Checkpoint checkpointCurrent = checkpoints.get(0);
-        if (checkpointCurrent == null) return;
-        while (isShipInCheckpoint(ship, checkpointCurrent)) {
-            fakeCheckpoint.clear();
-            checkpoints.remove(checkpointCurrent);
-            if (checkpoints.isEmpty()) return;
-            else checkpointCurrent = checkpoints.get(0);
-            if (checkpointCurrent == null) return;
-        }
     }
 
     /**
@@ -77,7 +65,7 @@ public class ValideCheckpoint {
     }
 
 
-    private List<Checkpoint> realOrFakeCheckpoint(List<Checkpoint> checkpoints) {
+    public List<Checkpoint> realOrFakeCheckpoint(List<Checkpoint> checkpoints) {
         if (fakeCheckpoint == null || fakeCheckpoint.isEmpty()) {
             if (checkpoints.isEmpty()) return Collections.emptyList();
             return checkpoints;
