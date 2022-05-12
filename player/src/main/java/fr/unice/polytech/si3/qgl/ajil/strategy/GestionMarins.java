@@ -201,15 +201,15 @@ public class GestionMarins {
      */
     public void repartirLesMarins() {
         List<Sailor> sailors = stratData.jeu.getSailors();
-        if(sailors.size()%2!=0){
+        if (sailors.size() % 2 != 0) {
             Sailor marinNeFaitRien = sailors.remove(0);
         }
 
-        int mid = sailors.size()/2;
-        for (int i=0;i<mid;i++){
+        int mid = sailors.size() / 2;
+        for (int i = 0; i < mid; i++) {
             leftSailors.add(sailors.get(i));
         }
-        for(int i=mid;i<sailors.size();i++) {
+        for (int i = mid; i < sailors.size(); i++) {
             rightSailors.add(sailors.get(i));
         }
         this.marinRepartie = true;
@@ -244,7 +244,9 @@ public class GestionMarins {
         return placementSailManagers;
     }
 
-    public boolean isPlacementVigie() { return placementVigie; }
+    public boolean isPlacementVigie() {
+        return placementVigie;
+    }
 
 
     /**
@@ -318,7 +320,7 @@ public class GestionMarins {
     }
 
     public boolean estAGauche(Sailor s) {
-        return (s.getY()==0);
+        return (s.getY() == 0);
     }
 
     /**
@@ -357,19 +359,19 @@ public class GestionMarins {
         List<Sailor> tmpTargetSide = new ArrayList<>(targetSide);
 
 
-        for (int j =0;j<tmpTargetSide.size();j++) {
+        for (int j = 0; j < tmpTargetSide.size(); j++) {
             Sailor s = targetSide.get(j);
 
             for (int i = 0; i < oars.size(); i++) {
                 int dist = oars.get(i).getDist(s);
-                if(dist==0){
+                if (dist == 0) {
                     oars.remove(i);
                     tmpTargetSide.remove(s);
                 }
             }
         }
 
-            for (Sailor s : tmpTargetSide) {
+        for (Sailor s : tmpTargetSide) {
             int distMin = 0;
             int index = -1;
             for (int i = 0; i < oars.size(); i++) {
@@ -389,7 +391,6 @@ public class GestionMarins {
         }
         return bienplace;
     }
-
 
 
     public boolean isMarinRepartie() {

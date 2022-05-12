@@ -29,7 +29,7 @@ public class Cockpit implements ICockpit {
     private NextRound nextRound;
 
     public static void main(String[] args) {
-        Cockpit cockpit = new Cockpit();
+
     }
 
     /**
@@ -70,7 +70,6 @@ public class Cockpit implements ICockpit {
         }
         nextRound.updateGame(jeu);
         strategy.setJeu(jeu);
-        //LOGGER.add("NextRound");
 
         return strategy.getActions();
     }

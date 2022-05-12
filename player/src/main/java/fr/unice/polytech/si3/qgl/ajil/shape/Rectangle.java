@@ -32,6 +32,7 @@ public class Rectangle extends Shape {
     /**
      * @return l'orientation du rectangle
      */
+    @Override
     public double getOrientation() {
         return orientation;
     }

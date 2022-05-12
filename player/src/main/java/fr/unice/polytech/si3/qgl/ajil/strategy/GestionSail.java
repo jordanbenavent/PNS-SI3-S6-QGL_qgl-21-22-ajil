@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestionSail {
-    final static double RANGE = Math.PI / 2;
+    static final double RANGE = Math.PI / 2;
     protected StratData stratData;
     private boolean isLifted;
 
