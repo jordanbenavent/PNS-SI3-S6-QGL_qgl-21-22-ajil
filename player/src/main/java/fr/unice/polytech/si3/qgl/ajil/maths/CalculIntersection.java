@@ -54,44 +54,7 @@ public class CalculIntersection {
         //cercle 1 (x-xc1) ^2 + (y-yc1) = r^2
         //cercle 2 (x-xc2) ^2 + (y-yc2) = R^2
         List<Point> result = new ArrayList<>();
-        if(!intersectionCircleCircle(circle1, position1, circle2, position2)) return result;
-        double xb = position2.getX();
-        double yb = position2.getY();
-        double xa = position1.getX();
-        double ya = position1.getY();
-        double r = circle2.getRadius();
-        double R = circle1.getRadius();
-        //a = 2xB
-        //b = 2yB
-        //c = x2B + y2B − R2 + r2
-        //l’´equation du second degree : alphax2 − betax + gamma = 0
-        double a = -2*xa + 2*xb;
-        System.out.println( "a = "+a );
-        double b = -2*ya + 2*yb;
-        System.out.println( "b = "+b );
-        double c = (xa*xa) - (xb*xb) + (ya*ya) - (yb*yb) - (R*R) + (r*r);
-        System.out.println( "c = "+c );
-        double alpha = (1+((a*a)/(b*b)));
-        double beta = (-2*xa + (2*a*c)/(b*b) + (2*a*ya)/b);
-        double gamma = (c*c)/(b*b) + ya + (2*c*ya)/b - R*R;
-
-        // delta = (2ac)2 − 4(a2 + b2)(c2 − b2r2)
-        double delta = beta*beta - (4*alpha*gamma);
-        System.out.println(delta);
-        double x1 = (-beta + Math.sqrt(delta)) / 2*alpha;
-        System.out.println(x1);
-        double x2 = ((2*a*c) + Math.sqrt(delta)) / 2*((a*a)+(b*b));
-        double y1;
-        double y2;
-        if(yb != 0) {
-            y1 = (c-(a*x1))/b;
-            y2 = (c-(a*x2))/b;
-        } else {
-            y1 = b/2 + Math.sqrt((R*R) - ((2*c) - (a*a))/(2*a));
-            y2 = b/2 - Math.sqrt((R*R) - ((2*c) - (a*a))/(2*a));
-        }
-        result.add(new Point(x1, y1));
-        result.add(new Point(x2, y2));
+        if(intersectionCircleCircle(circle1, position1, circle2, position2)) result.add(new Point());
         return result;
     }
 
