@@ -139,6 +139,22 @@ public class CalculIntersectionTest {
         Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(0).getY(),0.01);
         Assertions.assertEquals(-3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getX(),0.01);
         Assertions.assertEquals(2.46,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getY(),0.01);
+        Point vertical1 = new Point(-6, 8);
+        Point vertical2 = new Point(-6, 4);
+        Point vertical3 = new Point(-6, 4);
+        Point vertical4 = new Point(-6, 2);
+        Assertions.assertEquals(-6, CalculIntersection.intersectionPointSegmentSegment(vertical1, vertical2, vertical3, vertical4).get(0).getX());
+        Assertions.assertEquals(4, CalculIntersection.intersectionPointSegmentSegment(vertical1, vertical2, vertical3, vertical4).get(0).getY());
+        Assertions.assertEquals(-6, CalculIntersection.intersectionPointSegmentSegment(vertical2, vertical1, vertical3, vertical4).get(0).getX());
+        Assertions.assertEquals(4, CalculIntersection.intersectionPointSegmentSegment(vertical2, vertical1, vertical3, vertical4).get(0).getY());
+        Assertions.assertEquals(-6, CalculIntersection.intersectionPointSegmentSegment(vertical2, vertical1, vertical4, vertical3).get(0).getX());
+        Assertions.assertEquals(4, CalculIntersection.intersectionPointSegmentSegment(vertical2, vertical1, vertical4, vertical3).get(0).getY());
+        Assertions.assertEquals(-6, CalculIntersection.intersectionPointSegmentSegment(vertical1, vertical2, vertical4, vertical3).get(0).getX());
+        Assertions.assertEquals(4, CalculIntersection.intersectionPointSegmentSegment(vertical1, vertical2, vertical4, vertical3).get(0).getY());
+
+
+
+
 
         point3 = new Point(-3, 3);
         point4 = new Point(-3, 4);
@@ -189,6 +205,15 @@ public class CalculIntersectionTest {
         Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getY(),0.01);
         Assertions.assertEquals(-2,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(1).getX(),0.01);
         Assertions.assertEquals(2,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(1).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point4, point3).get(0).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point4, point3).get(0).getY(),0.01);
+        Assertions.assertEquals(-2,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point4, point3).get(1).getX(),0.01);
+        Assertions.assertEquals(2,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point4, point3).get(1).getY(),0.01);
+        Assertions.assertEquals(-2,CalculIntersection.intersectionPointSegmentSegment(point2, point1, point3, point4).get(0).getX(),0.01);
+        Assertions.assertEquals(2,CalculIntersection.intersectionPointSegmentSegment(point2, point1, point3, point4).get(0).getY(),0.01);
+        Assertions.assertEquals(-4,CalculIntersection.intersectionPointSegmentSegment(point2, point1, point3, point4).get(1).getX(),0.01);
+        Assertions.assertEquals(3,CalculIntersection.intersectionPointSegmentSegment(point2, point1, point3, point4).get(1).getY(),0.01);
+
 
         point1 = new Point(-4,3);
         point2 = new Point(-2,2);
@@ -245,6 +270,10 @@ public class CalculIntersectionTest {
         Assertions.assertEquals(2.25,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point3, point4).get(0).getY(),0.01);
         Assertions.assertEquals(-1.75,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getX(),0.01);
         Assertions.assertEquals(2.25,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point1, point2).get(0).getY(),0.01);
+        Assertions.assertEquals(-1.75,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point4, point3).get(0).getX(),0.01);
+        Assertions.assertEquals(2.25,CalculIntersection.intersectionPointSegmentSegment(point1, point2, point4, point3).get(0).getY(),0.01);
+        Assertions.assertEquals(-1.75,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point2, point1).get(0).getX(),0.01);
+        Assertions.assertEquals(2.25,CalculIntersection.intersectionPointSegmentSegment(point3, point4,point2, point1).get(0).getY(),0.01);
 
     }
 
@@ -256,12 +285,15 @@ public class CalculIntersectionTest {
         Circle circle2 = new Circle("circle", 3);
         Position position2 = new Position(4,4, 0.765);
         System.out.println(CalculIntersection.intersectionShapes(circle, position, circle2, position2));
+        Assertions.assertTrue(CalculIntersection.intersectionShapes(circle, position, circle2, position2));
 
         circle = new Circle("circle", 1);
         position = new Position(1,4, 2.765);
         circle2 = new Circle("circle", 0.1);
         position2 = new Position(4,4, 0.765);
         System.out.println(CalculIntersection.intersectionShapes(circle, position, circle2, position2));
+        Assertions.assertFalse(CalculIntersection.intersectionShapes(circle, position, circle2, position2));
+        Assertions.assertFalse(CalculIntersection.intersectionShapes(circle2, position2,circle, position));
 
         Rectangle rectangle = new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
         position = new Position(2,2,2.35619);
@@ -269,18 +301,26 @@ public class CalculIntersectionTest {
         position2 = new Position(3,3, 0.765);
         System.out.println("carre dans le cercle");
         System.out.println(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
+        Assertions.assertTrue(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
 
         rectangle = new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
         position = new Position(2,2,2.35619);
         circle2 = new Circle("circle", 3);
         position2 = new Position(5,3, 0.765);
         System.out.println(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
+        Assertions.assertTrue(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
+        Assertions.assertTrue(CalculIntersection.intersectionShapes(circle2, position2,rectangle, position));
+
 
         rectangle = new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
         position = new Position(2,2,2.35619);
         circle2 = new Circle("circle", 0.1);
         position2 = new Position(5,3, 0.765);
         System.out.println(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
+        Assertions.assertFalse(CalculIntersection.intersectionShapes(rectangle, position, circle2, position2));
+        Assertions.assertFalse(CalculIntersection.intersectionShapes(circle2, position2,rectangle, position));
+
+
 
         Point[] pointpolygone = {new Point(-1, 0), new Point(1, 1), new Point(2, 0), new Point(1, -1), new Point(0, -1)};
         Polygone polygone = new Polygone("polygon", 0, pointpolygone);
@@ -288,12 +328,17 @@ public class CalculIntersectionTest {
         circle2 = new Circle("circle", 5);
         position2 = new Position(5,3, 0);
         System.out.println(CalculIntersection.intersectionShapes(polygone, position, circle2, position2));
+        Assertions.assertTrue(CalculIntersection.intersectionShapes(polygone, position, circle2, position2));
+        Assertions.assertTrue(CalculIntersection.intersectionShapes(circle2, position2,polygone, position));
 
         Shape shape1= new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
         position = new Position(2,2,2.35619);
         Shape shape2 =new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
         position2 = new Position(3,2,2.35619);
         System.out.println((CalculIntersection.intersectionShapes(shape1, position, shape2, position2)));
+        Assertions.assertTrue(CalculIntersection.intersectionShapes(shape1, position, shape2, position2));
+        Assertions.assertTrue(CalculIntersection.intersectionShapes(shape2, position2, shape1, position));
+
 
         shape1= new Rectangle("rectangle", Math.sqrt(2),Math.sqrt(2), 0);
         position = new Position(2,2,2.35619);
@@ -301,6 +346,8 @@ public class CalculIntersectionTest {
         position2 = new Position(133,2,2.35619);
         System.out.println("ici");
         System.out.println((CalculIntersection.intersectionShapes(shape1, position, shape2, position2)));
+        Assertions.assertFalse(CalculIntersection.intersectionShapes(shape1, position, shape2, position2));
+        Assertions.assertFalse(CalculIntersection.intersectionShapes(shape2, position2, shape1, position));
 
     }
 
