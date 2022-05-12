@@ -177,10 +177,6 @@ public class AStar {
         return grid;
     }
 
-    public PriorityQueue<Cell> getOpenCells() {
-        return openCells;
-    }
-
     public boolean[][] getClosedCells() {
         return closedCells;
     }

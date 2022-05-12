@@ -1,5 +1,6 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,5 +36,7 @@ class AStarTest {
         Assertions.assertEquals(0, chemin.get(3).getY());
         Assertions.assertEquals(4, chemin.get(4).getX());
         Assertions.assertEquals(1, chemin.get(4).getY());
+        Assertions.assertEquals(0, aStar.getStartI());
+        Assertions.assertEquals(2, aStar.getEndJ());
     }
 }

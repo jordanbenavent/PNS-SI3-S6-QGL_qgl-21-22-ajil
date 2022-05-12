@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy.pathfinding;
 
 import fr.unice.polytech.si3.qgl.ajil.Game;
+import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.Point;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,5 +56,11 @@ class AStarDeploymentTest {
         Assertions.assertEquals(1, array[0][1]);
         Assertions.assertEquals(2, array[1][0]);
         Assertions.assertEquals(2, array[1][1]);
+    }
+
+    @Test
+    void posToPoint(){
+        Assertions.assertEquals(10, aStarDeployment.posToPoint(new Position(10,10,0)).getX());
+        Assertions.assertEquals(10, aStarDeployment.posToPoint(new Position(10,10,0)).getY());
     }
 }
