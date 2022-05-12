@@ -4,11 +4,13 @@ import fr.unice.polytech.si3.qgl.ajil.*;
 import fr.unice.polytech.si3.qgl.ajil.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyDouble;
 
 class GestionSailTest {
     StratData stratData;
@@ -101,6 +103,42 @@ class GestionSailTest {
         assertFalse(res2);
         assertFalse(res3);
         assertFalse(res4);
+    }
+
+    @Test
+    void isWindStraightTestOk() {
+        GestionSail temp = new GestionSail(stratData);
+        GestionSail spyTemp = Mockito.spy(temp);
+
+        Mockito.doReturn(-Math.PI / 2).when(spyTemp).simplifyAngle(anyDouble(), anyDouble());
+        boolean status = spyTemp.isWindStraight(spyTemp.stratData.jeu.getShip(), spyTemp.stratData.jeu.getWind());
+        assertTrue(status);
+
+        Mockito.doReturn(Math.PI / 2).when(spyTemp).simplifyAngle(anyDouble(), anyDouble());
+        boolean status2 = spyTemp.isWindStraight(spyTemp.stratData.jeu.getShip(), spyTemp.stratData.jeu.getWind());
+        assertTrue(status2);
+
+        Mockito.doReturn(Math.PI / 2 - 0.00).when(spyTemp).simplifyAngle(anyDouble(), anyDouble());
+        boolean status3 = spyTemp.isWindStraight(spyTemp.stratData.jeu.getShip(), spyTemp.stratData.jeu.getWind());
+        assertTrue(status3);
+    }
+
+    @Test
+    void isWindStraightTestWrong() {
+        GestionSail temp = new GestionSail(stratData);
+        GestionSail spyTemp = Mockito.spy(temp);
+
+        Mockito.doReturn(-Math.PI).when(spyTemp).simplifyAngle(anyDouble(), anyDouble());
+        boolean status = spyTemp.isWindStraight(spyTemp.stratData.jeu.getShip(), spyTemp.stratData.jeu.getWind());
+        assertFalse(status);
+
+        Mockito.doReturn(Math.PI / 2 + 0.00001).when(spyTemp).simplifyAngle(anyDouble(), anyDouble());
+        boolean status2 = spyTemp.isWindStraight(spyTemp.stratData.jeu.getShip(), spyTemp.stratData.jeu.getWind());
+        assertFalse(status2);
+
+        Mockito.doReturn(-Math.PI / 2 - 0.0000001).when(spyTemp).simplifyAngle(anyDouble(), anyDouble());
+        boolean status3 = spyTemp.isWindStraight(spyTemp.stratData.jeu.getShip(), spyTemp.stratData.jeu.getWind());
+        assertFalse(status3);
     }
 
     /**

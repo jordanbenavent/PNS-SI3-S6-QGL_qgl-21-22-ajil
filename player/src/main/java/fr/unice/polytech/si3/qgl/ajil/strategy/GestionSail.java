@@ -65,7 +65,7 @@ public class GestionSail {
         double shipOrientation = ship.getPosition().getOrientation();
         double windOrientation = wind.getOrientation();
         final double result = simplifyAngle(shipOrientation, windOrientation);
-        return result <= RANGE && result >= -RANGE;
+        return Math.abs(result) <= RANGE;
     }
 
     /**
