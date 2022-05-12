@@ -21,7 +21,6 @@ public class  WayDirect {
     }
 
     public static boolean wayDirect(Position checkpointCiblePosition,Ship ship, Set<Reef> setReef) {
-        System.out.println("calcule WayDirect");
         Point shipPoint = new Point(ship.getPosition().getX(), ship.getPosition().getY());
         Point checkpointPoint = new Point(checkpointCiblePosition.getX(), checkpointCiblePosition.getY());
         Segment bateauCheckpoint = new Segment(shipPoint, checkpointPoint);
@@ -36,13 +35,11 @@ public class  WayDirect {
             segments = obstacleDetection.reefToSegments(listePolygoneReef.get(i));
             for (Segment s : segments) {
                 if (Intersection.segmentIntersection(s, bateauCheckpoint) != null) {
-                    System.out.println("Intersection repere cord" + Intersection.segmentIntersection(s,bateauCheckpoint).getX()+" y:"+Intersection.segmentIntersection(s,bateauCheckpoint).getY());
                     LOGGER.add("collision x: "+ Intersection.segmentIntersection(s,bateauCheckpoint).getX()+" y:"+Intersection.segmentIntersection(s,bateauCheckpoint).getY());
                     return false;
                 }
             }
         }
-        System.out.println("aucune inter repere");
         LOGGER.add("on va tout droit");
         return true; //si on est la c'est qu'on a croise aucune intersection
     }
