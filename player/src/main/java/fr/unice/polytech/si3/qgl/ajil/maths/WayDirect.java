@@ -16,7 +16,9 @@ public class  WayDirect {
 
     private static final List<String> LOGGER = Cockpit.LOGGER;
 
+    private WayDirect() {
 
+    }
 
     public static boolean wayDirect(Position checkpointCiblePosition,Ship ship, Set<Reef> setReef) {
         System.out.println("calcule WayDirect");
@@ -25,7 +27,7 @@ public class  WayDirect {
         Segment bateauCheckpoint = new Segment(shipPoint, checkpointPoint);
 
 
-        List<VisibleEntitie> listeReef = new ArrayList(setReef);
+        List<VisibleEntitie> listeReef = new ArrayList<>(setReef);
         List<VisibleEntitie> listePolygoneReef = CalculPoints.entitiesToEntitiesPolygone(listeReef, ship.getDeck().getWidth());
         List<Segment> segments;
         ObstacleDetection obstacleDetection = new ObstacleDetection();

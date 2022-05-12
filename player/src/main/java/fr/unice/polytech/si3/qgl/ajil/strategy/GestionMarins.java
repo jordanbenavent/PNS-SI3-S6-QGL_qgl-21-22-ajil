@@ -27,16 +27,12 @@ public class GestionMarins {
 
     private final ArrayList<Sailor> leftSailors = new ArrayList<>();
     private final ArrayList<Sailor> rightSailors = new ArrayList<>();
-    public List<String> LOGGER = Cockpit.LOGGER;
+    private static final List<String> LOGGER = Cockpit.LOGGER;
     protected StratData stratData;
     private boolean placementInit = false;
     private boolean placementCoxswain = false;
     private boolean placementSailManagers = false;
     private boolean placementVigie = false;
-    private Sailor marinNeFaitRien;
-
-
-
     private boolean marinRepartie = false;
 
     // marins
@@ -98,7 +94,6 @@ public class GestionMarins {
      * @return boolean qui dit si oui ou non le marin a atteint la position fixée
      */
     public boolean deplacerMarin(Sailor s, Entity entity) {
-        //LOGGER.add("Marin :  " + s.getId() + "veut aller vers " + entity.toString());
         int dist = entity.getDist(s);
         int movX = entity.getX() - s.getX();
         int movY = entity.getY() - s.getY();
@@ -107,14 +102,12 @@ public class GestionMarins {
             return true;
         }
         if (dist > 5) {
-            //LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
             int depX = (movX < -2) ? -2 : Math.min(movX, 2);
             int depY = (movY < -2) ? -2 : Math.min(movY, 2);
             s.updatePos(depX, depY); // met à jour les (x , y) de ce sailor
             stratData.actions.add(new Moving(s.getId(), depX, depY));
             return false;
         }
-        //LOGGER.add("Marin mouvement :  X:" + movX + "  Y:" + movY);
         s.updatePos(movX, movY);
         stratData.actions.add(new Moving(s.getId(), movX, movY));
         return true;
@@ -208,15 +201,15 @@ public class GestionMarins {
      */
     public void repartirLesMarins() {
         List<Sailor> sailors = stratData.jeu.getSailors();
-        if(sailors.size()%2!=0){
-            marinNeFaitRien = sailors.remove(0);
+        if (sailors.size() % 2 != 0) {
+            Sailor marinNeFaitRien = sailors.remove(0);
         }
 
-        int mid = sailors.size()/2;
-        for (int i=0;i<mid;i++){
+        int mid = sailors.size() / 2;
+        for (int i = 0; i < mid; i++) {
             leftSailors.add(sailors.get(i));
         }
-        for(int i=mid;i<sailors.size();i++) {
+        for (int i = mid; i < sailors.size(); i++) {
             rightSailors.add(sailors.get(i));
         }
         this.marinRepartie = true;
@@ -251,7 +244,9 @@ public class GestionMarins {
         return placementSailManagers;
     }
 
-    public boolean isPlacementVigie() { return placementVigie; }
+    public boolean isPlacementVigie() {
+        return placementVigie;
+    }
 
 
     /**
@@ -264,7 +259,6 @@ public class GestionMarins {
         double angle = deplacement.getAngle();
 
         if (Math.abs(angle) < Math.PI / 4 && coxswain != null) {
-            //LOGGER.add("On tourne avec le gouvernail : " + angle);
             Turn tournerGouvernail = new Turn(coxswain.getId(), angle);
             stratData.actions.add(tournerGouvernail);
             for (Sailor sailor : stratData.jeu.getSailors()) {
@@ -273,42 +267,42 @@ public class GestionMarins {
             return;
         }
 
-        int sailor_qui_rame = 0;
-        double nbr_sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
+        int rowingSailor = 0;
+        double sailors = nbrSailorsNecessaires(stratData.jeu.getShip().getOars().size(), deplacement.getVitesse());
         // Si le bateau doit avancer tout droit, l'angle vaut 0
         if (deplacement.getAngle() == 0.0) {
             for (Sailor sailor : leftSailors) {
-                if (sailor_qui_rame >= nbr_sailors / 2) {
+                if (rowingSailor >= sailors / 2) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
-            sailor_qui_rame = 0;
+            rowingSailor = 0;
             for (Sailor sailor : rightSailors) {
-                if (sailor_qui_rame >= nbr_sailors / 2) {
+                if (rowingSailor >= sailors / 2) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
             return;
         }
         if (deplacement.getAngle() < 0) {
             for (Sailor sailor : leftSailors) {
-                if (sailor_qui_rame == nbr_sailors) {
+                if (rowingSailor == sailors) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
         } else {
             for (Sailor sailor : rightSailors) {
-                if (sailor_qui_rame == nbr_sailors) {
+                if (rowingSailor == sailors) {
                     break;
                 }
                 stratData.actions.add(new Oar(sailor.getId()));
-                sailor_qui_rame++;
+                rowingSailor++;
             }
         }
     }
@@ -326,7 +320,7 @@ public class GestionMarins {
     }
 
     public boolean estAGauche(Sailor s) {
-        return (s.getY()==0);
+        return (s.getY() == 0);
     }
 
     /**
@@ -362,22 +356,22 @@ public class GestionMarins {
         boolean allInRange;
         boolean bienplace = true;
 
-        List<Sailor> tmpTargetSide = new ArrayList<Sailor>(targetSide);
+        List<Sailor> tmpTargetSide = new ArrayList<>(targetSide);
 
 
-        for (int j =0;j<tmpTargetSide.size();j++) {
+        for (int j = 0; j < tmpTargetSide.size(); j++) {
             Sailor s = targetSide.get(j);
 
             for (int i = 0; i < oars.size(); i++) {
                 int dist = oars.get(i).getDist(s);
-                if(dist==0){
+                if (dist == 0) {
                     oars.remove(i);
                     tmpTargetSide.remove(s);
                 }
             }
         }
 
-            for (Sailor s : tmpTargetSide) {
+        for (Sailor s : tmpTargetSide) {
             int distMin = 0;
             int index = -1;
             for (int i = 0; i < oars.size(); i++) {
@@ -397,7 +391,6 @@ public class GestionMarins {
         }
         return bienplace;
     }
-
 
 
     public boolean isMarinRepartie() {

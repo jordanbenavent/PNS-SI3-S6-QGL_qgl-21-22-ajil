@@ -1,11 +1,9 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
-import fr.unice.polytech.si3.qgl.ajil.*;
+import fr.unice.polytech.si3.qgl.ajil.Checkpoint;
+import fr.unice.polytech.si3.qgl.ajil.Game;
+import fr.unice.polytech.si3.qgl.ajil.Ship;
 import fr.unice.polytech.si3.qgl.ajil.maths.CalculIntersection;
-import fr.unice.polytech.si3.qgl.ajil.maths.CalculPoints;
-import fr.unice.polytech.si3.qgl.ajil.shape.Circle;
-import fr.unice.polytech.si3.qgl.ajil.shape.Point;
-import fr.unice.polytech.si3.qgl.ajil.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +11,6 @@ import java.util.List;
 
 public class ValideCheckpoint {
 
-    private static final List<String> LOGGER = Cockpit.LOGGER;
     private List<Checkpoint> fakeCheckpoint = new ArrayList<>();
     protected final Game jeu;
 
@@ -40,7 +37,7 @@ public class ValideCheckpoint {
         List<Checkpoint> realOrFalse = realOrFakeCheckpoint(checkpoints);
         if (realOrFalse == null || realOrFalse.isEmpty()) return null;
         Checkpoint checkpointCurrent = realOrFalse.get(0);
-        if (fakeCheckpoint!=null && fakeCheckpoint.contains(checkpointCurrent)){
+        if (fakeCheckpoint != null && fakeCheckpoint.contains(checkpointCurrent)) {
             realOrFalse.remove(checkpointCurrent);
             realOrFalse = realOrFakeCheckpoint(checkpoints);
             if (realOrFalse == null || realOrFalse.isEmpty()) return null;
@@ -81,7 +78,7 @@ public class ValideCheckpoint {
 
 
     private List<Checkpoint> realOrFakeCheckpoint(List<Checkpoint> checkpoints) {
-        if(fakeCheckpoint==null || fakeCheckpoint.isEmpty()){
+        if (fakeCheckpoint == null || fakeCheckpoint.isEmpty()) {
             if (checkpoints.isEmpty()) return Collections.emptyList();
             return checkpoints;
         } else {

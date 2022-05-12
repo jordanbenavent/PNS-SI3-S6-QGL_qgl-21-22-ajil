@@ -20,7 +20,6 @@ import java.util.Set;
 
 public class NextRound {
 
-    private static final List<String> LOGGER = Cockpit.LOGGER;
     private Ship ship;
     private List<VisibleEntitie> visibleEntities;
     private Wind wind;
@@ -101,8 +100,6 @@ public class NextRound {
      */
     public Set<Reef> searchReef() {
         Set<Reef> reefs = new HashSet<>();
-        //LOGGER.add("size entities" + visibleEntities.size());
-
         for (VisibleEntitie entities : visibleEntities) {
             if (entities.getType().equals("reef")) {
                 reefs.add((Reef) entities);
@@ -116,8 +113,6 @@ public class NextRound {
      */
     public Set<Stream> searchStream() {
         Set<Stream> streams = new HashSet<>();
-        //LOGGER.add("size entities" + visibleEntities.size());
-
         for (VisibleEntitie entities : visibleEntities) {
             if (entities.getType().equals("stream")) {
                 streams.add((Stream) entities);
@@ -150,17 +145,14 @@ public class NextRound {
      * @return true si le bateau est face au courant, false sinon
      */
     public boolean faceAuCourant(Ship ship, Stream stream) {
-        final Vector v_ship = new Vector(Math.cos(ship.getPosition().getOrientation()), Math.sin(ship.getPosition().getOrientation()));
-        final Vector v_stream = new Vector(Math.cos(stream.getPosition().getOrientation()), Math.sin(stream.getPosition().getOrientation()));
-        final double angle = v_stream.angleBetweenVectors(v_ship);
+        final Vector vShip = new Vector(Math.cos(ship.getPosition().getOrientation()), Math.sin(ship.getPosition().getOrientation()));
+        final Vector vStream = new Vector(Math.cos(stream.getPosition().getOrientation()), Math.sin(stream.getPosition().getOrientation()));
+        final double angle = vStream.angleBetweenVectors(vShip);
         // Si l'orientation du bateau et du courant est la même alors on retourne false
-        if(ship.getPosition().getOrientation() == stream.getPosition().getOrientation()){
+        if (ship.getPosition().getOrientation() == stream.getPosition().getOrientation()) {
             return false;
         }
         final double angle_final = Math.PI - Math.abs(angle);
-        if (angle_final >= Math.PI / 4) {
-            return false;
-        }
-        return true;
+        return angle_final < Math.PI / 4;
     }
 }

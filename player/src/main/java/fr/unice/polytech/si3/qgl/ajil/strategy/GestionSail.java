@@ -1,6 +1,5 @@
 package fr.unice.polytech.si3.qgl.ajil.strategy;
 
-import fr.unice.polytech.si3.qgl.ajil.Cockpit;
 import fr.unice.polytech.si3.qgl.ajil.Sailor;
 import fr.unice.polytech.si3.qgl.ajil.Ship;
 import fr.unice.polytech.si3.qgl.ajil.Wind;
@@ -11,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestionSail {
-    final double RANGE = Math.PI / 2;
-    private final List<String> LOGGER = Cockpit.LOGGER;
+    static final double RANGE = Math.PI / 2;
     protected StratData stratData;
     private boolean isLifted;
 
@@ -45,11 +43,9 @@ public class GestionSail {
             if (isWindStraight(ship, wind)) {
                 stratData.actions.addAll(sailsLifts);
                 isLifted = true;
-                //LOGGER.add("Voile UP");
             } else {
                 stratData.actions.addAll(sailsLowers);
                 isLifted = false;
-                //LOGGER.add("Voile DOWN");
             }
         }
     }

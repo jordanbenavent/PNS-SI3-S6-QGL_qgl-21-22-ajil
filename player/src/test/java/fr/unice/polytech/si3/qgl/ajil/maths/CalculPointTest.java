@@ -94,9 +94,9 @@ class CalculPointTest {
     void calculExtremityPointBiigerRectangle() {
         Rectangle rectangle = new Rectangle("rectangle", 4, 2, 0);
         List<Point> point = CalculPoints.calculExtremityPointsBigger(rectangle, new Position(2, 2, 0), 4);
-        //Assertions.assertEquals(new Point(4, 5), point.get(0));
-        //Assertions.assertEquals(new Point(0, 5), point.get(1));
-        //Assertions.assertEquals(new Point(0, -1), point.get(2));
-        //Assertions.assertEquals(new Point(4, -1), point.get(3));
+        Assertions.assertEquals(new Point(4, 5), point.get(0));
+        Assertions.assertEquals(new Point(0, 5), point.get(1));
+        Assertions.assertEquals(new Point(0, -1), point.get(2));
+        Assertions.assertEquals(new Point(4, -1), point.get(3));
     }
 }

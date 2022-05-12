@@ -34,10 +34,6 @@ public class Strategy {
     private final CalculDeplacement calculDeplacement;
     private final List<Checkpoint> listeCheckpoints;
     protected StratData stratData;
-    private int listCheckpointsSize;
-    private boolean premierCalculA;
-    private int tailleRecifAvant = 0;
-    private Checkpoint prochainVraiCheckpoint;
 
 
     public Strategy(Game jeu) {
@@ -98,7 +94,6 @@ public class Strategy {
     public String getActions() {
         stratData.actions.clear();
         effectuerActions();
-        //LOGGER.add(stratData.actions.toString());
         try {
             return objectMapper.writeValueAsString(stratData.actions);
         } catch (JsonProcessingException e) {
@@ -106,9 +101,6 @@ public class Strategy {
         }
         return "";
     }
-
-
-
 
 
     /**
@@ -140,7 +132,7 @@ public class Strategy {
             stratData.actions.add(watch);
         }
 
-        if(!gestionMarins.isMarinRepartie()){
+        if (!gestionMarins.isMarinRepartie()) {
             gestionMarins.repartirLesMarins();
         }
 
@@ -156,7 +148,7 @@ public class Strategy {
         //plus besoin de boolean et truc static nextround
         //manque cercle a checker
 
-        if (!WayDirect.wayDirect(listeCheckpoints.get(0).getPosition(),stratData.jeu.getShip(),stratData.jeu.getReefs())) {
+        if (!WayDirect.wayDirect(listeCheckpoints.get(0).getPosition(), stratData.jeu.getShip(), stratData.jeu.getReefs())) {
             System.out.println("On calcule AStar car non wayDirect");
             calculAStar();
             //si direct setfake a nnull
@@ -180,12 +172,9 @@ public class Strategy {
 
 
     void calculAStar() {
-
         AStarDeployment deploy = new AStarDeployment(this.stratData.jeu, 140);
         List<Checkpoint> fauxCheckpoints = deploy.deployment();
         valideCheckpoint.setFakeCheckpoint(fauxCheckpoints);
-        //LOGGER.add("AStar : Avant " + listeCheckpoints.size()+"apres "+fauxCheckpoints.size());
-
     }
 
 

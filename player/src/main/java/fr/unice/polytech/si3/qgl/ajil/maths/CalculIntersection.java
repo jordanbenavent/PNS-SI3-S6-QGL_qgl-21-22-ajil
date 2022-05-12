@@ -2,14 +2,14 @@ package fr.unice.polytech.si3.qgl.ajil.maths;
 
 import fr.unice.polytech.si3.qgl.ajil.Position;
 import fr.unice.polytech.si3.qgl.ajil.shape.*;
-import lombok.ToString;
 
-
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CalculIntersection {
+
+    private CalculIntersection() {
+    }
 
     public static boolean intersectionCircleCircle(Circle circle1, Position position1, Circle circle2, Position position2) {
         Point pointCircle1 = new Point(position1.getX(), position1.getY());
@@ -21,7 +21,7 @@ public class CalculIntersection {
 
     // Nouvelle version
 
-    public static boolean intersectionShapes(Shape shape1, Position position1, Shape shape2, Position position2){
+    public static boolean intersectionShapes(Shape shape1, Position position1, Shape shape2, Position position2) {
         return !intersection2(shape1, position1, shape2, position2).isEmpty();
     }
 
@@ -54,19 +54,18 @@ public class CalculIntersection {
         //cercle 1 (x-xc1) ^2 + (y-yc1) = r^2
         //cercle 2 (x-xc2) ^2 + (y-yc2) = R^2
         List<Point> result = new ArrayList<>();
-        if(intersectionCircleCircle(circle1, position1, circle2, position2)) result.add(new Point());
+        if (intersectionCircleCircle(circle1, position1, circle2, position2)) result.add(new Point());
         return result;
     }
 
     /**
-     *
      * @param circle
      * @param positionCircle
      * @param point1
      * @param point2
      * @return la liste des points de l'intersection entre le cercle et la droite passant par les deux points
      */
-    public static List<Point> intersectionPointDroiteCircle(Circle circle, Position positionCircle, Point point1, Point point2){
+    public static List<Point> intersectionPointDroiteCircle(Circle circle, Position positionCircle, Point point1, Point point2) {
         List<Point> result = new ArrayList<>();
         double r = circle.getRadius();
         double xc = positionCircle.getX();
@@ -83,7 +82,7 @@ public class CalculIntersection {
 
         //Après simplification on obtient une équation du deuxième degré et on obtient donc un delta.
         //Equation : alpha x^2 + beta x + c = 0
-        double beta = (-2 * xc) + (2 * a * b) -  (2 * a * yc);
+        double beta = (-2 * xc) + (2 * a * b) - (2 * a * yc);
         double alpha = (a * a + 1);
         double c = (xc * xc) + (b - yc) * (b - yc) - (r * r);
         double delta = beta * beta - 4 * alpha * c;
@@ -96,15 +95,14 @@ public class CalculIntersection {
             y1 = a * x1 + b;
             x2 = (-beta + Math.sqrt(delta)) / (2 * alpha);
             y2 = a * x2 + b;
-            result.add(new Point(x1,y1));
-            result.add(new Point(x2,y2));
+            result.add(new Point(x1, y1));
+            result.add(new Point(x2, y2));
         }
         return result;
 
     }
 
     /**
-     *
      * @param point1
      * @param point2
      * @param cercle
@@ -112,8 +110,7 @@ public class CalculIntersection {
      * @return la liste des points de l'intersection en une droite verticale et le cercle
      */
     private static List<Point> intersectionPointDroiteVerticaleCircle(Point point1, Point point2, Circle cercle, Position positionCercle) {
-        //Dans ce cas la droite du bateau est de la forme x=a;
-        List<Point> result = new ArrayList<>();
+        List<Point> result = new ArrayList<>();         //Dans ce cas la droite du bateau est de la forme x=a;
         double a = point1.getX();
         double xc = positionCercle.getX();
         double yc = positionCercle.getY();
@@ -135,26 +132,25 @@ public class CalculIntersection {
     }
 
     /**
-     *
      * @param circle
      * @param positionCircle
      * @param point1
      * @param point2
      * @return la liste des points entre le circle et le segment
      */
-    public static List<Point> intersectionCircleSegment(Circle circle, Position positionCircle, Point point1, Point point2){
+    public static List<Point> intersectionCircleSegment(Circle circle, Position positionCircle, Point point1, Point point2) {
         List<Point> intersectionDroite = intersectionPointDroiteCircle(circle, positionCircle, point1, point2);
         List<Point> result = new ArrayList<>();
         double x1 = point1.getX();
         double y1 = point1.getY();
         double x2 = point2.getX();
         double y2 = point2.getY();
-        for(Point point : intersectionDroite){
+        for (Point point : intersectionDroite) {
             double x = point.getX();
             double y = point.getY();
-            boolean XinBorne = ((x1 <= x && x <= x2) || (x1 >= x && x >= x2));
-            boolean YinBorne = ((y1 <= y && y <= y2) || (y1 >= y && y >= y2));
-            if (XinBorne && YinBorne) {
+            boolean xinBorne = ((x1 <= x && x <= x2) || (x1 >= x && x >= x2));
+            boolean yinBorne = ((y1 <= y && y <= y2) || (y1 >= y && y >= y2));
+            if (xinBorne && yinBorne) {
                 result.add(point);
             }
         }
@@ -168,7 +164,7 @@ public class CalculIntersection {
         int size = pointsRectangle.size();
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
-                if(pointInCircle(circle, position1, pointsRectangle.get(i))){
+                if (pointInCircle(circle, position1, pointsRectangle.get(i))) {
                     result.add(pointCircle);
                 }
                 result.addAll(intersectionCircleSegment(circle, position1, pointsRectangle.get(i), pointsRectangle.get(j)));
@@ -177,7 +173,7 @@ public class CalculIntersection {
         return result;
     }
 
-    public static boolean pointInCircle(Circle circle, Position position, Point point){
+    public static boolean pointInCircle(Circle circle, Position position, Point point) {
         Point pointCircle = new Point(position.getX(), position.getY());
         return point.distance(pointCircle) <= circle.getRadius();
     }
@@ -190,7 +186,7 @@ public class CalculIntersection {
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
                 result.addAll(intersectionCircleSegment(circle, position1, pointsPoygone.get(i), pointsPoygone.get(j)));
-                if(pointInCircle(circle, position1, pointsPoygone.get(i))){
+                if (pointInCircle(circle, position1, pointsPoygone.get(i))) {
                     result.add(pointCircle);
                 }
             }
@@ -208,7 +204,6 @@ public class CalculIntersection {
             for (int j = i; j < sizePoint1; j++) {
                 for (int k = 0; k < sizePoint2; k++) {
                     for (int l = k; l < sizePoint2; l++) {
-                        //result.add(Intersection.segmentIntersection(new Segment(pointsShape1.get(i), pointsShape1.get(j)),new Segment(pointsShape2.get(k), pointsShape2.get(l))));
                         result.addAll(intersectionPointSegmentSegment(pointsShape1.get(i), pointsShape1.get(j), pointsShape2.get(k), pointsShape2.get(l)));
                     }
                 }
@@ -217,7 +212,7 @@ public class CalculIntersection {
         return result;
     }
 
-    public static  List<Point> intersectionPointSegmentSegment(Point point1, Point point2, Point point3, Point point4){
+    public static List<Point> intersectionPointSegmentSegment(Point point1, Point point2, Point point3, Point point4) {
         //équation de droite y = ax+b et y = cx+d
         double x1 = point1.getX();
         double x2 = point2.getX();
@@ -240,26 +235,26 @@ public class CalculIntersection {
         if (x1 == x2 && x2 == x3 && x3 == x4) {
             // y1 appartient au segment entre p3 et p4
             boolean y1isInSegment = (y1 <= y4 && y1 >= y3) || ((y1 >= y4) && (y1 <= y3));
-            if(y1isInSegment){
+            if (y1isInSegment) {
                 result.add(point1);
             }
             // y2 appartient au segment entre p3 et p4
             boolean y2isInSegment = ((y2 <= y4) && (y2 >= y3)) || ((y2 >= y4) && (y2 <= y3));
-            if(y2isInSegment){
+            if (y2isInSegment) {
                 result.add(point2);
             }
             return result;
         }
         double xtemp;
         double ytemp;
-        if (x1 == x2 && x3 != x4) {
-            Point point = intersectionVerticalSegmentAndNoVerticalSegment(point1,point2, point3, point4);
-            if(point != null) result.add(point);
+        if (x1 == x2) {
+            Point point = intersectionVerticalSegmentAndNoVerticalSegment(point1, point2, point3, point4);
+            if (point != null) result.add(point);
             return result;
         }
-        if (x1 != x2 && x3 == x4) {
-            Point point = intersectionVerticalSegmentAndNoVerticalSegment(point3,point4, point1, point2);
-            if(point != null) result.add(point);
+        if (x3 == x4) {
+            Point point = intersectionVerticalSegmentAndNoVerticalSegment(point3, point4, point1, point2);
+            if (point != null) result.add(point);
             return result;
         }
         a = (y2 - y1) / (x2 - x1);
@@ -267,20 +262,20 @@ public class CalculIntersection {
         c = (y4 - y3) / (x4 - x3);
         d = (y3 - c * x3);
         if (a == c && b == d) {
-            boolean X1inBornX3X4 = (((x1<= x3) && (x1 >= x4)) || ((x1 >= x3) && (x1 <= x4)));
-            if(X1inBornX3X4){
+            boolean x1inBornX3X4 = (((x1 <= x3) && (x1 >= x4)) || ((x1 >= x3) && (x1 <= x4)));
+            if (x1inBornX3X4) {
                 result.add(point1);
             }
-            boolean X2inBornX3X4 = (((x2<= x3) && (x2 >= x4)) || ((x2 >= x3) && (x2 <= x4)));
-            if(X2inBornX3X4){
+            boolean x2inBornX3X4 = (((x2 <= x3) && (x2 >= x4)) || ((x2 >= x3) && (x2 <= x4)));
+            if (x2inBornX3X4) {
                 result.add(point2);
             }
-            boolean X3inBornX1X2 = (((x3<= x1) && (x3 >= x2)) || ((x3 >= x1) && (x3 <= x2)));
-            if(X3inBornX1X2){
+            boolean x3inBornX1X2 = (((x3 <= x1) && (x3 >= x2)) || ((x3 >= x1) && (x3 <= x2)));
+            if (x3inBornX1X2) {
                 result.add(point3);
             }
-            boolean X4inBornX1X2 = (((x4<= x1) && (x4 >= x2)) || ((x4 >= x1) && (x4 <= x2)));
-            if(X4inBornX1X2){
+            boolean x4inBornX1X2 = (((x4 <= x1) && (x4 >= x2)) || ((x4 >= x1) && (x4 <= x2)));
+            if (x4inBornX1X2) {
                 result.add(point4);
             }
             return result;
@@ -291,9 +286,9 @@ public class CalculIntersection {
         xtemp = (d - b) / (a - c);
         ytemp = a * xtemp + b;
         boolean yInBorn = ((ytemp <= y2 && ytemp >= y1) || (ytemp >= y2 && ytemp <= y1)) && ((ytemp <= y4 && ytemp >= y3) || (ytemp >= y4 && ytemp <= y3));
-        if(yInBorn){
+        if (yInBorn) {
             boolean xInBorn = ((xtemp <= x2 && xtemp >= x1) || (xtemp >= x2 && xtemp <= x1)) && ((xtemp <= x4 && xtemp >= x3) || (xtemp >= x4 && xtemp <= x3));
-            if(xInBorn){
+            if (xInBorn) {
                 result.add(new Point(xtemp, ytemp));
             }
         }
@@ -301,9 +296,8 @@ public class CalculIntersection {
 
     }
 
-    private static Point intersectionVerticalSegmentAndNoVerticalSegment(Point pointVertical1, Point pointVertical2, Point point1, Point point2){
+    private static Point intersectionVerticalSegmentAndNoVerticalSegment(Point pointVertical1, Point pointVertical2, Point point1, Point point2) {
         double x1 = pointVertical1.getX();
-        double x2 = pointVertical2.getX();
         double x3 = point1.getX();
         double x4 = point2.getX();
         double y1 = pointVertical1.getY();
@@ -318,16 +312,13 @@ public class CalculIntersection {
         ytemp = a * x1 + b;
         //une segment vertical et l'autre non. Vérifions si l'image de x1 par la droite passant par le segment 2
         // appartient au deux segments
-        boolean XinBorn = (((x1<= x3) && (x1 >= x4)) || ((x1 >= x3) && (x1 <= x4)));
-        boolean YinBorn = (ytemp <= y1 && ytemp >= y2) || (ytemp >= y1 && ytemp <= y2);
-        if(XinBorn){
-            if(YinBorn){
-                return new Point(x1, ytemp);
-            }
+        boolean xinBorn = (((x1 <= x3) && (x1 >= x4)) || ((x1 >= x3) && (x1 <= x4)));
+        boolean yinborn = (ytemp <= y1 && ytemp >= y2) || (ytemp >= y1 && ytemp <= y2);
+        if (xinBorn && yinborn) {
+            return new Point(x1, ytemp);
         }
         return null;
     }
-
 
 
 }

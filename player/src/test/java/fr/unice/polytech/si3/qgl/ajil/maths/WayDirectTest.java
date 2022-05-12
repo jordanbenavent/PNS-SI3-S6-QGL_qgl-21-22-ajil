@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WayDirectTest {
 
@@ -74,7 +74,7 @@ class WayDirectTest {
         shape = new Rectangle("rectangle",200,200,0);
         reef1 = new Reef("rectangle",new Position(200,150,0),shape);
         reefs.add(reef1);
-        //assertFalse(WayDirect.wayDirect(positionCheckpoint,ship,reefs));
+        assertTrue(WayDirect.wayDirect(positionCheckpoint, ship, reefs));
     }
 
 
@@ -83,7 +83,7 @@ class WayDirectTest {
         shape = new Rectangle("rectangle",5,200,0);
         reef1 = new Reef("rectangle",new Position(200,150,0),shape);
         reefs.add(reef1);
-        //assertFalse(WayDirect.wayDirect(positionCheckpoint,ship,reefs));
+        assertTrue(WayDirect.wayDirect(positionCheckpoint, ship, reefs));
     }
 
     @Test
@@ -106,7 +106,7 @@ class WayDirectTest {
         shape = new Rectangle("rectangle", 5, 200, Math.PI/16);
         reef1 = new Reef("rectangle", new Position(200, 150, 0), shape);
         reefs.add(reef1);
-        //assertFalse(WayDirect.wayDirect(positionCheckpoint, ship, reefs));
+        assertTrue(WayDirect.wayDirect(positionCheckpoint, ship, reefs));
     }
 
     @Test
