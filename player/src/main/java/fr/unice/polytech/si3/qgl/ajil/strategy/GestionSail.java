@@ -26,7 +26,7 @@ public class GestionSail {
      * @param ship le bateau
      * @param wind le vent
      */
-    public void putSail(Ship ship, Wind wind) {
+    void putSail(Ship ship, Wind wind) {
         if (stratData.getSailorsManager() != null) {
 
             List<LiftSail> sailsLifts = new ArrayList<>();
@@ -61,7 +61,7 @@ public class GestionSail {
      * @param wind wind to get wind direction
      * @return true if alignement is ok
      */
-    private boolean isWindStraight(Ship ship, Wind wind) {
+    boolean isWindStraight(Ship ship, Wind wind) {
         double shipOrientation = ship.getPosition().getOrientation();
         double windOrientation = wind.getOrientation();
         final double result = simplifyAngle(shipOrientation, windOrientation);
@@ -75,13 +75,13 @@ public class GestionSail {
      * @param w windOrientation angle in radian
      * @return a [-pi : pi] angle between vectors
      */
-    private double simplifyAngle(double s, double w) {
+    double simplifyAngle(double s, double w) {
         int timeOut = 99999;
         double result = s - w;
         while (result < -Math.PI && timeOut-- > 0) result = result + 2 * Math.PI;
         while (result > Math.PI && timeOut-- > 0) result = result - 2 * Math.PI;
         if (timeOut <= 0) System.out.println("Err infinite while during simplifying angle");
-        return result;
+        return result % (2 * Math.PI);
     }
 
     /**
@@ -89,7 +89,7 @@ public class GestionSail {
      *
      * @return sail state as boolean
      */
-    public boolean isSailLifted() {
+    boolean isSailLifted() {
         return this.isLifted;
     }
 }
