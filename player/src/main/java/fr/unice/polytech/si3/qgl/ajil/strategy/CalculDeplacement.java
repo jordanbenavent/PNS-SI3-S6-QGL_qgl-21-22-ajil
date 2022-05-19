@@ -38,13 +38,10 @@ public class CalculDeplacement {
         final Vector shipVector = calculVecteurBateau(ship);
         final Vector checkVector = calculVecteurCheckpoint(checkpoint, ship);
         final double angle = shipVector.angleBetweenVectors(checkVector);
-        System.out.println(checkpoint);
         // Si le bateau est aligné avec le checkpoint d'un angle inférieur ou égal à 1° sinon on aurait pas de points d'intersection
         if (Math.abs(angle) <= 0.01745329) {
             List<Point> intersectionPoints = intersection(ship, shipVector, checkpoint);
-            System.out.println(intersectionPoints);
             distance = getDistancePointIntersection(intersectionPoints, ship);
-            System.out.println(distance);
         }
 
         final List<Deplacement> nextAngle = predictionAngleTourSuivant(shipVector, checkpoint);

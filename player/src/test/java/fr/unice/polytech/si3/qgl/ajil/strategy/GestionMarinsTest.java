@@ -64,6 +64,7 @@ class GestionMarinsTest {
 
         Assertions.assertEquals(-1, ((Moving) strategy.getListActions().get(0)).getYdistance());
         Assertions.assertEquals(-1, ((Moving) strategy.getListActions().get(1)).getXdistance());
+        Assertions.assertTrue(gestionMarins.isPlacementInit());
     }
 
     @Test
@@ -94,6 +95,7 @@ class GestionMarinsTest {
         gestionMarins.repartirLesMarins();
         Assertions.assertEquals(1, gestionMarins.getLeftSailors().size());
         Assertions.assertEquals(1, gestionMarins.getRightSailors().size());
+        Assertions.assertTrue(gestionMarins.isMarinRepartie());
     }
 
     @DisplayName("Attribuer Marin qui est dans range de 5")
@@ -301,6 +303,8 @@ class GestionMarinsTest {
         jeu.setShip(ship);
         gestionMarins.attribuerSailManager();
         Assertions.assertNotNull(gestionMarins.stratData.getSailorsManager());
+        gestionMarins.attribuerSailManager(); // se place au second tour
+        Assertions.assertTrue(gestionMarins.isPlacementSailManagers());
     }
 
     @DisplayName("Attribuer Marin qui est dans range de 5")

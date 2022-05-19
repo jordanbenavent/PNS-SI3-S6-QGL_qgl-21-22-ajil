@@ -248,6 +248,10 @@ public class GestionMarins {
         return placementVigie;
     }
 
+    public boolean isMarinRepartie() {
+        return marinRepartie;
+    }
+
 
     /**
      * Rame selon la vitesse indiquée dans le déplacement
@@ -319,9 +323,6 @@ public class GestionMarins {
         return speed / speedPerOar;
     }
 
-    public boolean estAGauche(Sailor s) {
-        return (s.getY() == 0);
-    }
 
     /**
      * Ajoute à la liste d'actions les déplacements que doivent effectuer les marins pour se placer sur les rames
@@ -393,11 +394,4 @@ public class GestionMarins {
     }
 
 
-    public boolean isMarinRepartie() {
-        return marinRepartie;
-    }
-
-    public void setMarinRepartie(boolean marinRepartie) {
-        this.marinRepartie = marinRepartie;
-    }
 }

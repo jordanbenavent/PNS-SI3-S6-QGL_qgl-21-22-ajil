@@ -149,11 +149,9 @@ public class Strategy {
         //manque cercle a checker
 
         if (!WayDirect.wayDirect(listeCheckpoints.get(0).getPosition(), stratData.jeu.getShip(), stratData.jeu.getReefs())) {
-            System.out.println("On calcule AStar car non wayDirect");
             calculAStar();
             //si direct setfake a nnull
         } else {
-            System.out.println("on ne calcule pas a Star");
             valideCheckpoint.setFakeCheckpoint(null);
         }
 
@@ -162,7 +160,6 @@ public class Strategy {
         c = valideCheckpoint.nextCheckpointTarget(listeCheckpoints);
 
         deplacement = calculDeplacement.deplacementPourLeTourRefactor(c);
-        System.out.println("Deplacement: " + deplacement);
         gestionMarins.ramerSelonVitesse(deplacement);
         Ship ship = stratData.jeu.getShip();
         Wind wind = stratData.jeu.getWind();
