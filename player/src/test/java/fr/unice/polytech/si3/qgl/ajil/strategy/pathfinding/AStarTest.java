@@ -14,7 +14,7 @@ class AStarTest {
 
     @BeforeEach
     void setUp(){
-        aStar = new AStar(5,5, 0, 0, 3,2,
+        aStar = new AStar(5,5, 1, 1, 3,2,
                 new int[][]{
                         {0,4},{2,2},{3,1},{3,3},{2,1},{2,3}
                 });
@@ -24,19 +24,22 @@ class AStarTest {
     void obtenirLeChemin() {
         List<Position> chemin = new ArrayList<>();
         chemin = aStar.obtenirLeChemin();
-        Assertions.assertEquals(0, chemin.get(0).getX());
-        Assertions.assertEquals(0, chemin.get(0).getY());
+        Assertions.assertEquals(1, chemin.get(0).getX());
+        Assertions.assertEquals(1, chemin.get(0).getY());
         Assertions.assertEquals(3, chemin.get(chemin.size()-1).getX());
         Assertions.assertEquals(2, chemin.get(chemin.size()-1).getY());
-        Assertions.assertEquals(1, chemin.get(1).getX());
+        Assertions.assertEquals(2, chemin.get(1).getX());
         Assertions.assertEquals(0, chemin.get(1).getY());
-        Assertions.assertEquals(2, chemin.get(2).getX());
+        Assertions.assertEquals(3, chemin.get(2).getX());
         Assertions.assertEquals(0, chemin.get(2).getY());
-        Assertions.assertEquals(3, chemin.get(3).getX());
-        Assertions.assertEquals(0, chemin.get(3).getY());
-        Assertions.assertEquals(4, chemin.get(4).getX());
-        Assertions.assertEquals(1, chemin.get(4).getY());
-        Assertions.assertEquals(0, aStar.getStartI());
+        Assertions.assertEquals(4, chemin.get(3).getX());
+        Assertions.assertEquals(1, chemin.get(3).getY());
+        Assertions.assertEquals(3, chemin.get(4).getX());
+        Assertions.assertEquals(2, chemin.get(4).getY());
+        Assertions.assertEquals(1, aStar.getStartI());
+        Assertions.assertEquals(1, aStar.getStartJ());
         Assertions.assertEquals(2, aStar.getEndJ());
+        Assertions.assertEquals(3, aStar.getEndI());
+        Assertions.assertEquals(5, aStar.getClosedCells().length);
     }
 }

@@ -109,10 +109,6 @@ public class ObstacleDetection {
                 }
             }
         }
-        System.out.println("Start i trouvé : " + sX);
-        System.out.println("Start j trouvé : " + sY);
-        System.out.println("End i trouvé : " + eX);
-        System.out.println("End j trouvé : " + eY);
         return grid;
     }
 
@@ -131,8 +127,6 @@ public class ObstacleDetection {
                 }
             }
         }
-        System.out.println("La taille de la liste : " + blockedCells.size());
-        System.out.println("La taille de la liste reefSegments : " + reefSegments.size());
         return blockedCells; // La liste peut être vide s'il n'y a pas obstacles
     }
 }
